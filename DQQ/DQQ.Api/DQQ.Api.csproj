@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-DQQ.Api-645b857c-d05f-4505-b340-72120f1783b4</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Properties\serviceDependencies.json" />
+    <Content Remove="Properties\serviceDependencies.local.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_WebToolingArtifacts Remove="Properties\serviceDependencies.json" />
+    <_WebToolingArtifacts Remove="Properties\serviceDependencies.local.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Properties\serviceDependencies.local.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+    <None Include="Properties\serviceDependencies.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4" />
+    <PackageReference Include="ReheeCmf.ApiModule" Version="8.0.2-p045" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DQQ.Core\DQQ.Core.csproj" />
+    <ProjectReference Include="..\DQQ.Services\DQQ.Services.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,36 @@
+﻿using DQQ.Attributes;
+using DQQ.Components.Items;
+using DQQ.Components.Items.Equips;
+using DQQ.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DQQ.Profiles.Items.Equipments.TwoHandWeapons
+{
+  [Pooled]
+  public class CorrodedBlade : AbTwoHandWeapon
+  {
+    public override int DropQuantity => 1;
+    public override decimal Rarity => 1m;
+    public override EnumItem ProfileNumber => EnumItem.CorrodedBlade;
+    public override string? Name => "Corroded Blade";
+    public override string? Discription => "Corroded Blade";
+
+    public override decimal AttackPerSecond => 1m;
+    public override BigInteger BaseDamage => 10;
+
+    public override EquipComponent GenerateEquipComponent(int? itemLevel)
+    {
+      var equip = base.GenerateEquipComponent(itemLevel);
+
+      equip.AttackPerSecond = AttackPerSecond;
+      equip.MainHand = BaseDamage;
+
+      return equip;
+    }
+  }
+}
