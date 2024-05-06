@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DQQ.Core.UnitTest", "DQQ.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DQQ.Services", "DQQ.Services\DQQ.Services.csproj", "{C22B0EF4-EA18-4DF8-B090-39670484FEC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DQQ.Api", "DQQ.Api\DQQ.Api.csproj", "{326B3732-81DD-4E16-A291-E9A1A9D722FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DQQ.Api", "DQQ.Api\DQQ.Api.csproj", "{326B3732-81DD-4E16-A291-E9A1A9D722FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DQQ.Web", "DQQ.Web\DQQ.Web.csproj", "{9C17BFF4-5BC7-469D-B9B1-204FA6664107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{326B3732-81DD-4E16-A291-E9A1A9D722FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{326B3732-81DD-4E16-A291-E9A1A9D722FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{326B3732-81DD-4E16-A291-E9A1A9D722FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C17BFF4-5BC7-469D-B9B1-204FA6664107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C17BFF4-5BC7-469D-B9B1-204FA6664107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C17BFF4-5BC7-469D-B9B1-204FA6664107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C17BFF4-5BC7-469D-B9B1-204FA6664107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

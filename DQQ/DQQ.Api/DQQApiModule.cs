@@ -28,13 +28,24 @@ namespace DQQ.Api
 
     public override async Task ConfigureServicesAsync(ServiceConfigurationContext context)
     {
+      
       await base.ConfigureServicesAsync(context);
       DQQPool.InitPool();
       context.Services!.AddScoped<IMapService, MapService<Map>>();
     }
-
+    public override async Task BeforePreApplicationInitializationAsync(ServiceConfigurationContext context)
+    {
+      //context.App.UseCors("AllowAnyOrigin");
+      await base.BeforePreApplicationInitializationAsync(context);
+      context.App.UseCors(cors => cors
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowAnyOrigin()
+        );
+    }
     public override Task ApplicationInitializationAsync(ServiceConfigurationContext context)
     {
+
       var app = context.App;
       var env = context.Env;
 
@@ -48,12 +59,12 @@ namespace DQQ.Api
         app.UseHsts();
         //app.UseReverseProxyHttpsEnforcer();
       }
-      
+
 
       app.UseHttpsRedirection();
       //TODO
       app.CmfUseSwagger(app.Services);
-      
+
 
 
 

@@ -14,5 +14,6 @@ namespace DQQ.Entities
     public string? BasicDamage { get; set; }
     public virtual List<SkillEntity>? Skills { get; set; }
     public virtual List<ItemEntity>? Items { get; set; }
+    public virtual List<ActorEquipmentEntity>? Equips { get; set; }
   }
 }

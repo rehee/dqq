@@ -1,0 +1,11 @@
+using DQQ.Web;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
+var url = builder.Configuration.GetValue<string>("ApiUrl");
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(url) });
+builder.Services.AddLocalStorageServices();
+await builder.Build().RunAsync();
