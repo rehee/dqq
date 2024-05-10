@@ -1,27 +1,26 @@
-
 using DQQ.TickLogs;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using ReheeCmf.Commons.DTOs;
 using ReheeCmf.Requests;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DQQ.Web.Pages
+namespace DQQ.Web.Pages.DQQs
 {
-  public partial class Home
+  public partial class Combat
   {
-    [Inject]
-    public ILocalStorageService? storage { get; set; }
-
     [Inject]
     [NotNull]
     public RequestClient<DQQGetHttpClient>? client { get; set; }
 
+    public IEnumerable<TickLogItem>? CombatLog { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
-      var a = await client.Request<IEnumerable<TickLogItem>>(HttpMethod.Get, "my/map");
+      var result = await client.Request<IEnumerable<TickLogItem>>(HttpMethod.Get, "my/map");
+      CombatLog = result.Content;
+      StateHasChanged();
     }
+
   }
 }

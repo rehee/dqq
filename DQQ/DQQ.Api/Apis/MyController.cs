@@ -39,7 +39,7 @@ namespace DQQ.Api.Apis
       creator.MainHand = 100;
       creator.OffHand = 10;
       creator.AttackPerSecond = 1m;
-      await map.Initialize(creator, 1000, 0);
+      await map.Initialize(creator, 0, 0);
       await map.Play();
       return map.Logs;
     }

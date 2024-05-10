@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using ReheeCmf.Commons.DTOs;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
+using static System.Net.WebRequestMethods;
 
 namespace DQQ.Web.Pages.Auths
 {
@@ -24,6 +25,7 @@ namespace DQQ.Web.Pages.Auths
     public NavigationManager? nav { get; set; }
     public async Task LoginMethod()
     {
+      
       var result = await Http.PostAsJsonAsync<LoginDTO>(
         "Api/Token/Login",
         new LoginDTO { Username = Email, Password = Password, KeepLogin = true }, CancellationToken.None);
