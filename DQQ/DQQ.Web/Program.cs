@@ -8,7 +8,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 var url = builder.Configuration.GetValue<string>("ApiUrl");
-builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(url) });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(url) });
 builder.Services.AddLocalStorageServices();
 builder.Services.AddScoped<IDQQAuth, DQQAuth>();
 builder.Services.AddScoped<IGetHttpClient>(sp => new DQQGetHttpClient(url));

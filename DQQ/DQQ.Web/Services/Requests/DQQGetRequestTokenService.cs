@@ -24,7 +24,7 @@ namespace DQQ.Web.Services.Requests
         return (null, null);
       }
       var expiretime = token.ExpireUCTTime;
-      if (expiretime >= DateTime.UtcNow.AddMinutes(1))
+      if (expiretime >= DateTime.UtcNow.AddMinutes(-1))
       {
         return ("", token.TokenString);
       }
