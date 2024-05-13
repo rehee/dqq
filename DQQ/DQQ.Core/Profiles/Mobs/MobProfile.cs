@@ -13,10 +13,10 @@ namespace DQQ.Profiles.Mobs
 {
   public abstract class MobProfile : DQQProfile<EnumMob>, IDropper, IXP
   {
-    public abstract BigInteger Damage { get; }
-    public abstract BigInteger HP { get; }
+    public abstract Int64 Damage { get; }
+    public abstract Int64 HP { get; }
     public abstract IEnumerable<EnumSkill>? Skills { get; }
     public abstract decimal DropRate { get; }
-    public abstract BigInteger XP { get; }
+    public abstract Int64 XP { get; }
   }
 }

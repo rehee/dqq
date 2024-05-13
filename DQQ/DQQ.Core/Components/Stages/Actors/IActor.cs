@@ -10,8 +10,8 @@ namespace DQQ.Components.Stages.Actors
   {
     int Level { get; }
 
-    BigInteger CurrentHP { get; }
-    BigInteger BasicDamage { get; }
+    Int64 CurrentHP { get; }
+    Int64 BasicDamage { get; }
     Dictionary<int, ISkillComponent?>? Skills { get; }
 
 

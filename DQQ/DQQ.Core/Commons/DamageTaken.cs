@@ -10,7 +10,7 @@ namespace DQQ.Commons
 {
   public class DamageTaken
   {
-    public static DamageTaken New(BigInteger dt, bool killed)
+    public static DamageTaken New(Int64 dt, bool killed)
     {
       return new DamageTaken
       {
@@ -18,11 +18,11 @@ namespace DQQ.Commons
         IsKilled = killed,
       };
     }
-    public BigInteger DamagePoint { get; set; }
+    public Int64 DamagePoint { get; set; }
     public bool IsKilled { get; set; }
 
     public IEnumerable<ItemComponent>? Drops { get; set; }
-    public BigInteger XP { get; set; }
+    public Int64 XP { get; set; }
     public bool DamageTakenSuccess { get; set; }
   }
 }

@@ -9,6 +9,6 @@ namespace DQQ.Commons
     public bool Success { get; set; }
     public IEnumerable<TickLogItem>? Logs { get; set; }
     public IEnumerable<ItemComponent>? Dropping { get; set; }
-    public BigInteger XP { get; set; }
+    public Int64 XP { get; set; }
   }
 }

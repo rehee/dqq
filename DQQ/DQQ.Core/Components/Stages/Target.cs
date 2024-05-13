@@ -10,21 +10,21 @@ namespace DQQ.Components.Stages
     public bool Targetable { get; set; }
     public bool Alive { get; set; }
     public ITarget? Target { get; set; }
-    public virtual BigInteger? MaximunLife { get; set; }
-    public virtual BigInteger? Armor { get; set; }
-    public virtual BigInteger? Damage { get; set; }
+    public virtual Int64? MaximunLife { get; set; }
+    public virtual Int64? Armor { get; set; }
+    public virtual Int64? Damage { get; set; }
     public virtual decimal? AttackPerSecond { get; set; }
     public virtual decimal? ArmorPercentage { get; set; }
     public virtual decimal? Resistance { get; set; }
-    public BigInteger? MainHand { get; set; }
-    public BigInteger? OffHand { get; set; }
+    public Int64? MainHand { get; set; }
+    public Int64? OffHand { get; set; }
     public bool? PrevioursMainHand { get; set; }
     public void SelectTarget(ITarget? target)
     {
       Target = target;
     }
 
-    public virtual DamageTaken TakeDamage(ITarget? from, BigInteger damage, IMap? map)
+    public virtual DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map)
     {
       return DamageTaken.New(damage, false);
     }

@@ -18,7 +18,7 @@ namespace DQQ.Consts
 
     public const decimal DuelwieldAttackSpeed = 1.10m;
 
-    public static BigInteger MobStatusCalculate(int mobLevel, BigInteger basicValue, EnumMobRarity rarity = EnumMobRarity.Normal)
+    public static Int64 MobStatusCalculate(int mobLevel, Int64 basicValue, EnumMobRarity rarity = EnumMobRarity.Normal)
     {
       var multiple = 1;
       switch (rarity)

@@ -6,11 +6,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DQQ.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ActorEntities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MaxHP = table.Column<long>(type: "bigint", nullable: true),
+                    BasicDamage = table.Column<long>(type: "bigint", nullable: true),
+                    Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    TenantID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActorEntities", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -97,6 +113,57 @@ namespace DQQ.Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tenants", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemEntities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemNumber = table.Column<int>(type: "int", nullable: false),
+                    ActorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: true),
+                    ItemLevel = table.Column<int>(type: "int", nullable: true),
+                    AttackPerSecond = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ArmorPercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Resistance = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    MaximunLife = table.Column<long>(type: "bigint", nullable: true),
+                    Armor = table.Column<long>(type: "bigint", nullable: true),
+                    Damage = table.Column<long>(type: "bigint", nullable: true),
+                    MainHand = table.Column<long>(type: "bigint", nullable: true),
+                    OffHand = table.Column<long>(type: "bigint", nullable: true),
+                    TenantID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemEntities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemEntities_ActorEntities_ActorId",
+                        column: x => x.ActorId,
+                        principalTable: "ActorEntities",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SkillEntities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Slot = table.Column<int>(type: "int", nullable: false),
+                    ActorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SkillNumber = table.Column<int>(type: "int", nullable: false),
+                    TenantID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SkillEntities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SkillEntities_ActorEntities_ActorId",
+                        column: x => x.ActorId,
+                        principalTable: "ActorEntities",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -216,6 +283,42 @@ namespace DQQ.Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ActorEquipmentEntities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ActorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    EquipSlot = table.Column<int>(type: "int", nullable: true),
+                    TenantID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActorEquipmentEntities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ActorEquipmentEntities_ActorEntities_ActorId",
+                        column: x => x.ActorId,
+                        principalTable: "ActorEntities",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ActorEquipmentEntities_ItemEntities_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "ItemEntities",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActorEquipmentEntities_ActorId",
+                table: "ActorEquipmentEntities",
+                column: "ActorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActorEquipmentEntities_ItemId",
+                table: "ActorEquipmentEntities",
+                column: "ItemId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -259,11 +362,24 @@ namespace DQQ.Api.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemEntities_ActorId",
+                table: "ItemEntities",
+                column: "ActorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SkillEntities_ActorId",
+                table: "SkillEntities",
+                column: "ActorId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ActorEquipmentEntities");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -283,13 +399,22 @@ namespace DQQ.Api.Migrations
                 name: "RoleBasedPermissions");
 
             migrationBuilder.DropTable(
+                name: "SkillEntities");
+
+            migrationBuilder.DropTable(
                 name: "Tenants");
+
+            migrationBuilder.DropTable(
+                name: "ItemEntities");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ActorEntities");
         }
     }
 }

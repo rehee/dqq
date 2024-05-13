@@ -10,12 +10,12 @@ namespace DQQ.Profiles.Mobs
     public override EnumMob ProfileNumber => EnumMob.BigGoblin;
     public override string? Name => "巨型大耳怪";
     public override string? Discription => "";
-    public override BigInteger Damage => 1;
-    public override BigInteger HP => 15;
+    public override Int64 Damage => 1;
+    public override Int64 HP => 15;
     public override IEnumerable<EnumSkill>? Skills => new[] { EnumSkill.NormalAttack };
 
     public override decimal DropRate => 1m;
 
-    public override BigInteger XP => 3;
+    public override Int64 XP => 3;
   }
 }

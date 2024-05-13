@@ -16,7 +16,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
     public EnumMob MobNumber { get; set; }
     public EnumMobRarity Rarity { get; set; } = EnumMobRarity.Normal;
     public decimal DropRate { get; set; }
-    public BigInteger XP { get; set; }
+    public Int64 XP { get; set; }
     public static Monster Create(MobProfile profile, int level, EnumMobRarity rarity)
     {
       var mob = new Monster();
@@ -59,7 +59,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
       return mob;
     }
 
-    public override DamageTaken TakeDamage(ITarget? from, BigInteger damage, IMap? map)
+    public override DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map)
     {
       var result = base.TakeDamage(from, damage, map);
 

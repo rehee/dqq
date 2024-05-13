@@ -10,7 +10,7 @@ namespace DQQ.Helper
 {
   public static class XPHelper
   {
-    public static BigInteger GetNextLevelXP(int targetLevel, BigInteger? xp = null, int? level = null)
+    public static Int64 GetNextLevelXP(int targetLevel, Int64? xp = null, int? level = null)
     {
       if (targetLevel <= 1)
       {

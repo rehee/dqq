@@ -61,5 +61,79 @@ namespace DQQ.Helper
       eChar.TotalEquipProperty();
       return result;
     }
+
+    public static EnumEquipSlot? GetMainSlot(this EnumEquipType type)
+    {
+      switch (type)
+      {
+        case EnumEquipType.Glove:
+          return EnumEquipSlot.Gloves;
+        case EnumEquipType.Boots:
+          return EnumEquipSlot.Boots;
+        case EnumEquipType.Helmet:
+          return EnumEquipSlot.Head;
+        case EnumEquipType.Amulet:
+          return EnumEquipSlot.Amulet;
+        case EnumEquipType.BodyArmor:
+          return EnumEquipSlot.Body;
+        case EnumEquipType.Ring:
+          return EnumEquipSlot.RightRing;
+        case EnumEquipType.Belt:
+          return EnumEquipSlot.Belt;
+        case EnumEquipType.TwoHandWeapon:
+          return EnumEquipSlot.MainHand;
+        case EnumEquipType.MainHandWeapon:
+          return EnumEquipSlot.MainHand;
+        case EnumEquipType.Offhand:
+          return EnumEquipSlot.OffHand;
+        case EnumEquipType.OneHandWeapon:
+          return EnumEquipSlot.MainHand;
+        default:
+          return null;
+      }
+    }
+    public static EnumEquipSlot? GetSecondSlot(this EnumEquipType type)
+    {
+      switch (type)
+      {
+        case EnumEquipType.Ring:
+          return EnumEquipSlot.LeftRing;
+        case EnumEquipType.OneHandWeapon:
+          return EnumEquipSlot.OffHand;
+        default:
+          return null;
+      }
+    }
+
+    public static IEnumerable<EnumEquipSlot>? GetAvaliableSlots(this EnumEquipType? type)
+    {
+      if (type == null)
+      {
+        return null;
+      }
+      var result = new EnumEquipSlot?[]
+      {
+        type.Value.GetMainSlot(),
+        type.Value.GetSecondSlot()
+      };
+      return result.Where(b => b != null).Select(b => b.Value).ToArray();
+    }
+
+    public static void SetCompatProperty(this ICombatProperty? from, ICombatProperty? to)
+    {
+      if (from == null || to == null)
+      {
+        return;
+      }
+      to.MaximunLife = from.MaximunLife;
+      to.Armor = from.Armor;
+      to.Damage = from.Damage;
+      to.AttackPerSecond = from.AttackPerSecond;
+      to.ArmorPercentage = from.ArmorPercentage;
+      to.Resistance = from.Resistance;
+      to.MainHand = from.MainHand;
+      to.OffHand = from.OffHand;
+      
+    }
   }
 }

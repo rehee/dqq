@@ -12,8 +12,8 @@ namespace DQQ.Components
 {
   public interface ITakeDamage
   {
-    DamageTaken BeforeTakeDamage(BigInteger damage, ITarget attacker, IMap? map);
-    DamageTaken TakeDamage(BigInteger damage, ITarget attacker, IMap? map);
-    DamageTaken AfterTakeDamage(BigInteger damage, ITarget attacker, IMap? map);
+    DamageTaken BeforeTakeDamage(Int64 damage, ITarget attacker, IMap? map);
+    DamageTaken TakeDamage(Int64 damage, ITarget attacker, IMap? map);
+    DamageTaken AfterTakeDamage(Int64 damage, ITarget attacker, IMap? map);
   }
 }

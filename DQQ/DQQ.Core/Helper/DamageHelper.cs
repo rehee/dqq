@@ -13,14 +13,14 @@ namespace DQQ.Helper
 {
   public static class DamageHelper
   {
-    public static BigInteger SkillDamage(ISkill skill, ITarget caster, IMap? map)
+    public static Int64 SkillDamage(ISkill skill, ITarget caster, IMap? map)
     {
       if (caster is not IActor)
       {
         return 0;
       }
       var actor = caster as IActor;
-      BigInteger damage = 0;
+      Int64 damage = 0;
       if (caster.MainHand == null)
       {
         damage = actor!.BasicDamage.Percentage(skill.DamageRate);
@@ -56,7 +56,7 @@ namespace DQQ.Helper
       return damage;
     }
 
-    public static BigInteger Percentage(this BigInteger input, decimal percentage)
+    public static Int64 Percentage(this Int64 input, decimal percentage)
     {
       var times = 100;
       var multiple = (int)(percentage * times);

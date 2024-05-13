@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DQQ.XPs
+namespace DQQ.Combats
 {
-  public interface IXP
+  public interface ICombatCalculate
   {
-    Int64 XP { get; }
+    bool? PrevioursMainHand { get; set; }
   }
 }

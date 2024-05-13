@@ -20,8 +20,8 @@ namespace DQQ.UnitTest.Helpers
     [TestCase("100", 0.601, "60")]
     public void BigintPercentageTest(string input, decimal percentage, string expected)
     {
-      var inputBig = BigInteger.Parse(input);
-      var expectBig = BigInteger.Parse(expected);
+      var inputBig = long.Parse(input);
+      var expectBig = long.Parse(expected);
 
       var actual = DamageHelper.Percentage(inputBig, percentage);
 

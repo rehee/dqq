@@ -9,6 +9,9 @@ using ReheeCmf.ContextModule.Entities;
 using ReheeCmf.Contexts;
 using ReheeCmf.Helpers;
 using ReheeCmf.Modules;
+using ReheeCmf.Servers.Services;
+using ReheeCmf.Services;
+using ReheeCmf.Utility.CmfRegisters;
 
 namespace DQQ.Api
 {
@@ -31,6 +34,8 @@ namespace DQQ.Api
       
       await base.ConfigureServicesAsync(context);
       DQQPool.InitPool();
+     
+      
       context.Services!.AddScoped<IMapService, MapService<Map>>();
     }
     public override async Task BeforePreApplicationInitializationAsync(ServiceConfigurationContext context)

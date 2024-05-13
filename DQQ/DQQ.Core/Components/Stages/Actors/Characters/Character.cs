@@ -17,7 +17,7 @@ namespace DQQ.Components.Stages.Actors.Characters
     public BigInteger NextLevelXP { get; set; }
     public ConcurrentDictionary<EnumEquipSlot, IEquptment?> Equips { get; set; }
 
-    public override DamageTaken TakeDamage(ITarget? from, BigInteger damage, IMap? map)
+    public override DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map)
     {
       var result = base.TakeDamage(from, damage, map);
 

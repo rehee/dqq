@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Linq.Translations" Version="2.0.0" />
     <PackageReference Include="ReheeCmf.Libs" Version="8.0.2-p045" />
   </ItemGroup>
 

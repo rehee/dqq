@@ -30,7 +30,7 @@ namespace DQQ.Profiles.Skills
     public string? SkillName => Name;
 
 
-    public virtual BigInteger CalculateDamage(ITarget? caster, IMap? map)
+    public virtual Int64 CalculateDamage(ITarget? caster, IMap? map)
     {
       return DamageHelper.SkillDamage(this, caster!, map);
     }

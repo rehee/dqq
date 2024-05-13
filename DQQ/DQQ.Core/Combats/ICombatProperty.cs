@@ -4,17 +4,17 @@ namespace DQQ.Combats
 {
   public interface ICombatProperty
   {
-    BigInteger? MaximunLife { get; set; }
-    BigInteger? Armor { get; set; }
-    BigInteger? Damage { get; set; }
+    Int64? MaximunLife { get; set; }
+    Int64? Armor { get; set; }
+    Int64? Damage { get; set; }
     decimal? AttackPerSecond { get; set; }
     decimal? ArmorPercentage { get; set; }
     decimal? Resistance { get; set; }
 
-    BigInteger? MainHand { get; set; }
-    BigInteger? OffHand { get; set; }
+    Int64? MainHand { get; set; }
+    Int64? OffHand { get; set; }
 
-    bool? PrevioursMainHand { get; set; }
+
   }
 
 

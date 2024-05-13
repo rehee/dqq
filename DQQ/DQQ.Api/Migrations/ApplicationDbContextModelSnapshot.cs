@@ -25,6 +25,147 @@ namespace DQQ.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DQQ.Entities.ActorEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long?>("BasicDamage")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MaxHP")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TenantID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActorEntities");
+                });
+
+            modelBuilder.Entity("DQQ.Entities.ActorEquipmentEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ActorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("EquipSlot")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TenantID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("ActorEquipmentEntities");
+                });
+
+            modelBuilder.Entity("DQQ.Entities.ItemEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ActorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long?>("Armor")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal?>("ArmorPercentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("AttackPerSecond")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long?>("Damage")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("ItemLevel")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemNumber")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("MainHand")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MaximunLife")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("OffHand")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Resistance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("TenantID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.ToTable("ItemEntities");
+                });
+
+            modelBuilder.Entity("DQQ.Entities.SkillEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ActorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SkillNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Slot")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("TenantID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.ToTable("SkillEntities");
+                });
+
             modelBuilder.Entity("ReheeCmf.ContextModule.Entities.ReheeCmfBaseUser", b =>
                 {
                     b.Property<string>("Id")
@@ -345,6 +486,39 @@ namespace DQQ.Api.Migrations
                     b.ToTable("Tenants");
                 });
 
+            modelBuilder.Entity("DQQ.Entities.ActorEquipmentEntity", b =>
+                {
+                    b.HasOne("DQQ.Entities.ActorEntity", "Actor")
+                        .WithMany("Equips")
+                        .HasForeignKey("ActorId");
+
+                    b.HasOne("DQQ.Entities.ItemEntity", "Item")
+                        .WithMany("ActorEquipments")
+                        .HasForeignKey("ItemId");
+
+                    b.Navigation("Actor");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("DQQ.Entities.ItemEntity", b =>
+                {
+                    b.HasOne("DQQ.Entities.ActorEntity", "Actor")
+                        .WithMany("Items")
+                        .HasForeignKey("ActorId");
+
+                    b.Navigation("Actor");
+                });
+
+            modelBuilder.Entity("DQQ.Entities.SkillEntity", b =>
+                {
+                    b.HasOne("DQQ.Entities.ActorEntity", "Actor")
+                        .WithMany("Skills")
+                        .HasForeignKey("ActorId");
+
+                    b.Navigation("Actor");
+                });
+
             modelBuilder.Entity("ReheeCmf.ContextModule.Entities.TenantIdentityRoleClaim", b =>
                 {
                     b.HasOne("ReheeCmf.ContextModule.Entities.TenantIdentityRole", null)
@@ -398,6 +572,20 @@ namespace DQQ.Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DQQ.Entities.ActorEntity", b =>
+                {
+                    b.Navigation("Equips");
+
+                    b.Navigation("Items");
+
+                    b.Navigation("Skills");
+                });
+
+            modelBuilder.Entity("DQQ.Entities.ItemEntity", b =>
+                {
+                    b.Navigation("ActorEquipments");
                 });
 
             modelBuilder.Entity("ReheeCmf.ContextModule.Entities.ReheeCmfBaseUser", b =>

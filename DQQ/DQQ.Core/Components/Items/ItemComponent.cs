@@ -45,10 +45,22 @@ namespace DQQ.Components.Items
       }
 
     }
-
     public virtual Task Use()
     {
       return Task.CompletedTask;
+    }
+
+    public virtual ItemEntity ToEntity()
+    {
+      var entity = new ItemEntity();
+      entity.Id = this.DisplayId ?? Guid.NewGuid();
+      entity.Name = this.DisplayName;
+      entity.ActorId = OwnerId;
+      entity.ItemNumber = ItemNumber;
+      entity.Quantity = ItemProfile?.IsStack == true ? Quanty : 1;
+      entity.ItemLevel = ItemProfile?.IsStack == true ? null : ItemLevel;
+
+      return entity;
     }
   }
 }

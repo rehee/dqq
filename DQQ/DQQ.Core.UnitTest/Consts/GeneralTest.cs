@@ -20,7 +20,7 @@ namespace DQQ.UnitTest.Consts
     public void GeneralMobStateIncreasedTest(int mobLevel, int value, int expected)
     {
       var actual = DQQGeneral.MobStatusCalculate(mobLevel, value);
-      Assert.That(actual, Is.EqualTo(new BigInteger(expected)));
+      Assert.That(actual, Is.EqualTo(expected));
     }
   }
 }

@@ -9,7 +9,7 @@ namespace DQQ.XPs
 {
   public static class XPConst
   {
-    public static BigInteger Level1XP => 100;
+    public static Int64 Level1XP => 100;
     public static IEnumerable<XPStage> XPStages => new XPStage[]
     {
       new XPStage(1,20,0.10m),

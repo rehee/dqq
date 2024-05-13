@@ -13,14 +13,14 @@ namespace DQQ.Profiles.Mobs
 
     public override string? Discription => "大耳怪";
 
-    public override BigInteger Damage => 1;
+    public override Int64 Damage => 1;
 
-    public override BigInteger HP => 10;
+    public override Int64 HP => 10;
 
     public override IEnumerable<EnumSkill>? Skills => new[] { EnumSkill.NormalAttack };
 
     public override decimal DropRate => 1m;
 
-    public override BigInteger XP => 2;
+    public override Int64 XP => 2;
   }
 }

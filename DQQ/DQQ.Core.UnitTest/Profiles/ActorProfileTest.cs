@@ -12,8 +12,8 @@ namespace DQQ.UnitTest.Profiles
       {
         Id = Guid.NewGuid(),
         Name = "Actor1",
-        MaxHP = "100",
-        BasicDamage = "10",
+        MaxHP = 100,
+        BasicDamage = 10,
       };
 
       var skillProfile = new SkillEntity()
@@ -27,9 +27,9 @@ namespace DQQ.UnitTest.Profiles
       var actor = await actorProfile.GenerateComponent();
       Assert.That(actor.DisplayId, Is.EqualTo(actorProfile.Id));
       Assert.That(actor.DisplayName, Is.EqualTo(actorProfile.Name));
-      Assert.That(actor.MaximunLife, Is.EqualTo(BigInteger.Parse(actorProfile.MaxHP)));
-      Assert.That(actor.CurrentHP, Is.EqualTo(BigInteger.Parse(actorProfile.MaxHP)));
-      Assert.That(actor.BasicDamage, Is.EqualTo(BigInteger.Parse(actorProfile.BasicDamage)));
+      Assert.That(actor.MaximunLife, Is.EqualTo(actorProfile.MaxHP));
+      Assert.That(actor.CurrentHP, Is.EqualTo(actorProfile.MaxHP));
+      Assert.That(actor.BasicDamage, Is.EqualTo(actorProfile.BasicDamage));
       Assert.That(actor.Skills![0]!.DisplayId, Is.EqualTo(skillProfile.Id));
       Assert.That(actor.Skills![0]!.DisplayName, Is.EqualTo(skillProfile.Name));
     }

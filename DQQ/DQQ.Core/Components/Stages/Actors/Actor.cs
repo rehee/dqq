@@ -14,9 +14,9 @@ namespace DQQ.Components.Stages.Actors
   {
     public int Level { get; }
 
-    public BigInteger CurrentHP { get; set; }
+    public Int64 CurrentHP { get; set; }
 
-    public BigInteger BasicDamage { get; set; }
+    public Int64 BasicDamage { get; set; }
 
 
     public Dictionary<int, ISkillComponent?>? Skills { get; set; }
@@ -26,9 +26,9 @@ namespace DQQ.Components.Stages.Actors
       await base.Initialize(entity);
       if (entity is ActorEntity ae)
       {
-        MaximunLife = BigInteger.Parse(ae.MaxHP ?? "0");
+        MaximunLife = ae.MaxHP ?? 0;
         CurrentHP = MaximunLife ?? 0;
-        BasicDamage = BigInteger.Parse(ae.BasicDamage ?? "0");
+        BasicDamage = ae.BasicDamage ?? 0;
         Skills = new Dictionary<int, ISkillComponent?>();
         if (ae.Skills?.Any() == true)
         {
@@ -61,7 +61,7 @@ namespace DQQ.Components.Stages.Actors
       return result;
     }
     protected object lockObject = new object();
-    public override DamageTaken TakeDamage(ITarget? from, BigInteger damage, IMap? map)
+    public override DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map)
     {
       lock (lockObject)
       {
@@ -70,7 +70,7 @@ namespace DQQ.Components.Stages.Actors
         {
           return result;
         }
-        BigInteger damageTaken = damage;
+        Int64 damageTaken = damage;
         bool isDead = false;
         CurrentHP = CurrentHP - damageTaken;
         if (CurrentHP <= 0)
