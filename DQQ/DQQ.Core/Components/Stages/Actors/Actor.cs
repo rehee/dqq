@@ -7,6 +7,7 @@ using DQQ.TickLogs;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
 using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace DQQ.Components.Stages.Actors
 {
@@ -18,26 +19,27 @@ namespace DQQ.Components.Stages.Actors
 
     public Int64 BasicDamage { get; set; }
 
+    [JsonIgnore]
+    public IEnumerable<ISkillComponent>? Skills { get; set; }
 
-    public Dictionary<int, ISkillComponent?>? Skills { get; set; }
-
-    public override async Task Initialize(IDQQEntity entity)
+    public override void Initialize(IDQQEntity entity)
     {
-      await base.Initialize(entity);
+      base.Initialize(entity);
       if (entity is ActorEntity ae)
       {
         MaximunLife = ae.MaxHP ?? 0;
         CurrentHP = MaximunLife ?? 0;
         BasicDamage = ae.BasicDamage ?? 0;
-        Skills = new Dictionary<int, ISkillComponent?>();
+        var list = new List<ISkillComponent>();
+        Skills = list;
         if (ae.Skills?.Any() == true)
         {
           var skills = ae.Skills!.DistinctBy(b => b.Slot).ToArray();
 
           foreach (var skill in skills)
           {
-            var s = await skill.GenerateComponent();
-            Skills.Add(skill.Slot, s);
+            var s = skill.GenerateComponent();
+            list.Add(s);
           }
         }
       }
@@ -53,9 +55,9 @@ namespace DQQ.Components.Stages.Actors
       result.SetSuccess(true);
       if (Skills != null)
       {
-        foreach (var skill in Skills.Where(b => b.Value != null))
+        foreach (var skill in Skills.Where(b => b != null))
         {
-          var skillResult = await skill.Value!.OnTick(this, targets, map);
+          var skillResult = await skill!.OnTick(this, targets, map);
         }
       }
       return result;

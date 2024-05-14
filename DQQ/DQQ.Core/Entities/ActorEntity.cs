@@ -12,6 +12,7 @@ namespace DQQ.Entities
 {
   public class ActorEntity : DQQEntityBase<Actor>
   {
+    public string? OwnerId { get; set; }
     public Int64? MaxHP { get; set; }
     public Int64? BasicDamage { get; set; }
     public virtual List<SkillEntity>? Skills { get; set; }

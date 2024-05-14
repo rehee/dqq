@@ -9,14 +9,15 @@ namespace DQQ.Components.Items
   {
     public static ItemComponent New() => new ItemComponent();
     public static T New<T>() where T : ItemComponent, new() => new T();
+    public DateTime CreateTime { get; protected set; } = DateTime.UtcNow;
     public Guid? OwnerId { get; set; }
     public int? Quanty { get; set; }
     public int? ItemLevel { get; set; }
     public EnumItem ItemNumber { get; set; }
     public ItemProfile? ItemProfile { get; set; }
-    public override async Task Initialize(IDQQEntity entity)
+    public override void Initialize(IDQQEntity entity)
     {
-      await base.Initialize(entity);
+      base.Initialize(entity);
       if (entity is ItemEntity ie)
       {
         ItemNumber = ie.ItemNumber;

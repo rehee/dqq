@@ -16,7 +16,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
   {
     public int TickCount { get; set; }
 
-    public override Task Initialize(IDQQEntity profile)
+    public override void Initialize(IDQQEntity profile)
     {
       throw new NotImplementedException();
     }

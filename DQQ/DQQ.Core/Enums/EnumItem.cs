@@ -10,5 +10,6 @@ namespace DQQ.Enums
   {
     Crystal = 10001,
     CorrodedBlade = 110001,
+    CopperSword = 120001,
   }
 }

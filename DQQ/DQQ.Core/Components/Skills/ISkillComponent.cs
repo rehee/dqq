@@ -9,6 +9,7 @@ namespace DQQ.Components.Skills
 {
   public interface ISkillComponent : ITagged, IDQQComponent
   {
+    int Slot { get; set; }
     decimal CastTime { get; }
     decimal Cooldown { get; }
     decimal DamageRate { get; }

@@ -12,7 +12,7 @@ namespace DQQ.Components.Stages.Actors
 
     Int64 CurrentHP { get; }
     Int64 BasicDamage { get; }
-    Dictionary<int, ISkillComponent?>? Skills { get; }
+    IEnumerable<ISkillComponent> Skills { get; }
 
 
     Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap map);

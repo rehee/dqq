@@ -10,7 +10,7 @@ namespace DQQ.Helper
 {
   public static class CombatHelper
   {
-    public static void CombatPropertySummary(this ICombatProperty main, IEnumerable<ICombatProperty?>? subs)
+    public static void CombatPropertySummary(this ICombatProperty main, IEnumerable<CombatPropertySum?>? subs)
     {
       if (subs?.Any() != true)
       {
@@ -18,48 +18,49 @@ namespace DQQ.Helper
       }
       foreach (var sub in subs)
       {
-        if (sub == null)
+        if (sub == null || sub.Property == null || sub.Slot == null)
         {
           continue;
         }
-        if (sub.MaximunLife != null)
+        if (sub.Property.MaximunLife != null)
         {
-          main.MaximunLife = main.MaximunLife ?? 0 + sub.MaximunLife;
+          main.MaximunLife = main.MaximunLife ?? 0 + sub.Property.MaximunLife;
         }
-        if (sub.Armor != null)
+        if (sub.Property.Armor != null)
         {
-          main.Armor = main.Armor ?? 0 + sub.Armor;
+          main.Armor = main.Armor ?? 0 + sub.Property.Armor;
         }
-        if (sub.ArmorPercentage != null)
+        if (sub.Property.ArmorPercentage != null)
         {
-          main.ArmorPercentage = main.ArmorPercentage ?? 0 + sub.ArmorPercentage;
+          main.ArmorPercentage = main.ArmorPercentage ?? 0 + sub.Property.ArmorPercentage;
         }
-        if (sub.Resistance != null)
+        if (sub.Property.Resistance != null)
         {
-          main.Resistance = main.Resistance ?? 0 + sub.Resistance;
+          main.Resistance = main.Resistance ?? 0 + sub.Property.Resistance;
         }
-        if (sub.Damage != null)
+        if (sub.Property.Damage != null)
         {
-          main.Damage = main.Damage ?? 0 + sub.Damage;
+          main.Damage = main.Damage ?? 0 + sub.Property.Damage;
         }
-        if (sub.MainHand != null)
+        if (sub.Slot == Enums.EnumEquipSlot.MainHand && sub.Property.MainHand != null)
         {
-          main.MainHand = main.MainHand ?? 0 + sub.MainHand;
+          main.MainHand = main.MainHand ?? 0 + sub.Property.MainHand ?? 0;
         }
-        if (sub.OffHand != null)
+        if (sub.Slot == Enums.EnumEquipSlot.OffHand && sub.Property.OffHand != null)
         {
-          main.OffHand = main.OffHand ?? 0 + sub.OffHand;
+          main.OffHand = main.OffHand ?? 0 + sub.Property.OffHand;
         }
       }
 
-      var speeds = subs.Where(b => b.AttackPerSecond != null).ToArray();
-      if (speeds.Length == 1)
+      var mainHandSpeed = subs.Where(b => b?.Slot == Enums.EnumEquipSlot.MainHand && b?.Property?.AttackPerSecond != null).Select(b => b?.Property?.AttackPerSecond).FirstOrDefault();
+      var offHandSpeed = subs.Where(b => b?.Slot == Enums.EnumEquipSlot.OffHand && b?.Property?.AttackPerSecond != null).Select(b => b?.Property?.AttackPerSecond).FirstOrDefault();
+      if (mainHandSpeed != null && offHandSpeed == null)
       {
-        main.AttackPerSecond = speeds.FirstOrDefault()?.AttackPerSecond;
+        main.AttackPerSecond = mainHandSpeed;
       }
-      if (speeds.Length > 1)
+      if (mainHandSpeed != null && offHandSpeed != null)
       {
-        main.AttackPerSecond = speeds.Take(2).Select(b => b.AttackPerSecond).Average() * DQQGeneral.DuelwieldAttackSpeed;
+        main.AttackPerSecond = ((mainHandSpeed + offHandSpeed) / 2) * DQQGeneral.DuelwieldAttackSpeed;
       }
     }
   }

@@ -26,6 +26,6 @@ namespace DQQ.Components.Stages.Maps
     List<TickLogItem> Logs { get; }
     List<ItemComponent>? Drops { get; }
     decimal PlayingCurrentSecond { get; }
-    BigInteger XP { get; set; }
+    Int64 XP { get; set; }
   }
 }

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DQQ.Services", "DQQ.Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DQQ.Api", "DQQ.Api\DQQ.Api.csproj", "{326B3732-81DD-4E16-A291-E9A1A9D722FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DQQ.Web", "DQQ.Web\DQQ.Web.csproj", "{9C17BFF4-5BC7-469D-B9B1-204FA6664107}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DQQ.Web", "DQQ.Web\DQQ.Web.csproj", "{9C17BFF4-5BC7-469D-B9B1-204FA6664107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

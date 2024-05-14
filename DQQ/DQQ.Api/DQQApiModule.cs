@@ -1,8 +1,16 @@
 ﻿using DQQ.Api.Data;
+using DQQ.Api.Services.Characters;
+using DQQ.Api.Services.CombatServices;
+using DQQ.Api.Services.Itemservices;
+using DQQ.Api.Services.SkillServices;
 using DQQ.Components.Stages.Maps;
 using DQQ.Pools;
+using DQQ.Services.ActorServices;
+using DQQ.Services.CombatServices;
+using DQQ.Services.ItemServices;
 using DQQ.Services.MapServices;
 using DQQ.Services.MapServices;
+using DQQ.Services.SkillServices;
 using ReheeCmf;
 using ReheeCmf.Commons.DTOs;
 using ReheeCmf.ContextModule.Entities;
@@ -31,12 +39,15 @@ namespace DQQ.Api
 
     public override async Task ConfigureServicesAsync(ServiceConfigurationContext context)
     {
-      
+
       await base.ConfigureServicesAsync(context);
       DQQPool.InitPool();
-     
-      
       context.Services!.AddScoped<IMapService, MapService<Map>>();
+      context.Services!.AddScoped<ITemporaryService, TemporaryService>();
+      context.Services!.AddScoped<IItemService, ServerItemService>();
+      context.Services!.AddScoped<ICharacterService, CharacterService>();
+      context.Services!.AddScoped<ISkillService, SkillService>();
+      context.Services!.AddScoped<ICombatService, CombatService>();
     }
     public override async Task BeforePreApplicationInitializationAsync(ServiceConfigurationContext context)
     {

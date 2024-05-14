@@ -24,6 +24,16 @@ namespace DQQ.Components.Items.Equips
     public Int64? MainHand { get; set; }
     public Int64? OffHand { get; set; }
 
+    public override void Initialize(IDQQEntity entity)
+    {
+      base.Initialize(entity);
+
+      if (entity is ICombatProperty cp)
+      {
+        cp.SetCompatProperty(this);
+      }
+    }
+
     public override void Initialize(ItemProfile itemProfile, int? itemLevel, int? quanty = null)
     {
       base.Initialize(itemProfile, itemLevel, quanty);
@@ -31,8 +41,8 @@ namespace DQQ.Components.Items.Equips
       {
         Quanty = 1;
         EquipType = ep.EquipType;
-
       }
+
     }
     public override ItemEntity ToEntity()
     {

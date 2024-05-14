@@ -1,7 +1,43 @@
-﻿@page "/"
+﻿@inherits HomePage
+@page "/"
 
 <PageTitle>Home</PageTitle>
+<div>
+  <Button Color="Color.Primary" Icon="fa-solid fa-font-awesome" Text="创建角色" OnClick="ShowCreate" />
+</div>
 
-<h1>Hello, world!</h1>
+<div>
+  @if (Characters != null)
+  {
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var c in Characters)
+        {
+          <tr>
+            <td>@c.DisplayId</td>
+            <td>@c.DisplayName</td>
+            <td>
+              @if (c.DisplayId == SelectedCharId)
+              {
+                <span>已选择</span>
+              }
+              else
+              {
+                <Button Color="Color.Primary" Icon="fa-solid fa-font-awesome" Text="选择角色" OnClick="async ()=> await SelectCharacter(c.DisplayId)" />
+              }
 
-Welcome to your new app.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
+<Dialog></Dialog>

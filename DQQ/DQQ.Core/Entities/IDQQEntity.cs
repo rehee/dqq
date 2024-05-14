@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DQQ.Entities
 {
-    public interface IDQQEntity : IId<Guid>
-    {
-        string? Name { get; set; }
-    }
-    public interface IDQQEntity<T> : IDQQEntity where T : IDQQComponent, new()
-    {
-        Task<T> GenerateComponent();
-    }
+  public interface IDQQEntity : IId<Guid>
+  {
+    string? Name { get; set; }
+  }
+  public interface IDQQEntity<T> : IDQQEntity where T : IDQQComponent, new()
+  {
+    T GenerateComponent();
+  }
 }

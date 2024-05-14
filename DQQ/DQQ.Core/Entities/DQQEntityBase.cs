@@ -7,10 +7,16 @@ namespace DQQ.Entities
   {
     public string? Name { get; set; }
 
-    public virtual async Task<T> GenerateComponent()
+    public virtual T GenerateComponent()
     {
       var instance = new T();
-      await instance.Initialize(this);
+      instance.Initialize(this);
+      return instance;
+    }
+    public virtual TIDQQComponent GenerateTypedComponent<TIDQQComponent>() where TIDQQComponent : IDQQComponent, new()
+    {
+      var instance = new TIDQQComponent();
+      instance.Initialize(this);
       return instance;
     }
   }

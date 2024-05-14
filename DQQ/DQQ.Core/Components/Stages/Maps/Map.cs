@@ -81,9 +81,9 @@ namespace DQQ.Components.Stages.Maps
       }
     }
 
-    public Task Initialize(IDQQEntity profile)
+    public void Initialize(IDQQEntity profile)
     {
-      throw new NotImplementedException();
+
     }
     private int TickCount { get; set; } = 0;
 
@@ -95,9 +95,9 @@ namespace DQQ.Components.Stages.Maps
     public List<TickLogItem>? Logs { get; set; }
     public decimal PlayingCurrentSecond { get; set; }
     public List<ItemComponent>? Drops { get; set; }
-    public BigInteger XP { get; set; }
+    public Int64 XP { get; set; }
 
-    
+
 
     public async Task Play()
     {

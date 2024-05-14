@@ -1,4 +1,5 @@
 ﻿using DQQ.Entities;
+using DQQ.Enums;
 
 namespace DQQ.Components
 {
@@ -6,8 +7,9 @@ namespace DQQ.Components
   {
     Guid? DisplayId { get; }
     string? DisplayName { get; }
+    
     IDQQEntity? Profile { get; }
-    Task Initialize(IDQQEntity entity);
+    void Initialize(IDQQEntity entity);
 
   }
 }

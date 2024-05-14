@@ -1,6 +1,12 @@
+using DQQ.Services.ActorServices;
+using DQQ.Services.CombatServices;
+using DQQ.Services.SkillServices;
 using DQQ.Web;
+using DQQ.Web.Services.Characters;
+using DQQ.Web.Services.CombatServices;
 using DQQ.Web.Services.DQQAuthServices;
 using DQQ.Web.Services.Requests;
+using DQQ.Web.Services.SkillServices;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ReheeCmf.Requests;
@@ -15,4 +21,8 @@ builder.Services.AddScoped<IGetHttpClient>(sp => new DQQGetHttpClient(url));
 builder.Services.AddScoped<IGetRequestTokenService, DQQGetRequestTokenService>();
 builder.Services.AddScoped<RequestClient<DQQGetHttpClient>>(sp =>
   new RequestClient<DQQGetHttpClient>(sp.GetService<IGetHttpClient>()!, sp.GetService<IGetRequestTokenService>()!, null));
+builder.Services.AddScoped<ICharacterService, CharacterService>();
+builder.Services.AddScoped<ISkillService, SkillService>();
+builder.Services.AddScoped<ICombatService, CombatService>();
+builder.Services.AddBootstrapBlazor();
 await builder.Build().RunAsync();

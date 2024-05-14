@@ -25,7 +25,7 @@ namespace DQQ.UnitTest.TestBase.Skills
       }
       return result;
     }
-    public override Task Initialize(IDQQEntity profile)
+    public override void Initialize(IDQQEntity profile)
     {
       throw new NotImplementedException();
     }

@@ -48,13 +48,14 @@ namespace DQQ.Components.Stages.Actors.Mobs
       mob.DropRate = profile.DropRate * dropTimes;
       if (profile?.Skills?.Any() == true)
       {
-        mob.Skills = new Dictionary<int, ISkillComponent?>();
+        var list = new List<ISkillComponent>();
         var skillCount = 0;
         foreach (var skill in profile.Skills)
         {
-          mob.Skills.TryAdd(skillCount, SkillComponent.New(skill));
+          list.Add(SkillComponent.New(skill, skillCount));
           skillCount++;
         }
+        mob.Skills = list.ToArray();
       }
       return mob;
     }

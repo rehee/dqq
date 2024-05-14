@@ -31,9 +31,9 @@ namespace DQQ.UnitTest.TestBase.Stages.Maps
       creator.CurrentHP = 1000;
       creator.MaximunLife = 1000;
       creator.BasicDamage = 10;
-      creator.Skills = new Dictionary<int, Components.Skills.ISkillComponent?>
+      creator.Skills = new ISkillComponent[]
       {
-        [0] = SkillComponent.New(EnumSkill.NormalAttack)
+        SkillComponent.New(EnumSkill.NormalAttack)
       };
       await map.Initialize(creator, 0, 0);
       await map.Play();

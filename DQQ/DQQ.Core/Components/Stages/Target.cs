@@ -28,9 +28,9 @@ namespace DQQ.Components.Stages
     {
       return DamageTaken.New(damage, false);
     }
-    public override async Task Initialize(IDQQEntity profile)
+    public override void Initialize(IDQQEntity profile)
     {
-      await base.Initialize(profile);
+      base.Initialize(profile);
       Targetable = true;
       Alive = true;
     }

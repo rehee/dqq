@@ -70,14 +70,14 @@ namespace DQQ.Core.UnitTest.Helpers
 
     public decimal PlayingCurrentSecond => throw new NotImplementedException();
 
-    public BigInteger XP { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Int64 XP { get; set; }
 
     public Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier)
     {
       throw new NotImplementedException();
     }
 
-    public Task Initialize(IDQQEntity entity)
+    public void Initialize(IDQQEntity entity)
     {
       throw new NotImplementedException();
     }

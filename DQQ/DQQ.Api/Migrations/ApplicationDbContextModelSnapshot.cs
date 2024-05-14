@@ -40,6 +40,9 @@ namespace DQQ.Api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("TenantID")
                         .HasColumnType("uniqueidentifier");
 
@@ -150,7 +153,7 @@ namespace DQQ.Api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SkillNumber")
+                    b.Property<int?>("SkillNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("Slot")

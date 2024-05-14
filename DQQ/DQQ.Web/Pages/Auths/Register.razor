@@ -1,0 +1,9 @@
+﻿@page "/Register"
+<h3>Register</h3>
+
+
+<input @bind-value="Email" type="email" required />
+<br />
+<input @bind-value="Password" type="password" required />
+<br />
+<input type="button" value="login" @onclick="LoginMethod" />

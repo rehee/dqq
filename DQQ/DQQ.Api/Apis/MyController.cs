@@ -1,9 +1,11 @@
-﻿using DQQ.Components.Skills;
+﻿using DQQ.Api.Services.Itemservices;
+using DQQ.Components.Skills;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Components.Stages.Maps;
 using DQQ.Entities;
 using DQQ.Enums;
+using DQQ.Services.ItemServices;
 using DQQ.Services.MapServices;
 using DQQ.TickLogs;
 using Microsoft.AspNetCore.Mvc;
@@ -25,10 +27,14 @@ namespace DQQ.Api.Apis
   public class MyController : ReheeCmfController
   {
     private readonly IMapService mapService;
+    private readonly ITemporaryService tService;
+    private readonly IItemService iService;
 
-    public MyController(IServiceProvider sp, IMapService mapService) : base(sp)
+    public MyController(IServiceProvider sp, IMapService mapService, ITemporaryService tService, IItemService iService) : base(sp)
     {
       this.mapService = mapService;
+      this.tService = tService;
+      this.iService = iService;
     }
 
     [Route("Item")]
@@ -55,23 +61,31 @@ namespace DQQ.Api.Apis
     [Route("map")]
     public async Task<IEnumerable<TickLogItem>?> GetMap()
     {
+      var actor = new ActorEntity();
+      await context.AddAsync(actor);
+      await context.SaveChangesAsync();
       var map = new Map();
       var creator = new Character();
-
+      creator.DisplayId = actor.Id;
       creator.Alive = true;
       creator.DisplayName = "player 1";
       creator.CurrentHP = 1000;
       creator.MaximunLife = 1000;
       creator.BasicDamage = 10;
-      creator.Skills = new Dictionary<int, ISkillComponent?>
+      creator.Skills = new ISkillComponent[]
       {
-        [0] = SkillComponent.New(EnumSkill.NormalAttack)
+        SkillComponent.New(EnumSkill.NormalAttack)
       };
       creator.MainHand = 100;
       creator.OffHand = 10;
       creator.AttackPerSecond = 1m;
       await map.Initialize(creator, 0, 0);
       await map.Play();
+      await tService.InsertIntoTemporary(creator.DisplayId.Value, map.Drops.ToArray());
+
+      var items = await tService.GetAllTemporaryItems(creator.DisplayId.Value);
+      await iService.PickItem(creator.DisplayId.Value, items.FirstOrDefault().Id);
+
       return map.Logs;
     }
 

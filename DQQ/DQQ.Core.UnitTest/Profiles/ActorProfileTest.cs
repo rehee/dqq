@@ -24,14 +24,14 @@ namespace DQQ.UnitTest.Profiles
         SkillNumber = Enums.EnumSkill.NormalAttack
       };
       actorProfile.Skills = new List<SkillEntity> { skillProfile };
-      var actor = await actorProfile.GenerateComponent();
+      var actor = actorProfile.GenerateComponent();
       Assert.That(actor.DisplayId, Is.EqualTo(actorProfile.Id));
       Assert.That(actor.DisplayName, Is.EqualTo(actorProfile.Name));
       Assert.That(actor.MaximunLife, Is.EqualTo(actorProfile.MaxHP));
       Assert.That(actor.CurrentHP, Is.EqualTo(actorProfile.MaxHP));
       Assert.That(actor.BasicDamage, Is.EqualTo(actorProfile.BasicDamage));
-      Assert.That(actor.Skills![0]!.DisplayId, Is.EqualTo(skillProfile.Id));
-      Assert.That(actor.Skills![0]!.DisplayName, Is.EqualTo(skillProfile.Name));
+      Assert.That(actor.Skills!.FirstOrDefault()!.DisplayId, Is.EqualTo(skillProfile.Id));
+      Assert.That(actor.Skills!.FirstOrDefault()!.DisplayName, Is.EqualTo(skillProfile.Name));
     }
   }
 }

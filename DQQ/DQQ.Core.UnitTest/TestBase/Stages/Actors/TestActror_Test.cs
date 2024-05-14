@@ -17,7 +17,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
     {
       var actor = new TestActror();
       actor.Alive = alive;
-      await actor.OnTick( null, null);
+      await actor.OnTick(null, null);
       Assert.That(actor.TickCount > 0, Is.EqualTo(actor!.TickCount > 0));
     }
     [TestCase(true, 1, 1.2, 0, 0)]
@@ -39,7 +39,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
       var skill = new TestSkill();
       skill.CastTime = cast;
       skill.Cooldown = cd;
-      actor.Skills = new Dictionary<int, ISkillComponent?> { { 1, skill } };
+      actor.Skills = new List<ISkillComponent> { skill };
 
       for (var i = 0; i < time * DQQGeneral.TickPerSecond; i++)
       {
@@ -62,7 +62,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
       var skill = new AttackTestSkill();
       skill.CastTime = cast;
       skill.Cooldown = cd;
-      actor.Skills = new Dictionary<int, ISkillComponent?> { { 1, skill } };
+      actor.Skills = new ISkillComponent[] { skill };
 
       for (var i = 0; i < time * DQQGeneral.TickPerSecond; i++)
       {

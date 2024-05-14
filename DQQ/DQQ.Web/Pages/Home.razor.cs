@@ -1,5 +1,8 @@
 
+using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Services.ActorServices;
 using DQQ.TickLogs;
+using DQQ.Web.Pages.DQQs.Characters;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -9,19 +12,35 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace DQQ.Web.Pages
 {
-  public partial class Home
+  public class HomePage : DQQPageBase
   {
-    [Inject]
-    public ILocalStorageService? storage { get; set; }
 
     [Inject]
     [NotNull]
-    public RequestClient<DQQGetHttpClient>? client { get; set; }
+    public ICharacterService? characterService { get; set; }
 
+    public IEnumerable<Character>? Characters { get; set; }
+    public Guid? SelectedCharId { get; set; }
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
-      var a = await client.Request<IEnumerable<TickLogItem>>(HttpMethod.Get, "my/map");
+      await Refresh();
+    }
+    public async Task Refresh()
+    {
+      Characters = await characterService.GetAllCharacters();
+      SelectedCharId = characterService.GetSelectedCharacter();
+      StateHasChanged();
+    }
+    public async Task ShowCreate()
+    {
+      await dialogService.ShowComponent<CreateCharacter>(
+        null, "", true, async save => await Refresh());
+    }
+    public async Task SelectCharacter(Guid? Id)
+    {
+      characterService.SelectedCharacter(Id);
+      nav.NavigateTo("Character");
     }
   }
 }

@@ -9,9 +9,8 @@ namespace DQQ.Components
 
     public IDQQEntity? Profile { get; set; }
 
-    public virtual async Task Initialize(IDQQEntity entity)
+    public virtual void Initialize(IDQQEntity entity)
     {
-      await Task.CompletedTask;
       Profile = Profile;
       DisplayId = entity.Id;
       DisplayName = entity.Name;

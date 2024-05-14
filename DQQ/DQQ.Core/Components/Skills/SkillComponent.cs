@@ -14,13 +14,14 @@ namespace DQQ.Components.Skills
 {
   public class SkillComponent : DQQComponent, ISkillComponent
   {
-    public static SkillComponent New(EnumSkill skill)
+    public static SkillComponent New(EnumSkill skill, int skillSlot = 0)
     {
       var skillComponent = new SkillComponent();
       var skillProfile = DQQPool.SkillPool[skill];
-      skillComponent.InitSkillProfile(skillProfile);
+      skillComponent.InitSkillProfile(skillProfile, skillSlot);
       return skillComponent;
     }
+    public int Slot { get; set; }
     public decimal CastTime { get; set; }
     public decimal Cooldown { get; set; }
     public bool CastWithWeaponSpeed { get; set; }
@@ -34,23 +35,24 @@ namespace DQQ.Components.Skills
 
     public ISkill? SkillProfile { get; protected set; }
 
-    public override async Task Initialize(IDQQEntity entity)
+    public override void Initialize(IDQQEntity entity)
     {
-      await base.Initialize(entity);
+      base.Initialize(entity);
       if (entity is SkillEntity sp)
       {
-        var skillProfile = DQQPool.SkillPool[sp.SkillNumber];
-        InitSkillProfile(skillProfile);
+        var skillProfile = DQQPool.SkillPool[sp.SkillNumber ?? 0];
+        InitSkillProfile(skillProfile, sp.Slot);
       }
     }
 
-    public void InitSkillProfile(ISkill profile)
+    public void InitSkillProfile(ISkill profile, int skillSlot = 0)
     {
       SkillProfile = profile;
       CastTime = profile.CastTime;
       Cooldown = profile.CoolDown;
       DamageRate = profile.DamageRate;
       CastWithWeaponSpeed = profile.CastWithWeaponSpeed;
+      this.Slot = skillSlot;
     }
 
     public int CastWithWeaponSpeedTick(ITarget? caster)
@@ -90,6 +92,16 @@ namespace DQQ.Components.Skills
         return result;
       }
 
+    }
+
+    public virtual SkillEntity ToSkillEntity(Guid? actorId = null)
+    {
+      var result = new SkillEntity();
+      result.Id = DisplayId ?? Guid.NewGuid();
+      result.Name = DisplayName;
+      result.SkillNumber = SkillProfile?.SkillNumber;
+      result.ActorId = actorId;
+      return result;
     }
   }
 }
