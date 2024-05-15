@@ -13,6 +13,6 @@ namespace DQQ.Services.SkillServices
   public interface ISkillService
   {
     Task<IEnumerable<ISkill>> GetAllSkills();
-    Task<ContentResponse<bool>> PickSkill(PickSkillDTO dto);
+    Task<ContentResponse<bool>> PickSkill(PickSkillDTO? dto);
   }
 }

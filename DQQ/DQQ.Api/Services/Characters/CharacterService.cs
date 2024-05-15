@@ -26,11 +26,15 @@ namespace DQQ.Api.Services.Characters
       this.itemService = itemService;
       this.tService = tService;
     }
-    public async Task<ContentResponse<Guid?>> CreateCharacter(Character character)
+    public async Task<ContentResponse<Guid?>> CreateCharacter(Character? character)
     {
       var result = new ContentResponse<Guid?>();
       try
       {
+        if (character == null)
+        {
+          return result;
+        }
         var entity = new ActorEntity();
         entity.OwnerId = character.OwnerId;
         entity.Name = character.DisplayName;
@@ -53,7 +57,7 @@ namespace DQQ.Api.Services.Characters
       return result;
     }
 
-    public Task<ContentResponse<Guid?>> DeleteCharacter(Guid charId)
+    public Task<ContentResponse<Guid?>> DeleteCharacter(Guid? charId)
     {
       throw new NotImplementedException();
     }
@@ -72,8 +76,12 @@ namespace DQQ.Api.Services.Characters
       return list.Select(b => b.GenerateTypedComponent<Character>());
     }
 
-    public async Task<Character?> GetCharacter(Guid charId)
+    public async Task<Character?> GetCharacter(Guid? charId)
     {
+      if (charId == null)
+      {
+        return null;
+      }
       var entity = await getActor.Where(b => b.Id == charId).FirstOrDefaultAsync();
       return entity?.GenerateTypedComponent<Character>();
     }

@@ -17,13 +17,17 @@ namespace DQQ.Web.Services.Characters
       this.local = local;
     }
 
-    public async Task<ContentResponse<Guid?>> CreateCharacter(Character character)
+    public async Task<ContentResponse<Guid?>> CreateCharacter(Character? character)
     {
+      if (character == null)
+      {
+        return new ContentResponse<Guid?>();
+      }
       var result = await client.Request<Guid?>(HttpMethod.Post, "Character", character.ToJson());
       return result;
     }
 
-    public Task<ContentResponse<Guid?>> DeleteCharacter(Guid charId)
+    public Task<ContentResponse<Guid?>> DeleteCharacter(Guid? charId)
     {
       throw new NotImplementedException();
     }
@@ -34,8 +38,12 @@ namespace DQQ.Web.Services.Characters
       return result.Content ?? Enumerable.Empty<Character>();
     }
 
-    public async Task<Character?> GetCharacter(Guid charId)
+    public async Task<Character?> GetCharacter(Guid? charId)
     {
+      if (charId == null)
+      {
+        return null;
+      }
       return (await client.Request<Character?>(HttpMethod.Get, $"Character/{charId}")).Content;
     }
 

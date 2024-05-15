@@ -10,10 +10,10 @@ namespace DQQ.Services.ActorServices
 {
   public interface ICharacterService
   {
-    Task<ContentResponse<Guid?>> CreateCharacter(Character character);
+    Task<ContentResponse<Guid?>> CreateCharacter(Character? character);
     Task<IEnumerable<Character>> GetAllCharacters();
-    Task<Character?> GetCharacter(Guid charId);
-    Task<ContentResponse<Guid?>> DeleteCharacter(Guid charId);
+    Task<Character?> GetCharacter(Guid? charId);
+    Task<ContentResponse<Guid?>> DeleteCharacter(Guid? charId);
 
     bool SelectedCharacter(Guid? charId);
     Guid? GetSelectedCharacter();

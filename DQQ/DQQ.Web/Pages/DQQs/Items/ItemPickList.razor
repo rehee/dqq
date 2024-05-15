@@ -4,7 +4,10 @@
 {
   foreach (var item in Items)
   {
-    <p>@item.Name</p>
+    <p>
+      <Checkbox DisplayText="选择" TValue="Guid" Value="item.Id" OnStateChanged="ItemPickSelected" />
+      @item.Name
+    </p>
   }
 }
 

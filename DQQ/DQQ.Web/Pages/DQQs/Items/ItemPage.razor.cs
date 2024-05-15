@@ -6,7 +6,7 @@ namespace DQQ.Web.Pages.DQQs.Items
     public async Task ShowPickList()
     {
       await dialogService.ShowComponent<ItemPickList>(
-        null);
+        null, "", true);
     }
   }
 }

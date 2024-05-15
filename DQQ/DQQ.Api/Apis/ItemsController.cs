@@ -16,7 +16,7 @@ namespace DQQ.Api.Apis
 
     private IItemService itemService { get; }
 
-    [Route("Pick/{actorId}")]
+    [HttpGet("Pick/{actorId}")]
     public async Task<IEnumerable<ItemEntity>?> PickableItems(Guid? actorId)
     {
       if (actorId == null)
@@ -24,6 +24,16 @@ namespace DQQ.Api.Apis
         return Enumerable.Empty<ItemEntity>();
       }
       return await itemService.PickableItems(actorId.Value);
+    }
+    [HttpPost("Pick/{actorId}")]
+    public async Task<bool> PickItems(Guid? actorId, Guid[]? items)
+    {
+      if (actorId == null || items?.Any() != true)
+      {
+        return false;
+      }
+      var result = await itemService.PickItem(actorId, items);
+      return result.Success;
     }
   }
 }

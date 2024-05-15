@@ -1,4 +1,5 @@
-﻿using DQQ.Entities;
+﻿using Blazor.Serialization.Extensions;
+using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Services.ItemServices;
 using DQQ.Web.Services.Requests;
@@ -13,24 +14,24 @@ namespace DQQ.Web.Services.ItemServices
     {
     }
 
-    public Task<ContentResponse<bool>> EquipItem(Guid actorId, Guid itemId, EnumEquipSlot slot)
+    public Task<ContentResponse<bool>> EquipItem(Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
     {
       throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<ItemEntity>?> PickableItems(Guid actorId)
+    public async Task<IEnumerable<ItemEntity>?> PickableItems(Guid? actorId)
     {
       return (await client.Request<IEnumerable<ItemEntity>?>(HttpMethod.Get, $"Items/Pick/{actorId}")).Content;
 
 
     }
 
-    public async Task<ContentResponse<bool>> PickItem(Guid actorId, params Guid[] itemId)
+    public async Task<ContentResponse<bool>> PickItem(Guid? actorId, params Guid[] itemId)
     {
-      throw new NotImplementedException();
+      return await client.Request<bool>(HttpMethod.Post, $"Items/Pick/{actorId}", itemId.ToJson());
     }
 
-    public Task<ContentResponse<bool>> UnEquipItem(Guid actorId, params EnumEquipSlot[] slots)
+    public Task<ContentResponse<bool>> UnEquipItem(Guid? actorId, params EnumEquipSlot[] slots)
     {
       throw new NotImplementedException();
     }

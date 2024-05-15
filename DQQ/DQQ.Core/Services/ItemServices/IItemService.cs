@@ -11,10 +11,9 @@ namespace DQQ.Services.ItemServices
 {
   public interface IItemService
   {
-    Task<ContentResponse<bool>> UnEquipItem(Guid actorId, params EnumEquipSlot[] slots);
-    Task<ContentResponse<bool>> PickItem(Guid actorId, params Guid[] itemId);
-    Task<ContentResponse<bool>> EquipItem(Guid actorId, Guid itemId, EnumEquipSlot slot);
-
-    Task<IEnumerable<ItemEntity>?> PickableItems(Guid actorId);
+    Task<ContentResponse<bool>> UnEquipItem(Guid? actorId, params EnumEquipSlot[] slots);
+    Task<ContentResponse<bool>> PickItem(Guid? actorId, params Guid[] itemId);
+    Task<ContentResponse<bool>> EquipItem(Guid? actorId, Guid? itemId, EnumEquipSlot? slot = null);
+    Task<IEnumerable<ItemEntity>?> PickableItems(Guid? actorId);
   }
 }

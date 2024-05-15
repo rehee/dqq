@@ -6,6 +6,8 @@ using ReheeCmf.Contexts;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
 using DQQ.Helper;
+using System.Linq;
+using DQQ.Pools;
 
 namespace DQQ.Api.Services.Itemservices
 {
@@ -19,11 +21,15 @@ namespace DQQ.Api.Services.Itemservices
       this.context = context;
       this.tiService = tiService;
     }
-    public async Task<ContentResponse<bool>> EquipItem(Guid actorId, Guid itemId, EnumEquipSlot slot)
+    public async Task<ContentResponse<bool>> EquipItem(Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
     {
       var result = new ContentResponse<bool>();
       try
       {
+        if (actorId == null || itemId == null)
+        {
+          return result;
+        }
         var item = await context.Query<ItemEntity>(false).Where(b => b.Id == itemId && b.ActorId == actorId).FirstOrDefaultAsync();
         if (item == null || item.EquipType == null)
         {
@@ -31,19 +37,30 @@ namespace DQQ.Api.Services.Itemservices
           return result;
         }
         var avaliableSlots = item.EquipType.GetAvaliableSlots();
-        if (avaliableSlots?.Contains(slot) != true)
+        EnumEquipSlot equipSlot;
+        if (slot == null)
         {
-          result.SetError(System.Net.HttpStatusCode.NotFound);
-          return result;
-        }
-
-        if (item.EquipType == EnumEquipType.TwoHandWeapon)
-        {
-          await UnEquipItem(actorId, EnumEquipSlot.MainHand, EnumEquipSlot.OffHand);
+          equipSlot = avaliableSlots.FirstOrDefault();
         }
         else
         {
-          await UnEquipItem(actorId, slot);
+          if (avaliableSlots?.Contains(slot.Value) != true)
+          {
+            result.SetError(System.Net.HttpStatusCode.NotFound);
+            return result;
+          }
+          equipSlot = slot.Value;
+        }
+
+
+
+        if (item.EquipType == EnumEquipType.TwoHandWeapon)
+        {
+          await UnEquipItem(actorId.Value, EnumEquipSlot.MainHand, EnumEquipSlot.OffHand);
+        }
+        else
+        {
+          await UnEquipItem(actorId.Value, equipSlot);
         }
         var newEquip = new ActorEquipmentEntity()
         {
@@ -64,8 +81,12 @@ namespace DQQ.Api.Services.Itemservices
       return result;
     }
 
-    public async Task<IEnumerable<ItemEntity>?> PickableItems(Guid actorId)
+    public async Task<IEnumerable<ItemEntity>?> PickableItems(Guid? actorId)
     {
+      if (actorId == null)
+      {
+        return null;
+      }
       var items = await tiService.GetAllTemporaryItems(actorId);
       var itemIds = items.Select(b => b.Id).ToHashSet();
       var itemsAlreadyExisting = await context.Query<ItemEntity>(true).Where(b => itemIds.Contains(b.Id)).Select(b => b.Id).ToArrayAsync();
@@ -74,10 +95,10 @@ namespace DQQ.Api.Services.Itemservices
       return items.Where(b => !itemsAlreadyExisting.Contains(b.Id)).ToArray();
     }
 
-    public async Task<ContentResponse<bool>> PickItem(Guid actorId, params Guid[] itemId)
+    public async Task<ContentResponse<bool>> PickItem(Guid? actorId, params Guid[] itemId)
     {
       var result = new ContentResponse<bool>();
-      if (itemId?.Any() != true)
+      if (actorId == null || itemId?.Any() != true)
       {
         return result;
       }
@@ -94,10 +115,38 @@ namespace DQQ.Api.Services.Itemservices
         result.SetError(System.Net.HttpStatusCode.NotFound);
         return result;
       }
-      foreach (var item in items)
+
+      foreach (var item in items.GroupBy(b => b.ItemNumber))
       {
-        item.ActorId = actorId;
-        await context.AddAsync(item);
+        var itemProfile = DQQPool.ItemPool[item.Key];
+        if (itemProfile.IsStack)
+        {
+          var sum = item.Sum(b => b.Quantity ?? 0);
+          if (sum == 0)
+          {
+            continue;
+          }
+          var existingItem = await context.Query<ItemEntity>(false).Where(b => b.ActorId == actorId && b.ItemNumber == item.Key).FirstOrDefaultAsync();
+          if (existingItem != null)
+          {
+            existingItem.Quantity = existingItem.Quantity + sum;
+          }
+          else
+          {
+            var first = item.FirstOrDefault();
+            first.Quantity = sum;
+            first.ActorId = actorId;
+            await context.AddAsync(first);
+          }
+        }
+        else
+        {
+          foreach (var subItem in item)
+          {
+            subItem.ActorId = actorId;
+            await context.AddAsync(subItem);
+          }
+        }
       }
       try
       {
@@ -111,11 +160,11 @@ namespace DQQ.Api.Services.Itemservices
       }
       return result;
     }
-    public async Task<ContentResponse<bool>> UnEquipItem(Guid actorId, params EnumEquipSlot[] slots)
+    public async Task<ContentResponse<bool>> UnEquipItem(Guid? actorId, params EnumEquipSlot[] slots)
     {
       var result = new ContentResponse<bool>();
 
-      if (slots?.Any() != true)
+      if (actorId == null || slots?.Any() != true)
       {
         result.SetSuccess(true);
         return result;

@@ -10,27 +10,31 @@ namespace DQQ.Api.Services.Itemservices
   public class TemporaryService : ITemporaryService
   {
     public static ConcurrentDictionary<Guid, HashSet<ItemComponent>> TemporaryItemPool { get; set; } = new ConcurrentDictionary<Guid, HashSet<ItemComponent>>();
-    public async Task<IEnumerable<ItemEntity>> GetAllTemporaryItems(Guid actorId)
+    public async Task<IEnumerable<ItemEntity>> GetAllTemporaryItems(Guid? actorId)
     {
       await Task.CompletedTask;
-      if (TemporaryItemPool.TryGetValue(actorId, out var items))
+      if (actorId == null)
+      {
+        return Enumerable.Empty<ItemEntity>();
+      }
+      if (TemporaryItemPool.TryGetValue(actorId.Value, out var items))
       {
         return items.Select(b => b.ToEntity());
       }
       var set = new HashSet<ItemComponent>();
-      TemporaryItemPool.AddOrUpdate(actorId, set, (b, c) => set);
+      TemporaryItemPool.AddOrUpdate(actorId.Value, set, (b, c) => set);
       return Enumerable.Empty<ItemEntity>();
     }
 
-    public async Task<IEnumerable<ItemEntity>> PickAndRemoveTemporaryItems(Guid actorId, params Guid[] itemId)
+    public async Task<IEnumerable<ItemEntity>> PickAndRemoveTemporaryItems(Guid? actorId, params Guid[] itemId)
     {
       await Task.CompletedTask;
-      if (itemId == null)
+      if (actorId == null || itemId == null)
       {
         return Enumerable.Empty<ItemEntity>();
       }
       var result = new HashSet<ItemEntity>();
-      if (TemporaryItemPool.TryGetValue(actorId, out var items))
+      if (TemporaryItemPool.TryGetValue(actorId.Value, out var items))
       {
         var pickItems = items.Where(b => itemId.Any(b2 => b2 == b.DisplayId)).ToHashSet();
         foreach (var r in pickItems)
@@ -42,20 +46,24 @@ namespace DQQ.Api.Services.Itemservices
       else
       {
         var set = new HashSet<ItemComponent>();
-        TemporaryItemPool.AddOrUpdate(actorId, set, (b, c) => set);
+        TemporaryItemPool.AddOrUpdate(actorId.Value, set, (b, c) => set);
       }
       return result;
     }
 
-    public async Task<ContentResponse<bool>> AddAndIntoTemporary(Guid actorId, params ItemComponent[] items)
+    public async Task<ContentResponse<bool>> AddAndIntoTemporary(Guid? actorId, params ItemComponent[] items)
     {
       await Task.CompletedTask;
       var result = new ContentResponse<bool>();
+      if (actorId == null)
+      {
+        return result;
+      }
       HashSet<ItemComponent>? set = null;
-      if (!TemporaryItemPool.TryGetValue(actorId, out set))
+      if (!TemporaryItemPool.TryGetValue(actorId.Value, out set))
       {
         set = new HashSet<ItemComponent>();
-        TemporaryItemPool.AddOrUpdate(actorId, set, (b, c) => set);
+        TemporaryItemPool.AddOrUpdate(actorId.Value, set, (b, c) => set);
       }
       if (items?.Any() != true)
       {

@@ -45,7 +45,7 @@ namespace DQQ.Api.Services.SkillServices
       var skillEntity = new SkillEntity()
       {
         ActorId = dto.ActorId,
-        Slot = dto.Slot,
+        Slot = dto.Slot ?? 0,
         SkillNumber = dto.SkillNumber,
       };
       await context.AddAsync(skillEntity);
