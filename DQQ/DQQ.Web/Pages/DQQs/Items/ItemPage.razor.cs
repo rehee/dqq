@@ -11,7 +11,10 @@ namespace DQQ.Web.Pages.DQQs.Items
     public async Task ShowInventory()
     {
       await dialogService.ShowComponent<ActorInventory>(
-        null, "");
+        new Dictionary<string, object?>
+        {
+          ["ParentRefreshEvent"] = ParentRefreshEvent
+        }, "");
     }
   }
 }

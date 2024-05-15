@@ -4,6 +4,6 @@ namespace DQQ.Profiles.Items.Equipments.TwoHandWeapons
 {
   public abstract class AbTwoHandWeapon : WeopnProfile
   {
-    public override EnumEquipType EquipType => EnumEquipType.TwoHandWeapon;
+    public override EnumEquipType? EquipType => EnumEquipType.TwoHandWeapon;
   }
 }

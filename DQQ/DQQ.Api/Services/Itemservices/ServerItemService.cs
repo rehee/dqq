@@ -78,7 +78,7 @@ namespace DQQ.Api.Services.Itemservices
         {
           ActorId = actorId,
           ItemId = itemId,
-          EquipSlot = slot,
+          EquipSlot = equipSlot,
         };
         await context.AddAsync(newEquip);
         await context.SaveChangesAsync();

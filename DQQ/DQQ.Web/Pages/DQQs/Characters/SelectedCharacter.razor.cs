@@ -14,12 +14,29 @@ namespace DQQ.Web.Pages.DQQs.Characters
     public ICharacterService? characterService { get; set; }
 
     public Character? character { get; set; }
+
+    private void parentRefresh(object sender, EventArgs e)
+    {
+      Refresh();
+    }
+
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
       await Refresh();
+      if (ParentRefreshEvent != null)
+      {
+        ParentRefreshEvent.Event += parentRefresh;
+      }
     }
-
+    public override async ValueTask DisposeAsync()
+    {
+      await base.DisposeAsync();
+      if (ParentRefreshEvent != null)
+      {
+        ParentRefreshEvent.Event -= parentRefresh;
+      }
+    }
     public async Task SelectSkill(int slot, EnumSkill? skillNumber)
     {
       await Task.CompletedTask;
@@ -37,7 +54,7 @@ namespace DQQ.Web.Pages.DQQs.Characters
       var selectedCharId = characterService.GetSelectedCharacter();
       if (selectedCharId == null)
       {
-       return;
+        return;
       }
       var selectedChar = await characterService.GetCharacter(selectedCharId.Value);
       if (selectedChar == null)

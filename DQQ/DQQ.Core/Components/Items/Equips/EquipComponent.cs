@@ -40,7 +40,7 @@ namespace DQQ.Components.Items.Equips
       if (itemProfile is EquipProfile ep)
       {
         Quanty = 1;
-        EquipType = ep.EquipType;
+        EquipType = ep.EquipType ?? EnumEquipType.Helmet;
       }
 
     }

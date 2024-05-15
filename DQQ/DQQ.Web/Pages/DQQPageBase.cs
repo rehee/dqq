@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace DQQ.Web.Pages
 {
-  public class DQQPageBase : ComponentBase
+  public class DQQPageBase : ComponentBase, IAsyncDisposable
   {
     [Inject]
     [NotNull]
@@ -29,6 +29,28 @@ namespace DQQ.Web.Pages
 
     [Parameter]
     public Func<Task>? ParentRefresh { get; set; }
+
+    [Parameter]
+    public EventParameter? ParentRefreshEvent { get; set; }
+
+    public EventParameter? RefreshEvent { get; set; }
+
+    bool isDispose { get; set; }
+    public virtual async ValueTask DisposeAsync()
+    {
+      await Task.CompletedTask;
+      if (isDispose)
+      {
+        return;
+      }
+      isDispose = true;
+      if (RefreshEvent != null)
+      {
+        RefreshEvent.Dispose();
+        RefreshEvent = null;
+      }
+
+    }
 
     public virtual Task<bool> SaveFunction()
     {

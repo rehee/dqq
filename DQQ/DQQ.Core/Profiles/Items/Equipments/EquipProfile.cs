@@ -12,7 +12,7 @@ namespace DQQ.Profiles.Items.Equipments
   public abstract class EquipProfile : ItemProfile
   {
     public override bool IsStack => false;
-    public abstract EnumEquipType EquipType { get; }
+    public abstract EnumEquipType? EquipType { get; }
 
     public virtual EquipComponent GenerateEquipComponent(int? itemLevel)
     {

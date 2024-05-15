@@ -3,6 +3,7 @@
 @using DQQ.Web.Pages.DQQs.Characters
 @using DQQ.Web.Pages.DQQs.Combats
 @using DQQ.Web.Pages.DQQs.Items
+@using DQQ.Helper
 <PageTitle>Home</PageTitle>
 @if (ActorId == null)
 {
@@ -10,9 +11,9 @@
 }
 else
 {
-  <SelectedCharacter ParentRefresh="async ()=> await SelectCharacter()" />
+  <SelectedCharacter ParentRefresh="async ()=> await SelectCharacter()" ParentRefreshEvent="RefreshEvent" />
   <CombatSummary />
-  <ItemPage />
+  <ItemPage ParentRefreshEvent="RefreshEvent" />
 }
 
 

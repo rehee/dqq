@@ -1,4 +1,5 @@
 ﻿using DQQ.Entities;
+using DQQ.Enums;
 using DQQ.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
 using ReheeCmf.Modules.Controllers;
@@ -40,6 +41,12 @@ namespace DQQ.Api.Apis
     {
       var result = await itemService.ActorInventory(actorId);
       return await itemService.ActorInventory(actorId);
+    }
+    [HttpPost("Equip/{actorId}/{itemId}/{slot?}")]
+    public async Task<bool> Inventory(Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
+    {
+      var result = await itemService.EquipItem(actorId, itemId, slot);
+      return result.Success;
     }
   }
 }
