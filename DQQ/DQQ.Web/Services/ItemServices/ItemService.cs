@@ -14,6 +14,11 @@ namespace DQQ.Web.Services.ItemServices
     {
     }
 
+    public async Task<IEnumerable<ItemEntity>?> ActorInventory(Guid? actorId)
+    {
+      return (await client.Request<IEnumerable<ItemEntity>?>(HttpMethod.Get, $"Items/Inventory/{actorId}")).Content;
+    }
+
     public Task<ContentResponse<bool>> EquipItem(Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
     {
       throw new NotImplementedException();

@@ -8,6 +8,7 @@ using ReheeCmf.Responses;
 using DQQ.Helper;
 using System.Linq;
 using DQQ.Pools;
+using Microsoft.Linq.Translations;
 
 namespace DQQ.Api.Services.Itemservices
 {
@@ -21,6 +22,17 @@ namespace DQQ.Api.Services.Itemservices
       this.context = context;
       this.tiService = tiService;
     }
+
+    public async Task<IEnumerable<ItemEntity>?> ActorInventory(Guid? actorId)
+    {
+      await Task.CompletedTask;
+      if (actorId == null)
+      {
+        return null;
+      }
+      return await context.Query<ItemEntity>(true).Where(b => b.ActorId == actorId && b.IsEquipped != true).WithTranslations().ToArrayAsync();
+    }
+
     public async Task<ContentResponse<bool>> EquipItem(Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
     {
       var result = new ContentResponse<bool>();

@@ -8,5 +8,10 @@ namespace DQQ.Web.Pages.DQQs.Items
       await dialogService.ShowComponent<ItemPickList>(
         null, "", true);
     }
+    public async Task ShowInventory()
+    {
+      await dialogService.ShowComponent<ActorInventory>(
+        null, "");
+    }
   }
 }

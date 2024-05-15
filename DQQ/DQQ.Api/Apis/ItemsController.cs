@@ -35,5 +35,11 @@ namespace DQQ.Api.Apis
       var result = await itemService.PickItem(actorId, items);
       return result.Success;
     }
+    [HttpGet("Inventory/{actorId}")]
+    public async Task<IEnumerable<ItemEntity>?> Inventory(Guid? actorId)
+    {
+      var result = await itemService.ActorInventory(actorId);
+      return await itemService.ActorInventory(actorId);
+    }
   }
 }

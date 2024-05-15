@@ -1,0 +1,12 @@
+﻿@inherits ActorInventoryPage
+<h3>ActorInventory</h3>
+
+@if (Items != null)
+{
+  foreach (var item in Items)
+  {
+    <p>
+      @item.Name @(item.Profile.IsStack ? item.Quantity : "")
+    </p>
+  }
+}
