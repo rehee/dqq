@@ -14,33 +14,40 @@ namespace DQQ.Web.Pages
 {
   public class HomePage : DQQPageBase
   {
-
     [Inject]
     [NotNull]
-    public ICharacterService? characterService { get; set; }
+    public ICharacterService? CharacterService { get; set; }
 
-    public IEnumerable<Character>? Characters { get; set; }
-    public Guid? SelectedCharId { get; set; }
+    public Guid? ActorId { get; set; }
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
-      await Refresh();
+      await RefreshPage();
+      KeepRefresh();
     }
-    public async Task Refresh()
+
+    public async Task RefreshPage()
     {
-      Characters = await characterService.GetAllCharacters();
-      SelectedCharId = characterService.GetSelectedCharacter();
+      ActorId = CharacterService.GetSelectedCharacter();
+      StateHasChanged();
+      await Task.CompletedTask;
+    }
+
+    public async Task SelectCharacter()
+    {
+      await Task.CompletedTask;
+      ActorId = null;
+      CharacterService.SelectedCharacter(null);
       StateHasChanged();
     }
-    public async Task ShowCreate()
+
+    public async Task KeepRefresh()
     {
-      await dialogService.ShowComponent<CreateCharacter>(
-        null, "", true, async save => await Refresh());
-    }
-    public async Task SelectCharacter(Guid? Id)
-    {
-      characterService.SelectedCharacter(Id);
-      nav.NavigateTo("Character");
+      while (true)
+      {
+        await Task.Delay(1000);
+        StateHasChanged();
+      }
     }
   }
 }

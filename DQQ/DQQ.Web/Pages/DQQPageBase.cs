@@ -1,4 +1,5 @@
 ﻿using BootstrapBlazor.Components;
+using DQQ.Services.ActorServices;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
 using ReheeCmf.Requests;
@@ -8,6 +9,9 @@ namespace DQQ.Web.Pages
 {
   public class DQQPageBase : ComponentBase
   {
+    [Inject]
+    [NotNull]
+    public ICharacterService? characterService { get; set; }
     [Inject]
     [NotNull]
     public NavigationManager? nav { get; set; }
@@ -22,6 +26,10 @@ namespace DQQ.Web.Pages
 
     [Parameter]
     public OnSaveDTO? OnSave { get; set; }
+
+    [Parameter]
+    public Func<Task>? ParentRefresh { get; set; }
+
     public virtual Task<bool> SaveFunction()
     {
       return Task.FromResult(true);

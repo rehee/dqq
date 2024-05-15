@@ -22,19 +22,32 @@ namespace DQQ.Api.Services.Itemservices
       return Enumerable.Empty<ItemEntity>();
     }
 
-    public async Task<ItemEntity?> GetTemporaryItems(Guid actorId, Guid itemId)
+    public async Task<IEnumerable<ItemEntity>> PickAndRemoveTemporaryItems(Guid actorId, params Guid[] itemId)
     {
       await Task.CompletedTask;
+      if (itemId == null)
+      {
+        return Enumerable.Empty<ItemEntity>();
+      }
+      var result = new HashSet<ItemEntity>();
       if (TemporaryItemPool.TryGetValue(actorId, out var items))
       {
-        return items.Where(b => b.DisplayId == itemId).Select(b => b.ToEntity()).FirstOrDefault();
+        var pickItems = items.Where(b => itemId.Any(b2 => b2 == b.DisplayId)).ToHashSet();
+        foreach (var r in pickItems)
+        {
+          items.Remove(r);
+        }
+        result = pickItems.Select(b => b.ToEntity()).Where(b => b != null).ToHashSet();
       }
-      var set = new HashSet<ItemComponent>();
-      TemporaryItemPool.AddOrUpdate(actorId, set, (b, c) => set);
-      return default(ItemEntity);
+      else
+      {
+        var set = new HashSet<ItemComponent>();
+        TemporaryItemPool.AddOrUpdate(actorId, set, (b, c) => set);
+      }
+      return result;
     }
 
-    public async Task<ContentResponse<bool>> InsertIntoTemporary(Guid actorId, params ItemComponent[] items)
+    public async Task<ContentResponse<bool>> AddAndIntoTemporary(Guid actorId, params ItemComponent[] items)
     {
       await Task.CompletedTask;
       var result = new ContentResponse<bool>();

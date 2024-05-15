@@ -1,0 +1,49 @@
+﻿@inherits CharacterListPage
+<Card>
+  <HeaderTemplate>
+    角色列表
+  </HeaderTemplate>
+  <BodyTemplate>
+    <p><Button Color="Color.Primary" Text="创建角色" OnClick="ShowCreate" /></p>
+    <div>
+      @if (Characters != null)
+      {
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var c in Characters)
+            {
+              <tr>
+                <td>@c.DisplayId</td>
+                <td>@c.DisplayName</td>
+                <td>
+                  @if (c.DisplayId == SelectedCharId)
+                  {
+                    <span>已选择</span>
+                  }
+                  else
+                  {
+                    <Button Color="Color.Primary" Text="选择角色" OnClick="async ()=> await SelectCharacter(c.DisplayId)" />
+                  }
+
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  </BodyTemplate>
+  <FooterTemplate>
+
+  </FooterTemplate>
+</Card>
+
+
+

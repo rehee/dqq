@@ -1,0 +1,24 @@
+﻿@inherits CombatSummaryPage
+<Card>
+  <HeaderTemplate>
+    战斗
+  </HeaderTemplate>
+  <BodyTemplate>
+    <h5>
+      <Button class="btn btn-primary" Text="开始战斗" OnClick="CombatRequest" />
+    </h5>
+    @if (IsCombat == true)
+    {
+      <p>战斗中</p>
+    }
+    else
+    {
+      if (Result != null)
+      {
+        <p>@(Result.Success ? "胜利" : "失败")</p>
+        <p>战斗时间(分钟) @Math.Round(Result.TotalCombatminutes, 2)</p>
+        <p>获得经验 @Result.XP</p>
+      }
+    }
+  </BodyTemplate>
+</Card>

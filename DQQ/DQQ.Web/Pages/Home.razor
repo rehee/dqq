@@ -1,43 +1,20 @@
 ﻿@inherits HomePage
 @page "/"
-
+@using DQQ.Web.Pages.DQQs.Characters
+@using DQQ.Web.Pages.DQQs.Combats
+@using DQQ.Web.Pages.DQQs.Items
 <PageTitle>Home</PageTitle>
-<div>
-  <Button Color="Color.Primary" Icon="fa-solid fa-font-awesome" Text="创建角色" OnClick="ShowCreate" />
-</div>
+@if (ActorId == null)
+{
+  <CharacterList ParentRefresh="async ()=>await RefreshPage()" />
+}
+else
+{
+  <SelectedCharacter ParentRefresh="async ()=> await SelectCharacter()" />
+  <CombatSummary />
+  <ItemPage />
+}
 
-<div>
-  @if (Characters != null)
-  {
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach (var c in Characters)
-        {
-          <tr>
-            <td>@c.DisplayId</td>
-            <td>@c.DisplayName</td>
-            <td>
-              @if (c.DisplayId == SelectedCharId)
-              {
-                <span>已选择</span>
-              }
-              else
-              {
-                <Button Color="Color.Primary" Icon="fa-solid fa-font-awesome" Text="选择角色" OnClick="async ()=> await SelectCharacter(c.DisplayId)" />
-              }
 
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  }
-</div>
-<Dialog></Dialog>
+
+

@@ -37,14 +37,12 @@ namespace DQQ.Web.Pages.DQQs.Characters
       var selectedCharId = characterService.GetSelectedCharacter();
       if (selectedCharId == null)
       {
-        nav.NavigateTo("");
-        return;
+       return;
       }
       var selectedChar = await characterService.GetCharacter(selectedCharId.Value);
       if (selectedChar == null)
       {
         characterService.SelectedCharacter(null);
-        nav.NavigateTo("");
         return;
       }
       character = selectedChar;

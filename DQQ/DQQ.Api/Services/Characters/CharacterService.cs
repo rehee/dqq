@@ -39,8 +39,8 @@ namespace DQQ.Api.Services.Characters
         await context.SaveChangesAsync();
 
         var sword = (DQQPool.ItemPool[EnumItem.CopperSword] as EquipProfile)!.GenerateComponent(1, 1);
-        await tService.InsertIntoTemporary(entity.Id, sword);
-        
+        await tService.AddAndIntoTemporary(entity.Id, sword);
+
         await itemService.PickItem(entity.Id, sword.DisplayId!.Value);
         await itemService.EquipItem(entity.Id, sword.DisplayId!.Value, EnumEquipSlot.MainHand);
 

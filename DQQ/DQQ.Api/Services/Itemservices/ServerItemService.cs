@@ -63,26 +63,44 @@ namespace DQQ.Api.Services.Itemservices
 
       return result;
     }
-    public async Task<ContentResponse<bool>> PickItem(Guid actorId, Guid itemId)
+
+    public async Task<IEnumerable<ItemEntity>?> PickableItems(Guid actorId)
+    {
+      var items = await tiService.GetAllTemporaryItems(actorId);
+      var itemIds = items.Select(b => b.Id).ToHashSet();
+      var itemsAlreadyExisting = await context.Query<ItemEntity>(true).Where(b => itemIds.Contains(b.Id)).Select(b => b.Id).ToArrayAsync();
+      var itemNeedRemove = items.Where(b => itemsAlreadyExisting.Contains(b.Id)).Select(b => b.Id).ToArray();
+      await tiService.PickAndRemoveTemporaryItems(actorId, itemNeedRemove);
+      return items.Where(b => !itemsAlreadyExisting.Contains(b.Id)).ToArray();
+    }
+
+    public async Task<ContentResponse<bool>> PickItem(Guid actorId, params Guid[] itemId)
     {
       var result = new ContentResponse<bool>();
-      var foundItem = await context.Query<ItemEntity>(true).Where(b => b.Id == itemId).AnyAsync();
+      if (itemId?.Any() != true)
+      {
+        return result;
+      }
+      var foundItem = await context.Query<ItemEntity>(true).Where(b => itemId.Any(i => b.Id == i)).AnyAsync();
       if (foundItem)
       {
-        result.SetValidation(ValidationResultHelper.New("Item already picked"));
+        result.SetValidation(ValidationResultHelper.New("One of Item already picked"));
         return result;
 
       }
-      var item = await tiService.GetTemporaryItems(actorId, itemId);
-      if (item == null)
+      var items = await tiService.PickAndRemoveTemporaryItems(actorId, itemId);
+      if (items?.Any() == null)
       {
         result.SetError(System.Net.HttpStatusCode.NotFound);
         return result;
       }
-      item.ActorId = actorId;
+      foreach (var item in items)
+      {
+        item.ActorId = actorId;
+        await context.AddAsync(item);
+      }
       try
       {
-        await context.AddAsync(item);
         await context.SaveChangesAsync();
         result.SetSuccess(true);
       }
@@ -93,7 +111,6 @@ namespace DQQ.Api.Services.Itemservices
       }
       return result;
     }
-
     public async Task<ContentResponse<bool>> UnEquipItem(Guid actorId, params EnumEquipSlot[] slots)
     {
       var result = new ContentResponse<bool>();
@@ -117,5 +134,6 @@ namespace DQQ.Api.Services.Itemservices
 
       return result;
     }
+
   }
 }

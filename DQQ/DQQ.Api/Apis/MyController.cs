@@ -81,7 +81,7 @@ namespace DQQ.Api.Apis
       creator.AttackPerSecond = 1m;
       await map.Initialize(creator, 0, 0);
       await map.Play();
-      await tService.InsertIntoTemporary(creator.DisplayId.Value, map.Drops.ToArray());
+      await tService.AddAndIntoTemporary(creator.DisplayId.Value, map.Drops.ToArray());
 
       var items = await tService.GetAllTemporaryItems(creator.DisplayId.Value);
       await iService.PickItem(creator.DisplayId.Value, items.FirstOrDefault().Id);

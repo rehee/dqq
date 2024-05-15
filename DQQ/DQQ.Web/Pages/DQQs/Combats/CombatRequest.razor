@@ -1,0 +1,21 @@
+﻿@inherits CombatRequestPage
+
+<Card>
+  <HeaderTemplate>
+    战斗地图
+  </HeaderTemplate>
+  <BodyTemplate>
+    <div class="row g-3">
+      <div class="col-12">
+        <BootstrapInputNumber @bind-Value="MapLevel"
+                        ShowLabel="true"
+                        DisplayText="地图等级" />
+      </div>
+      <div class="col-12">
+        <BootstrapInputNumber @bind-Value="SubMapLevel"
+                        ShowLabel="true"
+                        DisplayText="地图难度" />
+      </div>
+    </div>
+  </BodyTemplate>
+</Card>

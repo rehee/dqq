@@ -1,0 +1,10 @@
+﻿@inherits ItemPickListPage
+<h3>ItemPickList</h3>
+@if (Items != null)
+{
+  foreach (var item in Items)
+  {
+    <p>@item.Name</p>
+  }
+}
+
