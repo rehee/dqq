@@ -2,6 +2,7 @@
 using DQQ.Services.ActorServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReheeCmf.Authenticates;
 using ReheeCmf.Modules.Controllers;
 
 namespace DQQ.Api.Apis
@@ -19,12 +20,14 @@ namespace DQQ.Api.Apis
 
     [Route("")]
     [HttpGet]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<IEnumerable<Character>> GetAllCharacter()
     {
       return await cService.GetAllCharacters();
     }
     [Route("{Id}")]
     [HttpGet]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<Character> GetCharacter(Guid? Id)
     {
       if (Id == null)
@@ -35,6 +38,7 @@ namespace DQQ.Api.Apis
     }
     [Route("")]
     [HttpPost]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<Guid?> CreateCharacter(Character c)
     {
       await Task.CompletedTask;

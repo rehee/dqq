@@ -23,7 +23,7 @@ namespace DQQ.Components.Stages.Maps
 
     public IEnumerable<IActor>? Players { get; set; }
 
-    public IEnumerable<IEnumerable<IActor>?>? MobPool { get; set; }
+    public List<List<IActor>?>? MobPool { get; set; }
 
 
 
@@ -101,7 +101,7 @@ namespace DQQ.Components.Stages.Maps
     public List<ItemComponent>? Drops { get; set; }
     public Int64 XP { get; set; }
 
-
+    public int WaveIndex { get; set; }
 
     public async Task Play()
     {
@@ -115,6 +115,7 @@ namespace DQQ.Components.Stages.Maps
       TickCount = 0;
       Logs = new List<TickLogItem>();
       Drops = new List<ItemComponent>();
+      WaveIndex = -1;
       while (TickCount < this.TotalTick())
       {
         TickCount++;
@@ -124,6 +125,12 @@ namespace DQQ.Components.Stages.Maps
           break;
         }
         var currentPack = MobPool.FirstOrDefault(b => b != null && b.Any(m => m.Alive));
+        var currentIndex = MobPool.IndexOf(currentPack);
+        if (WaveIndex != currentIndex)
+        {
+          WaveIndex = currentIndex;
+          TickLogHelper.AddMapLogNewWave(this);
+        }
         if (currentPack == null || currentPack.Any() != true)
         {
           break;

@@ -15,5 +15,7 @@ namespace DQQ.TickLogs
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public EnumMob? MobNumber { get; set; }
     public string? DisplayName { get; set; }
+    public long? MaxLife { get; set; }
+    public long? Currentife { get; set; }
   }
 }

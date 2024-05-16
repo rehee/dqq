@@ -18,7 +18,7 @@ namespace DQQ.Web.Pages.Auths
     {
       base.OnInitialized();
       auth.SetAuth(null);
-      nav.NavigateTo("/login", true);
+      nav.NavigateTo("", true);
     }
   }
 }

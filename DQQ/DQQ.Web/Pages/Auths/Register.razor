@@ -1,9 +1,22 @@
 ﻿@page "/Register"
-<h3>Register</h3>
 
+<FloatingLabel DisplayText="邮件" @bind-value="Email" TValue="string" />
+<br />
+<FloatingLabel DisplayText="密码" TValue="string" @bind-value="Password" type="password" />
+<br />
+<FloatingLabel DisplayText="确认密码" TValue="string" @bind-value="ConfirmPassword" type="password" />
 
-<input @bind-value="Email" type="email" required />
 <br />
-<input @bind-value="Password" type="password" required />
+<input type="button" value="注册" @onclick="RegisterMethod" />
 <br />
-<input type="button" value="login" @onclick="LoginMethod" />
+<ul>
+  <li>
+    密码需要8位数
+  </li>
+  <li>
+    至少一个大写字母一个小写字母一个数字一个符号
+  </li>
+  <li>
+    例如 <b>Changeme123!</b>
+  </li>
+</ul>

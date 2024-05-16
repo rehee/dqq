@@ -2,6 +2,7 @@
 using DQQ.Services.CombatServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReheeCmf.Authenticates;
 using ReheeCmf.Modules.Controllers;
 
 namespace DQQ.Api.Apis
@@ -19,6 +20,7 @@ namespace DQQ.Api.Apis
 
     [HttpPost]
     [Route("Request")]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<CombatResultDTO?> RequestCombat([FromBody] CombatRequestDTO dto)
     {
       var result = await combatService.RequestCombat(dto);

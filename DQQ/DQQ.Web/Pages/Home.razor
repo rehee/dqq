@@ -1,20 +1,40 @@
 ﻿@inherits HomePage
 @page "/"
+@using DQQ.Web.Pages.Auths
 @using DQQ.Web.Pages.DQQs.Characters
 @using DQQ.Web.Pages.DQQs.Combats
 @using DQQ.Web.Pages.DQQs.Items
 @using DQQ.Helper
 <PageTitle>Home</PageTitle>
-@if (ActorId == null)
+
+@if (String.IsNullOrEmpty(UserId))
 {
-  <CharacterList ParentRefresh="async ()=>await RefreshPage()" />
+  <div>
+    <Tab IsBorderCard="true">
+      <TabItem Text="登录">
+        <Login />
+      </TabItem>
+      <TabItem Text="注册">
+        <Register />
+      </TabItem>
+    </Tab>
+  </div>
 }
 else
 {
-  <SelectedCharacter ParentRefresh="async ()=> await SelectCharacter()" ParentRefreshEvent="RefreshEvent" />
-  <CombatSummary />
-  <ItemPage ParentRefreshEvent="RefreshEvent" />
+  if (ActorId == null)
+  {
+    <CharacterList ParentRefresh="async ()=>await RefreshPage()" />
+  }
+  else
+  {
+    <SelectedCharacter ParentRefresh="async ()=> await SelectCharacter()" ParentRefreshEvent="RefreshEvent" />
+    <CombatSummary />
+    <ItemPage ParentRefreshEvent="RefreshEvent" />
+  }
 }
+
+
 
 
 

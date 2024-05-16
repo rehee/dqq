@@ -2,6 +2,7 @@
 using DQQ.Profiles.Skills;
 using DQQ.Services.SkillServices;
 using Microsoft.AspNetCore.Mvc;
+using ReheeCmf.Authenticates;
 using ReheeCmf.Modules.Controllers;
 
 namespace DQQ.Api.Apis
@@ -17,12 +18,14 @@ namespace DQQ.Api.Apis
       this.skillService = skillService;
     }
     [HttpGet]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<IEnumerable<ISkill>> Index()
     {
       return await skillService.GetAllSkills();
     }
 
     [HttpPost]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<bool> PickSkill([FromBody] PickSkillDTO dto)
     {
       var result = await skillService.PickSkill(dto);

@@ -23,16 +23,30 @@ namespace DQQ.Web.Pages.Auths
     [Inject]
     [NotNull]
     public NavigationManager? nav { get; set; }
-    public async Task LoginMethod()
+    public async Task RegisterMethod()
     {
+      auth.SetAuth(null);
+      if (Password != ConfirmPassword)
+      {
+        return;
+      }
 
-      var result = await Http.PostAsJsonAsync<Dictionary<string, string?>>(
+      var register = await Http.PostAsJsonAsync<Dictionary<string, string?>>(
         "Auths/Register",
-        new Dictionary<string, string?> { 
+        new Dictionary<string, string?>
+        {
           ["Username"] = Email,
           ["UserName"] = Email,
           ["Password"] = Password,
         }, CancellationToken.None);
+      if (!register.IsSuccessStatusCode)
+      {
+        return;
+      }
+
+      var result = await Http.PostAsJsonAsync<LoginDTO>(
+        "Api/Token/Login",
+        new LoginDTO { Username = Email, Password = Password, KeepLogin = true }, CancellationToken.None);
       if (!result.IsSuccessStatusCode)
       {
         auth.SetAuth(null);
@@ -49,7 +63,6 @@ namespace DQQ.Web.Pages.Auths
         auth.SetAuth(null);
       }
 
-      ;
     }
   }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using BootstrapBlazor.Components;
+using Microsoft.JSInterop;
 using ReheeCmf.Commons.DTOs;
 
 namespace DQQ.Web.Services.DQQAuthServices
@@ -13,7 +14,12 @@ namespace DQQ.Web.Services.DQQAuthServices
     }
     public TokenDTO? GetAuth()
     {
-      return localStorage.GetItem<TokenDTO>(nameof(TokenDTO));
+      var token = localStorage.GetItem<TokenDTO>(nameof(TokenDTO));
+      if (token == null)
+      {
+        localStorage.RemoveItem("localChar");
+      }
+      return token;
     }
 
     public bool IsAuth()
@@ -33,14 +39,13 @@ namespace DQQ.Web.Services.DQQAuthServices
         {
 
         }
-        
+
       }
       else
       {
         localStorage.SetItem<TokenDTO?>(nameof(TokenDTO), auth);
       }
-
-
+      localStorage.RemoveItem("localChar");
       return;
     }
   }

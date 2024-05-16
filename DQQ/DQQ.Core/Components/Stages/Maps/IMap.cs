@@ -14,7 +14,8 @@ namespace DQQ.Components.Stages.Maps
     decimal DropQuantity { get; }
     int? limitMinute { get; }
     IEnumerable<IActor>? Players { get; }
-    IEnumerable<IEnumerable<IActor>?>? MobPool { get; }
+    List<List<IActor>?>? MobPool { get; }
+    int WaveIndex {  get; }
     bool Playable { get; }
     bool Playing { get; }
     DateTime? PlayTime { get; }

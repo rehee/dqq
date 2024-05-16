@@ -19,5 +19,11 @@ namespace DQQ.TickLogs
     public TickLogActor? Target { get; set; }
     public TickLogSkill? Skill { get; set; }
     public TicklogDamage? Damage { get; set; }
+
+    public bool WaveOrPlayerChange { get; set; }
+    public int WaveNumber { get; set; }
+
+    public IEnumerable<TickLogActor>? Players { get; set; }
+    public IEnumerable<TickLogActor>? Enemies { get; set; }
   }
 }

@@ -43,7 +43,8 @@ namespace DQQ.Helper
         result.MobNumber = mb.MobNumber;
       }
       result.Id = target.DisplayId;
-
+      result.MaxLife = target.MaximunLife;
+      result.Currentife = target.CurrentHP;
       return result;
     }
 
@@ -51,6 +52,7 @@ namespace DQQ.Helper
     public static void AddMapLog(this IMap map, bool success, ITarget? from, ITarget? to, ISkill? skill, DamageTaken? damage)
     {
       var item = new TickLogItem();
+      item.WaveNumber = map.WaveIndex;
       item.Success = success;
       item.ActionSecond = map.PlayingCurrentSecond;
       item.From = from.ToLogActor();
@@ -72,5 +74,17 @@ namespace DQQ.Helper
       }
       map.XP = map.XP + damage?.XP ?? 0;
     }
+    public static void AddMapLogNewWave(this IMap map)
+    {
+      var item = new TickLogItem();
+      map.Logs.Add(item);
+      item.WaveNumber = map.WaveIndex;
+      item.WaveOrPlayerChange = true;
+      item.ActionSecond = map.PlayingCurrentSecond;
+      item.Players = map.Players?.Select(b => b!.ToLogActor()!).ToArray();
+      item.Enemies = map.MobPool?[map.WaveIndex]?.Select(b => b!.ToLogActor()!).ToArray();
+      item.Success = true;
+    }
+
   }
 }

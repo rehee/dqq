@@ -1,6 +1,7 @@
 ﻿using DQQ.Components.Items;
 using DQQ.Components.Items.Equips;
 using DQQ.Components.Stages.Actors;
+using DQQ.Entities.ChangeHandlers;
 using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Profiles.Items.Equipments;
@@ -36,10 +37,8 @@ namespace DQQ.Entities
 
   [EntityChangeTracker<ActorEquipmentEntity>]
 
-  public class ActorEquipmentEntityHandler : EntityChangeHandler<ActorEquipmentEntity>
+  public class ActorEquipmentEntityHandler : BaseHandler<ActorEquipmentEntity>
   {
-    protected IAsyncQuery? query => sp?.GetService<IAsyncQuery>() ?? null;
-
     public override Task BeforeCreateAsync(CancellationToken ct = default)
     {
       return base.BeforeCreateAsync(ct);

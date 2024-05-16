@@ -2,6 +2,7 @@
 using DQQ.Enums;
 using DQQ.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
+using ReheeCmf.Authenticates;
 using ReheeCmf.Modules.Controllers;
 
 namespace DQQ.Api.Apis
@@ -18,6 +19,7 @@ namespace DQQ.Api.Apis
     private IItemService itemService { get; }
 
     [HttpGet("Pick/{actorId}")]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<IEnumerable<ItemEntity>?> PickableItems(Guid? actorId)
     {
       if (actorId == null)
@@ -27,6 +29,7 @@ namespace DQQ.Api.Apis
       return await itemService.PickableItems(actorId.Value);
     }
     [HttpPost("Pick/{actorId}")]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<bool> PickItems(Guid? actorId, Guid[]? items)
     {
       if (actorId == null || items?.Any() != true)
@@ -37,12 +40,14 @@ namespace DQQ.Api.Apis
       return result.Success;
     }
     [HttpGet("Inventory/{actorId}")]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<IEnumerable<ItemEntity>?> Inventory(Guid? actorId)
     {
       var result = await itemService.ActorInventory(actorId);
       return await itemService.ActorInventory(actorId);
     }
     [HttpPost("Equip/{actorId}/{itemId}/{slot?}")]
+    [CmfAuthorize(AuthOnly = true)]
     public async Task<bool> Inventory(Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
     {
       var result = await itemService.EquipItem(actorId, itemId, slot);

@@ -1,9 +1,7 @@
 ﻿@page "/login"
-<h3>Login</h3>
-
-
-<input @bind-value="Email" type="email" required />
+<FloatingLabel DisplayText="邮件" @bind-value="Email" TValue="string" />
 <br />
-<input @bind-value="Password" type="password" required />
+<FloatingLabel DisplayText="密码" TValue="string" @bind-value="Password" type="password" />
+
 <br />
-<input type="button" value="login" @onclick="LoginMethod" />
+<input type="button" value="登录" @onclick="LoginMethod" />

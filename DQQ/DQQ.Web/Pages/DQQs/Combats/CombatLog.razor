@@ -1,29 +1,48 @@
 ﻿@inherits CombatLogPage
 @if (CombatLog != null)
 {
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th>time</th>
-        <th>from</th>
-        <th>skill</th>
-        <th>to</th>
-        <th>damage</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var log in CombatLog.OrderBy(b => b.ActionSecond))
-      {
+  foreach (var b in CombatLog.GroupBy(b => b.WaveNumber).OrderBy(b => b.Key))
+  {
+    <div>
+      波次 @(b.Key + 1)
+    </div>
+    <table class="table">
+      <thead>
         <tr>
-          <td>@Math.Round(log.ActionSecond ?? 0, 2)</td>
-          <td>@log.From?.DisplayName</td>
-          <td>@log.Skill?.SkillName</td>
-          <td>@log.Target?.DisplayName</td>
-          <td>@log.Damage?.DamagePoint @(log.Damage?.IsKilled == true ? "击杀" : "")</td>
+          <th>time</th>
+          <th>from</th>
+          <th>skill</th>
+          <th>to</th>
+          <th>damage</th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @foreach (var log in b.OrderBy(b => b.ActionSecond))
+        {
+          if (log.WaveOrPlayerChange)
+          {
+            <tr>
+              <td>@Math.Round(log.ActionSecond ?? 0, 2)</td>
+              <td colspan="2">@String.Join(",", log.Players?.Select(b => b.DisplayName) ?? Enumerable.Empty<string>())</td>
+              <td colspan="2">@String.Join(",", log.Enemies?.Select(b => b.DisplayName) ?? Enumerable.Empty<string>())</td>
+
+            </tr>
+          }
+          else
+          {
+            <tr>
+              <td>@Math.Round(log.ActionSecond ?? 0, 2)</td>
+              <td>@log.From?.DisplayName (@log.From?.Currentife/@log.From?.MaxLife)</td>
+              <td>@log.Skill?.SkillName</td>
+              <td>@log.Target?.DisplayName (@log.Target?.Currentife/@log.Target?.MaxLife)</td>
+              <td>@log.Damage?.DamagePoint @(log.Damage?.IsKilled == true ? "击杀" : "")</td>
+            </tr>
+          }
+
+        }
+      </tbody>
+    </table>
+  }
+
 
 }
