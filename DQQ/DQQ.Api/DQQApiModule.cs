@@ -4,6 +4,7 @@ using DQQ.Api.Services.CombatServices;
 using DQQ.Api.Services.Itemservices;
 using DQQ.Api.Services.SkillServices;
 using DQQ.Api.Services.StrategyServices;
+using DQQ.Api.Workers;
 using DQQ.Components.Stages.Maps;
 using DQQ.Pools;
 using DQQ.Services.ActorServices;
@@ -44,6 +45,7 @@ namespace DQQ.Api
 
       await base.ConfigureServicesAsync(context);
       DQQPool.InitPool();
+      context.Services!.AddHostedService<SeedWorker>();
       context.Services!.AddScoped<IMapService, MapService<Map>>();
       context.Services!.AddScoped<ITemporaryService, TemporaryService>();
       context.Services!.AddScoped<IItemService, ServerItemService>();
