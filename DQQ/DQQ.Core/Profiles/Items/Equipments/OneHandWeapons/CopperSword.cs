@@ -21,8 +21,8 @@ namespace DQQ.Profiles.Items.Equipments.OneHandWeapons
 
     public override EnumItem ProfileNumber => EnumItem.CopperSword;
 
-    public override string? Name => "双手剑";
+    public override string? Name => "单手剑";
 
-    public override string? Discription => "双手剑";
+    public override string? Discription => "单手剑";
   }
 }
