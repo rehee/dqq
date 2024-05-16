@@ -14,6 +14,7 @@ using DQQ.Services.MapServices;
 using DQQ.Services.MapServices;
 using DQQ.Services.SkillServices;
 using DQQ.Services.StrategyServices;
+using Google.Api;
 using ReheeCmf;
 using ReheeCmf.Commons.DTOs;
 using ReheeCmf.ContextModule.Entities;
@@ -46,6 +47,7 @@ namespace DQQ.Api
       await base.ConfigureServicesAsync(context);
       DQQPool.InitPool();
       context.Services!.AddHostedService<SeedWorker>();
+      context.Services!.AddHostedService<CleanTempWorker>();
       context.Services!.AddScoped<IMapService, MapService<Map>>();
       context.Services!.AddScoped<ITemporaryService, TemporaryService>();
       context.Services!.AddScoped<IItemService, ServerItemService>();
