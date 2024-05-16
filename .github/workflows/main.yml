@@ -20,11 +20,11 @@ jobs:
       uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
       with:
         html_path: ${{ env.PUBLISH_DIR }}/index.html
-        base_href: /DQQ/
+        base_href: /dqq/
 
     - name: GitHub Pages
       if: success()
-      uses: crazy-max/ghaction-github-pages@@v4
+      uses: crazy-max/ghaction-github-pages@v4
       with:
         target_branch: gh-pages
         build_dir: ${{ env.PUBLISH_DIR }}
