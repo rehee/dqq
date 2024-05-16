@@ -17,8 +17,8 @@ namespace DQQ.Profiles.Items.Equipments.TwoHandWeapons
     public override int DropQuantity => 1;
     public override decimal Rarity => 1m;
     public override EnumItem ProfileNumber => EnumItem.CorrodedBlade;
-    public override string? Name => "Corroded Blade";
-    public override string? Discription => "Corroded Blade";
+    public override string? Name => "单手剑";
+    public override string? Discription => "单手剑";
 
     public override decimal AttackPerSecond => 1m;
     public override Int64 BaseDamage => 10;
