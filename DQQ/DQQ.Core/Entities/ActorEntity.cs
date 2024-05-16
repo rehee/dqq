@@ -40,7 +40,7 @@ namespace DQQ.Entities
 
       var sameActor = await query.FirstOrDefaultAsync(context.Query<ActorEntity>(true)
         .Where(b => b.Name == entity.Name && b.Id != entity.Id).Select(b => b.Id), ct);
-      if (sameActor == null)
+      if (sameActor != null)
       {
         current.Add(ValidationResultHelper.New("Name already used", nameof(entity.Name)));
         goto ToReturn;
