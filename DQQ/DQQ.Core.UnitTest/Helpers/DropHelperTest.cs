@@ -44,8 +44,8 @@ namespace DQQ.Core.UnitTest.Helpers
 
     public IEnumerable<IActor>? Players => throw new NotImplementedException();
 
-    public IEnumerable<IEnumerable<IActor>?>? MobPool => throw new NotImplementedException();
-
+    public List<List<IActor>?>? MobPool => throw new NotImplementedException();
+    public int WaveIndex { get; set; }
     public bool Playable => throw new NotImplementedException();
 
     public bool Playing => throw new NotImplementedException();

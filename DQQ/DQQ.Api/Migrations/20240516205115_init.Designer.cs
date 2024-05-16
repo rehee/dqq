@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DQQ.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240516145537_init-5")]
-    partial class init5
+    [Migration("20240516205115_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

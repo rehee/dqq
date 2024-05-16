@@ -45,5 +45,31 @@ namespace DQQ.Web.Services.Requests
       auth.SetAuth(newTokenDTO);
       return (null, newTokenDTO.TokenString);
     }
+    public async Task<(string? name, string? token)> CheckRequestTokenAsync(CancellationToken ct = default)
+    {
+      var token = auth.GetAuth();
+      if (token == null)
+      {
+        return (null, null);
+      }
+      var newTokenResponse = await http.PostAsJsonAsync<TokenValidate>("Api/Token/RefreshAccessToken", new TokenValidate
+      {
+        Token = token.RefreshTokenString
+      });
+
+      if (!newTokenResponse.IsSuccessStatusCode)
+      {
+        auth.SetAuth(null);
+        return (null, null);
+      }
+      var newTokenDTO = (await newTokenResponse.Content.ReadAsStringAsync()).FromJson<TokenDTO>();
+      if (newTokenDTO == null)
+      {
+        auth.SetAuth(null);
+        return (null, null);
+      }
+      auth.SetAuth(newTokenDTO);
+      return (null, newTokenDTO.TokenString);
+    }
   }
 }

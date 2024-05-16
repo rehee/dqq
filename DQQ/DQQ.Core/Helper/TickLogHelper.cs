@@ -82,7 +82,10 @@ namespace DQQ.Helper
       item.WaveOrPlayerChange = true;
       item.ActionSecond = map.PlayingCurrentSecond;
       item.Players = map.Players?.Select(b => b!.ToLogActor()!).ToArray();
-      item.Enemies = map.MobPool?[map.WaveIndex]?.Select(b => b!.ToLogActor()!).ToArray();
+      if (map.WaveIndex >= 0)
+      {
+        item.Enemies = map.MobPool?[map.WaveIndex]?.Select(b => b!.ToLogActor()!).ToArray();
+      }
       item.Success = true;
     }
 

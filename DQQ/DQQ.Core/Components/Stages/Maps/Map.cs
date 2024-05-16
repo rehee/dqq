@@ -21,9 +21,9 @@ namespace DQQ.Components.Stages.Maps
 
     public int? limitMinute { get; set; }
 
-    public IEnumerable<IActor>? Players { get; set; }
+    public IEnumerable<IActor>? Players { get; set; } = new List<IActor>();
 
-    public List<List<IActor>?>? MobPool { get; set; }
+    public List<List<IActor>?>? MobPool { get; set; } = new List<List<IActor>?>();
 
 
 

@@ -16,8 +16,10 @@ namespace DQQ.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MaxHP = table.Column<long>(type: "bigint", nullable: true),
                     BasicDamage = table.Column<long>(type: "bigint", nullable: true),
+                    TargetPriority = table.Column<int>(type: "int", nullable: true),
                     Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     TenantID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -152,7 +154,7 @@ namespace DQQ.Api.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Slot = table.Column<int>(type: "int", nullable: false),
                     ActorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SkillNumber = table.Column<int>(type: "int", nullable: false),
+                    SkillNumber = table.Column<int>(type: "int", nullable: true),
                     TenantID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
