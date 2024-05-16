@@ -55,6 +55,10 @@ namespace DQQ.Web.Pages
         StateHasChanged();
       }
     }
+    public async Task OpenReadMe()
+    {
 
+      await dialogService.ShowComponent<Readme>(null, "About DQQ");
+    }
   }
 }

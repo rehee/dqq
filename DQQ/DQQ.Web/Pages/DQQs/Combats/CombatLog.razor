@@ -1,7 +1,7 @@
 ﻿@inherits CombatLogPage
 @if (CombatLog != null)
 {
-  foreach (var b in CombatLog.GroupBy(b => b.WaveNumber).OrderBy(b => b.Key))
+  foreach (var b in CombatLog.GroupBy(b => b.WaveNumber).Where(b => b.Key >= 0).OrderBy(b => b.Key))
   {
     <div>
       波次 @(b.Key + 1)
