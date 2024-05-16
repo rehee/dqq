@@ -1,0 +1,29 @@
+﻿@inherits CombatLogPage
+@if (CombatLog != null)
+{
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>time</th>
+        <th>from</th>
+        <th>skill</th>
+        <th>to</th>
+        <th>damage</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var log in CombatLog.OrderBy(b => b.ActionSecond))
+      {
+        <tr>
+          <td>@Math.Round(log.ActionSecond ?? 0, 2)</td>
+          <td>@log.From?.DisplayName</td>
+          <td>@log.Skill?.SkillName</td>
+          <td>@log.Target?.DisplayName</td>
+          <td>@log.Damage?.DamagePoint @(log.Damage?.IsKilled == true ? "击杀" : "")</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+}

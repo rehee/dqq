@@ -2,6 +2,7 @@ using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Enums;
 using DQQ.Services.ActorServices;
 using DQQ.Web.Pages.DQQs.Skills;
+using DQQ.Web.Pages.DQQs.Strategies;
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 
@@ -39,13 +40,21 @@ namespace DQQ.Web.Pages.DQQs.Characters
     }
     public async Task SelectSkill(int slot, EnumSkill? skillNumber)
     {
-      await Task.CompletedTask;
       await dialogService.ShowComponent<SkillSelect>(
        new Dictionary<string, object?>
        {
          ["Slot"] = slot,
          ["ActorId"] = character?.DisplayId,
          ["SelectSkillNumber"] = skillNumber,
+       }, "", true, async save => await Refresh());
+    }
+    public async Task ChangePriority()
+    {
+      await dialogService.ShowComponent<TargetPriority>(
+       new Dictionary<string, object?>
+       {
+         ["TargetPriority"] = character?.TargetPriority,
+         ["ActorId"] = character?.DisplayId
        }, "", true, async save => await Refresh());
     }
 

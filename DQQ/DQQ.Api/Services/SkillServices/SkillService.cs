@@ -22,7 +22,7 @@ namespace DQQ.Api.Services.SkillServices
     public async Task<IEnumerable<ISkill>> GetAllSkills()
     {
       await Task.CompletedTask;
-      return DQQPool.SkillPool.Select(b => b.Value).ToArray();
+      return DQQPool.SkillPool.Select(b => b.Value).Where(b => b.NoPlayerSkill != true).ToArray();
     }
 
     public async Task<ContentResponse<bool>> PickSkill(PickSkillDTO dto)
@@ -30,11 +30,20 @@ namespace DQQ.Api.Services.SkillServices
       var result = new ContentResponse<bool>();
       var user = this.context?.User?.UserId;
       var actor = await context.Query<ActorEntity>(true).Where(b => b.Id == dto.ActorId && b.OwnerId == user).AnyAsync();
+      if (dto.SkillNumber != null)
+      {
+        var skillPick = DQQPool.SkillPool[dto.SkillNumber.Value];
+        if (skillPick.NoPlayerSkill)
+        {
+          return result;
+        }
+      }
       if (!actor)
       {
         result.SetNotFound();
         return result;
       }
+
       var existingEntity = await context.Query<SkillEntity>(false).Where(b => b.ActorId == dto.ActorId && (b.Slot == dto.Slot || b.SkillNumber == dto.SkillNumber))
         .ToArrayAsync();
       foreach (var e in existingEntity)

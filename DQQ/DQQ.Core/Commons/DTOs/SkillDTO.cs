@@ -27,6 +27,8 @@ namespace DQQ.Commons.DTOs
 
     public string? Discription { get; set; }
 
+    public bool NoPlayerSkill { get; set; }
+
     public Task<ContentResponse<bool>> CastSkill(ITarget? caster, IEnumerable<ITarget>? target, IMap? map)
     {
       throw new NotImplementedException();

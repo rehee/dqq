@@ -5,7 +5,9 @@ using DQQ.Consts;
 using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Pools;
+using DQQ.Profiles.Mobs;
 using DQQ.Profiles.Skills;
+using DQQ.Strategies.SkillStrategies;
 using DQQ.Tags;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
@@ -19,6 +21,15 @@ namespace DQQ.Components.Skills
       var skillComponent = new SkillComponent();
       var skillProfile = DQQPool.SkillPool[skill];
       skillComponent.InitSkillProfile(skillProfile, skillSlot);
+      return skillComponent;
+    }
+    public SkillStrategy[]? SkillStrategies { get; set; }
+    public static SkillComponent New(MobSkill skill, int skillSlot = 0)
+    {
+      var skillComponent = new SkillComponent();
+      var skillProfile = DQQPool.SkillPool[skill.SkillNumber];
+      skillComponent.InitSkillProfile(skillProfile, skillSlot);
+      skillComponent.SkillStrategies = skill.Strategies;
       return skillComponent;
     }
     public int Slot { get; set; }
@@ -69,6 +80,7 @@ namespace DQQ.Components.Skills
     public virtual async Task<ContentResponse<bool>> OnTick(ITarget? caster, IEnumerable<ITarget>? targets, IMap? map)
     {
       var result = new ContentResponse<bool>();
+      var target = caster?.Target;
       if (CDTickCount > 0)
       {
         CDTickCount--;
@@ -79,19 +91,80 @@ namespace DQQ.Components.Skills
         CastTickCount++;
         return result;
       }
+      var matchCondition = false;
+      if (SkillStrategies != null)
+      {
+        foreach (var strategy in SkillStrategies.OrderBy(b => b.Priority))
+        {
+          if (!strategy.Condition)
+          {
+            matchCondition = true;
+            break;
+          }
+          if (target == null)
+          {
+            continue;
+          }
+          switch (strategy.Property)
+          {
+            case EnumPropertyCompare.HealthPercentage:
+              switch (strategy.Compare)
+              {
+                case EnumCompare.MoreThan:
+                  matchCondition = ((decimal)target.CurrentHP / (target.MaximunLife ?? 1)) > strategy.Value;
+                  break;
+                case EnumCompare.LessThan:
+                  matchCondition = ((decimal)target.CurrentHP / (target.MaximunLife ?? 1)) < strategy.Value;
+                  break;
+              }
+              break;
+            case EnumPropertyCompare.HealthAmount:
+              switch (strategy.Compare)
+              {
+                case EnumCompare.MoreThan:
+                  matchCondition = target.CurrentHP > strategy.Value;
+                  break;
+                case EnumCompare.LessThan:
+                  matchCondition = target.CurrentHP < strategy.Value;
+                  break;
+              }
+              break;
+          }
+          if (matchCondition)
+          {
+            break;
+          }
+        }
+      }
+      else
+      {
+        matchCondition = true;
+      }
 
-      CastTickCount = 0;
-      CDTickCount = CDTick;
+      if (!matchCondition)
+      {
+        return result;
+      }
+
       if (SkillProfile != null)
       {
-        return await SkillProfile.CastSkill(caster, targets, map);
+        result = await SkillProfile.CastSkill(caster, targets, map);
       }
       else
       {
         result.SetSuccess(true);
-        return result;
+      }
+      CastTickCount = 0;
+      if (CastWithWeaponSpeedTick(caster) <= 0 && CDTick <= 0)
+      {
+        CDTickCount = (int)(DQQGeneral.MinCooldown * DQQGeneral.TickPerSecond);
+      }
+      else
+      {
+        CDTickCount = CDTick;
       }
 
+      return result;
     }
 
     public virtual SkillEntity ToSkillEntity(Guid? actorId = null)

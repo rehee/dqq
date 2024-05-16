@@ -1,6 +1,7 @@
 ﻿using DQQ.Commons;
 using DQQ.Components.Stages.Maps;
 using DQQ.Entities;
+using DQQ.Enums;
 using System.Numerics;
 
 namespace DQQ.Components.Stages
@@ -10,7 +11,9 @@ namespace DQQ.Components.Stages
     public bool Targetable { get; set; }
     public bool Alive { get; set; }
     public ITarget? Target { get; set; }
+    public EnumTargetPriority? TargetPriority { get; set; }
     public virtual Int64? MaximunLife { get; set; }
+    public Int64 CurrentHP { get; set; }
     public virtual Int64? Armor { get; set; }
     public virtual Int64? Damage { get; set; }
     public virtual decimal? AttackPerSecond { get; set; }
@@ -19,6 +22,9 @@ namespace DQQ.Components.Stages
     public Int64? MainHand { get; set; }
     public Int64? OffHand { get; set; }
     public bool? PrevioursMainHand { get; set; }
+
+    public abstract int PowerLevel { get; }
+
     public void SelectTarget(ITarget? target)
     {
       Target = target;

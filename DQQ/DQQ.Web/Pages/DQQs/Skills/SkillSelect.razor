@@ -2,14 +2,19 @@
 <h3>选择技能</h3>
 @if (Skills != null)
 {
-  foreach (var s in Skills)
-  {
-    var s2 = s.SkillNumber;
-    <div>
-      @s.SkillName @(s.SkillNumber == SelectSkillNumber ? "选择" : "")
-      <Button Color="Color.Primary" Text="选择技能" OnClick="async ()=> await PickSkill(s2)" />
-    </div>
-  }
+  <div>
+    @foreach (var s in Skills)
+    {
+      var s2 = s.SkillNumber;
+      <p>
+        @(s.SkillNumber == SelectSkillNumber ? "选择" : "")
+        <Button Color="Color.Primary" Text="选择技能" OnClick="async ()=> await PickSkill(s2)" />
+        @s.SkillName
+        @s.Discription
+      </p>
+
+    }
+  </div>
 }
 
 

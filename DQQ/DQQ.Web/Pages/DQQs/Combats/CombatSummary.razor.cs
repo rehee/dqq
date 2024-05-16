@@ -30,5 +30,14 @@ namespace DQQ.Web.Pages.DQQs.Combats
         StateHasChanged();
       });
     }
+    public async Task CombatLog()
+    {
+      await dialogService.ShowComponent<CombatLog>(
+        new Dictionary<string, object?>
+        {
+          ["CombatLog"] = Result?.Logs
+        }
+        , null, false);
+    }
   }
 }

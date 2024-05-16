@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-  public enum EnumSkill
+  public enum EnumTargetPriority
   {
-    NormalAttack = 0,
-    SwingAttack = 1,
-    HatefulStrike = 10001,
-
+    AnyTarget,
+    Strongest,
+    Weakest,
+    Front,
+    Back
   }
 }

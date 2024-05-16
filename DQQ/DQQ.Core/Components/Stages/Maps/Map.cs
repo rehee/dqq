@@ -62,16 +62,12 @@ namespace DQQ.Components.Stages.Maps
       }
       var mobList = new List<List<IActor>>();
       MobPool = mobList;
-      for (var i = 1; i < 11; i++)
+
+      for (var i = 1; i < 10; i++)
       {
         var wave = new List<IActor>();
         mobList.Add(wave);
-        var mob = DQQPool.MobPool.Select(b => new { r = RandomHelper.GetRandom(1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
-        if (i == 10)
-        {
-          wave.Add(Monster.Create(mob, MapLevel, Enums.EnumMobRarity.Boss));
-          continue;
-        }
+        var mob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => new { r = RandomHelper.GetRandom(1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
         if (i % 4 == 0)
         {
           wave.Add(Monster.Create(mob, MapLevel, Enums.EnumMobRarity.Champion));
@@ -79,6 +75,14 @@ namespace DQQ.Components.Stages.Maps
         }
         wave.Add(Monster.Create(mob, MapLevel, Enums.EnumMobRarity.Normal));
       }
+      var mobWithBoss = DQQPool.MobPool.Where(b => b.Value.IsBoss).Select(b => new { r = RandomHelper.GetRandom(1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
+
+      var finalWave = new List<IActor>();
+      var finalNormalMob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => new { r = RandomHelper.GetRandom(1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
+      finalWave.Add(Monster.Create(finalNormalMob, MapLevel, Enums.EnumMobRarity.Normal));
+      finalWave.Add(Monster.Create(mobWithBoss, MapLevel, Enums.EnumMobRarity.Boss));
+      mobList.Add(finalWave);
+
     }
 
     public void Initialize(IDQQEntity profile)
@@ -128,10 +132,33 @@ namespace DQQ.Components.Stages.Maps
         {
           foreach (var p in Players)
           {
-            if (p.Target == null || p.Target.Alive == false)
+            if (p.TargetPriority != null)
             {
-              p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).FirstOrDefault());
+              switch (p.TargetPriority)
+              {
+                case Enums.EnumTargetPriority.AnyTarget:
+                case Enums.EnumTargetPriority.Front:
+                  p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).FirstOrDefault());
+                  break;
+                case Enums.EnumTargetPriority.Back:
+                  p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).ToArray().Reverse().FirstOrDefault());
+                  break;
+                case Enums.EnumTargetPriority.Weakest:
+                  p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).OrderBy(b => b.PowerLevel).FirstOrDefault());
+                  break;
+                case Enums.EnumTargetPriority.Strongest:
+                  p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).OrderByDescending(b => b.PowerLevel).FirstOrDefault());
+                  break;
+              }
             }
+            else
+            {
+              if (p.Target == null || p.Target.Alive == false)
+              {
+                p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).FirstOrDefault());
+              }
+            }
+
 
             await p.OnTick(currentPack, this);
 

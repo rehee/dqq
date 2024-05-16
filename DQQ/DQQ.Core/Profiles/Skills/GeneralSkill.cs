@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DQQ.Enums
+namespace DQQ.Profiles.Skills
 {
-  public enum EnumSkill
+  public abstract class GeneralSkill : SkillProfile
   {
-    NormalAttack = 0,
-    SwingAttack = 1,
-    HatefulStrike = 10001,
-
+    public override bool NoPlayerSkill => false;
   }
 }

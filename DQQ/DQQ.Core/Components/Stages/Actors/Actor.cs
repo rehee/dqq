@@ -15,9 +15,11 @@ namespace DQQ.Components.Stages.Actors
   {
     public int Level { get; }
 
-    public Int64 CurrentHP { get; set; }
+    
 
     public Int64 BasicDamage { get; set; }
+
+    public override int PowerLevel => 0;
 
     [JsonIgnore]
     public IEnumerable<ISkillComponent>? Skills { get; set; }
@@ -27,6 +29,7 @@ namespace DQQ.Components.Stages.Actors
       base.Initialize(entity);
       if (entity is ActorEntity ae)
       {
+        TargetPriority = ae.TargetPriority;
         MaximunLife = ae.MaxHP ?? 0;
         CurrentHP = MaximunLife ?? 0;
         BasicDamage = ae.BasicDamage ?? 0;

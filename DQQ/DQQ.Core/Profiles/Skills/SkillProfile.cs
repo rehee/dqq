@@ -21,6 +21,7 @@ namespace DQQ.Profiles.Skills
 {
   public abstract class SkillProfile : DQQProfile<EnumSkill>, ISkill
   {
+    public abstract bool NoPlayerSkill { get; }
     public abstract decimal CastTime { get; }
     public abstract decimal CoolDown { get; }
     public abstract decimal DamageRate { get; }
@@ -29,6 +30,7 @@ namespace DQQ.Profiles.Skills
 
     public string? SkillName => Name;
 
+    
 
     public virtual Int64 CalculateDamage(ITarget? caster, IMap? map)
     {

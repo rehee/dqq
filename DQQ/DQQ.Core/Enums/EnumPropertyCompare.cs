@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-  public enum EnumSkill
-  {
-    NormalAttack = 0,
-    SwingAttack = 1,
-    HatefulStrike = 10001,
-
-  }
+    public enum EnumPropertyCompare
+    {
+        HealthPercentage,
+        HealthAmount,
+    }
 }

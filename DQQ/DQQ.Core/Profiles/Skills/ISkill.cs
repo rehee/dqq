@@ -8,6 +8,7 @@ namespace DQQ.Profiles.Skills
 {
   public interface ISkill
   {
+    bool NoPlayerSkill { get; }
     EnumSkill SkillNumber { get; }
     string? SkillName { get; }
     decimal CastTime { get; }

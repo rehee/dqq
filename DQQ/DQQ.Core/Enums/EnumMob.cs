@@ -9,6 +9,8 @@ namespace DQQ.Enums
   public enum EnumMob
   {
     Goblin = 1001,
-    BigGoblin = 1002
+    BigGoblin = 1002,
+
+    GoblinChief = 100001
   }
 }
