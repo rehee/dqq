@@ -60,5 +60,10 @@ namespace DQQ.Web.Pages
 
       await dialogService.ShowComponent<Readme>(null, "About DQQ");
     }
+    public async Task OpenTips()
+    {
+
+      await dialogService.ShowComponent<Tips>(null, "Tips");
+    }
   }
 }

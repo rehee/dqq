@@ -72,6 +72,14 @@ namespace DQQ.Api.Services.Itemservices
         }
         else
         {
+          if (equipSlot == EnumEquipSlot.OffHand)
+          {
+            var mainHand = await context.Query<ActorEquipmentEntity>(true).Where(b => b.ActorId == actorId && b.EquipSlot == EnumEquipSlot.MainHand).FirstOrDefaultAsync();
+            if (mainHand != null && mainHand.Item?.EquipProfile?.EquipType == EnumEquipType.TwoHandWeapon)
+            {
+              await UnEquipItem(actorId.Value, EnumEquipSlot.MainHand);
+            }
+          }
           await UnEquipItem(actorId.Value, equipSlot);
         }
         var newEquip = new ActorEquipmentEntity()

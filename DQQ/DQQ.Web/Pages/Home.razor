@@ -6,7 +6,8 @@
 @using DQQ.Web.Pages.DQQs.Items
 @using DQQ.Helper
 <PageTitle>Home</PageTitle>
-<Button Color="Color.Success" Text="点我" OnClick="OpenReadMe" />
+<Button Color="Color.Success" Text="ReadMe" OnClick="OpenReadMe" />
+<Button Color="Color.Primary" Text="提示" OnClick="OpenTips" />
 @if (String.IsNullOrEmpty(UserId))
 {
   <div>

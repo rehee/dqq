@@ -41,47 +41,14 @@ namespace DQQ.Profiles.Skills.Attacks
         character.Equips.TryGetValue(EnumEquipSlot.MainHand, out var off);
         if (main != null && off != null)
         {
-          var total = character.MainHand + character.OffHand;
+          var total = (character.MainHand ?? 0) + (character.OffHand ?? 0);
 
-          return (total ?? 0).Percentage(skill.DamageRate) * 2;
+          return (total).Percentage(skill.DamageRate) * 2;
         }
+        return (main != null ? (character.MainHand ?? 0) : (character.OffHand ?? 0)).Percentage(skill.DamageRate);
 
       }
-      var actor = caster as IActor;
-      Int64 damage = 0;
-      if (caster.MainHand == null)
-      {
-        damage = actor!.BasicDamage.Percentage(skill.DamageRate);
-      }
-      else
-      {
-        if (caster.OffHand == null)
-        {
-          damage = actor!.MainHand!.Value.Percentage(skill.DamageRate);
-        }
-        else
-        {
-          if (caster.PrevioursMainHand == null)
-          {
-            caster.PrevioursMainHand = true;
-            damage = actor!.MainHand!.Value.Percentage(skill.DamageRate);
-          }
-          else
-          {
-            if (caster.PrevioursMainHand == true)
-            {
-              damage = actor!.OffHand!.Value.Percentage(skill.DamageRate);
-            }
-            else
-            {
-              damage = actor!.MainHand!.Value.Percentage(skill.DamageRate);
-            }
-            caster.PrevioursMainHand = !caster.PrevioursMainHand;
-          }
-        }
-      }
-
-      return damage;
+      return 0;
     }
 
 
