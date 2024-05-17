@@ -27,8 +27,16 @@ namespace DQQ.Api.Services.StrategyServices
         return result;
       }
       actor.TargetPriority = priority;
-      await context.SaveChangesAsync();
-      result.SetSuccess(true);
+      try
+      {
+        await context.SaveChangesAsync();
+        result.SetSuccess(true);
+      }
+      catch (Exception ex)
+      {
+        result.SetError(ex);
+      }
+
       return result;
     }
   }
