@@ -4,6 +4,7 @@ using DQQ.Components.Stages.Maps;
 using DQQ.Consts;
 using DQQ.Entities;
 using DQQ.Enums;
+using DQQ.Helper;
 using DQQ.Pools;
 using DQQ.Profiles.Mobs;
 using DQQ.Profiles.Skills;
@@ -94,47 +95,7 @@ namespace DQQ.Components.Skills
       var matchCondition = false;
       if (SkillStrategies != null)
       {
-        foreach (var strategy in SkillStrategies.OrderBy(b => b.Priority))
-        {
-          if (!strategy.Condition)
-          {
-            matchCondition = true;
-            break;
-          }
-          if (target == null)
-          {
-            continue;
-          }
-          switch (strategy.Property)
-          {
-            case EnumPropertyCompare.HealthPercentage:
-              switch (strategy.Compare)
-              {
-                case EnumCompare.MoreThan:
-                  matchCondition = ((decimal)target.CurrentHP / (target.MaximunLife ?? 1)) > strategy.Value;
-                  break;
-                case EnumCompare.LessThan:
-                  matchCondition = ((decimal)target.CurrentHP / (target.MaximunLife ?? 1)) < strategy.Value;
-                  break;
-              }
-              break;
-            case EnumPropertyCompare.HealthAmount:
-              switch (strategy.Compare)
-              {
-                case EnumCompare.MoreThan:
-                  matchCondition = target.CurrentHP > strategy.Value;
-                  break;
-                case EnumCompare.LessThan:
-                  matchCondition = target.CurrentHP < strategy.Value;
-                  break;
-              }
-              break;
-          }
-          if (matchCondition)
-          {
-            break;
-          }
-        }
+        matchCondition = StrategyHelper.MatchSkillStrategy(SkillStrategies, caster, targets, map);
       }
       else
       {

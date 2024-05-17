@@ -12,6 +12,8 @@ public interface ITarget : IDQQComponent, ICombatProperty, ICombatCalculate
   int PowerLevel { get; }
   ITarget? Target { get; }
   Int64 CurrentHP { get; }
+
+  decimal PercentageHP { get; }
   bool Targetable { get; }
   bool Alive { get; }
   void SelectTarget(ITarget? target);

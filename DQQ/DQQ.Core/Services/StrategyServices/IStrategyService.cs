@@ -1,5 +1,6 @@
 ﻿using DQQ.Components.Stages.Actors;
 using DQQ.Enums;
+using DQQ.Strategies.SkillStrategies;
 using ReheeCmf.Responses;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace DQQ.Services.StrategyServices
   public interface IStrategyService
   {
     Task<ContentResponse<bool>> SetActorTargetPriority(Guid? actorId, EnumTargetPriority? priority);
+    Task<ContentResponse<bool>> SetActorSkillStrategy(Guid? actorId, int slot, IEnumerable<SkillStrategy>? strategies);
   }
 }

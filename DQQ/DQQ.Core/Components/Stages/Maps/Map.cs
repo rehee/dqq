@@ -141,22 +141,7 @@ namespace DQQ.Components.Stages.Maps
           {
             if (p.TargetPriority != null)
             {
-              switch (p.TargetPriority)
-              {
-                case Enums.EnumTargetPriority.AnyTarget:
-                case Enums.EnumTargetPriority.Front:
-                  p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).FirstOrDefault());
-                  break;
-                case Enums.EnumTargetPriority.Back:
-                  p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).ToArray().Reverse().FirstOrDefault());
-                  break;
-                case Enums.EnumTargetPriority.Weakest:
-                  p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).OrderBy(b => b.PowerLevel).FirstOrDefault());
-                  break;
-                case Enums.EnumTargetPriority.Strongest:
-                  p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).OrderByDescending(b => b.PowerLevel).FirstOrDefault());
-                  break;
-              }
+              p.SelectTarget(p.TargetPriority.SelectTargetByPriority(currentPack));
             }
             else
             {
@@ -182,6 +167,10 @@ namespace DQQ.Components.Stages.Maps
             }
 
             await p.OnTick(Players, this);
+          }
+          if (Players?.All(b => b.Alive == false) == true)
+          {
+            break;
           }
         }
         catch

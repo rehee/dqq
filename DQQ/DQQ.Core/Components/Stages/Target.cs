@@ -25,6 +25,8 @@ namespace DQQ.Components.Stages
 
     public abstract int PowerLevel { get; }
 
+    public virtual decimal PercentageHP => (MaximunLife == null || MaximunLife == 0) ? 1 : (CurrentHP / (decimal)MaximunLife);
+
     public void SelectTarget(ITarget? target)
     {
       Target = target;

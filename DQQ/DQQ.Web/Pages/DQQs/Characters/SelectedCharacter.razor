@@ -6,23 +6,23 @@
     当前角色
   </HeaderTemplate>
   <BodyTemplate>
-    <h5><Button Color="Color.Primary" Text="更换角色" OnClick="ParentRefresh" /></h5>
-    @if (character != null)
+    <h5><Button Color="Color.Primary" Text="更换角色" OnClick="CleanSelectedChar" /></h5>
+    @if (Character != null)
     {
       <div>
-        角色名 @character.DisplayName
+        角色名 @Character.DisplayName
       </div>
       <div>
-        最大生命 @character.MaximunLife
+        最大生命 @Character.MaximunLife
       </div>
       <div>
-        主手攻击力 @character.MainHand
+        主手攻击力 @Character.MainHand
       </div>
       <div>
-        副手攻击力 @character.OffHand
+        副手攻击力 @Character.OffHand
       </div>
       <div>
-        目标优先级 @character.TargetPriority
+        目标优先级 @Character.TargetPriority
       </div>
       <div>
         <Button Color="Color.Primary" Text="更换优先级" OnClick="ChangePriority" />
@@ -31,14 +31,14 @@
         <div>
           技能
         </div>
-        @if (character.SkillMap != null)
+        @if (Character.SkillMap != null)
         {
           for (var i = 0; i < 6; i++)
           {
             var i2 = i;
-            var s2 = character.SkillMap.ContainsKey(i2) ? (EnumSkill?)character.SkillMap[i2].SkillNumber : null;
+            var s2 = Character.SkillMap.ContainsKey(i2) ? (EnumSkill?)Character.SkillMap[i2].SkillNumber : null;
             <div>
-              @i2 @(character.SkillMap.ContainsKey(i2) ? character.SkillMap[i2].SkillName : "无")
+              @i2 @(Character.SkillMap.ContainsKey(i2) ? Character.SkillMap[i2].SkillName : "无")
               <Button Color="Color.Primary" Text="选择技能" OnClick="async ()=> await SelectSkill(i2,s2)" />
             </div>
           }

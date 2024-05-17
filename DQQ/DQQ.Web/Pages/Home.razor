@@ -25,13 +25,13 @@ else
 {
   if (ActorId == null)
   {
-    <CharacterList ParentRefresh="async ()=>await RefreshPage()" />
+    <CharacterList ParentRefreshEvent="RefreshEvent" />
   }
   else
   {
-    <SelectedCharacter ParentRefresh="async ()=> await SelectCharacter()" ParentRefreshEvent="RefreshEvent" />
-    <CombatSummary />
-    <ItemPage ParentRefreshEvent="RefreshEvent" />
+    <SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
+    <CombatSummary ActorId="ActorId" />
+    <ItemPage ActorId="ActorId" ParentRefreshEvent="RefreshEvent" />
   }
 }
 

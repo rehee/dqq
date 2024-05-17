@@ -15,7 +15,8 @@ namespace DQQ.Web.Pages.DQQs.Items
     public IEnumerable<ItemEntity>? Items { get; set; }
 
     public HashSet<Guid>? ItemPicked { get; set; }
-
+    [Parameter]
+    public Guid? ActorId { get; set; }
     public async Task ItemPickSelected(CheckboxState state, Guid id)
     {
       try
@@ -40,10 +41,9 @@ namespace DQQ.Web.Pages.DQQs.Items
     {
       await base.OnInitializedAsync();
 
-      var id = characterService.GetSelectedCharacter();
-      if (id != null)
+      if (ActorId != null)
       {
-        Items = await itemService.PickableItems(id.Value);
+        Items = await itemService.PickableItems(ActorId.Value);
 
       }
       else
@@ -57,8 +57,7 @@ namespace DQQ.Web.Pages.DQQs.Items
 
     public async override Task<bool> SaveFunction()
     {
-      var id = characterService.GetSelectedCharacter();
-      return (await itemService.PickItem(id, ItemPicked.ToArray())).Success;
+      return (await itemService.PickItem(ActorId, ItemPicked.ToArray())).Success;
     }
   }
 }

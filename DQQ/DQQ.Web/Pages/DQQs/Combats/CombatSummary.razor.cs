@@ -1,5 +1,6 @@
 
 using DQQ.Commons.DTOs;
+using DQQ.Components.Stages.Actors;
 using DQQ.Services.ActorServices;
 using DQQ.Services.CombatServices;
 using Microsoft.AspNetCore.Components;
@@ -18,10 +19,14 @@ namespace DQQ.Web.Pages.DQQs.Combats
     {
       await base.OnInitializedAsync();
     }
-
+    [Parameter]
+    public Guid? ActorId { get; set; }
     public async Task CombatRequest()
     {
-      await dialogService.ShowComponent<CombatRequest>(null, null, true, async (f) =>
+      await dialogService.ShowComponent<CombatRequest>(new Dictionary<string, object?>
+      {
+        ["ActorId"] = ActorId
+      }, null, true, async (f) =>
       {
         if (f.ResultValue is ContentResponse<CombatResultDTO?> rv)
         {

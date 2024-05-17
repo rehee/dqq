@@ -17,12 +17,13 @@ namespace DQQ.Web.Pages.DQQs.Combats
     [NotNull]
     public ICombatService? combatService { get; set; }
 
+    [Parameter]
+    public Guid? ActorId { get; set; }
     public override async Task<bool> SaveFunction()
     {
-      var actorId = characterService.GetSelectedCharacter();
       var result = await combatService.RequestCombat(new Commons.DTOs.CombatRequestDTO
       {
-        ActorId = actorId,
+        ActorId = ActorId,
         MapLevel = MapLevel,
         SubMapLevel = SubMapLevel
       });

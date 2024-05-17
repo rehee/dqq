@@ -1,18 +1,25 @@
+using Microsoft.AspNetCore.Components;
+
 namespace DQQ.Web.Pages.DQQs.Items
 {
   public class ItemPagePage : DQQPageBase
   {
-
+    [Parameter]
+    public Guid? ActorId { get; set; }
     public async Task ShowPickList()
     {
       await dialogService.ShowComponent<ItemPickList>(
-        null, "", true);
+        new Dictionary<string, object?>
+        {
+          ["ActorId"] = ActorId,
+        }, "", true);
     }
     public async Task ShowInventory()
     {
       await dialogService.ShowComponent<ActorInventory>(
         new Dictionary<string, object?>
         {
+          ["ActorId"] = ActorId,
           ["ParentRefreshEvent"] = ParentRefreshEvent
         }, "");
     }

@@ -11,5 +11,6 @@ namespace DQQ.Entities
     public Guid? ActorId { get; set; }
     public virtual ActorEntity? Actor { get; set; }
     public EnumSkill? SkillNumber { get; set; }
+    public string? SkillStrategy { get; set; }
   }
 }

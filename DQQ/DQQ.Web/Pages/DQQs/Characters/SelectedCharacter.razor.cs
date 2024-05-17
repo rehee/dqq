@@ -14,7 +14,14 @@ namespace DQQ.Web.Pages.DQQs.Characters
     [NotNull]
     public ICharacterService? characterService { get; set; }
 
-    public Character? character { get; set; }
+    [Parameter]
+    public Guid? CharacterId { get; set; }
+
+    [Parameter]
+    public Character? Character { get; set; }
+
+    [Parameter]
+    public Func<Task>? CleanSelectedChar { get; set; }
 
     private void parentRefresh(object sender, EventArgs e)
     {
@@ -24,7 +31,7 @@ namespace DQQ.Web.Pages.DQQs.Characters
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
-      await Refresh();
+
       if (ParentRefreshEvent != null)
       {
         ParentRefreshEvent.Event += parentRefresh;
@@ -44,34 +51,34 @@ namespace DQQ.Web.Pages.DQQs.Characters
        new Dictionary<string, object?>
        {
          ["Slot"] = slot,
-         ["ActorId"] = character?.DisplayId,
+         ["ActorId"] = CharacterId,
          ["SelectSkillNumber"] = skillNumber,
-       }, "", true, async save => await Refresh());
+       }, "", true, async save => await Refresh2());
     }
     public async Task ChangePriority()
     {
       await dialogService.ShowComponent<TargetPriority>(
        new Dictionary<string, object?>
        {
-         ["TargetPriority"] = character?.TargetPriority,
-         ["ActorId"] = character?.DisplayId
-       }, "", true, async save => await Refresh());
+         ["TargetPriority"] = Character?.TargetPriority,
+         ["ActorId"] = Character?.DisplayId
+       }, "", true, async save => await Refresh2());
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+      await base.OnParametersSetAsync();
+      await Refresh();
+    }
+    public async Task Refresh2()
+    {
+      await Refresh();
+      ParentRefreshEvent?.InvokeEvent(this, null);
+      StateHasChanged();
+    }
     public async Task Refresh()
     {
-      var selectedCharId = characterService.GetSelectedCharacter();
-      if (selectedCharId == null)
-      {
-        return;
-      }
-      var selectedChar = await characterService.GetCharacter(selectedCharId.Value);
-      if (selectedChar == null)
-      {
-        characterService.SelectedCharacter(null);
-        return;
-      }
-      character = selectedChar;
+
       StateHasChanged();
     }
   }

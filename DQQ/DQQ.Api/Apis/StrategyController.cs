@@ -1,5 +1,6 @@
 ﻿using DQQ.Enums;
 using DQQ.Services.StrategyServices;
+using DQQ.Strategies.SkillStrategies;
 using Microsoft.AspNetCore.Mvc;
 using ReheeCmf.Authenticates;
 
@@ -19,9 +20,14 @@ namespace DQQ.Api.Apis
     [CmfAuthorize(AuthOnly = true)]
     public async Task<bool> SetTargetPriority(Guid? actorId, EnumTargetPriority? priority)
     {
-      Console.WriteLine(actorId);
-      Console.WriteLine(priority);
       var result = await strategryService.SetActorTargetPriority(actorId, priority);
+      return result.Success;
+    }
+    [HttpPut("SkillStrategy/{actorId}/{slot?}")]
+    [CmfAuthorize(AuthOnly = true)]
+    public async Task<bool> SetSkillStrategy(Guid? actorId, int slot, IEnumerable<SkillStrategy>? strategies)
+    {
+      var result = await strategryService.SetActorSkillStrategy(actorId, slot, strategies);
       return result.Success;
     }
   }

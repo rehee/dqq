@@ -1,5 +1,6 @@
 ﻿using Blazor.Serialization.Extensions;
 using DQQ.Commons.DTOs;
+using DQQ.Pools;
 using DQQ.Profiles.Skills;
 using DQQ.Services.SkillServices;
 using DQQ.Web.Services.Requests;
@@ -16,8 +17,8 @@ namespace DQQ.Web.Services.SkillServices
 
     public async Task<IEnumerable<ISkill>> GetAllSkills()
     {
-      var result = await client.Request<IEnumerable<SkillDTO>>(HttpMethod.Get, "Skills");
-      return result.Success ? result.Content! : Enumerable.Empty<ISkill>();
+      await Task.CompletedTask;
+      return DQQPool.SkillPool.Select(b => b.Value).Where(b => b.NoPlayerSkill != true).ToArray();
     }
 
     public async Task<ContentResponse<bool>> PickSkill(PickSkillDTO dto)

@@ -24,18 +24,24 @@ namespace DQQ.Web.Pages
     public string? UserId { get; set; }
 
     public Guid? ActorId { get; set; }
+    public Character? SelectedCharacter { get; set; }
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
       UserId = auth.GetAuth()?.UserId;
       await RefreshPage();
-      KeepRefresh();
-      RefreshEvent = new EventParameter();
-    }
 
+      RefreshEvent = new EventParameter();
+      RefreshEvent.Event += refreshEvent;
+    }
+    private void refreshEvent(object? sender, EventArgs e)
+    {
+      RefreshPage();
+    }
     public async Task RefreshPage()
     {
       ActorId = characterService.GetSelectedCharacter();
+      SelectedCharacter = await characterService.GetCharacter(ActorId);
       StateHasChanged();
       await Task.CompletedTask;
 
@@ -47,14 +53,7 @@ namespace DQQ.Web.Pages
       characterService.SelectedCharacter(null);
       StateHasChanged();
     }
-    public async Task KeepRefresh()
-    {
-      while (true)
-      {
-        await Task.Delay(1000);
-        StateHasChanged();
-      }
-    }
+
     public async Task OpenReadMe()
     {
 
@@ -64,6 +63,12 @@ namespace DQQ.Web.Pages
     {
 
       await dialogService.ShowComponent<Tips>(null, "Tips");
+    }
+
+    public override async ValueTask DisposeAsync()
+    {
+      await base.DisposeAsync();
+      RefreshEvent.Event -= refreshEvent;
     }
   }
 }

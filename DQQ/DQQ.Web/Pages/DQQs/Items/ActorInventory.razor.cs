@@ -13,6 +13,9 @@ namespace DQQ.Web.Pages.DQQs.Items
     [NotNull]
     public IItemService? itemService { get; set; }
     public IEnumerable<ItemEntity>? Items { get; set; }
+
+    [Parameter]
+    public Guid? ActorId { get; set; }
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
@@ -21,7 +24,7 @@ namespace DQQ.Web.Pages.DQQs.Items
 
     public async Task EquipItem(Guid? id, EnumEquipSlot? slot)
     {
-      var result = await itemService.EquipItem(characterService.GetSelectedCharacter(), id, slot);
+      var result = await itemService.EquipItem(ActorId, id, slot);
       await Refresh();
       if (ParentRefreshEvent != null)
       {
@@ -31,7 +34,7 @@ namespace DQQ.Web.Pages.DQQs.Items
 
     public async Task Refresh()
     {
-      Items = await itemService.ActorInventory(characterService.GetSelectedCharacter());
+      Items = await itemService.ActorInventory(ActorId);
       StateHasChanged();
     }
   }

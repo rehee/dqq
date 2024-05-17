@@ -29,15 +29,12 @@ namespace DQQ.Web.Pages.DQQs.Characters
       await dialogService.ShowComponent<CreateCharacter>(
         null, "", true, async save => await Refresh());
     }
-    
+
     public async Task SelectCharacter(Guid? Id)
     {
       await Task.CompletedTask;
       characterService.SelectedCharacter(Id);
-      if (ParentRefresh != null)
-      {
-        await ParentRefresh();
-      }
+      ParentRefreshEvent?.InvokeEvent(this, new EventArgs());
     }
   }
 }

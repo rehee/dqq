@@ -34,6 +34,7 @@ namespace DQQ.Web.Services.DQQAuthServices
         try
         {
           localStorage.RemoveItem(nameof(TokenDTO));
+          localStorage.RemoveItem("localChar");
         }
         catch
         {
@@ -45,7 +46,7 @@ namespace DQQ.Web.Services.DQQAuthServices
       {
         localStorage.SetItem<TokenDTO?>(nameof(TokenDTO), auth);
       }
-      localStorage.RemoveItem("localChar");
+      
       return;
     }
   }
