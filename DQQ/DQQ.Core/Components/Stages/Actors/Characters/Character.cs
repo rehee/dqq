@@ -56,6 +56,7 @@ namespace DQQ.Components.Stages.Actors.Characters
       {
         SkillName = b.SkillProfile?.SkillName,
         SkillNumber = b.SkillProfile?.SkillNumber ?? EnumSkill.NormalAttack,
+        SkillStrategies = b.SkillStrategies?.OrderBy(b => b.Property).ToList() ?? new List<Strategies.SkillStrategies.SkillStrategy>()
       }) ?? new Dictionary<int, SkillDTO>();
 
       if (entity is ActorEntity ae)

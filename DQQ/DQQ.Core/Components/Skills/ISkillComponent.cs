@@ -2,6 +2,7 @@
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Profiles.Skills;
+using DQQ.Strategies.SkillStrategies;
 using DQQ.Tags;
 using ReheeCmf.Responses;
 
@@ -14,6 +15,7 @@ namespace DQQ.Components.Skills
     decimal Cooldown { get; }
     decimal DamageRate { get; }
     ISkill? SkillProfile { get; }
+    SkillStrategy[]? SkillStrategies { get; }
     Task<ContentResponse<bool>> OnTick(ITarget? caster, IEnumerable<ITarget>? targets, IMap? map);
   }
 }

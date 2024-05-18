@@ -55,6 +55,17 @@ namespace DQQ.Web.Pages.DQQs.Characters
          ["SelectSkillNumber"] = skillNumber,
        }, "", true, async save => await Refresh2());
     }
+    public async Task SelectStrategy(int slot)
+    {
+      var skillDTO = Character.SkillMap?.ContainsKey(slot) == true ? Character.SkillMap[slot] : null;
+      await dialogService.ShowComponent<SkillStrategy>(
+       new Dictionary<string, object?>
+       {
+         ["Slot"] = slot,
+         ["ActorId"] = CharacterId,
+         ["DTO"] = skillDTO,
+       }, "", true, async save => await Refresh2());
+    }
     public async Task ChangePriority()
     {
       await dialogService.ShowComponent<TargetPriority>(

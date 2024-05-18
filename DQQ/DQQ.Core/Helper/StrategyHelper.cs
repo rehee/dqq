@@ -12,17 +12,17 @@ namespace DQQ.Helper
 {
   public static class StrategyHelper
   {
-    public static bool MatchSkillStrategy(this IEnumerable<SkillStrategy>? strategies, ITarget? caster, IEnumerable<ITarget>? targets, IMap? map)
+    public static (bool, ITarget?) MatchSkillStrategy(this IEnumerable<SkillStrategy>? strategies, ITarget? caster, IEnumerable<ITarget>? targets, IMap? map)
     {
       if (strategies?.Any() != true)
       {
-        return true;
+        return (true, null);
       }
       foreach (var strategy in strategies.OrderBy(b => b.Priority))
       {
         if (!strategy.Condition)
         {
-          return true;
+          return (true, null);
         }
         ITarget? skillTarget = null;
         if (strategy.SkillTarget != null)
@@ -36,10 +36,10 @@ namespace DQQ.Helper
         var checkTarget = strategy.CheckTarget == EnumTarget.Self ? caster : skillTarget;
         if (strategy.ConditionPassed(checkTarget))
         {
-          return true;
+          return (true, checkTarget);
         }
       }
-      return false;
+      return (false, null);
     }
 
     public static bool ConditionPassed(this SkillStrategy? strategy, ITarget? checkTarget)

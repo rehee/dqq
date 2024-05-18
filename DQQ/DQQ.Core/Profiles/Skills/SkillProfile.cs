@@ -30,14 +30,14 @@ namespace DQQ.Profiles.Skills
 
     public string? SkillName => Name;
 
-    
+
 
     public virtual Int64 CalculateDamage(ITarget? caster, IMap? map)
     {
       return DamageHelper.SkillDamage(this, caster!, map);
     }
 
-    public virtual async Task<ContentResponse<bool>> CastSkill(ITarget? caster, IEnumerable<ITarget>? target, IMap? map)
+    public virtual async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
       await Task.CompletedTask;
       var response = new ContentResponse<bool>();
@@ -45,8 +45,17 @@ namespace DQQ.Profiles.Skills
       {
         response.SetSuccess(true);
         var damage = CalculateDamage(caster, map);
-        var result = caster.Target.TakeDamage(caster, damage, map);
-        map!.AddMapLog(true, caster, caster.Target, this, result);
+        DamageTaken? result;
+        if (skillTarget != null)
+        {
+          result = skillTarget.TakeDamage(caster, damage, map);
+        }
+        else
+        {
+          result = caster.Target.TakeDamage(caster, damage, map);
+        }
+
+        map!.AddMapLog(true, caster, skillTarget ?? caster.Target, this, result);
       }
       return response;
     }

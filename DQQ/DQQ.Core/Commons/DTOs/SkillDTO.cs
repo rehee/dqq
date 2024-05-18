@@ -2,6 +2,7 @@
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
 using DQQ.Profiles.Skills;
+using DQQ.Strategies.SkillStrategies;
 using ReheeCmf.Responses;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,9 @@ namespace DQQ.Commons.DTOs
     public string? Discription { get; set; }
 
     public bool NoPlayerSkill { get; set; }
+    public List<SkillStrategy>? SkillStrategies { get; set; }
 
-    public Task<ContentResponse<bool>> CastSkill(ITarget? caster, IEnumerable<ITarget>? target, IMap? map)
+    public Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
       throw new NotImplementedException();
     }

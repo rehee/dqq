@@ -10,8 +10,10 @@ using DQQ.Profiles.Mobs;
 using DQQ.Profiles.Skills;
 using DQQ.Strategies.SkillStrategies;
 using DQQ.Tags;
+using ReheeCmf.Commons.Jsons.Options;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
+using System.Text.Json;
 
 namespace DQQ.Components.Skills
 {
@@ -47,6 +49,8 @@ namespace DQQ.Components.Skills
 
     public ISkill? SkillProfile { get; protected set; }
 
+
+
     public override void Initialize(IDQQEntity entity)
     {
       base.Initialize(entity);
@@ -54,6 +58,8 @@ namespace DQQ.Components.Skills
       {
         var skillProfile = DQQPool.SkillPool[sp.SkillNumber ?? 0];
         InitSkillProfile(skillProfile, sp.Slot);
+        SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
+          JsonSerializer.Deserialize<SkillStrategy[]?>(sp.SkillStrategy ?? "", JsonOption.DefaultOption);
       }
     }
 
@@ -92,24 +98,24 @@ namespace DQQ.Components.Skills
         CastTickCount++;
         return result;
       }
-      var matchCondition = false;
+      (bool, ITarget?) matchCondition = (false, null);
       if (SkillStrategies != null)
       {
         matchCondition = StrategyHelper.MatchSkillStrategy(SkillStrategies, caster, targets, map);
       }
       else
       {
-        matchCondition = true;
+        matchCondition = (true, null);
       }
 
-      if (!matchCondition)
+      if (!matchCondition.Item1)
       {
         return result;
       }
 
       if (SkillProfile != null)
       {
-        result = await SkillProfile.CastSkill(caster, targets, map);
+        result = await SkillProfile.CastSkill(caster, matchCondition.Item2, targets, map);
       }
       else
       {

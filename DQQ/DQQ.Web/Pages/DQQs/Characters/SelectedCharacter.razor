@@ -40,6 +40,10 @@
             <div>
               @i2 @(Character.SkillMap.ContainsKey(i2) ? Character.SkillMap[i2].SkillName : "无")
               <Button Color="Color.Primary" Text="选择技能" OnClick="async ()=> await SelectSkill(i2,s2)" />
+              @if (s2 != null)
+              {
+                <Button Color="Color.Success" Text="选择策略" OnClick="async ()=> await SelectStrategy(i2)" />
+              }
             </div>
           }
         }
