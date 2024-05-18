@@ -25,25 +25,31 @@
             <InputNumber @bind-Value="s.Priority" />
           </td>
           <td>
-            <Select  Items="SelectedItemHelper.GetSelectedItem<bool>()" @bind-Value="s.Condition">
+            <Select Items="SelectedItemHelper.GetSelectedItem<bool>()" @bind-Value="s.Condition">
             </Select>
-          </td>
-          <td>
-            <Select Items="SelectedItemHelper.GetSelectedItem<EnumTarget>()" @bind-Value="s.CheckTarget">
-            </Select>
-          </td>
-          <td>
-            <Select  Items="SelectedItemHelper.GetSelectedItem<EnumTargetPriority>()" @bind-Value="s.SkillTarget">
-            </Select>
-           
           </td>
           <td>
             @if (s.Condition == true)
             {
-              <Select  Items="SelectedItemHelper.GetSelectedItem<EnumPropertyCompare>()" @bind-Value="s.Property">
+              <Select Items="SelectedItemHelper.GetSelectedItem<EnumTarget>()" @bind-Value="s.CheckTarget">
               </Select>
             }
-            
+
+          </td>
+          <td>
+            @if (s.Condition == true)
+            {
+              <Select Items="SelectedItemHelper.GetSelectedItem<EnumTargetPriority>()" @bind-Value="s.SkillTarget">
+              </Select>
+            }
+          </td>
+          <td>
+            @if (s.Condition == true)
+            {
+              <Select Items="SelectedItemHelper.GetSelectedItem<EnumPropertyCompare>()" @bind-Value="s.Property">
+              </Select>
+            }
+
           </td>
           <td>
             @if (s.Condition == true)
@@ -51,14 +57,14 @@
               <Select Items="SelectedItemHelper.GetSelectedItem<EnumCompare>()" @bind-Value="s.Compare">
               </Select>
             }
-            
+
           </td>
           <td>
             @if (s.Condition == true)
             {
               <InputNumber @bind-Value="s.Value" />
             }
-            
+
           </td>
           <td>
 

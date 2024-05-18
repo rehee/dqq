@@ -46,7 +46,7 @@ namespace DQQ.Profiles.Skills
         response.SetSuccess(true);
         var damage = CalculateDamage(caster, map);
         DamageTaken? result;
-        if (skillTarget != null)
+        if (skillTarget != null && damage > 0)
         {
           result = skillTarget.TakeDamage(caster, damage, map);
         }
@@ -54,8 +54,11 @@ namespace DQQ.Profiles.Skills
         {
           result = caster.Target.TakeDamage(caster, damage, map);
         }
+        if (result != null)
+        {
+          map!.AddMapLog(true, caster, skillTarget ?? caster.Target, this, result);
+        }
 
-        map!.AddMapLog(true, caster, skillTarget ?? caster.Target, this, result);
       }
       return response;
     }

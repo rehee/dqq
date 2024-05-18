@@ -11,7 +11,7 @@ public interface ITarget : IDQQComponent, ICombatProperty, ICombatCalculate
   EnumTargetPriority? TargetPriority { get; }
   int PowerLevel { get; }
   ITarget? Target { get; }
-  Int64 CurrentHP { get; }
+  Int64 CurrentHP { get; set; }
 
   decimal PercentageHP { get; }
   bool Targetable { get; }

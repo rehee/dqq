@@ -10,6 +10,7 @@ namespace DQQ.Enums
   {
     NormalAttack = 0,
     SwingAttack = 1,
+    Healing = 101,
     HatefulStrike = 10001,
 
   }
