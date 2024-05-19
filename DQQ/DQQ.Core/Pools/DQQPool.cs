@@ -1,4 +1,5 @@
 ﻿using DQQ.Attributes;
+using DQQ.Profiles.Durations;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Mobs;
 using DQQ.Profiles.Skills;
@@ -40,6 +41,10 @@ namespace DQQ.Pools
             if (instance is ItemProfile ip)
             {
               DQQPool.ItemPool.TryAdd(ip.ProfileNumber, ip);
+            }
+            if (instance is DurationProfile dp)
+            {
+              DQQPool.DurationPool.TryAdd(dp.ProfileNumber, dp);
             }
           }
 

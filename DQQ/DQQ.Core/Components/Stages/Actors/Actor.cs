@@ -15,7 +15,7 @@ namespace DQQ.Components.Stages.Actors
   {
     public int Level { get; }
 
-    
+
 
     public Int64 BasicDamage { get; set; }
 
@@ -48,9 +48,9 @@ namespace DQQ.Components.Stages.Actors
       }
     }
 
-    public virtual async Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map)
+    public override async Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map)
     {
-      var result = new ContentResponse<bool>();
+      var result = await base.OnTick(targets, map);
       if (!Alive)
       {
         return result;

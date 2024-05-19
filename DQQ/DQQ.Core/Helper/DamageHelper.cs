@@ -56,6 +56,14 @@ namespace DQQ.Helper
       return damage;
     }
 
+    public static Int64 Percentage(this Int64? input, decimal percentage)
+    {
+      if (input == null)
+      {
+        return 0;
+      }
+      return input.Value.Percentage(percentage);
+    }
     public static Int64 Percentage(this Int64 input, decimal percentage)
     {
       var times = 100;

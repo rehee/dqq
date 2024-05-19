@@ -17,6 +17,8 @@ namespace DQQ.Consts
     public const int LevelPerSubTier = 1;
     public const decimal MobLevelIncreased = 0.05m;
 
+    public const int DurationIntervalTick = 15;
+
     public const decimal DuelwieldAttackSpeed = 1.10m;
 
     public static Int64 MobStatusCalculate(int mobLevel, Int64 basicValue, EnumMobRarity rarity = EnumMobRarity.Normal, bool isBoss = false)

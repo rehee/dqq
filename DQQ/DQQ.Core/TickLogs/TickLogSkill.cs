@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace DQQ.TickLogs
 {
-    public class TickLogSkill
-    {
-        public EnumSkill? SkillNumber { get; set; }
-        public string? SkillName { get; set; }
-    }
+  public class TickLogSkill
+  {
+    public EnumSkill? SkillNumber { get; set; }
+    public string? SkillName { get; set; }
+    public EnumDurationNumber? DurationNumber { get; set; }
+  }
 }

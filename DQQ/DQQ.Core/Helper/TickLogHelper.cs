@@ -4,6 +4,7 @@ using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors.Mobs;
 using DQQ.Components.Stages.Maps;
 using DQQ.Consts;
+using DQQ.Profiles.Durations;
 using DQQ.Profiles.Skills;
 using DQQ.TickLogs;
 
@@ -74,6 +75,32 @@ namespace DQQ.Helper
       }
       map.XP = map.XP + damage?.XP ?? 0;
     }
+    public static void AddMapLog(this IMap map, bool success, ITarget? from, ITarget? to, DurationProfile? duration, DamageTaken? damage)
+    {
+      var item = new TickLogItem();
+      item.WaveNumber = map.WaveIndex;
+      item.Success = success;
+      item.ActionSecond = map.PlayingCurrentSecond;
+      item.From = from.ToLogActor();
+      item.Target = to.ToLogActor();
+      item.Damage = new TicklogDamage
+      {
+        DamagePoint = damage?.DamagePoint.ToString(),
+        IsKilled = damage?.IsKilled == true
+      };
+      item.Skill = duration == null ? null : new TickLogSkill
+      {
+        SkillName = duration.Name,
+        DurationNumber = duration.ProfileNumber,
+      };
+      map.Logs.Add(item);
+      if (damage?.Drops?.Any() == true)
+      {
+        map!.Drops!.AddRange(damage!.Drops.ToArray());
+      }
+      map.XP = map.XP + damage?.XP ?? 0;
+    }
+
     public static void AddMapLogNewWave(this IMap map)
     {
       var item = new TickLogItem();

@@ -1,7 +1,10 @@
 ﻿using DQQ.Combats;
 using DQQ.Commons;
+using DQQ.Components.Durations;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
+using DQQ.Profiles.Durations;
+using ReheeCmf.Responses;
 using System.Numerics;
 
 namespace DQQ.Components.Stages;
@@ -18,5 +21,8 @@ public interface ITarget : IDQQComponent, ICombatProperty, ICombatCalculate
   bool Alive { get; }
   void SelectTarget(ITarget? target);
   DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map);
+
+  Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map);
+  HashSet<DurationComponent>? Durations { get; }
 }
 

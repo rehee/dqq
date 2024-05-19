@@ -1,7 +1,10 @@
 ﻿using DQQ.Commons;
+using DQQ.Components.Durations;
 using DQQ.Components.Stages.Maps;
 using DQQ.Entities;
 using DQQ.Enums;
+using ReheeCmf.Helpers;
+using ReheeCmf.Responses;
 using System.Numerics;
 
 namespace DQQ.Components.Stages
@@ -27,6 +30,8 @@ namespace DQQ.Components.Stages
 
     public virtual decimal PercentageHP => (MaximunLife == null || MaximunLife == 0) ? 1 : (CurrentHP / (decimal)MaximunLife);
 
+    public HashSet<DurationComponent>? Durations { get; set; } = new HashSet<DurationComponent>();
+
     public void SelectTarget(ITarget? target)
     {
       Target = target;
@@ -41,6 +46,28 @@ namespace DQQ.Components.Stages
       base.Initialize(profile);
       Targetable = true;
       Alive = true;
+    }
+
+    public virtual async Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map)
+    {
+      var result = new ContentResponse<bool>();
+      result.SetSuccess(true);
+
+      var durations = Durations!.ToArray();
+      foreach (var d in durations)
+      {
+        if (Alive)
+        {
+          await d.OnTick(this, map);
+        }
+      }
+      var durationNeedRemove = durations.Where(b => b.TickRemain < 0);
+      foreach (var d in durationNeedRemove)
+      {
+        Durations?.Remove(d);
+        d.Dispose();
+      }
+      return result;
     }
   }
 }
