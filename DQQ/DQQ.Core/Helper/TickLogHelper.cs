@@ -4,9 +4,12 @@ using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors.Mobs;
 using DQQ.Components.Stages.Maps;
 using DQQ.Consts;
+using DQQ.Enums;
+using DQQ.Profiles;
 using DQQ.Profiles.Durations;
 using DQQ.Profiles.Skills;
 using DQQ.TickLogs;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DQQ.Helper
 {
@@ -30,7 +33,6 @@ namespace DQQ.Helper
       };
 
     }
-
     public static TickLogActor? ToLogActor(this ITarget? target)
     {
       if (target == null)
@@ -48,63 +50,28 @@ namespace DQQ.Helper
       result.Currentife = target.CurrentHP;
       return result;
     }
-
-
-    public static void AddMapLog(this IMap map, bool success, ITarget? from, ITarget? to, ISkill? skill, DamageTaken? damage)
+    public static void AddMapLogSpillCast(this IMap map, bool success, ITarget? from, ITarget? to, ISkill? skill)
     {
       var item = new TickLogItem();
+      item.LogType = EnumLogType.DamageTaken;
       item.WaveNumber = map.WaveIndex;
       item.Success = success;
       item.ActionSecond = map.PlayingCurrentSecond;
       item.From = from.ToLogActor();
       item.Target = to.ToLogActor();
-      item.Damage = new TicklogDamage
-      {
-        DamagePoint = damage?.DamagePoint.ToString(),
-        IsKilled = damage?.IsKilled == true
-      };
       item.Skill = skill == null ? null : new TickLogSkill
       {
         SkillName = skill.SkillName,
         SkillNumber = skill.SkillNumber,
       };
       map.Logs.Add(item);
-      if (damage?.Drops?.Any() == true)
-      {
-        map!.Drops!.AddRange(damage!.Drops.ToArray());
-      }
-      map.XP = map.XP + damage?.XP ?? 0;
-    }
-    public static void AddMapLog(this IMap map, bool success, ITarget? from, ITarget? to, DurationProfile? duration, DamageTaken? damage)
-    {
-      var item = new TickLogItem();
-      item.WaveNumber = map.WaveIndex;
-      item.Success = success;
-      item.ActionSecond = map.PlayingCurrentSecond;
-      item.From = from.ToLogActor();
-      item.Target = to.ToLogActor();
-      item.Damage = new TicklogDamage
-      {
-        DamagePoint = damage?.DamagePoint.ToString(),
-        IsKilled = damage?.IsKilled == true
-      };
-      item.Skill = duration == null ? null : new TickLogSkill
-      {
-        SkillName = duration.Name,
-        DurationNumber = duration.ProfileNumber,
-      };
-      map.Logs.Add(item);
-      if (damage?.Drops?.Any() == true)
-      {
-        map!.Drops!.AddRange(damage!.Drops.ToArray());
-      }
-      map.XP = map.XP + damage?.XP ?? 0;
     }
 
     public static void AddMapLogNewWave(this IMap map)
     {
       var item = new TickLogItem();
       map.Logs.Add(item);
+      item.LogType = EnumLogType.WaveChange;
       item.WaveNumber = map.WaveIndex;
       item.WaveOrPlayerChange = true;
       item.ActionSecond = map.PlayingCurrentSecond;
@@ -115,6 +82,104 @@ namespace DQQ.Helper
       }
       item.Success = true;
     }
+    public static void AddMapLogHealingTaken(this IMap? map, bool success, ITarget? from, ITarget? to, IDQQProfile? profile, TickLogHealing healing)
+    {
+      var item = new TickLogItem();
+      item.LogType = EnumLogType.HealingTaken;
+      item.WaveNumber = map.WaveIndex;
+      item.Success = success;
+      item.ActionSecond = map.PlayingCurrentSecond;
+      item.From = from.ToLogActor();
+      item.Target = to.ToLogActor();
+      item.Healing = healing;
+      item.SetLogProfile(profile);
+      if (map != null)
+      {
+        map.Logs.Add(item);
+      }
+     
+    }
+    public static void AddMapLogDamageTaken(this IMap? map, bool success, ITarget? from, ITarget? to, IDQQProfile? profile, DamageTaken? damageTaken)
+    {
+      var item = new TickLogItem();
+      item.LogType = EnumLogType.DamageTaken;
+      item.WaveNumber = map?.WaveIndex ?? -1;
+      item.Success = success;
+      item.ActionSecond = map?.PlayingCurrentSecond - 1;
+      item.From = from.ToLogActor();
+      item.Target = to.ToLogActor();
+      item.SetLogProfile(profile);
+      if (damageTaken != null)
+      {
+        item.Damage = new TicklogDamage
+        {
+          DamagePoint = damageTaken?.DamagePoint.ToString(),
+          IsKilled = damageTaken?.IsKilled == true
+        };
+      }
 
+      if (map != null)
+      {
+        if (damageTaken?.Drops?.Any() == true)
+        {
+          map!.Drops!.AddRange(damageTaken!.Drops.ToArray());
+        }
+        map.XP = map.XP + (damageTaken?.XP ?? 0);
+        map.Logs.Add(item);
+      }
+
+    }
+
+    public static ProfileSource? GetProfileSource(this IDQQProfile? profile)
+    {
+      if (profile == null)
+      {
+        return null;
+      }
+      if (profile is SkillProfile sp)
+      {
+        return new ProfileSource
+        {
+          ProfileFromSkill = sp
+        };
+      }
+      if (profile is DurationProfile dp)
+      {
+        return new ProfileSource
+        {
+          ProfileFromDuration = dp
+        };
+      }
+
+      return null;
+    }
+    public static void SetLogProfile(this TickLogItem? item, ProfileSource? source)
+    {
+      if (item == null || source == null)
+      {
+        return;
+      }
+      if (source?.ProfileFromSkill != null)
+      {
+        item.Skill = new TickLogSkill
+        {
+          SkillName = source?.ProfileFromSkill.SkillName,
+          SkillNumber = source?.ProfileFromSkill.SkillNumber,
+        };
+      }
+      if (source?.ProfileFromDuration != null)
+      {
+        item.Skill = new TickLogSkill
+        {
+          SkillName = source?.ProfileFromDuration.Name,
+          DurationNumber = source?.ProfileFromDuration.ProfileNumber,
+        };
+      }
+    }
+
+    public static void SetLogProfile(this TickLogItem? item, IDQQProfile? source)
+    {
+      item.SetLogProfile(source.GetProfileSource());
+    }
   }
 }

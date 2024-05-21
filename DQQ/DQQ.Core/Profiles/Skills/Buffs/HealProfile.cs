@@ -34,21 +34,21 @@ namespace DQQ.Profiles.Skills.Buffs
     {
       return 0;
     }
+    protected override void TakeDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    {
+
+    }
     public override async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
 
-      var result = await base.CastSkill(caster, skillTarget, target, map);
-
-      var casterHealHp = (long)(caster.MaximunLife * 0.6m);
-      if (casterHealHp + caster.CurrentHP >= caster.MaximunLife)
+      var result = await base.CastSkill(caster, caster, target, map);
+      if (result.Success)
       {
-        caster.CurrentHP = caster.MaximunLife ?? 0;
+        var casterHealHp = (long)(caster.MaximunLife * 0.6m);
+        caster.TakeHealing(caster, casterHealHp, map, this);
       }
-      else
-      {
-        caster.CurrentHP = casterHealHp + caster.CurrentHP;
-      }
-      map!.AddMapLog(true, caster, null, this, null);
+      
+      
       return result;
     }
   }

@@ -8,6 +8,7 @@ using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Profiles.Skills;
+using DQQ.TickLogs;
 using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
@@ -30,16 +31,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 
     public Dictionary<int, SkillDTO>? SkillMap { get; set; }
 
-    public override DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map)
-    {
-      var result = base.TakeDamage(from, damage, map);
-
-      if (result.IsKilled)
-      {
-
-      }
-      return result;
-    }
+    
 
     public ActorEntity ToActorEntity()
     {

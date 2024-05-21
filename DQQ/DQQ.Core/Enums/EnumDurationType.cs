@@ -2,6 +2,8 @@
 {
   public enum EnumDurationType
   {
-    None = 0
+    NotSpecified = 0,
+    Damage = 1,
+    Healing = 2
   }
 }

@@ -1,6 +1,7 @@
 ﻿using DQQ.Commons;
 using DQQ.Components.Skills;
 using DQQ.Components.Stages.Actors;
+using DQQ.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,12 @@ namespace DQQ.TickLogs
     public static TickLogItem New() => new TickLogItem();
     public bool Success { get; set; }
     public decimal? ActionSecond { get; set; }
+    public EnumLogType LogType { get; set; }
     public TickLogActor? From { get; set; }
     public TickLogActor? Target { get; set; }
     public TickLogSkill? Skill { get; set; }
     public TicklogDamage? Damage { get; set; }
-
+    public TickLogHealing? Healing { get; set; }
     public bool WaveOrPlayerChange { get; set; }
     public int WaveNumber { get; set; }
 

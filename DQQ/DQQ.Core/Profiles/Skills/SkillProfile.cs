@@ -37,6 +37,17 @@ namespace DQQ.Profiles.Skills
       return DamageHelper.SkillDamage(this, caster!, map);
     }
 
+    protected virtual void TakeDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    {
+      if (skillTarget != null && damage > 0)
+      {
+        skillTarget.TakeDamage(caster, damage, map, this);
+      }
+      else
+      {
+        caster.Target.TakeDamage(caster, damage, map, this);
+      }
+    }
     public virtual async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
       await Task.CompletedTask;
@@ -44,20 +55,11 @@ namespace DQQ.Profiles.Skills
       if (caster?.Target != null && caster?.Target.Alive == true)
       {
         response.SetSuccess(true);
+        map!.AddMapLogSpillCast(true, caster, skillTarget ?? caster.Target, this);
         var damage = CalculateDamage(caster, map);
-        DamageTaken? result;
-        if (skillTarget != null && damage > 0)
-        {
-          result = skillTarget.TakeDamage(caster, damage, map);
-        }
-        else
-        {
-          result = caster.Target.TakeDamage(caster, damage, map);
-        }
-        if (result != null)
-        {
-          map!.AddMapLog(true, caster, skillTarget ?? caster.Target, this, result);
-        }
+
+
+        TakeDamage(caster, skillTarget, damage, map);
 
       }
       return response;

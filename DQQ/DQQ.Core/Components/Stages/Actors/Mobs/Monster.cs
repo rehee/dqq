@@ -5,7 +5,9 @@ using DQQ.Consts;
 using DQQ.Drops;
 using DQQ.Enums;
 using DQQ.Helper;
+using DQQ.Profiles;
 using DQQ.Profiles.Mobs;
+using DQQ.TickLogs;
 using DQQ.XPs;
 using System.Numerics;
 
@@ -87,17 +89,19 @@ namespace DQQ.Components.Stages.Actors.Mobs
       return mob;
     }
 
-    public override DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map)
+    protected override void AfterTakeDamage(ITarget? from, DamageTaken damage, IMap? map, IDQQProfile? source)
     {
-      var result = base.TakeDamage(from, damage, map);
-
-      if (result.IsKilled)
+      base.AfterTakeDamage(from, damage, map, source);
+      if (!damage.DamageTakenSuccess)
       {
-        result.Drops = DropHelper.Drop(this, map);
-        result.XP = XP;
+        return;
       }
-
-      return result;
+      if (!damage.IsKilled)
+      {
+        return;
+      }
+      damage.Drops = DropHelper.Drop(this, map);
+      damage.XP = XP;
     }
   }
 }

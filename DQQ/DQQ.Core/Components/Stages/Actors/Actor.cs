@@ -3,6 +3,8 @@ using DQQ.Components.Items;
 using DQQ.Components.Skills;
 using DQQ.Components.Stages.Maps;
 using DQQ.Entities;
+using DQQ.Helper;
+using DQQ.Profiles;
 using DQQ.TickLogs;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
@@ -51,11 +53,10 @@ namespace DQQ.Components.Stages.Actors
     public override async Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map)
     {
       var result = await base.OnTick(targets, map);
-      if (!Alive)
+      if (!result.Success)
       {
         return result;
       }
-      result.SetSuccess(true);
       if (Skills != null)
       {
         foreach (var skill in Skills.Where(b => b != null))
@@ -65,30 +66,7 @@ namespace DQQ.Components.Stages.Actors
       }
       return result;
     }
-    protected object lockObject = new object();
-    public override DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map)
-    {
-      lock (lockObject)
-      {
-        var result = new DamageTaken();
-        if (!Alive)
-        {
-          return result;
-        }
-        Int64 damageTaken = damage;
-        bool isDead = false;
-        CurrentHP = CurrentHP - damageTaken;
-        if (CurrentHP <= 0)
-        {
-          Alive = false;
-          isDead = true;
-        }
-        result.DamagePoint = damageTaken;
-        result.IsKilled = isDead;
-        result.DamageTakenSuccess = true;
-        return result;
-      }
 
-    }
+    
   }
 }

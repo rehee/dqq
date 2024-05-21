@@ -21,7 +21,7 @@ namespace DQQ.UnitTest.TestBase.Skills
       {
         return false;
       }
-      caster.Target.TakeDamage(caster, 100, null);
+      caster.Target.TakeDamage(caster, 100, null, null);
       return true;
     }
     public override async Task<ContentResponse<Boolean>> OnTick(ITarget? caster, IEnumerable<ITarget>? targets, IMap? map)

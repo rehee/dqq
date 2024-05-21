@@ -15,7 +15,7 @@ namespace DQQ.Profiles.Durations.Debuffs
   [Pooled]
   public class RendDebuff : DurationProfile
   {
-    public override EnumDurationType? DurationType => EnumDurationType.None;
+    public override EnumDurationType? DurationType => EnumDurationType.Damage;
 
     public override EnumDurationNumber ProfileNumber => EnumDurationNumber.Rend;
 
@@ -29,8 +29,8 @@ namespace DQQ.Profiles.Durations.Debuffs
       {
         return;
       }
-      var result = target!.TakeDamage(compose.Creator, compose.TickPower, map);
-      map!.AddMapLog(true, compose.Creator, target, this, result);
+      var result = target!.TakeDamage(compose.Creator, compose.TickPower, map, this);
+
     }
   }
 }

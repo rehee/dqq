@@ -36,6 +36,10 @@ namespace DQQ.Profiles.Skills.Attacks
     {
       return 0;
     }
+    protected override void TakeDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    {
+      
+    }
     public override async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
       var result = await base.CastSkill(caster, skillTarget, target, map);

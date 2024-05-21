@@ -8,7 +8,7 @@
         <th>攻击方</th>
         <th>技能</th>
         <th>目标</th>
-        <th>承受伤害</th>
+        <th>承受伤害/治疗</th>
       </tr>
     </thead>
     <tbody>
@@ -32,7 +32,23 @@
               <td>@log.From?.DisplayName (@log.From?.Currentife/@log.From?.MaxLife)</td>
               <td>@log.Skill?.SkillName</td>
               <td>@log.Target?.DisplayName (@log.Target?.Currentife/@log.Target?.MaxLife)</td>
-              <td>@log.Damage?.DamagePoint @(log.Damage?.IsKilled == true ? "击杀" : "")</td>
+
+              <td>
+                @if (log.Healing != null)
+                {
+                  @log.Healing.HealingDone @(log.Healing.OverHeal != null ? $"({log.Healing.OverHeal})" : "")
+                }
+                else
+                {
+                  if (log.Damage != null)
+                  {
+                    @log.Damage?.DamagePoint @(log.Damage?.IsKilled == true ? "击杀" : "")
+                  }
+                }
+
+              </td>
+
+
             </tr>
           }
 

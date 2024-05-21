@@ -15,7 +15,7 @@ namespace DQQ.Profiles.Durations.Buffs
   [Pooled]
   public class RenewBuff : DurationProfile
   {
-    public override EnumDurationType? DurationType => EnumDurationType.None;
+    public override EnumDurationType? DurationType => EnumDurationType.Healing;
 
     public override EnumDurationNumber ProfileNumber => EnumDurationNumber.Renew;
 
@@ -25,18 +25,8 @@ namespace DQQ.Profiles.Durations.Buffs
 
     public override void Healing(DurationComponent compose, ITarget? target, IMap? map)
     {
-     
-
       var casterHealHp = (long)(target.MaximunLife * 0.025m);
-      if (casterHealHp + target.CurrentHP >= target.MaximunLife)
-      {
-        target.CurrentHP = target.MaximunLife ?? 0;
-      }
-      else
-      {
-        target.CurrentHP = casterHealHp + target.CurrentHP;
-      }
-      map!.AddMapLog(true, compose.Creator, target, this, null);
+      target.TakeHealing(compose.Creator, casterHealHp, map, this);
     }
   }
 }

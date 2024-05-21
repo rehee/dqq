@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles
 {
-  public abstract class DQQProfile<T> where T : Enum
+  public interface IDQQProfile
+  {
+    string? Name { get; }
+    string? Discription { get; }
+  }
+
+  public abstract class DQQProfile<T> : IDQQProfile where T : Enum
   {
     public abstract T ProfileNumber { get; }
     public abstract string? Name { get; }
