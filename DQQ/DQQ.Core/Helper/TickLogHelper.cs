@@ -97,7 +97,7 @@ namespace DQQ.Helper
       {
         map.Logs.Add(item);
       }
-     
+
     }
     public static void AddMapLogDamageTaken(this IMap? map, bool success, ITarget? from, ITarget? to, IDQQProfile? profile, DamageTaken? damageTaken)
     {
@@ -105,7 +105,7 @@ namespace DQQ.Helper
       item.LogType = EnumLogType.DamageTaken;
       item.WaveNumber = map?.WaveIndex ?? -1;
       item.Success = success;
-      item.ActionSecond = map?.PlayingCurrentSecond - 1;
+      item.ActionSecond = map?.PlayingCurrentSecond ?? -1;
       item.From = from.ToLogActor();
       item.Target = to.ToLogActor();
       item.SetLogProfile(profile);
