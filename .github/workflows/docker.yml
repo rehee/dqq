@@ -101,5 +101,5 @@ jobs:
     steps:
       - name: Trigger Azure Web App Webhook Preview
         run: |
-          curl -X POST ${{ vars.HOOKURL }}
+          curl -X POST ${{ secrets.HOOK_URL }}
         if: success()  
