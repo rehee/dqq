@@ -99,7 +99,7 @@ jobs:
     steps:
       - name: Trigger Azure Web App Webhook Preview
         run: |
-          echo '${{ env.HOOKURL }}'
+          echo '${{ vars.HOOKURL }}'
         if: success()  
   
   
