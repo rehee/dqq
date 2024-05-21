@@ -15,7 +15,7 @@ namespace DQQ.Api.Controllers
 
     public IActionResult Index()
     {
-      return Content("home");
+      return Content("this is home page");
     }
 
     public IActionResult Privacy()
