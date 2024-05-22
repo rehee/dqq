@@ -1,3 +1,4 @@
+using BootstrapBlazor.Components;
 using DQQ.Components;
 using DQQ.TickLogs;
 using Microsoft.AspNetCore.Components;
@@ -14,6 +15,8 @@ namespace DQQ.Web.Pages.DQQs.Combats
     public IEnumerable<TickLogActor>? Enemies { get; set; }
 
     private bool boolPageIsLoad { get; set; }
+
+    public List<ConsoleMessageItem> MessageItems { get; set; } = new List<ConsoleMessageItem>();
     protected async override void OnAfterRender(bool firstRender)
     {
       base.OnAfterRender(firstRender);
@@ -43,15 +46,24 @@ namespace DQQ.Web.Pages.DQQs.Combats
       {
         return;
       }
+      MessageItems.Clear();
       for (var i = 0; i <= lastTick; i++)
       {
+
         await Task.Delay(1000 / 30);
-        Tick = i;
+
         var logs = CombatLog.Where(b => b.ActionTick == i).ToArray();
         foreach (var log in logs)
         {
+          if (log.WaveNumber <= 0)
+          {
+            continue;
+          }
+          Tick = log.WaveNumber;
+          MessageItems.Add(log.GetConsoleMessage());
           if (log.LogType == Enums.EnumLogType.WaveChange)
           {
+
             Players = log.Players?.ToArray();
             Enemies = log.Enemies?.ToArray();
             StateHasChanged();
