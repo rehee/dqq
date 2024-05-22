@@ -34,10 +34,12 @@ namespace DQQ.Profiles.Skills.Buffs
     {
       return 0;
     }
-    protected override void TakeDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
-    {
 
+    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    {
+      
     }
+
     public override async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
 

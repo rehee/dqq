@@ -22,8 +22,12 @@ namespace DQQ.Profiles.Durations
       result.DurationNumber = this.ProfileNumber;
       result.TickRemain = (int)((parameter?.DurationSeconds ?? 0) * DQQGeneral.TickPerSecond);
       var ticks = result.TickRemain == 0 ? 1 : (result.TickRemain / DQQGeneral.DurationIntervalTick);
-      result.TickPower = ((parameter?.Value ?? 0) / ticks);
-      result.TickPower = result.TickPower == 0 ? 1 : result.TickPower;
+      if (parameter?.Value != 0)
+      {
+        result.TickPower = ((parameter?.Value ?? 0) / ticks);
+        result.TickPower = result.TickPower == 0 ? 0 : result.TickPower;
+
+      }
       result.Creator = parameter?.Creator;
       target?.Durations?.Add(result);
       return result;

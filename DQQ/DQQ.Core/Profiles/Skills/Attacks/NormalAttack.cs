@@ -18,7 +18,7 @@ namespace DQQ.Profiles.Skills.Attacks
   public class NormalAttack : GeneralSkill
   {
 
-
+    public override EnumDamageHand DamageHand => EnumDamageHand.EachHand;
     public override decimal CastTime => 1.2m;
     public override decimal CoolDown => 0m;
     public override decimal DamageRate => 1m;
@@ -29,8 +29,8 @@ namespace DQQ.Profiles.Skills.Attacks
 
     public override string? Name => "普通攻击";
 
-    
 
-    
+
+
   }
 }

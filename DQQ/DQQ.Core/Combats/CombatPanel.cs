@@ -31,5 +31,7 @@ namespace DQQ.Combats
       }
 
     }
+
+    public bool IsDuelWield => (DynamicPanel.MainHand != null && DynamicPanel.MainHand > 0) && (DynamicPanel.OffHand != null && DynamicPanel.OffHand > 0);
   }
 }

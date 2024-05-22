@@ -23,7 +23,7 @@ namespace DQQ.Profiles.Skills.Buffs
 
     public override decimal CoolDown => 5m;
 
-    public override decimal DamageRate => 0m;
+    public override decimal DamageRate => 3m;
 
     public override bool CastWithWeaponSpeed => false;
 
@@ -32,11 +32,8 @@ namespace DQQ.Profiles.Skills.Buffs
     public override string? Name => "回复";
 
     public override string? Discription => "周期性的持续回复生命";
-    public override long CalculateDamage(ITarget? caster, IMap? map)
-    {
-      return 0;
-    }
-    protected override void TakeDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+
+    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
     {
 
     }
@@ -53,11 +50,11 @@ namespace DQQ.Profiles.Skills.Buffs
       {
         return result;
       }
-      var rendDamage = caster?.CombatPanel?.DynamicPanel.MainHand.Percentage(3m);
       var durationParameter = new DurationParameter
       {
         Creator = caster,
-        DurationSeconds = 5
+        DurationSeconds = 5,
+        Value = CalculateDamage(caster, map)
       };
       DQQPool.DurationPool[EnumDurationNumber.Renew].CreateDuration(durationParameter, caster, map);
       return result;

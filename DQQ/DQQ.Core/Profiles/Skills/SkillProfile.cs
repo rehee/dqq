@@ -21,6 +21,7 @@ namespace DQQ.Profiles.Skills
 {
   public abstract class SkillProfile : DQQProfile<EnumSkill>, ISkill
   {
+    public virtual EnumDamageHand DamageHand => EnumDamageHand.Any;
     public abstract bool NoPlayerSkill { get; }
     protected virtual bool SelfTarget { get; }
     public abstract decimal CastTime { get; }
@@ -38,7 +39,7 @@ namespace DQQ.Profiles.Skills
       return DamageHelper.SkillDamage(this, caster!, map).SkillMordifier(caster);
     }
 
-    protected virtual void TakeDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    protected virtual void DealingDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
     {
       if (skillTarget != null && damage > 0)
       {
@@ -47,6 +48,17 @@ namespace DQQ.Profiles.Skills
       else
       {
         caster.Target.TakeDamage(caster, damage, map, this);
+      }
+      if (DamageHand == EnumDamageHand.EachHand && caster.CombatPanel.IsDuelWield)
+      {
+        if (caster.PrevioursMainHand == null)
+        {
+          caster.PrevioursMainHand = true;
+        }
+        else
+        {
+          caster.PrevioursMainHand = !caster.PrevioursMainHand;
+        }
       }
     }
     public virtual async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
@@ -59,7 +71,7 @@ namespace DQQ.Profiles.Skills
         response.SetSuccess(true);
         map!.AddMapLogSpillCast(true, caster, skillTarget ?? caster.Target, this);
         var damage = CalculateDamage(caster, map);
-        TakeDamage(caster, skillTarget, damage, map);
+        DealingDamage(caster, skillTarget, damage, map);
       }
       return response;
     }

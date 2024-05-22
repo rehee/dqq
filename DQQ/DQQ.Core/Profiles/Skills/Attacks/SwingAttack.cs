@@ -17,6 +17,7 @@ namespace DQQ.Profiles.Skills.Attacks
   [Pooled]
   public class SwingAttack : GeneralSkill
   {
+    public override EnumDamageHand DamageHand => EnumDamageHand.BothHand;
     public override decimal CastTime => 0m;
     public override decimal CoolDown => 6m;
     public override decimal DamageRate => 1.5m;
@@ -30,25 +31,14 @@ namespace DQQ.Profiles.Skills.Attacks
 
     public override Int64 CalculateDamage(ITarget? caster, IMap? map)
     {
-      var skill = this;
-      if (caster is not IActor)
-      {
-        return 0;
-      }
-      if (caster is Character character)
-      {
-        character.Equips.TryGetValue(EnumEquipSlot.MainHand, out var main);
-        character.Equips.TryGetValue(EnumEquipSlot.MainHand, out var off);
-        if (main != null && off != null)
-        {
-          var total = (character.CombatPanel?.DynamicPanel.MainHand ?? 0) + (character.CombatPanel?.DynamicPanel.OffHand ?? 0);
+      var damage = base.CalculateDamage(caster, map);
 
-          return ((total).Percentage(skill.DamageRate) * 2).SkillMordifier(caster);
-        }
-        return (main != null ? (character.CombatPanel?.DynamicPanel.MainHand ?? 0) : (character.CombatPanel?.DynamicPanel.OffHand ?? 0)).Percentage(skill.DamageRate).SkillMordifier(caster);
-
+      if (caster.CombatPanel.IsDuelWield)
+      {
+        return damage.Percentage(1.5m);
       }
-      return 0;
+
+      return damage;
     }
 
 
