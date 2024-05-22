@@ -94,9 +94,7 @@ namespace DQQ.Helper
     }
     public static Int64 Percentage(this Int64 input, decimal percentage)
     {
-      var times = 100;
-      var multiple = (int)(percentage * times);
-      return input * multiple / times;
+      return (int)(percentage * input);
     }
   }
 }
