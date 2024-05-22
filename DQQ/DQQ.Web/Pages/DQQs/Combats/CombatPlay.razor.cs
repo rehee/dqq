@@ -55,7 +55,7 @@ namespace DQQ.Web.Pages.DQQs.Combats
         var logs = CombatLog.Where(b => b.ActionTick == i).ToArray();
         foreach (var log in logs)
         {
-          if (log.WaveNumber <= 0)
+          if (log.WaveNumber < 0)
           {
             continue;
           }
