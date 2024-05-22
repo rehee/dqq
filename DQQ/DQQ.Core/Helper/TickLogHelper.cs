@@ -46,7 +46,7 @@ namespace DQQ.Helper
         result.MobNumber = mb.MobNumber;
       }
       result.Id = target.DisplayId;
-      result.MaxLife = target.MaximunLife;
+      result.MaxLife = target?.CombatPanel?.DynamicPanel.MaximunLife;
       result.Currentife = target.CurrentHP;
       return result;
     }

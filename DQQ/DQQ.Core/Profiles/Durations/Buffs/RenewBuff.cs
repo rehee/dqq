@@ -25,7 +25,7 @@ namespace DQQ.Profiles.Durations.Buffs
 
     public override void Healing(DurationComponent compose, ITarget? target, IMap? map)
     {
-      var casterHealHp = (long)(target.MaximunLife * 0.025m);
+      var casterHealHp = (long)(target!.CombatPanel!.DynamicPanel!.MaximunLife! * 0.025m);
       target.TakeHealing(compose.Creator, casterHealHp, map, this);
     }
   }

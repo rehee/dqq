@@ -16,8 +16,8 @@ namespace DQQ.Core.UnitTest.Helpers
       var equip = equipProfile!.GenerateEquipComponent(1);
       var player = new Character();
       player.Equip(EnumEquipSlot.MainHand, equip);
-      Assert.That(player.MainHand, Is.EqualTo(equip.MainHand));
-      Assert.That(player.AttackPerSecond, Is.EqualTo(equip.AttackPerSecond));
+      Assert.That(player.CombatPanel?.StaticPanel.MainHand, Is.EqualTo(equip.MainHand));
+      Assert.That(player.CombatPanel?.StaticPanel.AttackPerSecond, Is.EqualTo(equip.AttackPerSecond));
     }
   }
 }

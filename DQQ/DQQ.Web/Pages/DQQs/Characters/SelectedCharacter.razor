@@ -13,13 +13,13 @@
         角色名 @Character.DisplayName
       </div>
       <div>
-        最大生命 @Character.MaximunLife
+        最大生命 @Character.CombatPanel.StaticPanel.MaximunLife
       </div>
       <div>
-        主手攻击力 @Character.MainHand
+        主手攻击力 @Character?.CombatPanel?.DynamicPanel.MainHand
       </div>
       <div>
-        副手攻击力 @Character.OffHand
+        副手攻击力 @Character?.CombatPanel?.DynamicPanel.OffHand
       </div>
       <div>
         目标优先级 @Character.TargetPriority

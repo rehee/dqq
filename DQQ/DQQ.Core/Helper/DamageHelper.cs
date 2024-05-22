@@ -20,33 +20,34 @@ namespace DQQ.Helper
         return 0;
       }
       var actor = caster as IActor;
+      var actorCombat = actor?.CombatPanel?.DynamicPanel;
       Int64 damage = 0;
-      if (caster.MainHand == null)
+      if (actorCombat?.MainHand == null)
       {
         damage = actor!.BasicDamage.Percentage(skill.DamageRate);
       }
       else
       {
-        if (caster.OffHand == null)
+        if (actorCombat?.OffHand == null)
         {
-          damage = actor!.MainHand!.Value.Percentage(skill.DamageRate);
+          damage = actorCombat!.MainHand!.Value.Percentage(skill.DamageRate);
         }
         else
         {
           if (caster.PrevioursMainHand == null)
           {
             caster.PrevioursMainHand = true;
-            damage = actor!.MainHand!.Value.Percentage(skill.DamageRate);
+            damage = actorCombat!.MainHand!.Value.Percentage(skill.DamageRate);
           }
           else
           {
             if (caster.PrevioursMainHand == true)
             {
-              damage = actor!.OffHand!.Value.Percentage(skill.DamageRate);
+              damage = actorCombat!.OffHand!.Value.Percentage(skill.DamageRate);
             }
             else
             {
-              damage = actor!.MainHand!.Value.Percentage(skill.DamageRate);
+              damage = actorCombat!.MainHand!.Value.Percentage(skill.DamageRate);
             }
             caster.PrevioursMainHand = !caster.PrevioursMainHand;
           }

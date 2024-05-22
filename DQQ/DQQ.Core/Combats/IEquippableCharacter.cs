@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DQQ.Combats
 {
-  public interface IEquippableCharacter : ICombatProperty
+  public interface IEquippableCharacter : IWIthCombatPanel
   {
     ConcurrentDictionary<EnumEquipSlot, IEquptment?> Equips { get; set; }
   }

@@ -10,7 +10,11 @@ namespace DQQ.Helper
   {
     public static void TotalEquipProperty(this IEquippableCharacter eChar)
     {
-      eChar.CombatPropertySummary(eChar.Equips.Where(b => b.Value != null).Select(b => new CombatPropertySum { Slot = b.Key, Property = b.Value }));
+      if (eChar.CombatPanel != null)
+      {
+        eChar.CombatPanel.StaticPanel.CombatPropertySummary(eChar.Equips.Where(b => b.Value != null).Select(b => new CombatPropertySum { Slot = b.Key, Property = b.Value }));
+
+      }
     }
     public static ContentResponse<bool> Equip(this IEquippableCharacter eChar, EnumEquipSlot slot, IEquptment? equipComponent)
     {

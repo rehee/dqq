@@ -27,7 +27,7 @@ namespace DQQ.UnitTest.Profiles
       var actor = actorProfile.GenerateComponent();
       Assert.That(actor.DisplayId, Is.EqualTo(actorProfile.Id));
       Assert.That(actor.DisplayName, Is.EqualTo(actorProfile.Name));
-      Assert.That(actor.MaximunLife, Is.EqualTo(actorProfile.MaxHP));
+      Assert.That(actor.CombatPanel.DynamicPanel.MaximunLife, Is.EqualTo(actorProfile.MaxHP));
       Assert.That(actor.CurrentHP, Is.EqualTo(actorProfile.MaxHP));
       Assert.That(actor.BasicDamage, Is.EqualTo(actorProfile.BasicDamage));
       Assert.That(actor.Skills!.FirstOrDefault()!.DisplayId, Is.EqualTo(skillProfile.Id));

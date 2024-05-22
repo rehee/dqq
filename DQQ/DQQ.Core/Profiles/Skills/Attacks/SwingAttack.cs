@@ -41,11 +41,11 @@ namespace DQQ.Profiles.Skills.Attacks
         character.Equips.TryGetValue(EnumEquipSlot.MainHand, out var off);
         if (main != null && off != null)
         {
-          var total = (character.MainHand ?? 0) + (character.OffHand ?? 0);
+          var total = (character.CombatPanel?.DynamicPanel.MainHand ?? 0) + (character.CombatPanel?.DynamicPanel.OffHand ?? 0);
 
           return (total).Percentage(skill.DamageRate) * 2;
         }
-        return (main != null ? (character.MainHand ?? 0) : (character.OffHand ?? 0)).Percentage(skill.DamageRate);
+        return (main != null ? (character.CombatPanel?.DynamicPanel.MainHand ?? 0) : (character.CombatPanel?.DynamicPanel.OffHand ?? 0)).Percentage(skill.DamageRate);
 
       }
       return 0;

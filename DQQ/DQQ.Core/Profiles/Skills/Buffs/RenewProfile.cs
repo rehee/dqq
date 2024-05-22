@@ -18,7 +18,7 @@ namespace DQQ.Profiles.Skills.Buffs
   public class RenewProfile : SkillProfile
   {
     public override bool NoPlayerSkill => false;
-
+    protected override bool SelfTarget => true;
     public override decimal CastTime => 0m;
 
     public override decimal CoolDown => 5m;
@@ -43,13 +43,17 @@ namespace DQQ.Profiles.Skills.Buffs
     public override async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
       var result = await base.CastSkill(caster, caster, target, map);
-      var actualTarget = skillTarget ?? caster?.Target;
-
-      if (caster?.MainHand <= 0)
+      if (!result.Success)
       {
         return result;
       }
-      var rendDamage = caster?.MainHand.Percentage(3m);
+      var actualTarget = skillTarget ?? caster?.Target;
+
+      if (caster?.CombatPanel?.DynamicPanel.MainHand <= 0)
+      {
+        return result;
+      }
+      var rendDamage = caster?.CombatPanel?.DynamicPanel.MainHand.Percentage(3m);
       var durationParameter = new DurationParameter
       {
         Creator = caster,

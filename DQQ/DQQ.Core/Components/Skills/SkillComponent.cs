@@ -75,12 +75,12 @@ namespace DQQ.Components.Skills
 
     public int CastWithWeaponSpeedTick(ITarget? caster)
     {
-      if (CastWithWeaponSpeed != true || caster?.AttackPerSecond == null || caster?.AttackPerSecond == 0)
+      if (CastWithWeaponSpeed != true || caster?.CombatPanel?.DynamicPanel.AttackPerSecond == null || caster?.CombatPanel?.DynamicPanel.AttackPerSecond == 0)
       {
         return CastTick;
       }
 
-      return (int)((1 / caster?.AttackPerSecond!) * DQQGeneral.TickPerSecond);
+      return (int)((1 / caster?.CombatPanel?.DynamicPanel.AttackPerSecond!) * DQQGeneral.TickPerSecond);
 
     }
 

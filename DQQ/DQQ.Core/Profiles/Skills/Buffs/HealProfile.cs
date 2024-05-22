@@ -16,7 +16,7 @@ namespace DQQ.Profiles.Skills.Buffs
   public class HealProfile : SkillProfile
   {
     public override bool NoPlayerSkill => false;
-
+    protected override bool SelfTarget => true;
     public override decimal CastTime => 0m;
 
     public override decimal CoolDown => 30m;
@@ -44,11 +44,11 @@ namespace DQQ.Profiles.Skills.Buffs
       var result = await base.CastSkill(caster, caster, target, map);
       if (result.Success)
       {
-        var casterHealHp = (long)(caster.MaximunLife * 0.6m);
+        var casterHealHp = (long)(caster?.CombatPanel?.DynamicPanel.MaximunLife * 0.6m);
         caster.TakeHealing(caster, casterHealHp, map, this);
       }
-      
-      
+
+
       return result;
     }
   }

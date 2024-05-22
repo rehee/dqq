@@ -71,9 +71,9 @@ namespace DQQ.Components.Stages.Actors.Mobs
       mob.Rarity = rarity;
       mob.DisplayName = $"{namePrefix} {profile.Name}";
       mob.BasicDamage = DQQGeneral.MobStatusCalculate(level, profile.Damage, rarity, profile.IsBoss);
-      mob.MaximunLife = DQQGeneral.MobStatusCalculate(level, profile.HP, rarity, profile.IsBoss);
+      mob.CombatPanel.StaticPanel.MaximunLife = DQQGeneral.MobStatusCalculate(level, profile.HP, rarity, profile.IsBoss);
       mob.XP = DQQGeneral.MobStatusCalculate(level, profile.XP, rarity, profile.IsBoss);
-      mob.CurrentHP = mob.MaximunLife ?? 0;
+      mob.CurrentHP = mob.CombatPanel.StaticPanel.MaximunLife ?? 0;
       mob.DropRate = profile.DropRate * dropTimes;
       if (profile?.Skills?.Any() == true)
       {

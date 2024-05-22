@@ -38,18 +38,22 @@ namespace DQQ.Profiles.Skills.Attacks
     }
     protected override void TakeDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
     {
-      
+
     }
     public override async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
       var result = await base.CastSkill(caster, skillTarget, target, map);
-      var actualTarget = skillTarget ?? caster?.Target;
-
-      if (caster?.MainHand <= 0)
+      if (!result.Success)
       {
         return result;
       }
-      var rendDamage = caster?.MainHand.Percentage(3m);
+      var actualTarget = skillTarget ?? caster?.Target;
+
+      if (caster?.CombatPanel?.DynamicPanel.MainHand <= 0)
+      {
+        return result;
+      }
+      var rendDamage = caster?.CombatPanel?.DynamicPanel.MainHand.Percentage(3m);
       var durationParameter = new DurationParameter
       {
         Creator = caster,

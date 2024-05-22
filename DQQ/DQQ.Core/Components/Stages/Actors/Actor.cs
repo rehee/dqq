@@ -32,8 +32,8 @@ namespace DQQ.Components.Stages.Actors
       if (entity is ActorEntity ae)
       {
         TargetPriority = ae.TargetPriority;
-        MaximunLife = ae.MaxHP ?? 0;
-        CurrentHP = MaximunLife ?? 0;
+        CombatPanel.StaticPanel.MaximunLife = ae.MaxHP ?? 0;
+        CurrentHP = CombatPanel.StaticPanel.MaximunLife ?? 0;
         BasicDamage = ae.BasicDamage ?? 0;
         var list = new List<ISkillComponent>();
         Skills = list;

@@ -22,6 +22,7 @@ namespace DQQ.Profiles.Skills
   public abstract class SkillProfile : DQQProfile<EnumSkill>, ISkill
   {
     public abstract bool NoPlayerSkill { get; }
+    protected virtual bool SelfTarget { get; }
     public abstract decimal CastTime { get; }
     public abstract decimal CoolDown { get; }
     public abstract decimal DamageRate { get; }
@@ -52,15 +53,13 @@ namespace DQQ.Profiles.Skills
     {
       await Task.CompletedTask;
       var response = new ContentResponse<bool>();
-      if (caster?.Target != null && caster?.Target.Alive == true)
+      var selectedTarget = SelfTarget ? caster : (skillTarget ?? caster?.Target);
+      if (selectedTarget?.Alive == true)
       {
         response.SetSuccess(true);
         map!.AddMapLogSpillCast(true, caster, skillTarget ?? caster.Target, this);
         var damage = CalculateDamage(caster, map);
-
-
         TakeDamage(caster, skillTarget, damage, map);
-
       }
       return response;
     }

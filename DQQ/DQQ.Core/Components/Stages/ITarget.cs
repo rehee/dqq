@@ -11,7 +11,7 @@ using System.Numerics;
 
 namespace DQQ.Components.Stages;
 
-public interface ITarget : IDQQComponent, ICombatProperty, ICombatCalculate
+public interface ITarget : IDQQComponent, ICombatCalculate, IWIthCombatPanel
 {
   EnumTargetPriority? TargetPriority { get; }
   int PowerLevel { get; }
@@ -27,6 +27,5 @@ public interface ITarget : IDQQComponent, ICombatProperty, ICombatCalculate
 
   Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map);
   HashSet<DurationComponent>? Durations { get; }
-
 }
 

@@ -29,7 +29,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Maps
       creator.Alive = true;
       creator.DisplayName = "player 1";
       creator.CurrentHP = 1000;
-      creator.MaximunLife = 1000;
+      creator.CombatPanel.DynamicPanel.MaximunLife = 1000;
       creator.BasicDamage = 10;
       creator.Skills = new ISkillComponent[]
       {

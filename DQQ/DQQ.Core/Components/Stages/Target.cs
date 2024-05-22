@@ -1,4 +1,5 @@
-﻿using DQQ.Commons;
+﻿using DQQ.Combats;
+using DQQ.Commons;
 using DQQ.Components.Durations;
 using DQQ.Components.Stages.Maps;
 using DQQ.Entities;
@@ -18,22 +19,18 @@ namespace DQQ.Components.Stages
     public bool Alive { get; set; }
     public ITarget? Target { get; set; }
     public EnumTargetPriority? TargetPriority { get; set; }
-    public virtual Int64? MaximunLife { get; set; }
     public Int64 CurrentHP { get; set; }
-    public virtual Int64? Armor { get; set; }
-    public virtual Int64? Damage { get; set; }
-    public virtual decimal? AttackPerSecond { get; set; }
-    public virtual decimal? ArmorPercentage { get; set; }
-    public virtual decimal? Resistance { get; set; }
-    public Int64? MainHand { get; set; }
-    public Int64? OffHand { get; set; }
+
+
     public bool? PrevioursMainHand { get; set; }
 
     public abstract int PowerLevel { get; }
 
-    public virtual decimal PercentageHP => (MaximunLife == null || MaximunLife == 0) ? 1 : (CurrentHP / (decimal)MaximunLife);
+    public virtual decimal PercentageHP => (CombatPanel.DynamicPanel.MaximunLife == null || CombatPanel.DynamicPanel.MaximunLife == 0) ? 1 : (CurrentHP / (decimal)CombatPanel.DynamicPanel.MaximunLife);
 
     public HashSet<DurationComponent>? Durations { get; set; } = new HashSet<DurationComponent>();
+
+    public CombatPanel CombatPanel { get; set; } = new CombatPanel();
 
     public void SelectTarget(ITarget? target)
     {
@@ -129,10 +126,10 @@ namespace DQQ.Components.Stages
       {
         return;
       }
-      var hpOverHealing = (this?.CurrentHP ?? 0) + healing - (this?.MaximunLife ?? 0);
+      var hpOverHealing = (this?.CurrentHP ?? 0) + healing - (this?.CombatPanel.DynamicPanel.MaximunLife ?? 0);
       if (hpOverHealing > 0)
       {
-        this.CurrentHP = this?.MaximunLife ?? 0;
+        this.CurrentHP = this?.CombatPanel.DynamicPanel.MaximunLife ?? 0;
       }
       else
       {
