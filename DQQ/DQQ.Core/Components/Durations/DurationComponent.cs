@@ -10,6 +10,7 @@ using DQQ.Enums;
 using DQQ.Profiles.Durations;
 using DQQ.Consts;
 using DQQ.Pools;
+using DQQ.Combats;
 
 namespace DQQ.Components.Durations
 {
@@ -23,6 +24,14 @@ namespace DQQ.Components.Durations
     public long TickPower = 0;
     private ITarget? lastTarget { get; set; }
     private IMap? lastMap { get; set; }
+
+    public void CombatPropertyCalculate(ICombatProperty combatProperty, ICombatProperty staticProperty, IMap map)
+    {
+      if (Duration != null)
+      {
+        Duration.CombatPropertyCalculate(combatProperty, staticProperty, map);
+      }
+    }
 
     public async Task<ContentResponse<bool>> OnTick(ITarget? target, IMap? map)
     {

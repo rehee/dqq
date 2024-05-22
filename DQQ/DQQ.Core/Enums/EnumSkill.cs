@@ -13,6 +13,7 @@ namespace DQQ.Enums
     Rend = 2,
     Healing = 1001,
     Renew = 1002,
+    BattleShout = 2001,
     HatefulStrike = 10001,
 
   }

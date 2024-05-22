@@ -35,7 +35,7 @@ namespace DQQ.Profiles.Skills
 
     public virtual Int64 CalculateDamage(ITarget? caster, IMap? map)
     {
-      return DamageHelper.SkillDamage(this, caster!, map);
+      return DamageHelper.SkillDamage(this, caster!, map).SkillMordifier(caster);
     }
 
     protected virtual void TakeDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)

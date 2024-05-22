@@ -43,9 +43,9 @@ namespace DQQ.Profiles.Skills.Attacks
         {
           var total = (character.CombatPanel?.DynamicPanel.MainHand ?? 0) + (character.CombatPanel?.DynamicPanel.OffHand ?? 0);
 
-          return (total).Percentage(skill.DamageRate) * 2;
+          return ((total).Percentage(skill.DamageRate) * 2).SkillMordifier(caster);
         }
-        return (main != null ? (character.CombatPanel?.DynamicPanel.MainHand ?? 0) : (character.CombatPanel?.DynamicPanel.OffHand ?? 0)).Percentage(skill.DamageRate);
+        return (main != null ? (character.CombatPanel?.DynamicPanel.MainHand ?? 0) : (character.CombatPanel?.DynamicPanel.OffHand ?? 0)).Percentage(skill.DamageRate).SkillMordifier(caster);
 
       }
       return 0;

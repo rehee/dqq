@@ -58,5 +58,6 @@ namespace DQQ.Entities
     public long? Damage { get; set; }
     public long? MainHand { get; set; }
     public long? OffHand { get; set; }
+    public decimal? DamageModifier { get; set; }
   }
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DQQ.Durations;
 using DQQ.Consts;
+using DQQ.Combats;
 
 namespace DQQ.Profiles.Durations
 {
@@ -25,8 +26,12 @@ namespace DQQ.Profiles.Durations
       result.TickPower = result.TickPower == 0 ? 1 : result.TickPower;
       result.Creator = parameter?.Creator;
       target?.Durations?.Add(result);
-
       return result;
+    }
+
+    public virtual void CombatPropertyCalculate(ICombatProperty combatProperty, ICombatProperty staticProperty, IMap map)
+    {
+
     }
 
     public virtual void Healing(DurationComponent compose, ITarget? target, IMap? map)

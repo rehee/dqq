@@ -139,6 +139,7 @@ namespace DQQ.Components.Stages.Maps
         {
           foreach (var p in Players)
           {
+            p.CombatPanel.CalculateDynamicPanel(p, this);
             if (p.TargetPriority != null)
             {
               p.SelectTarget(p.TargetPriority.SelectTargetByPriority(currentPack));

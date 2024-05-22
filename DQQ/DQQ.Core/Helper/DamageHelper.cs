@@ -1,4 +1,5 @@
-﻿using DQQ.Components.Stages;
+﻿using DQQ.Combats;
+using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Maps;
 using DQQ.Profiles.Skills;
@@ -13,9 +14,13 @@ namespace DQQ.Helper
 {
   public static class DamageHelper
   {
-    public static Int64 SkillDamage(ISkill skill, ITarget caster, IMap? map)
+    public static Int64 SkillDamage(this ISkill skill, ITarget caster, IMap? map)
     {
       if (caster is not IActor)
+      {
+        return 0;
+      }
+      if (skill.DamageRate <= 0)
       {
         return 0;
       }
@@ -30,7 +35,7 @@ namespace DQQ.Helper
       {
         if (actorCombat?.OffHand == null)
         {
-          damage = actorCombat!.MainHand!.Value.Percentage(skill.DamageRate);
+          damage = (actorCombat!.MainHand!.Value + actor!.BasicDamage).Percentage(skill.DamageRate);
         }
         else
         {
@@ -43,11 +48,11 @@ namespace DQQ.Helper
           {
             if (caster.PrevioursMainHand == true)
             {
-              damage = actorCombat!.OffHand!.Value.Percentage(skill.DamageRate);
+              damage = (actorCombat!.OffHand!.Value).Percentage(skill.DamageRate);
             }
             else
             {
-              damage = actorCombat!.MainHand!.Value.Percentage(skill.DamageRate);
+              damage = (actorCombat!.MainHand!.Value).Percentage(skill.DamageRate);
             }
             caster.PrevioursMainHand = !caster.PrevioursMainHand;
           }
@@ -57,6 +62,16 @@ namespace DQQ.Helper
       return damage;
     }
 
+    public static Int64 SkillMordifier(this long baseDamage, ITarget? caster)
+    {
+      var modifier = caster?.CombatPanel.DynamicPanel.DamageModifier ?? 0;
+      if (modifier == 0)
+      {
+        return baseDamage;
+      }
+      var p = baseDamage.Percentage(modifier);
+      return baseDamage + p;
+    }
     public static Int64 Percentage(this Int64? input, decimal percentage)
     {
       if (input == null)

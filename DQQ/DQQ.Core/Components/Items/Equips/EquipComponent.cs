@@ -23,6 +23,7 @@ namespace DQQ.Components.Items.Equips
     public decimal? Resistance { get; set; }
     public Int64? MainHand { get; set; }
     public Int64? OffHand { get; set; }
+    public decimal? DamageModifier { get; set; }
 
     public override void Initialize(IDQQEntity entity)
     {

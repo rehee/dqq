@@ -53,7 +53,7 @@ namespace DQQ.Profiles.Skills.Attacks
       {
         return result;
       }
-      var rendDamage = caster?.CombatPanel?.DynamicPanel.MainHand.Percentage(3m);
+      var rendDamage = caster?.CombatPanel?.DynamicPanel.MainHand.Percentage(3m).SkillMordifier(caster);
       var durationParameter = new DurationParameter
       {
         Creator = caster,

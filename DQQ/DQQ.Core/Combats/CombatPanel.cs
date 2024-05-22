@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DQQ.Components.Stages;
+using DQQ.Components.Stages.Maps;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,9 +15,21 @@ namespace DQQ.Combats
     private CombatProperty? calculatedPanel { get; set; }
     public CombatProperty DynamicPanel => calculatedPanel ?? StaticPanel;
 
-    public void CalculateDynamicPanel()
+    public void CalculateDynamicPanel(ITarget actor, IMap map)
     {
-      calculatedPanel = StaticPanel;
+      if (actor.Alive)
+      {
+        calculatedPanel = new CombatProperty(StaticPanel);
+        foreach (var duration in actor.Durations)
+        {
+          duration.CombatPropertyCalculate(calculatedPanel, StaticPanel, map);
+        }
+      }
+      else
+      {
+        calculatedPanel = StaticPanel;
+      }
+
     }
   }
 }

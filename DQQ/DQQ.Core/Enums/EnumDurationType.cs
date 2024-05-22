@@ -4,6 +4,7 @@
   {
     NotSpecified = 0,
     Damage = 1,
-    Healing = 2
+    Healing = 2,
+    Buff = 3,
   }
 }
