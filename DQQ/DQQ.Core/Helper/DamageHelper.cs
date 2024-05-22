@@ -92,9 +92,11 @@ namespace DQQ.Helper
       }
       return input.Value.Percentage(percentage);
     }
-    public static Int64 Percentage(this Int64 input, decimal percentage)
+    public static Int64 Percentage(this Int64 input, decimal percentage, int times = 100)
     {
-      return (int)(percentage * input);
+      
+      var multiple = (int)(percentage * times);
+      return input * multiple / times;
     }
   }
 }

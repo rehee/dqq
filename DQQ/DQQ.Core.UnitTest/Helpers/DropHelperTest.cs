@@ -72,6 +72,8 @@ namespace DQQ.Core.UnitTest.Helpers
 
     public Int64 XP { get; set; }
 
+    public int TickCount { get; set; }
+
     public Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier)
     {
       throw new NotImplementedException();

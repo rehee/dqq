@@ -15,10 +15,12 @@ namespace DQQ.Helper
 {
   public static class TickLogHelper
   {
+
     public static void SetSuccess(this TickLogItem item, int tick, ISkill? skill, ITarget? from, ITarget? to, DamageTaken? damage)
     {
       item.Success = true;
       item.ActionSecond = tick / (decimal)DQQGeneral.TickPerSecond;
+      item.ActionTick = tick;
       item.From = from.ToLogActor();
       item.Target = to.ToLogActor();
       item.Damage = new TicklogDamage
@@ -50,13 +52,26 @@ namespace DQQ.Helper
       result.Currentife = target.CurrentHP;
       return result;
     }
-    public static void AddMapLogSpillCast(this IMap map, bool success, ITarget? from, ITarget? to, ISkill? skill)
+    public static TickLogItem GetTickLogItemFromMap(this IMap? map, bool success)
     {
       var item = new TickLogItem();
-      item.LogType = EnumLogType.DamageTaken;
-      item.WaveNumber = map.WaveIndex;
+      item.WaveNumber = map?.WaveIndex ?? -1;
       item.Success = success;
-      item.ActionSecond = map.PlayingCurrentSecond;
+      item.ActionTick = map?.TickCount ?? -1;
+      item.ActionSecond = map?.PlayingCurrentSecond ?? -1;
+      item.Players = map?.Players?.Select(b => b!.ToLogActor()!).ToArray();
+      if (map?.WaveIndex >= 0)
+      {
+        item.Enemies = map?.MobPool?[map.WaveIndex]?.Select(b => b!.ToLogActor()!).ToArray();
+      }
+      return item;
+    }
+
+    public static void AddMapLogSpillCast(this IMap map, bool success, ITarget? from, ITarget? to, ISkill? skill)
+    {
+      var item = map.GetTickLogItemFromMap(success);
+      item.LogType = EnumLogType.CastSkill;
+
       item.From = from.ToLogActor();
       item.Target = to.ToLogActor();
       item.Skill = skill == null ? null : new TickLogSkill
@@ -69,26 +84,15 @@ namespace DQQ.Helper
 
     public static void AddMapLogNewWave(this IMap map)
     {
-      var item = new TickLogItem();
+      var item = map.GetTickLogItemFromMap(true);
       map.Logs.Add(item);
       item.LogType = EnumLogType.WaveChange;
-      item.WaveNumber = map.WaveIndex;
-      item.WaveOrPlayerChange = true;
-      item.ActionSecond = map.PlayingCurrentSecond;
-      item.Players = map.Players?.Select(b => b!.ToLogActor()!).ToArray();
-      if (map.WaveIndex >= 0)
-      {
-        item.Enemies = map.MobPool?[map.WaveIndex]?.Select(b => b!.ToLogActor()!).ToArray();
-      }
-      item.Success = true;
+
     }
     public static void AddMapLogHealingTaken(this IMap? map, bool success, ITarget? from, ITarget? to, IDQQProfile? profile, TickLogHealing healing)
     {
-      var item = new TickLogItem();
+      var item = map.GetTickLogItemFromMap(success);
       item.LogType = EnumLogType.HealingTaken;
-      item.WaveNumber = map.WaveIndex;
-      item.Success = success;
-      item.ActionSecond = map.PlayingCurrentSecond;
       item.From = from.ToLogActor();
       item.Target = to.ToLogActor();
       item.Healing = healing;
@@ -101,11 +105,10 @@ namespace DQQ.Helper
     }
     public static void AddMapLogDamageTaken(this IMap? map, bool success, ITarget? from, ITarget? to, IDQQProfile? profile, DamageTaken? damageTaken)
     {
-      var item = new TickLogItem();
+      var item = map.GetTickLogItemFromMap(success);
       item.LogType = EnumLogType.DamageTaken;
-      item.WaveNumber = map?.WaveIndex ?? -1;
-      item.Success = success;
-      item.ActionSecond = map?.PlayingCurrentSecond ?? -1;
+
+
       item.From = from.ToLogActor();
       item.Target = to.ToLogActor();
       item.SetLogProfile(profile);

@@ -17,5 +17,7 @@ namespace DQQ.TickLogs
     public string? DisplayName { get; set; }
     public long? MaxLife { get; set; }
     public long? Currentife { get; set; }
+    public double PercentageHP => ((MaxLife == null || MaxLife == 0 || Currentife <= 0) ? 0d : ((Currentife ?? 0d) / (double)MaxLife.Value)) * 100;
+    public int PercentageHPInt => (int)Math.Ceiling(PercentageHP);
   }
 }

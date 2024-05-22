@@ -16,6 +16,7 @@ namespace DQQ.TickLogs
     public static TickLogItem New() => new TickLogItem();
     public bool Success { get; set; }
     public decimal? ActionSecond { get; set; }
+    public int? ActionTick { get; set; }
     public EnumLogType LogType { get; set; }
     public TickLogActor? From { get; set; }
     public TickLogActor? Target { get; set; }

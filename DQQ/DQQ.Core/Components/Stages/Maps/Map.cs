@@ -89,7 +89,7 @@ namespace DQQ.Components.Stages.Maps
     {
 
     }
-    private int TickCount { get; set; } = 0;
+    public int TickCount { get; set; } = 0;
 
     public bool Playing { get; set; }
     public bool Playable { get; set; }
