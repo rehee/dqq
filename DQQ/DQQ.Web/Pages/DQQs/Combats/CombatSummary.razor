@@ -7,7 +7,7 @@
     <h5>
       <Button class="btn btn-primary" Text="开始战斗" OnClick="CombatRequest" />
       <Button class="btn btn-primary" Text="查看战斗" OnClick="CombatLog" />
-      <Button class="btn btn-primary" Text="开始战斗2" OnClick="CombatRequest2" />
+      <Button class="btn btn-primary" Text="@(Clicked==true?"稍等片刻":"开始战斗2")" OnClick="CombatRequest2" />
     </h5>
     @if (IsCombat == true)
     {

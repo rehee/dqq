@@ -42,8 +42,20 @@ namespace DQQ.Web.Pages.DQQs.Combats
         StateHasChanged();
       });
     }
+    public bool Clicked { get; set; }
     public async Task CombatRequest2()
     {
+      if (Clicked == true)
+      {
+        return;
+      }
+      Clicked = true;
+      Task.Run(async () =>
+      {
+        await Task.Delay(3000);
+        Clicked = false;
+        StateHasChanged();
+      });
       var result = await combatService.RequestCombat(new Commons.DTOs.CombatRequestDTO
       {
         ActorId = ActorId,
