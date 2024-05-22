@@ -20,13 +20,15 @@ namespace DQQ.Web.Pages.DQQs.Skills
     public Guid? ActorId { get; set; }
     [Parameter]
     public SkillDTO? DTO { get; set; }
-
+    [Inject]
+    [NotNull]
+    private SwalService? SwalService { get; set; }
 
 
     protected override async Task OnParametersSetAsync()
     {
       await base.OnParametersSetAsync();
-      
+
     }
 
     public async Task Add()
@@ -104,7 +106,29 @@ namespace DQQ.Web.Pages.DQQs.Skills
       {
         return false;
       }
-      var result = strategyService.SetActorSkillStrategy(ActorId, Slot.Value, DTO?.SkillStrategies);
+      var result = await strategyService.SetActorSkillStrategy(ActorId, Slot.Value, DTO?.SkillStrategies);
+      if (result.Success)
+      {
+        var op = new SwalOption()
+        {
+          Category = SwalCategory.Success,
+          Title = "成功",
+          Content = "成功保存技能策略.",
+          ShowClose = true
+        };
+        await SwalService.Show(op);
+      }
+      else
+      {
+        var op = new SwalOption()
+        {
+          Category = SwalCategory.Error,
+          Title = "失败",
+          Content = "保存技能策略失败. 请稍等片刻再次尝试. 或刷新页面再次尝试",
+          ShowClose = true
+        };
+        await SwalService.Show(op);
+      }
       return false;
     }
   }

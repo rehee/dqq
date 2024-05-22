@@ -67,8 +67,8 @@ namespace DQQ.Web.Pages.DQQs.Combats
         var op = new SwalOption()
         {
           Category = SwalCategory.Error,
-          Title = "战斗失败",
-          Content = "战斗失败. 请稍等片刻继续尝试",
+          Title = "进入战斗失败",
+          Content = "进入战斗失败. 请稍等片刻继续尝试",
           ShowClose = true
         };
         await SwalService.Show(op);
