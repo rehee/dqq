@@ -24,7 +24,10 @@
             var icon = d.GetDurationIcon();
             <div class="col-auto">
               <div class="badge-widget">
-                <i class="@icon.IconName" aria-hidden="true"></i>
+                <Tag Color="icon.IconColor">
+                  <i class="@icon.IconName" aria-hidden="true"></i>
+                </Tag>
+                
                 <Badge Color="icon.IconColor"><span style="padding: 0 2px;">@d.RemainSeconds</span></Badge>
               </div>
             </div>

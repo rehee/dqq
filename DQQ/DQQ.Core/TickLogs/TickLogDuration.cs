@@ -21,7 +21,7 @@ namespace DQQ.TickLogs
       var result = new TickLogDuration();
 
       result.DurationNumber = compose.DurationNumber;
-      result.RemainSeconds = compose.TickRemain.GetTickSeconds();
+      result.RemainSeconds = compose.TickRemain.GetTickSeconds(0);
       return result;
     }
     public EnumDurationNumber DurationNumber { get; set; }
