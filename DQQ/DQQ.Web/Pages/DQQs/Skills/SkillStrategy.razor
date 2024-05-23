@@ -1,6 +1,9 @@
 ﻿@inherits SkillStrategyPage
 <h3>技能策略</h3>
 <p>技能释放的策略. 根据选择的条件来释放. 也可以选择目标条件以选择与主目标不同的目标. 玩命在做了</p>
+<br />
+<br />
+<br />
 <Button Color="Color.Primary" Text="添加策略" OnClick="Add" />
 <table class="table">
   <thead>
@@ -25,47 +28,92 @@
             <InputNumber @bind-Value="s.Priority" />
           </td>
           <td>
-            <Select Items="SelectedItemHelper.GetSelectedItem<bool>()" @bind-Value="s.Condition">
+            <Select Items="SelectedItemHelper.GetSelectedItem<EnumStrategyCondition>()" @bind-Value="s.Condition">
             </Select>
           </td>
-          <td>
-            @if (s.Condition == true)
-            {
+          @if (s.Condition == EnumStrategyCondition.NotSpecified)
+          {
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+          }
+          @if (s.Condition == EnumStrategyCondition.Target)
+          {
+            <td>
               <Select Items="SelectedItemHelper.GetSelectedItem<EnumTarget>()" @bind-Value="s.CheckTarget">
               </Select>
-            }
 
-          </td>
-          <td>
-            @if (s.Condition == true)
-            {
+            </td>
+            <td>
               <Select Items="SelectedItemHelper.GetSelectedItem<EnumTargetPriority>()" @bind-Value="s.SkillTarget">
               </Select>
-            }
-          </td>
-          <td>
-            @if (s.Condition == true)
-            {
+            </td>
+            <td>
               <Select Items="SelectedItemHelper.GetSelectedItem<EnumPropertyCompare>()" @bind-Value="s.Property">
               </Select>
-            }
 
-          </td>
-          <td>
-            @if (s.Condition == true)
-            {
+            </td>
+            <td>
               <Select Items="SelectedItemHelper.GetSelectedItem<EnumCompare>()" @bind-Value="s.Compare">
               </Select>
-            }
 
-          </td>
-          <td>
-            @if (s.Condition == true)
-            {
+            </td>
+            <td>
               <InputNumber @bind-Value="s.Value" />
-            }
 
-          </td>
+            </td>
+          }
+          @if (s.Condition == EnumStrategyCondition.Players || s.Condition == EnumStrategyCondition.Enemies)
+          {
+            <td>
+              <Select Items="SelectedItemHelper.GetSelectedItem<EnumStrategyParty>()" @bind-Value="s.PartyStrategy">
+              </Select>
+
+            </td>
+            <td>
+              <Select Items="SelectedItemHelper.GetSelectedItem<EnumTargetPriority>()" @bind-Value="s.SkillTarget">
+              </Select>
+            </td>
+            <td>
+              @if (s.PartyStrategy == EnumStrategyParty.Contain)
+              {
+                <Select Items="SelectedItemHelper.GetSelectedItem<EnumPropertyCompare>()" @bind-Value="s.Property">
+                </Select>
+              }
+            </td>
+            <td>
+              <Select Items="SelectedItemHelper.GetSelectedItem<EnumCompare>()" @bind-Value="s.Compare">
+              </Select>
+
+            </td>
+            <td>
+              <InputNumber @bind-Value="s.Value" />
+
+            </td>
+          }
+          @if (s.Condition == EnumStrategyCondition.Wave || s.Condition == EnumStrategyCondition.Combat)
+          {
+            <td>
+              <Select Items="SelectedItemHelper.GetSelectedItem<EnumStrategyWave>()" @bind-Value="s.WaveStrategy">
+              </Select>
+
+            </td>
+            <td>
+              <Select Items="SelectedItemHelper.GetSelectedItem<EnumTargetPriority>()" @bind-Value="s.SkillTarget">
+              </Select>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+              <InputNumber @bind-Value="s.Value" />
+
+            </td>
+          }
+
           <td>
 
             <Button Color="Color.Danger" Text="-" OnClick="()=>Remove(s)" />

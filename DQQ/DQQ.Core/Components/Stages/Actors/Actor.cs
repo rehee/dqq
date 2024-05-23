@@ -3,6 +3,7 @@ using DQQ.Components.Items;
 using DQQ.Components.Skills;
 using DQQ.Components.Stages.Maps;
 using DQQ.Entities;
+using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Profiles;
 using DQQ.TickLogs;
@@ -21,7 +22,7 @@ namespace DQQ.Components.Stages.Actors
 
     public Int64 BasicDamage { get; set; }
 
-    public override int PowerLevel => 0;
+    public override EnumTargetLevel PowerLevel => EnumTargetLevel.NotSpecified;
 
     [JsonIgnore]
     public IEnumerable<ISkillComponent>? Skills { get; set; }

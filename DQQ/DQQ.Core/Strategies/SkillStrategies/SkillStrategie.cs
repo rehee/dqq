@@ -10,9 +10,10 @@ namespace DQQ.Strategies.SkillStrategies
   public class SkillStrategy
   {
     public int Priority { get; set; }
-    public bool Condition { get; set; }
+    public EnumStrategyCondition Condition { get; set; }
     public EnumTargetPriority? SkillTarget { get; set; }
-
+    public EnumStrategyParty? PartyStrategy { get; set; }
+    public EnumStrategyWave? WaveStrategy { get; set; }
     public EnumTarget? CheckTarget { get; set; }
     public EnumPropertyCompare? Property { get; set; }
     public EnumCompare? Compare { get; set; }

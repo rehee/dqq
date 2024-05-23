@@ -7,6 +7,7 @@ using DQQ.Pools;
 using DQQ.TickLogs;
 using DQQ.Helper;
 using System.Numerics;
+using DQQ.Profiles;
 
 namespace DQQ.Components.Stages.Maps
 {
@@ -33,7 +34,9 @@ namespace DQQ.Components.Stages.Maps
 
     public string? DisplayName { get; set; }
 
-    public IDQQEntity? Profile { get; set; }
+    public IDQQEntity? Entity { get; set; }
+
+    public IDQQProfile? Profile { get; set; }
 
     public async Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier)
     {
@@ -80,17 +83,17 @@ namespace DQQ.Components.Stages.Maps
       var finalWave = new List<IActor>();
       var finalNormalMob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => new { r = RandomHelper.GetRandom(1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
       finalWave.Add(Monster.Create(finalNormalMob, MapLevel, Enums.EnumMobRarity.Normal));
-      finalWave.Add(Monster.Create(mobWithBoss, MapLevel, Enums.EnumMobRarity.Boss));
+      finalWave.Add(Monster.Create(mobWithBoss, MapLevel));
       mobList.Add(finalWave);
 
     }
 
-    public void Initialize(IDQQEntity profile)
+    public void Initialize(IDQQEntity entity)
     {
 
     }
     public int TickCount { get; set; } = 0;
-
+    public int WaveTickCount { get; set; } = 0;
     public bool Playing { get; set; }
     public bool Playable { get; set; }
     public DateTime? PlayTime { get; set; }
@@ -119,6 +122,7 @@ namespace DQQ.Components.Stages.Maps
       while (TickCount < this.TotalTick())
       {
         TickCount++;
+        WaveTickCount++;
         PlayingCurrentSecond = TickCount / (decimal)DQQGeneral.TickPerSecond;
         if (Players == null || MobPool == null)
         {
@@ -130,6 +134,33 @@ namespace DQQ.Components.Stages.Maps
         {
           WaveIndex = currentIndex;
           TickLogHelper.AddMapLogNewWave(this);
+          WaveTickCount = 0;
+          if (Players?.Any() == true)
+          {
+            foreach (var p in Players.Where(b => b.Alive))
+            {
+              if (p.Skills?.Any() == true)
+              {
+                foreach (var s in p.Skills)
+                {
+                  s.WaveCount = 0;
+                }
+              }
+            }
+          }
+          if (currentPack?.Any() != null)
+          {
+            foreach (var m in currentPack.Where(b => b.Alive))
+            {
+              if (m.Skills?.Any() == true)
+              {
+                foreach (var s in m.Skills)
+                {
+                  s.WaveCount = 0;
+                }
+              }
+            }
+          }
         }
         if (currentPack == null || currentPack.Any() != true)
         {

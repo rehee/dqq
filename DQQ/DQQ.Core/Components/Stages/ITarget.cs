@@ -14,7 +14,7 @@ namespace DQQ.Components.Stages;
 public interface ITarget : IDQQComponent, ICombatCalculate, IWIthCombatPanel
 {
   EnumTargetPriority? TargetPriority { get; }
-  int PowerLevel { get; }
+  EnumTargetLevel PowerLevel { get; }
   ITarget? Target { get; }
   Int64 CurrentHP { get; set; }
 

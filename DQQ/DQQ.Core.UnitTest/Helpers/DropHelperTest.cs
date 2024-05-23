@@ -5,6 +5,7 @@ using DQQ.Components.Stages.Maps;
 using DQQ.Drops;
 using DQQ.Entities;
 using DQQ.Helper;
+using DQQ.Profiles;
 using DQQ.TickLogs;
 using DQQ.UnitTest;
 using System.Numerics;
@@ -64,7 +65,9 @@ namespace DQQ.Core.UnitTest.Helpers
 
     public string? DisplayName => throw new NotImplementedException();
 
-    public IDQQEntity? Profile => throw new NotImplementedException();
+    public IDQQEntity? Entity { get; set; }
+
+    public IDQQProfile? Profile { get; set; }
 
     public List<ItemComponent>? Drops => throw new NotImplementedException();
 
@@ -73,6 +76,8 @@ namespace DQQ.Core.UnitTest.Helpers
     public Int64 XP { get; set; }
 
     public int TickCount { get; set; }
+
+    public int WaveTickCount { get; set; }
 
     public Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier)
     {

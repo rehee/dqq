@@ -58,7 +58,7 @@ namespace DQQ.Helper
       item.WaveNumber = map?.WaveIndex ?? -1;
       item.Success = success;
       item.ActionTick = map?.TickCount ?? -1;
-      item.ActionSecond = map?.PlayingCurrentSecond ?? -1;
+      item.ActionSecond = (map?.TickCount ?? -1) / (decimal)DQQGeneral.TickPerSecond;
       item.Players = map?.Players?.Select(b => b!.ToLogActor()!).ToArray();
       if (map?.WaveIndex >= 0)
       {

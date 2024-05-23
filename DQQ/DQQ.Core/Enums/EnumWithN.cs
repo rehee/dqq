@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-  public enum EnumMobRarity
+  public enum EnumWithNotSpecified
   {
-    Normal = 1,
-    Magic = 2,
-    Elite = 4,
-    Champion = 8,
-
+    NotSpecified = 0,
   }
 }

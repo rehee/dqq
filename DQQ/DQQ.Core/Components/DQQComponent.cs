@@ -1,4 +1,6 @@
 ﻿using DQQ.Entities;
+using DQQ.Profiles;
+using System.Text.Json.Serialization;
 
 namespace DQQ.Components
 {
@@ -7,11 +9,14 @@ namespace DQQ.Components
     public virtual Guid? DisplayId { get; set; }
     public virtual string? DisplayName { get; set; }
 
-    public IDQQEntity? Profile { get; set; }
+    [JsonIgnore]
+    public IDQQEntity? Entity { get; set; }
+    [JsonIgnore]
+    public IDQQProfile? Profile { get; set; }
 
     public virtual void Initialize(IDQQEntity entity)
     {
-      Profile = Profile;
+      Entity = entity;
       DisplayId = entity.Id;
       DisplayName = entity.Name;
     }

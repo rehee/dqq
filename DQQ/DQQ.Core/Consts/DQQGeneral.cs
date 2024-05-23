@@ -20,18 +20,23 @@ namespace DQQ.Consts
     public const int DurationIntervalTick = 15;
 
     public const decimal DuelwieldAttackSpeed = 1.10m;
-
-    public static Int64 MobStatusCalculate(int mobLevel, Int64 basicValue, EnumMobRarity rarity = EnumMobRarity.Normal, bool isBoss = false)
+    public static EnumTargetLevel[] GuardianLevel = new EnumTargetLevel[] { EnumTargetLevel.Guardian };
+    public static EnumTargetLevel[] EliteLevel = new EnumTargetLevel[] { EnumTargetLevel.Magic, EnumTargetLevel.Elite, EnumTargetLevel.Champion };
+    public static EnumTargetLevel[] TrashLevel = new EnumTargetLevel[] { EnumTargetLevel.NotSpecified, EnumTargetLevel.Normal };
+    public static Int64 MobStatusCalculate(int mobLevel, Int64 basicValue, EnumMobRarity? rarity = EnumMobRarity.Normal, bool isBoss = false)
     {
       var multiple = 1;
       if (isBoss != true)
       {
         switch (rarity)
         {
-          case EnumMobRarity.Champion:
+          case EnumMobRarity.Magic:
+            multiple = 2;
+            break;
+          case EnumMobRarity.Elite:
             multiple = 3;
             break;
-          case EnumMobRarity.Boss:
+          case EnumMobRarity.Champion:
             multiple = 5;
             break;
         }

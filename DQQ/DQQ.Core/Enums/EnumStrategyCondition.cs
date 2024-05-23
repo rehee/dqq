@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-  public enum EnumMobRarity
+  public enum EnumStrategyCondition
   {
-    Normal = 1,
-    Magic = 2,
-    Elite = 4,
-    Champion = 8,
-
+    NotSpecified = 0,
+    Target = 1,
+    Enemies = 2,
+    Players = 3,
+    Combat = 4,
+    Wave = 5
   }
 }

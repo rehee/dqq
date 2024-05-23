@@ -24,7 +24,7 @@ namespace DQQ.Components.Stages
 
     public bool? PrevioursMainHand { get; set; }
 
-    public abstract int PowerLevel { get; }
+    public abstract EnumTargetLevel PowerLevel { get; }
 
     public virtual decimal PercentageHP => (CombatPanel.DynamicPanel.MaximunLife == null || CombatPanel.DynamicPanel.MaximunLife == 0) ? 1 : (CurrentHP / (decimal)CombatPanel.DynamicPanel.MaximunLife);
 

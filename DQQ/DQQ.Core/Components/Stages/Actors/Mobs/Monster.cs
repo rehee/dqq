@@ -18,7 +18,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
     public EnumMob MobNumber { get; set; }
     public EnumMobRarity Rarity { get; set; } = EnumMobRarity.Normal;
     public decimal DropRate { get; set; }
-    public override int PowerLevel
+    public override EnumTargetLevel PowerLevel
     {
       get
       {
@@ -26,25 +26,28 @@ namespace DQQ.Components.Stages.Actors.Mobs
         {
           if (mp.IsBoss)
           {
-            return 20;
+            return EnumTargetLevel.Guardian;
           }
         }
         switch (Rarity)
         {
           case EnumMobRarity.Normal:
-            return 1;
+            return EnumTargetLevel.Normal;
           case EnumMobRarity.Magic:
-            return 5;
-          case EnumMobRarity.Boss:
-            return 10;
+            return EnumTargetLevel.Magic;
+          case EnumMobRarity.Elite:
+            return EnumTargetLevel.Elite;
+          case EnumMobRarity.Champion:
+            return EnumTargetLevel.Champion;
         }
         return base.PowerLevel;
       }
     }
     public Int64 XP { get; set; }
-    public static Monster Create(MobProfile profile, int level, EnumMobRarity rarity)
+    public static Monster Create(MobProfile profile, int level, EnumMobRarity? rarity = null)
     {
       var mob = new Monster();
+      mob.Profile = profile;
       var namePrefix = "";
       var dropTimes = 1;
       if (profile.IsBoss != true)
@@ -53,22 +56,26 @@ namespace DQQ.Components.Stages.Actors.Mobs
         {
           case EnumMobRarity.Magic:
             namePrefix = "Magic";
+            dropTimes = 2;
+            break;
+          case EnumMobRarity.Elite:
+            namePrefix = "Elite";
+            dropTimes = 4;
             break;
           case EnumMobRarity.Champion:
-            dropTimes = 3;
+            dropTimes = 8;
             namePrefix = "Champion";
             break;
-          case EnumMobRarity.Boss:
-            namePrefix = "Boss";
-            dropTimes = 5;
-            break;
+
+
         }
       }
+
 
       mob.MobNumber = profile.ProfileNumber;
       mob.Alive = true;
       mob.Targetable = true;
-      mob.Rarity = rarity;
+      mob.Rarity = rarity ?? EnumMobRarity.Normal;
       mob.DisplayName = $"{namePrefix} {profile.Name}";
       mob.BasicDamage = DQQGeneral.MobStatusCalculate(level, profile.Damage, rarity, profile.IsBoss);
       mob.CombatPanel.StaticPanel.MaximunLife = DQQGeneral.MobStatusCalculate(level, profile.HP, rarity, profile.IsBoss);

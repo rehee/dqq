@@ -22,6 +22,7 @@ namespace DQQ.Components.Stages.Actors.Characters
     {
       Equips = new ConcurrentDictionary<EnumEquipSlot, IEquptment?>();
     }
+    public override EnumTargetLevel PowerLevel => EnumTargetLevel.Elite;
     public string? OwnerId { get; set; }
     public BigInteger CurrentXP { get; set; }
     public BigInteger NextLevelXP { get; set; }
@@ -31,7 +32,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 
     public Dictionary<int, SkillDTO>? SkillMap { get; set; }
 
-    
+
 
     public ActorEntity ToActorEntity()
     {

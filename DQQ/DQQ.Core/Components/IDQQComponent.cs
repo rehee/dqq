@@ -1,5 +1,6 @@
 ﻿using DQQ.Entities;
 using DQQ.Enums;
+using DQQ.Profiles;
 
 namespace DQQ.Components
 {
@@ -8,7 +9,9 @@ namespace DQQ.Components
     Guid? DisplayId { get; }
     string? DisplayName { get; }
     
-    IDQQEntity? Profile { get; }
+    IDQQEntity? Entity { get; }
+
+    IDQQProfile? Profile { get; }
     void Initialize(IDQQEntity entity);
 
   }

@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-    public enum EnumCompare
-    {
-        MoreThan,
-        LessThan
-    }
+  public enum EnumCompare
+  {
+    MoreThan,
+    MoreOrEqual,
+    LessThan,
+    LessOrEqual,
+    Equal,
+    NotEqual
+  }
 }

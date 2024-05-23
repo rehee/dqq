@@ -22,7 +22,7 @@ namespace DQQ.Profiles.Mobs.BossMobs
         new Strategies.SkillStrategies.SkillStrategy
         {
           Priority=0,
-          Condition=true,
+          Condition = EnumStrategyCondition.Target,
           Property= EnumPropertyCompare.HealthPercentage,
           Compare= EnumCompare.LessThan,
           Value = 0.55m,

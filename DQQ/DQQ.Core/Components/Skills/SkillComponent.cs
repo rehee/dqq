@@ -8,6 +8,7 @@ using DQQ.Helper;
 using DQQ.Pools;
 using DQQ.Profiles.Mobs;
 using DQQ.Profiles.Skills;
+using DQQ.Strategies;
 using DQQ.Strategies.SkillStrategies;
 using DQQ.Tags;
 using ReheeCmf.Commons.Jsons.Options;
@@ -49,7 +50,8 @@ namespace DQQ.Components.Skills
 
     public ISkill? SkillProfile { get; protected set; }
 
-
+    public int TotalCount { get; set; } = 0;
+    public int WaveCount { get; set; } = 0;
 
     public override void Initialize(IDQQEntity entity)
     {
@@ -58,8 +60,16 @@ namespace DQQ.Components.Skills
       {
         var skillProfile = DQQPool.SkillPool[sp.SkillNumber ?? 0];
         InitSkillProfile(skillProfile, sp.Slot);
-        SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
+        try
+        {
+          SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
           JsonSerializer.Deserialize<SkillStrategy[]?>(sp.SkillStrategy ?? "", JsonOption.DefaultOption);
+        }
+        catch
+        {
+
+        }
+
       }
     }
 
@@ -98,29 +108,31 @@ namespace DQQ.Components.Skills
         CastTickCount++;
         return result;
       }
-      (bool, ITarget?) matchCondition = (false, null);
-      if (SkillStrategies != null)
+      var matchCondition = StrategeCheckResult.New(false, null);
+      if (SkillStrategies?.Any() == true)
       {
-        matchCondition = StrategyHelper.MatchSkillStrategy(SkillStrategies, caster, targets, map);
+        matchCondition = StrategyHelper.MatchSkillStrategy(SkillStrategies, caster, targets, map, this);
       }
       else
       {
-        matchCondition = (true, null);
+        matchCondition = StrategeCheckResult.New(true, null);
       }
 
-      if (!matchCondition.Item1)
+      if (!matchCondition.Matched)
       {
         return result;
       }
 
       if (SkillProfile != null)
       {
-        result = await SkillProfile.CastSkill(caster, matchCondition.Item2, targets, map);
+        result = await SkillProfile.CastSkill(caster, matchCondition.MatchedTarget, targets, map);
       }
       else
       {
         result.SetSuccess(true);
       }
+      TotalCount++;
+      WaveCount++;
       CastTickCount = 0;
       if (CastWithWeaponSpeedTick(caster) <= 0 && CDTick <= 0)
       {

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-  public enum EnumMobRarity
+  public enum EnumStrategyWave
   {
-    Normal = 1,
-    Magic = 2,
-    Elite = 4,
-    Champion = 8,
-
+    OnlyBeginning = 0,
+    Period = 1,
+    BossFight = 2,
+    EliteFight = 3,
+    TrashMob = 4
   }
 }

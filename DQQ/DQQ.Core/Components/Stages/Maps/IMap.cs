@@ -15,8 +15,9 @@ namespace DQQ.Components.Stages.Maps
     int? limitMinute { get; }
     IEnumerable<IActor>? Players { get; }
     List<List<IActor>?>? MobPool { get; }
-    int WaveIndex {  get; }
-    int TickCount {  get; }
+    int WaveIndex { get; }
+    int TickCount { get; }
+    int WaveTickCount { get; }
     bool Playable { get; }
     bool Playing { get; }
     DateTime? PlayTime { get; }
