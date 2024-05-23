@@ -13,8 +13,8 @@
       <th>判断目标</th>
       <th>目标权重</th>
       <th>判断属性</th>
-      <th>比较大小</th>
-      <th>比较值</th>
+      <th>大小比较</th>
+      <th>值</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -109,7 +109,10 @@
             <td>
             </td>
             <td>
-              <InputNumber @bind-Value="s.Value" />
+              @if (s.WaveStrategy == EnumStrategyWave.Period)
+              {
+                <InputNumber @bind-Value="s.Value" />
+              }
 
             </td>
           }

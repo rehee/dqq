@@ -18,7 +18,8 @@ namespace DQQ.Helper
         var enumResult = new List<SelectedItem>();
         foreach (var value in enumValues)
         {
-          enumResult.Add(new SelectedItem($"{value}", $"{value}"));
+          var valueString = $"{value}";
+          enumResult.Add(new SelectedItem($"{value}", $"{value.GetStragyEnumString() ?? valueString}"));
         }
         return enumResult;
       }
