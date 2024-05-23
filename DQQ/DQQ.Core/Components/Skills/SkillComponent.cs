@@ -58,10 +58,10 @@ namespace DQQ.Components.Skills
       base.Initialize(entity);
       if (entity is SkillEntity sp)
       {
-        var skillProfile = DQQPool.SkillPool[sp.SkillNumber ?? 0];
-        InitSkillProfile(skillProfile, sp.Slot);
         try
         {
+          var skillProfile = DQQPool.SkillPool[sp.SkillNumber ?? 0];
+          InitSkillProfile(skillProfile, sp.Slot);
           SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
           JsonSerializer.Deserialize<SkillStrategy[]?>(sp.SkillStrategy ?? "", JsonOption.DefaultOption);
         }
