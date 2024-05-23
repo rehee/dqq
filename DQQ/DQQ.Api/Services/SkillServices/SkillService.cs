@@ -32,7 +32,7 @@ namespace DQQ.Api.Services.SkillServices
       var actor = await context.Query<ActorEntity>(true).Where(b => b.Id == dto.ActorId && b.OwnerId == user).AnyAsync();
       if (dto.SkillNumber != null)
       {
-        var skillPick = DQQPool.SkillPool[dto.SkillNumber.Value];
+        var skillPick = DQQPool.TryGet<SkillProfile, EnumSkill?>(dto.SkillNumber);
         if (skillPick.NoPlayerSkill)
         {
           return result;

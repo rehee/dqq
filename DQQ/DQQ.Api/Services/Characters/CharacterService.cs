@@ -3,6 +3,7 @@ using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Pools;
+using DQQ.Profiles.Items;
 using DQQ.Profiles.Items.Equipments;
 using DQQ.Services.ActorServices;
 using DQQ.Services.ItemServices;
@@ -42,7 +43,7 @@ namespace DQQ.Api.Services.Characters
         await context.AddAsync(entity);
         await context.SaveChangesAsync();
 
-        var sword = (DQQPool.ItemPool[EnumItem.CopperSword] as EquipProfile)!.GenerateComponent(1, 1);
+        var sword = (DQQPool.TryGet<ItemProfile, EnumItem?>(EnumItem.CopperSword) as EquipProfile)!.GenerateComponent(1, 1);
         await tService.AddAndIntoTemporary(entity.Id, sword);
 
         await itemService.PickItem(entity.Id, sword.DisplayId!.Value);

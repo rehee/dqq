@@ -9,5 +9,7 @@ namespace DQQ.Pools
   {
     public static Dictionary<EnumSkill, SkillProfile> SkillPool { get; set; } = new Dictionary<EnumSkill, SkillProfile>();
     public static Dictionary<EnumDurationNumber, DurationProfile> DurationPool { get; set; } = new Dictionary<EnumDurationNumber, DurationProfile>();
+
+    
   }
 }

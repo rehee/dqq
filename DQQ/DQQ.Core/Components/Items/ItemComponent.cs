@@ -13,7 +13,7 @@ namespace DQQ.Components.Items
     public Guid? OwnerId { get; set; }
     public int? Quanty { get; set; }
     public int? ItemLevel { get; set; }
-    public EnumItem ItemNumber { get; set; }
+    public EnumItem? ItemNumber { get; set; }
     public ItemProfile? ItemProfile { get; set; }
     public override void Initialize(IDQQEntity entity)
     {
@@ -21,20 +21,20 @@ namespace DQQ.Components.Items
       if (entity is ItemEntity ie)
       {
         ItemNumber = ie.ItemNumber;
-        var profile = DQQPool.ItemPool[ItemNumber];
+        var profile = DQQPool.TryGet<ItemProfile, EnumItem?>(ItemNumber);
         Initialize(profile, ie.ItemLevel, ie.Quantity);
       }
     }
-    public virtual void Initialize(ItemProfile itemProfile, int? itemLevel, int? quanty = null)
+    public virtual void Initialize(ItemProfile? itemProfile, int? itemLevel, int? quanty = null)
     {
       if (!DisplayId.HasValue)
       {
         DisplayId = Guid.NewGuid();
       }
-      ItemNumber = itemProfile.ProfileNumber;
+      ItemNumber = itemProfile?.ProfileNumber;
       ItemProfile = itemProfile;
-      DisplayName = itemProfile.Name;
-      if (!ItemProfile.IsStack)
+      DisplayName = itemProfile?.Name;
+      if (ItemProfile?.IsStack != true)
       {
         Quanty = 1;
         ItemLevel = itemLevel == null || itemLevel <= 0 ? 1 : itemLevel;

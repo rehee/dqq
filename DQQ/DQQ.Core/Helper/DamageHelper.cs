@@ -49,7 +49,7 @@ namespace DQQ.Helper
     }
     public static Int64 SkillDamage(this ISkill skill, ITarget caster, IMap? map)
     {
-      var profile = DQQPool.SkillPool[skill.SkillNumber];
+      var profile = DQQPool.TryGet<SkillProfile, EnumSkill?>(skill.SkillNumber);
       if (profile == null || skill.DamageRate == 0)
       {
         return 0;
@@ -94,7 +94,7 @@ namespace DQQ.Helper
     }
     public static Int64 Percentage(this Int64 input, decimal percentage, int times = 100)
     {
-      
+
       var multiple = (int)(percentage * times);
       return input * multiple / times;
     }

@@ -23,7 +23,7 @@ namespace DQQ.Components.Skills
     public static SkillComponent New(EnumSkill skill, int skillSlot = 0)
     {
       var skillComponent = new SkillComponent();
-      var skillProfile = DQQPool.SkillPool[skill];
+      var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkill?>(skill);
       skillComponent.InitSkillProfile(skillProfile, skillSlot);
       return skillComponent;
     }
@@ -31,7 +31,7 @@ namespace DQQ.Components.Skills
     public static SkillComponent New(MobSkill skill, int skillSlot = 0)
     {
       var skillComponent = new SkillComponent();
-      var skillProfile = DQQPool.SkillPool[skill.SkillNumber];
+      var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkill?>(skill.SkillNumber);
       skillComponent.InitSkillProfile(skillProfile, skillSlot);
       skillComponent.SkillStrategies = skill.Strategies;
       return skillComponent;
@@ -60,7 +60,7 @@ namespace DQQ.Components.Skills
       {
         try
         {
-          var skillProfile = DQQPool.SkillPool[sp.SkillNumber ?? 0];
+          var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkill?>(sp.SkillNumber);
           InitSkillProfile(skillProfile, sp.Slot);
           SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
           JsonSerializer.Deserialize<SkillStrategy[]?>(sp.SkillStrategy ?? "", JsonOption.DefaultOption);
@@ -73,13 +73,13 @@ namespace DQQ.Components.Skills
       }
     }
 
-    public void InitSkillProfile(ISkill profile, int skillSlot = 0)
+    public void InitSkillProfile(ISkill? profile, int skillSlot = 0)
     {
       SkillProfile = profile;
-      CastTime = profile.CastTime;
-      Cooldown = profile.CoolDown;
-      DamageRate = profile.DamageRate;
-      CastWithWeaponSpeed = profile.CastWithWeaponSpeed;
+      CastTime = profile?.CastTime ?? 0;
+      Cooldown = profile?.CoolDown ?? 0;
+      DamageRate = profile?.DamageRate ?? 0;
+      CastWithWeaponSpeed = profile?.CastWithWeaponSpeed ?? false;
       this.Slot = skillSlot;
     }
 

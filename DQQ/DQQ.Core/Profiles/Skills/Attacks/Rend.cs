@@ -5,6 +5,7 @@ using DQQ.Durations;
 using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Pools;
+using DQQ.Profiles.Durations;
 using DQQ.Profiles.Durations.Debuffs;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
@@ -58,7 +59,7 @@ namespace DQQ.Profiles.Skills.Attacks
         Value = rendDamage,
         DurationSeconds = 5
       };
-      DQQPool.DurationPool[EnumDurationNumber.Rend].CreateDuration(durationParameter, actualTarget, map);
+      DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Rend)?.CreateDuration(durationParameter, actualTarget, map);
       return result;
     }
   }

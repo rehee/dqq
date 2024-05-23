@@ -9,6 +9,7 @@ using DQQ.Helper;
 using System.Linq;
 using DQQ.Pools;
 using Microsoft.Linq.Translations;
+using DQQ.Profiles.Items;
 
 namespace DQQ.Api.Services.Itemservices
 {
@@ -138,7 +139,11 @@ namespace DQQ.Api.Services.Itemservices
 
       foreach (var item in items.GroupBy(b => b.ItemNumber))
       {
-        var itemProfile = DQQPool.ItemPool[item.Key];
+        var itemProfile = DQQPool.TryGet<ItemProfile, EnumItem?>(item.Key);
+        if (itemProfile == null)
+        {
+          continue;
+        }
         if (itemProfile.IsStack)
         {
           var sum = item.Sum(b => b.Quantity ?? 0);

@@ -2,6 +2,7 @@
 using DQQ.Commons;
 using DQQ.Enums;
 using DQQ.Pools;
+using DQQ.Profiles.Durations;
 using DQQ.TickLogs;
 
 namespace DQQ.Helper
@@ -34,7 +35,7 @@ namespace DQQ.Helper
       {
         return result;
       }
-      var profile = DQQPool.DurationPool[duration.DurationNumber];
+      var profile = DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(duration.DurationNumber);
       result.IconColor = profile.DurationType.GetDurationColor();
       result.IconName = profile.DurationType.GetDurationIcon();
       return result;

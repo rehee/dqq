@@ -4,6 +4,7 @@ using DQQ.Components.Stages.Maps;
 using DQQ.Durations;
 using DQQ.Enums;
 using DQQ.Pools;
+using DQQ.Profiles.Durations;
 using ReheeCmf.Responses;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace DQQ.Profiles.Skills.Shouts
       {
         return result;
       }
-      DQQPool.DurationPool[EnumDurationNumber.BattleShout].CreateDuration(new DurationParameter
+      DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.BattleShout)?.CreateDuration(new DurationParameter
       {
         Creator = caster,
         DurationSeconds = 120,

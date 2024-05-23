@@ -2,6 +2,7 @@
 using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Pools;
+using DQQ.Profiles.Items;
 using DQQ.Profiles.Items.Equipments;
 using DQQ.UnitTest;
 
@@ -12,7 +13,7 @@ namespace DQQ.Core.UnitTest.Helpers
     [Test]
     public void EquipItemTest()
     {
-      var equipProfile = DQQPool.ItemPool[EnumItem.CorrodedBlade] as EquipProfile;
+      var equipProfile = DQQPool.TryGet<ItemProfile, EnumItem?>(EnumItem.CorrodedBlade) as EquipProfile;
       var equip = equipProfile!.GenerateEquipComponent(1);
       var player = new Character();
       player.Equip(EnumEquipSlot.MainHand, equip);

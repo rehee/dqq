@@ -1,4 +1,6 @@
 ﻿using DQQ.Attributes;
+using DQQ.Enums;
+using DQQ.Profiles;
 using DQQ.Profiles.Durations;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Mobs;
@@ -7,6 +9,7 @@ using ReheeCmf.Helpers;
 using ReheeCmf.Utility.CmfRegisters;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -16,7 +19,6 @@ namespace DQQ.Pools
 {
   public static partial class DQQPool
   {
-
     public static void InitPool()
     {
       AppDomain currentDomain = AppDomain.CurrentDomain;
@@ -50,6 +52,37 @@ namespace DQQ.Pools
 
         }
       }
+    }
+
+    public static T? TryGet<T, K>(K key) where T : class, IDQQProfile
+    {
+      if (key == null)
+      {
+        return default(T);
+      }
+      var type = typeof(T);
+
+      if (key is EnumSkill skillNumber)
+      {
+        SkillPool.TryGetValue(skillNumber, out var skill);
+        return skill as T;
+      }
+      if (key is EnumMob mobNumber)
+      {
+        MobPool.TryGetValue(mobNumber, out var mob);
+        return mob as T;
+      }
+      if (key is EnumItem itemNumber)
+      {
+        ItemPool.TryGetValue(itemNumber, out var item);
+        return item as T;
+      }
+      if (key is EnumDurationNumber durationNumber)
+      {
+        DurationPool.TryGetValue(durationNumber, out var duration);
+        return duration as T;
+      }
+      return default(T);
     }
   }
 }

@@ -11,13 +11,14 @@ using DQQ.Profiles.Durations;
 using DQQ.Consts;
 using DQQ.Pools;
 using DQQ.Combats;
+using DQQ.Profiles.Skills;
 
 namespace DQQ.Components.Durations
 {
   public class DurationComponent : DQQComponent, IDisposable
   {
     public EnumDurationNumber DurationNumber { get; set; }
-    public DurationProfile? Duration => DQQPool.DurationPool[DurationNumber];
+    public DurationProfile? Duration => DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(DurationNumber);
     public ITarget? Creator { get; set; }
     public int TickRemain { get; set; }
     public int TickCount = 0;

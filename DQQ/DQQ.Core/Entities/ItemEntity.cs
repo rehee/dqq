@@ -20,9 +20,9 @@ namespace DQQ.Entities
 {
   public class ItemEntity : DQQEntityBase<ItemComponent>, ICombatProperty
   {
-    public EnumItem ItemNumber { get; set; }
+    public EnumItem? ItemNumber { get; set; }
     [NotMapped]
-    public ItemProfile Profile => DQQPool.ItemPool[ItemNumber];
+    public ItemProfile? Profile => DQQPool.TryGet<ItemProfile, EnumItem?>(ItemNumber);
 
     [ForeignKey(nameof(ActorEntity))]
     public Guid? ActorId { get; set; }
@@ -45,7 +45,7 @@ namespace DQQ.Entities
 
 
 
-    
+
 
 
 

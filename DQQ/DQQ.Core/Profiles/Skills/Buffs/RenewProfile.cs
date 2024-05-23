@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using DQQ.Durations;
 using DQQ.Helper;
 using DQQ.Pools;
+using DQQ.Profiles.Durations;
 
 namespace DQQ.Profiles.Skills.Buffs
 {
@@ -56,7 +57,7 @@ namespace DQQ.Profiles.Skills.Buffs
         DurationSeconds = 5,
         Value = CalculateDamage(caster, map)
       };
-      DQQPool.DurationPool[EnumDurationNumber.Renew].CreateDuration(durationParameter, caster, map);
+      DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Renew)?.CreateDuration(durationParameter, caster, map);
       return result;
     }
   }
