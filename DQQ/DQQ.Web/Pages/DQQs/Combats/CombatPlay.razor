@@ -31,7 +31,7 @@
         {
           foreach (var e in Enemies)
           {
-            <Circle Width="150" Value="e.PercentageHPInt">
+            <Circle Color="e.GetTargetPowerLevelColor(Color.Dark)" Width="150" Value="e.PercentageHPInt">
               <div>
                 <h3>@e.DisplayName</h3>
               </div>

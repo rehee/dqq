@@ -1,0 +1,65 @@
+﻿@inherits CombatPlayPage
+@if (CombatLog != null)
+{
+  <div>
+    波次 @Tick
+  </div>
+  <div class="row g-3">
+    <div class="col-12">
+      <div class="">
+        @if (Players != null)
+        {
+          foreach (var p in Players)
+          {
+            <Card>
+              <HeaderTemplate>
+                @p.DisplayName
+              </HeaderTemplate>
+              <BodyTemplate>
+                <Progress IsAnimated="true" IsStriped="true" Value="p.PercentageHP" Color="Color.Primary" IsShowValue="true" />
+
+              </BodyTemplate>
+              <FooterTemplate>
+                buff area
+              </FooterTemplate>
+            </Card>
+
+
+
+          }
+        }
+      </div>
+
+
+    </div>
+    <div class="col-12">
+      <div class="row g-3">
+
+        @if (Enemies != null)
+        {
+          foreach (var e in Enemies)
+          {
+            <div class="col-2">
+              <Card class="mob_box" Color="e.GetTargetPowerLevelColor()">
+                <HeaderTemplate>
+                  <Alert class="mob_title" Color="e.GetTargetPowerLevelColor()">@e.DisplayName</Alert>
+                </HeaderTemplate>
+                <BodyTemplate>
+                  <Progress IsAnimated="true" IsStriped="true" Value="e.PercentageHP" Color="Color.Danger" IsShowValue="true" />
+                </BodyTemplate>
+                <FooterTemplate>
+                  buff area
+                </FooterTemplate>
+              </Card>
+            </div>
+
+
+          }
+        }
+      </div>
+    </div>
+    <div class="col-12">
+      <Console HeaderText="系统监控" Items="MessageItems" Height="126" ShowAutoScroll="true" />
+    </div>
+  </div>
+}

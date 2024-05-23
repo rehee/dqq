@@ -48,6 +48,7 @@ namespace DQQ.Helper
         result.MobNumber = mb.MobNumber;
       }
       result.Id = target.DisplayId;
+      result.PowerLevel = target.PowerLevel;
       result.MaxLife = target?.CombatPanel?.DynamicPanel.MaximunLife;
       result.Currentife = target.CurrentHP;
       return result;

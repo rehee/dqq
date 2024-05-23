@@ -55,16 +55,16 @@ namespace DQQ.Components.Stages.Actors.Mobs
         switch (rarity)
         {
           case EnumMobRarity.Magic:
-            namePrefix = "Magic";
+            namePrefix = "";
             dropTimes = 2;
             break;
           case EnumMobRarity.Elite:
-            namePrefix = "Elite";
+            namePrefix = "";
             dropTimes = 4;
             break;
           case EnumMobRarity.Champion:
             dropTimes = 8;
-            namePrefix = "Champion";
+            namePrefix = "";
             break;
 
 
