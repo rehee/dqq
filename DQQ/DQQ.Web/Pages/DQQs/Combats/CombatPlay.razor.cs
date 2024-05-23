@@ -1,4 +1,5 @@
 using BootstrapBlazor.Components;
+using DQQ.Commons.DTOs;
 using DQQ.Components;
 using DQQ.TickLogs;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +10,8 @@ namespace DQQ.Web.Pages.DQQs.Combats
   {
     [Parameter]
     public IEnumerable<TickLogItem>? CombatLog { get; set; }
-
+    [Parameter]
+    public CombatResultDTO? CombatResult { get; set; }
     public int Tick { get; set; }
     public IEnumerable<TickLogActor>? Players { get; set; }
     public IEnumerable<TickLogActor>? Enemies { get; set; }

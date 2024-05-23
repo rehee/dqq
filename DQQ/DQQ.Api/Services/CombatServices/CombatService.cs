@@ -46,6 +46,7 @@ namespace DQQ.Api.Services.CombatServices
       {
         Logs = map!.Logs!.ToArray(),
         XP = map!.XP,
+        DropItemNumber = map?.Drops?.Count ?? 0,
         TotalCombatminutes = map!.PlayMins,
         Success = map!.MobPool?.All(b => b.All(c => c.Alive != true)) ?? false
       };

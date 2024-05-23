@@ -1,0 +1,47 @@
+﻿@inherits CombatPlayPage
+<div>
+  扫荡
+</div>
+<div class="row g-3">
+
+  @if (CombatLog != null)
+  {
+    <div class="col-12">
+      <h3>
+        战斗
+        @if (CombatResult?.Success == true)
+        {
+          <Tag Color="Color.Success">胜利</Tag>
+        }
+        else
+        {
+          <Tag Color="Color.Danger">失败</Tag>
+        }
+      </h3>
+      <p>
+        总战斗时间: @CombatResult?.TotalCombatminutes (分钟)
+      </p>
+      <p>
+        获得经验: @CombatResult?.XP
+      </p>
+      <p>
+        获得物品: @CombatResult?.DropItemNumber
+      </p>
+      <p>
+        您的 DPS 为: @CombatResult?.DPS
+      </p>
+      <h1>
+        您战胜了 <h0>99%</h0>  的玩家 再接再厉
+      </h1>
+    </div>
+
+
+  }
+  else
+  {
+    <div class="col-12">
+      扫荡中
+    </div>
+  }
+
+</div>

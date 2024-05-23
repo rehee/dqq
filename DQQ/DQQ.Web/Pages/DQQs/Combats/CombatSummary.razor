@@ -4,12 +4,12 @@
     战斗
   </HeaderTemplate>
   <BodyTemplate>
-    
+
     <h5>
-      <Button class="btn btn-primary" Text="开始战斗" OnClick="CombatRequest" />
-      <Button class="btn btn-primary" Text="查看战斗" OnClick="CombatLog" />
-      <Button class="btn btn-primary" Text="@(Clicked==true?"稍等片刻":"开始战斗2")" OnClick="CombatRequest2" />
-      <Button class="btn btn-primary" Text="@(Clicked==true?"稍等片刻":"开始战斗3")" OnClick="CombatRequest3" />
+      <Button class="btn btn-primary" Text="@(Clicked==true?"稍等片刻":"开始战斗 模式1")" OnClick="CombatRequest" />
+      <Button class="btn btn-primary" Text="@(Clicked==true?"稍等片刻":"开始战斗 模式2")" OnClick="CombatRequest2" />
+      <Button class="btn btn-primary" Text="@(Clicked==true?"稍等片刻":"开始战斗 模式3")" OnClick="CombatRequest3" />
+      <Button class="btn btn-primary" Text="上次战斗日志" OnClick="CombatLog" />
     </h5>
     @if (IsCombat == true)
     {
