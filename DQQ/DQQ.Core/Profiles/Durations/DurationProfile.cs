@@ -10,26 +10,48 @@ using System.Threading.Tasks;
 using DQQ.Durations;
 using DQQ.Consts;
 using DQQ.Combats;
+using ReheeCmf.Responses;
+using ReheeCmf.Helpers;
 
 namespace DQQ.Profiles.Durations
 {
   public abstract class DurationProfile : DQQProfile<EnumDurationNumber>
   {
     public abstract EnumDurationType? DurationType { get; }
-    public virtual DurationComponent CreateDuration(DurationParameter? parameter, ITarget? target, IMap? map)
+    public virtual int StackLimitation => 0;
+    public virtual bool ExtendIfFull => true;
+    public virtual ContentResponse<DurationComponent> CreateDuration(DurationParameter? parameter, ITarget? target, IMap? map)
     {
-      var result = new DurationComponent();
-      result.DurationNumber = this.ProfileNumber;
-      result.TickRemain = (int)((parameter?.DurationSeconds ?? 0) * DQQGeneral.TickPerSecond);
-      var ticks = result.TickRemain == 0 ? 1 : (result.TickRemain / DQQGeneral.DurationIntervalTick);
+      var result = new ContentResponse<DurationComponent>();
+      var sameDurations = target?.Durations?.Where(b => b.DurationNumber == this.ProfileNumber).ToArray();
+      if (sameDurations?.Any() == true)
+      {
+        var count = sameDurations.Length;
+        if (StackLimitation > 0)
+        {
+          if (StackLimitation <= count)
+          {
+            if (ExtendIfFull)
+            {
+              sameDurations.OrderBy(b => b.TickRemain).FirstOrDefault()!.TickRemain = (int)((parameter?.DurationSeconds ?? 0) * DQQGeneral.TickPerSecond);
+            }
+            return result;
+          }
+
+        }
+      }
+      result.SetSuccess(new DurationComponent() { });
+      result.Content!.DurationNumber = this.ProfileNumber;
+      result.Content!.TickRemain = (int)((parameter?.DurationSeconds ?? 0) * DQQGeneral.TickPerSecond);
+      var ticks = result.Content!.TickRemain == 0 ? 1 : (result.Content!.TickRemain / DQQGeneral.DurationIntervalTick);
       if (parameter?.Value != 0)
       {
-        result.TickPower = ((parameter?.Value ?? 0) / ticks);
-        result.TickPower = result.TickPower == 0 ? 0 : result.TickPower;
+        result.Content!.TickPower = ((parameter?.Value ?? 0) / ticks);
+        result.Content!.TickPower = result.Content!.TickPower == 0 ? 0 : result.Content!.TickPower;
 
       }
-      result.Creator = parameter?.Creator;
-      target?.Durations?.Add(result);
+      result.Content!.Creator = parameter?.Creator;
+      target?.Durations?.Add(result.Content!);
       return result;
     }
 

@@ -15,7 +15,23 @@
       <Progress IsAnimated="true" IsStriped="true" Value="Actor.PercentageHP" Color="Color.Danger" IsShowValue="true" />
     </BodyTemplate>
     <FooterTemplate>
-      buff area
+      <div class="row g-3">
+        @if (Actor?.Durations?.Any() == true)
+        {
+          foreach (var d in Actor.Durations)
+          {
+
+            var icon = d.GetDurationIcon();
+            <div class="col-auto">
+              <div class="badge-widget">
+                <i class="@icon.IconName" aria-hidden="true"></i>
+                <Badge Color="icon.IconColor"><span style="padding: 0 2px;">@d.RemainSeconds</span></Badge>
+              </div>
+            </div>
+          }
+        }
+      </div>
+
     </FooterTemplate>
   </Card>
 </div>

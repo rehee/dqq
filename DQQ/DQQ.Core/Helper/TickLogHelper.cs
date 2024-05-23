@@ -35,7 +35,7 @@ namespace DQQ.Helper
       };
 
     }
-    public static TickLogActor? ToLogActor(this ITarget? target)
+    public static TickLogActor? ToLogActor(this ITarget? target, bool withDuration = false)
     {
       if (target == null)
       {
@@ -50,7 +50,11 @@ namespace DQQ.Helper
       result.Id = target.DisplayId;
       result.PowerLevel = target.PowerLevel;
       result.MaxLife = target?.CombatPanel?.DynamicPanel.MaximunLife;
-      result.Currentife = target.CurrentHP;
+      result.Currentife = target?.CurrentHP;
+      if (withDuration)
+      {
+        result.Durations = target?.Durations?.Select(b => TickLogDuration.New(b)).Where(b => b != null).Select(b => b!).ToArray();
+      }
       return result;
     }
     public static TickLogItem GetTickLogItemFromMap(this IMap? map, bool success)
@@ -60,10 +64,10 @@ namespace DQQ.Helper
       item.Success = success;
       item.ActionTick = map?.TickCount ?? -1;
       item.ActionSecond = (map?.TickCount ?? -1) / (decimal)DQQGeneral.TickPerSecond;
-      item.Players = map?.Players?.Select(b => b!.ToLogActor()!).ToArray();
+      item.Players = map?.Players?.Select(b => b!.ToLogActor(true)!).ToArray();
       if (map?.WaveIndex >= 0)
       {
-        item.Enemies = map?.MobPool?[map.WaveIndex]?.Select(b => b!.ToLogActor()!).ToArray();
+        item.Enemies = map?.MobPool?[map.WaveIndex]?.Select(b => b!.ToLogActor(true)!).ToArray();
       }
       return item;
     }

@@ -13,6 +13,7 @@ namespace DQQ.Profiles.Durations.Shouts
   [Pooled]
   public class BattleShoutDuration : DurationProfile
   {
+    public override int StackLimitation => 1;
     public override EnumDurationType? DurationType => EnumDurationType.Buff;
 
     public override EnumDurationNumber ProfileNumber => EnumDurationNumber.BattleShout;
