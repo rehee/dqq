@@ -12,6 +12,13 @@ namespace DQQ.Commons.DTOs
     public bool Success { get; set; }
     public long XP { get; set; }
     public decimal TotalCombatminutes { get; set; }
+    public DateTime CombatTime
+    {
+      get
+      {
+        return (new DateTime()).AddMinutes((double)TotalCombatminutes);
+      }
+    }
     public int DropItemNumber { get; set; }
     public TickLogItem[]? Logs { get; set; }
 
