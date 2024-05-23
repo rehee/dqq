@@ -1,3 +1,4 @@
+using DQQ.Consts;
 using DQQ.Pools;
 using DQQ.Services.ActorServices;
 using DQQ.Services.CombatServices;
@@ -19,6 +20,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 var url = builder.Configuration.GetValue<string>("ApiUrl");
+WebConsts.URL = url;
 DQQPool.InitPool();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(url) });
