@@ -1,0 +1,21 @@
+﻿<div class="@ColumnNumber">
+  <Card class="@(IsMob?"mob_box":"")" Color="@ThisColor">
+    <HeaderTemplate>
+      @if (IsMob)
+      {
+        <Alert class="mob_title" Color="ThisColor">@Actor.DisplayName</Alert>
+      }
+      else
+      {
+        @Actor.DisplayName
+      }
+
+    </HeaderTemplate>
+    <BodyTemplate>
+      <Progress IsAnimated="true" IsStriped="true" Value="Actor.PercentageHP" Color="Color.Danger" IsShowValue="true" />
+    </BodyTemplate>
+    <FooterTemplate>
+      buff area
+    </FooterTemplate>
+  </Card>
+</div>

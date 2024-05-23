@@ -6,26 +6,12 @@
   </div>
   <div class="row g-3">
     <div class="col-12">
-      <div class="">
+      <div class="row g-3">
         @if (Players != null)
         {
           foreach (var p in Players)
           {
-            <Card>
-              <HeaderTemplate>
-                @p.DisplayName
-              </HeaderTemplate>
-              <BodyTemplate>
-                <Progress IsAnimated="true" IsStriped="true" Value="p.PercentageHP" Color="Color.Primary" IsShowValue="true" />
-
-              </BodyTemplate>
-              <FooterTemplate>
-                buff area
-              </FooterTemplate>
-            </Card>
-
-
-
+            <ActorBox Actor="p" />
           }
         }
       </div>
@@ -39,19 +25,7 @@
         {
           foreach (var e in Enemies)
           {
-            <div class="col-2">
-              <Card class="mob_box" Color="e.GetTargetPowerLevelColor()">
-                <HeaderTemplate>
-                  <Alert class="mob_title" Color="e.GetTargetPowerLevelColor()">@e.DisplayName</Alert>
-                </HeaderTemplate>
-                <BodyTemplate>
-                  <Progress IsAnimated="true" IsStriped="true" Value="e.PercentageHP" Color="Color.Danger" IsShowValue="true" />
-                </BodyTemplate>
-                <FooterTemplate>
-                  buff area
-                </FooterTemplate>
-              </Card>
-            </div>
+            <ActorBox Actor="e" />
 
 
           }
