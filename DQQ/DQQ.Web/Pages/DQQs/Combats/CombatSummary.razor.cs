@@ -233,6 +233,26 @@ namespace DQQ.Web.Pages.DQQs.Combats
           StateHasChanged();
         });
     }
+    public async Task CombatRequest5()
+    {
+      if (Clicked == true)
+      {
+        return;
+      }
+      Clicked = true;
+      Task.Run(async () =>
+      {
+        await Task.Delay(3000);
+        Clicked = false;
+        StateHasChanged();
+      });
+      
+      StateHasChanged();
+      await dialogService.ShowComponent<CombatAPI>(
+        null
+
+        , null, false);
+    }
     public async Task CombatLog()
     {
       await dialogService.ShowComponent<CombatLog>(
