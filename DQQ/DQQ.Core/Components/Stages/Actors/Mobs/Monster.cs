@@ -47,6 +47,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
     public static Monster Create(MobProfile profile, int level, EnumMobRarity? rarity = null)
     {
       var mob = new Monster();
+      
       mob.Profile = profile;
       var namePrefix = "";
       var dropTimes = 1;
@@ -76,7 +77,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
       mob.Alive = true;
       mob.Targetable = true;
       mob.Rarity = rarity ?? EnumMobRarity.Normal;
-      mob.DisplayName = $"{namePrefix} {profile.Name}";
+      mob.DisplayName = $"{profile.Name}";
       mob.BasicDamage = DQQGeneral.MobStatusCalculate(level, profile.Damage, rarity, profile.IsBoss);
       mob.CombatPanel.StaticPanel.MaximunLife = DQQGeneral.MobStatusCalculate(level, profile.HP, rarity, profile.IsBoss);
       mob.XP = DQQGeneral.MobStatusCalculate(level, profile.XP, rarity, profile.IsBoss);
@@ -93,6 +94,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
         }
         mob.Skills = list.ToArray();
       }
+      mob.DisplayId = Guid.NewGuid();
       return mob;
     }
 
