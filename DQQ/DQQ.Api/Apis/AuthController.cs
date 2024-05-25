@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DQQ.Commons.DTOs;
+using Microsoft.AspNetCore.Mvc;
 using ReheeCmf.Commons.DTOs;
 using ReheeCmf.Helpers;
 using ReheeCmf.Modules.Controllers;
@@ -17,8 +18,7 @@ namespace DQQ.Api.Apis
     {
       this.us = us;
     }
-    [Route("Register")]
-    [HttpPost]
+    [HttpPost("Register")]
     public async Task<string> Register([FromBody] RegisterDTO? dto)
     {
       if (dto == null)
@@ -37,23 +37,5 @@ namespace DQQ.Api.Apis
     }
   }
 
-  public class RegisterDTO : IValidatableObject
-  {
-    [Required]
-    public string? Email { get; set; }
-    [Required]
-    public string? Password { get; set; }
-    [Required]
-    public string? ConfirmPassword { get; set; }
-
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    {
-      var result = new HashSet<ValidationResult>();
-      if (String.IsNullOrEmpty(Password) || !String.Equals(Password, ConfirmPassword))
-      {
-        result.Add(ValidationResultHelper.New("Password not Matched", nameof(Password), nameof(ConfirmPassword)));
-      }
-      return result;
-    }
-  }
+  
 }

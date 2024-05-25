@@ -30,7 +30,15 @@
   </div>
   <script src="_content/BootstrapBlazor/js/bootstrap.blazor.bundle.min.js"></script>
   <script src="_framework/blazor.webassembly.js"></script>
-  
+  <script>
+    function receiveDataFromBlazor(data) {
+      window.document.getElementById("cocos_if").contentWindow.receiveDataFromBlazor(data);
+    }
+    function IsCoCosRunning() {
+      return window.document.getElementById("cocos_if").contentWindow.IsCoCosRunning();
+    }
+  </script>
 </body>
+
 
 </html>

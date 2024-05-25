@@ -1,4 +1,5 @@
 using Blazor.Serialization.Extensions;
+using DQQ.Commons.DTOs;
 using DQQ.Web.Services.DQQAuthServices;
 using Microsoft.AspNetCore.Components;
 using ReheeCmf.Commons.DTOs;
@@ -31,14 +32,15 @@ namespace DQQ.Web.Pages.Auths
         return;
       }
 
-      var register = await Http.PostAsJsonAsync<Dictionary<string, string?>>(
+      var register = await Http.PostAsJsonAsync<RegisterDTO>(
         "Auths/Register",
-        new Dictionary<string, string?>
+        new RegisterDTO
         {
-          ["Username"] = Email,
-          ["UserName"] = Email,
-          ["Password"] = Password,
-        }, CancellationToken.None);
+          Email = Email,
+          Password = Password,
+          ConfirmPassword = ConfirmPassword
+        }
+        , CancellationToken.None);
       if (!register.IsSuccessStatusCode)
       {
         return;
