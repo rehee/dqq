@@ -73,17 +73,7 @@ namespace DQQ.Components.Stages
 
     }
     protected object lockObject = new object();
-    public virtual DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map, IDQQProfile? source)
-    {
-      var result = DamageTaken.New(damage, false);
-      result.DamageTakenSuccess = this.Alive;
-      BeforeTakeDamage(from, result, map, source);
-      DamageReduction(from, result, map, source);
-      TakingDamage(from, result, map, source);
-      AfterTakeDamage(from, result, map, source);
-      map.AddMapLogDamageTaken(result.DamageTakenSuccess, from, this, source, result);
-      return result;
-    }
+
     public override void Initialize(IDQQEntity profile)
     {
       base.Initialize(profile);
@@ -91,7 +81,7 @@ namespace DQQ.Components.Stages
       Alive = true;
     }
 
-    public virtual async Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map)
+    public override async Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
     {
       var result = new ContentResponse<bool>();
       if (Alive)
@@ -119,7 +109,23 @@ namespace DQQ.Components.Stages
 
       return result;
     }
-
+    protected virtual DamageDeal[] DamageReduction(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
+    {
+      return damage.Select(b => b).ToArray();
+    }
+    public virtual DamageTaken TakeDamage(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
+    {
+      //damage reduction
+      var damageAfterReduction = DamageReduction(from, damage, map, source);
+      var result = DamageTaken.New(damage, false);
+      result.DamageTakenSuccess = this.Alive;
+      BeforeTakeDamage(from, result, map, source);
+      DamageReduction(from, result, map, source);
+      TakingDamage(from, result, map, source);
+      AfterTakeDamage(from, result, map, source);
+      map.AddMapLogDamageTaken(result.DamageTakenSuccess, from, this, source, result);
+      return result;
+    }
     public virtual void TakeHealing(ITarget? from, long healing, IMap? map, IDQQProfile? source)
     {
       if (!Alive)

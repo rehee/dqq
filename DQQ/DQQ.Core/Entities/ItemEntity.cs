@@ -23,6 +23,8 @@ namespace DQQ.Entities
     public EnumItem? ItemNumber { get; set; }
     [NotMapped]
     public ItemProfile? Profile => DQQPool.TryGet<ItemProfile, EnumItem?>(ItemNumber);
+    //[NotMapped]
+    //public EquipProfile? EquipProfile => Profile as EquipProfile;
 
     [ForeignKey(nameof(ActorEntity))]
     public Guid? ActorId { get; set; }
@@ -60,6 +62,10 @@ namespace DQQ.Entities
     public long? OffHand { get; set; }
     public decimal? DamageModifier { get; set; }
 
-    public long?  AttackRating { get; set; }
+    [NotMapped]
+    public long? AttackRating { get; set; }
+
+    [NotMapped]
+    public string? AffixesJson { get; set; }
   }
 }

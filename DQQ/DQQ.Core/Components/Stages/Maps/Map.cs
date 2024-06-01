@@ -8,6 +8,7 @@ using DQQ.TickLogs;
 using DQQ.Helper;
 using System.Numerics;
 using DQQ.Profiles;
+using ReheeCmf.Responses;
 
 namespace DQQ.Components.Stages.Maps
 {
@@ -184,7 +185,7 @@ namespace DQQ.Components.Stages.Maps
             }
 
 
-            await p.OnTick(currentPack, this);
+            await p.OnTick(p, currentPack, this);
 
           }
           foreach (var p in currentPack)
@@ -198,7 +199,7 @@ namespace DQQ.Components.Stages.Maps
               p.SelectTarget(Players.FirstOrDefault());
             }
 
-            await p.OnTick(Players, this);
+            await p.OnTick(p, Players, this);
           }
           if (Players?.All(b => b.Alive == false) == true)
           {
@@ -212,6 +213,22 @@ namespace DQQ.Components.Stages.Maps
 
       }
       Playing = false;
+    }
+
+    public async Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
+    {
+      await Task.CompletedTask;
+      return new ContentResponse<bool>();
+    }
+
+    public bool IsDisposed { get; protected set; }
+    public void Dispose()
+    {
+      if (IsDisposed)
+      {
+        return;
+      }
+      IsDisposed = true;
     }
   }
 }

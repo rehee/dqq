@@ -16,13 +16,16 @@ namespace DQQ.Consts
     public const int LevelPerTier = 3;
     public const int LevelPerSubTier = 1;
     public const decimal MobLevelIncreased = 0.05m;
-
     public const int DurationIntervalTick = 15;
 
+    public const decimal RareRate = 0.10m;
+    public const decimal MagicRate = 0.25m;
+
     public const decimal DuelwieldAttackSpeed = 1.10m;
-    public static EnumTargetLevel[] GuardianLevel = new EnumTargetLevel[] { EnumTargetLevel.Guardian };
-    public static EnumTargetLevel[] EliteLevel = new EnumTargetLevel[] { EnumTargetLevel.Magic, EnumTargetLevel.Elite, EnumTargetLevel.Champion };
-    public static EnumTargetLevel[] TrashLevel = new EnumTargetLevel[] { EnumTargetLevel.NotSpecified, EnumTargetLevel.Normal };
+    public static EnumTargetLevel[] GuardianLevel = { EnumTargetLevel.Guardian };
+    public static EnumTargetLevel[] EliteLevel = { EnumTargetLevel.Magic, EnumTargetLevel.Elite, EnumTargetLevel.Champion };
+    public static EnumTargetLevel[] TrashLevel = { EnumTargetLevel.NotSpecified, EnumTargetLevel.Normal };
+    public static EnumDamageType[] ElementDamage = { EnumDamageType.Fire, EnumDamageType.Cold, EnumDamageType.Lightning };
     public static Int64 MobStatusCalculate(int mobLevel, Int64 basicValue, EnumMobRarity? rarity = EnumMobRarity.Normal, bool isBoss = false)
     {
       var multiple = 1;

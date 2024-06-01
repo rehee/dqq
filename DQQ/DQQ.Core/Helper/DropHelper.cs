@@ -1,7 +1,9 @@
 ﻿using DQQ.Components.Items;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Maps;
+using DQQ.Consts;
 using DQQ.Drops;
+using DQQ.Enums;
 using DQQ.Pools;
 using System;
 using System.Collections.Generic;
@@ -22,26 +24,39 @@ namespace DQQ.Helper
       for (var i = 0; i < DropConst.MaxDropNumber; i++)
       {
         var random = RandomHelper.GetRandom(0, 100);
-        if (dropRate >= random)
+        if (dropRate < random)
         {
-          var dropRarity = RandomHelper.GetRandom(0, 10000);
-          var lists = DQQPool.ItemPool.Select(b => b.Value).Where(b => (b.Rarity * mapRarityRate) >= dropRarity).OrderByDescending(b => b.Rarity).ToList();
-
-
-
-          var itemProfile = lists.GetRamdom();
-          if (itemProfile == null)
-          {
-            continue;
-          }
-          var item = itemProfile.GenerateComponent(map?.MapLevel, (int)Math.Round(mapRate * itemProfile.DropQuantity, 0));
-          if (item.Avaliable)
-          {
-            list.Add(item);
-          }
+          break;
         }
+        var dropRarity = RandomHelper.GetRandom(0, 10001);
+        var lists = DQQPool.ItemPool.Select(b => b.Value).Where(b => (b.Rarity * mapRarityRate) >= dropRarity).OrderByDescending(b => b.Rarity).ToList();
+        var itemProfile = lists.GetRamdom();
+        if (itemProfile == null)
+        {
+          continue;
+        }
+        var item = itemProfile.GenerateComponent(map?.MapLevel, (int)Math.Round(mapRate * itemProfile.DropQuantity, 0), GetItemRarity());
+        if (!item.Avaliable)
+        {
+          continue;
+        }
+        list.Add(item);
       }
       return list.ToArray();
+    }
+
+    public static EnumRarity GetItemRarity()
+    {
+      var random = RandomHelper.GetRandom(0, 1000001);
+      if (random <= DQQGeneral.RareRate)
+      {
+        return EnumRarity.Rare;
+      }
+      if (random <= DQQGeneral.MagicRate)
+      {
+        return EnumRarity.Magic;
+      }
+      return EnumRarity.Normal;
     }
   }
 }

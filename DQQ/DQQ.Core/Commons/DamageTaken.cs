@@ -10,16 +10,18 @@ namespace DQQ.Commons
 {
   public class DamageTaken
   {
-    public static DamageTaken New(Int64 dt, bool killed)
+    public static DamageTaken New(DamageDeal[] damageDeals, bool killed)
     {
       return new DamageTaken
       {
-        DamagePoint = dt,
+        DamagePoint = damageDeals.Sum(b => b.DamagePoint),
         IsKilled = killed,
+        Deals = damageDeals.Select(b => b).ToArray(),
       };
     }
     public Int64 DamagePoint { get; set; }
     public bool IsKilled { get; set; }
+    public DamageDeal[]? Deals { get; set; }
 
     public IEnumerable<ItemComponent>? Drops { get; set; }
     public Int64 XP { get; set; }

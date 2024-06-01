@@ -69,7 +69,24 @@ namespace DQQ.Api.Services.Itemservices
 
         if (item.EquipType == EnumEquipType.TwoHandWeapon)
         {
-          await UnEquipItem(actorId.Value, EnumEquipSlot.MainHand, EnumEquipSlot.OffHand);
+          if (item.EquipProfile?.ItemType == EnumItemType.Bows)
+          {
+            var offHandItem = await context.Query<ActorEquipmentEntity>(true).Where(b => b.ActorId == actorId && b.EquipSlot == EnumEquipSlot.OffHand).FirstOrDefaultAsync();
+            if (offHandItem != null && offHandItem?.Item?.EquipProfile?.ItemType == EnumItemType.Quiver)
+            {
+              await UnEquipItem(actorId.Value, EnumEquipSlot.MainHand);
+            }
+            else
+            {
+              await UnEquipItem(actorId.Value, EnumEquipSlot.MainHand, EnumEquipSlot.OffHand);
+            }
+          }
+          else
+          {
+            await UnEquipItem(actorId.Value, EnumEquipSlot.MainHand, EnumEquipSlot.OffHand);
+
+          }
+
         }
         else
         {
@@ -78,7 +95,10 @@ namespace DQQ.Api.Services.Itemservices
             var mainHand = await context.Query<ActorEquipmentEntity>(true).Where(b => b.ActorId == actorId && b.EquipSlot == EnumEquipSlot.MainHand).FirstOrDefaultAsync();
             if (mainHand != null && mainHand.Item?.EquipProfile?.EquipType == EnumEquipType.TwoHandWeapon)
             {
-              await UnEquipItem(actorId.Value, EnumEquipSlot.MainHand);
+              if (!(item.EquipProfile?.ItemType == EnumItemType.Quiver && mainHand.Item?.EquipProfile.ItemType == EnumItemType.Bows))
+              {
+                await UnEquipItem(actorId.Value, EnumEquipSlot.MainHand);
+              }
             }
           }
           await UnEquipItem(actorId.Value, equipSlot);

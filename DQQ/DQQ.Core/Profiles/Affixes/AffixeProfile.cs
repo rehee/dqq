@@ -6,6 +6,7 @@ using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
 using DQQ.Helper;
+using DQQ.Pools;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace DQQ.Profiles.Affixes
@@ -24,12 +25,7 @@ namespace DQQ.Profiles.Affixes
     {
       var result = new AffixeComponent();
       result.Powers = Ranges.Select(b => b.NewPower()).ToArray();
-      
-      //foreach (var range in Ranges)
-      //{
-      //  //range.SetProperty(result.Property);
-      //}
-
+      result.AffixeNumber = ProfileNumber;
       return result;
     }
 
@@ -62,9 +58,20 @@ namespace DQQ.Profiles.Affixes
   public class AffixeComponent : DQQComponent
   {
     public EnumAffixeNumber AffixeNumber { get; set; }
+    public AffixeProfile? AffixeProfile => DQQPool.TryGet<AffixeProfile, EnumAffixeNumber>(AffixeNumber);
     public AffixPower[]? Powers { get; set; }
-    
-  }
+    public void SetProperty(ICombatProperty? property)
+    {
+      if (property == null || Powers?.Any() != true)
+      {
+        return;
+      }
+      foreach (var p in Powers)
+      {
+        p.SetProperty(property);
+      }
+    }
 
-  
+
+  }
 }

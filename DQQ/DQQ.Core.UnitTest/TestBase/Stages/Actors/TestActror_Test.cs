@@ -17,7 +17,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
     {
       var actor = new TestActror();
       actor.Alive = alive;
-      await actor.OnTick(null, null);
+      await actor.OnTick(null, null, null);
       Assert.That(actor.TickCount > 0, Is.EqualTo(actor!.TickCount > 0));
     }
     [TestCase(true, 1, 1.2, 0, 0)]
@@ -43,7 +43,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
 
       for (var i = 0; i < time * DQQGeneral.TickPerSecond; i++)
       {
-        await actor.OnTick(null, null);
+        await actor.OnTick(null, null, null);
       }
 
       Assert.That(skill.CastTimeCount, Is.EqualTo(castCount));
@@ -66,7 +66,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
 
       for (var i = 0; i < time * DQQGeneral.TickPerSecond; i++)
       {
-        await actor.OnTick(null, null);
+        await actor.OnTick(null, null, null);
       }
 
       Assert.That(hpRemain, Is.EqualTo((int)target.CurrentHP));

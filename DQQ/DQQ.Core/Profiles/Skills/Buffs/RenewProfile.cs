@@ -12,6 +12,7 @@ using DQQ.Durations;
 using DQQ.Helper;
 using DQQ.Pools;
 using DQQ.Profiles.Durations;
+using DQQ.Commons;
 
 namespace DQQ.Profiles.Skills.Buffs
 {
@@ -34,7 +35,7 @@ namespace DQQ.Profiles.Skills.Buffs
 
     public override string? Discription => "周期性的持续回复生命";
 
-    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
     {
 
     }
@@ -55,7 +56,7 @@ namespace DQQ.Profiles.Skills.Buffs
       {
         Creator = caster,
         DurationSeconds = 5,
-        Value = CalculateDamage(caster, map)
+        Value = CalculateDamage(caster, map).Sum(b => b.DamagePoint)
       };
       DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Renew)?.CreateDuration(durationParameter, caster, map);
       return result;

@@ -21,9 +21,9 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
       throw new NotImplementedException();
     }
 
-    public override async Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map)
+    public override async Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
     {
-      var parent = await base.OnTick(targets, map);
+      var parent = await base.OnTick(owner, targets, map);
 
       if (parent.Success)
       {

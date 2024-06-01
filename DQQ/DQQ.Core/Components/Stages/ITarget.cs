@@ -22,10 +22,10 @@ public interface ITarget : IDQQComponent, ICombatCalculate, IWIthCombatPanel
   bool Targetable { get; }
   bool Alive { get; }
   void SelectTarget(ITarget? target);
-  DamageTaken TakeDamage(ITarget? from, Int64 damage, IMap? map, IDQQProfile? source);
+  DamageTaken TakeDamage(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source);
   void TakeHealing(ITarget? from, Int64 healing, IMap? map, IDQQProfile? source);
 
-  Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map);
+  //Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map);
   HashSet<DurationComponent>? Durations { get; }
 }
 

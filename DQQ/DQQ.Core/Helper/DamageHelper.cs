@@ -1,4 +1,5 @@
 ﻿using DQQ.Combats;
+using DQQ.Commons;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Maps;
@@ -47,12 +48,12 @@ namespace DQQ.Helper
       }
       return baseDamage;
     }
-    public static Int64 SkillDamage(this ISkill skill, ITarget caster, IMap? map)
+    public static DamageDeal[] SkillDamage(this ISkill skill, ITarget caster, IMap? map)
     {
       var profile = DQQPool.TryGet<SkillProfile, EnumSkill?>(skill.SkillNumber);
       if (profile == null || skill.DamageRate == 0)
       {
-        return 0;
+        return Enumerable.Empty<DamageDeal>().ToArray();
       }
       var damageHand = profile.DamageHand;
       if (profile.DamageHand == EnumDamageHand.EachHand)
@@ -69,9 +70,10 @@ namespace DQQ.Helper
       var basicDamage = DamageHelper.BasicDamage(damageHand, caster, map);
       if (basicDamage == 0)
       {
-        return basicDamage;
+        return Enumerable.Empty<DamageDeal>().ToArray();
       }
-      return basicDamage.Percentage(profile.DamageRate);
+      var skillDamage = basicDamage.Percentage(profile.DamageRate);
+      return [DamageDeal.New(skillDamage)];
     }
 
     public static Int64 SkillMordifier(this long baseDamage, ITarget? caster)
@@ -83,6 +85,20 @@ namespace DQQ.Helper
       }
       var p = baseDamage.Percentage(modifier);
       return baseDamage + p;
+    }
+    public static DamageDeal[] SkillMordifier(this DamageDeal[] damageDeals, ITarget? caster)
+    {
+      return damageDeals.Select(b => b.SkillMordifier(caster)).ToArray();
+    }
+    public static DamageDeal SkillMordifier(this DamageDeal damageDeals, ITarget? caster)
+    {
+      var modifier = caster?.CombatPanel.DynamicPanel.DamageModifier ?? 0;
+      if (modifier == 0)
+      {
+        return DamageDeal.New(damageDeals.DamagePoint, damageDeals.DamageType);
+      }
+      var p = damageDeals.DamagePoint.Percentage(modifier + 1);
+      return DamageDeal.New(p, damageDeals.DamageType);
     }
     public static Int64 Percentage(this Int64? input, decimal percentage)
     {

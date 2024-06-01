@@ -1,4 +1,5 @@
 ﻿using DQQ.Attributes;
+using DQQ.Commons;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Durations;
@@ -27,7 +28,7 @@ namespace DQQ.Profiles.Skills.Shouts
     protected override bool SelfTarget => true;
     public override string? Discription => "发出战吼激励友方. 受此影响攻击力增加10%. 持续120秒";
 
-    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
     {
 
     }

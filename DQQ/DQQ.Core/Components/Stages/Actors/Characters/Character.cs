@@ -58,7 +58,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 
         foreach (var equip in equips)
         {
-          if (equip.Item == null)
+          if (equip?.Item == null)
           {
             continue;
           }

@@ -11,3 +11,4 @@ namespace DQQ.Api.Services.Itemservices
     Task<ContentResponse<bool>> AddAndIntoTemporary(Guid? actorId, params ItemComponent[] items);
   }
 }
+ 

@@ -1,4 +1,5 @@
 ﻿using DQQ.Attributes;
+using DQQ.Commons;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Durations;
@@ -34,7 +35,7 @@ namespace DQQ.Profiles.Skills.Attacks
     public override string? Discription => "使用武器撕裂敌人. 在5秒内造成住手武器伤害300%的流血伤害";
 
 
-    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
     {
 
     }
@@ -56,7 +57,7 @@ namespace DQQ.Profiles.Skills.Attacks
       var durationParameter = new DurationParameter
       {
         Creator = caster,
-        Value = rendDamage,
+        Value = rendDamage.Sum(b => b.DamagePoint),
         DurationSeconds = 5
       };
       DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Rend)?.CreateDuration(durationParameter, actualTarget, map);

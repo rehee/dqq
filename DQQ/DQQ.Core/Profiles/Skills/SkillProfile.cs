@@ -34,20 +34,28 @@ namespace DQQ.Profiles.Skills
 
 
 
-    public virtual Int64 CalculateDamage(ITarget? caster, IMap? map)
+    public virtual DamageDeal[] CalculateDamage(ITarget? caster, IMap? map)
     {
       return DamageHelper.SkillDamage(this, caster!, map).SkillMordifier(caster);
     }
 
-    protected virtual void DealingDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    protected virtual void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
     {
-      if (skillTarget != null && damage > 0)
+      if (damageDeals?.Any(b => b.DamagePoint > 0) != true)
       {
-        skillTarget.TakeDamage(caster, damage, map, this);
+        return;
+      }
+      var damageWithDeal = damageDeals.Where(b => b.DamagePoint > 0).ToArray();
+      //check hit rate
+      //check damage reduction
+      //check after dealing damage
+      if (skillTarget != null)
+      {
+        skillTarget.TakeDamage(caster, damageWithDeal, map, this);
       }
       else
       {
-        caster.Target.TakeDamage(caster, damage, map, this);
+        caster?.Target?.TakeDamage(caster, damageWithDeal, map, this);
       }
       if (DamageHand == EnumDamageHand.EachHand && caster.CombatPanel.IsDuelWield)
       {
@@ -61,18 +69,23 @@ namespace DQQ.Profiles.Skills
         }
       }
     }
+    
     public virtual async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
       await Task.CompletedTask;
       var response = new ContentResponse<bool>();
       var selectedTarget = SelfTarget ? caster : (skillTarget ?? caster?.Target);
-      if (selectedTarget?.Alive == true)
+      if (selectedTarget?.Alive != true)
       {
-        response.SetSuccess(true);
-        map!.AddMapLogSpillCast(true, caster, skillTarget ?? caster.Target, this);
-        var damage = CalculateDamage(caster, map);
-        DealingDamage(caster, skillTarget, damage, map);
+        return response;
       }
+      response.SetSuccess(true);
+      map!.AddMapLogSpillCast(true, caster, skillTarget ?? caster.Target, this);
+      
+      var damage = CalculateDamage(caster, map);
+
+      DealingDamage(caster, skillTarget, damage, map);
+      
       return response;
     }
   }

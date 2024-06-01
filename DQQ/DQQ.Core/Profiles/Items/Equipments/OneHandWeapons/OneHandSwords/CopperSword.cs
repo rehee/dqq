@@ -6,14 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DQQ.Profiles.Items.Equipments.OneHandWeapons
+namespace DQQ.Profiles.Items.Equipments.OneHandWeapons.OneHandSwords
 {
   [Pooled]
   public class CopperSword : AbOneHandWeapon
   {
+    public override EnumItemType? ItemType => EnumItemType.Sword;
     public override decimal AttackPerSecond => 1.5m;
 
-    public override long BaseDamage => 5;
+    
 
     public override int DropQuantity => 1;
 
@@ -24,5 +25,7 @@ namespace DQQ.Profiles.Items.Equipments.OneHandWeapons
     public override string? Name => "单手剑";
 
     public override string? Discription => "单手剑";
+
+
   }
 }

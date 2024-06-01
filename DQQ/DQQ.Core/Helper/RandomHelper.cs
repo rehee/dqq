@@ -15,21 +15,18 @@ namespace DQQ.Helper
       int seed = BitConverter.ToInt32(bytes, 0);
       return seed;
     }
-    public static decimal GetRandom(int min, int max = 101)
+    public static decimal GetRandom(int min, int max = 101, int percentage = 100)
     {
       Random r = new Random(GetRandomSeed());
       if (min <= 0)
       {
         min = 0;
       }
-      if (min >= 100)
+      if (min >= max)
       {
-        min = 100;
+        min = max;
       }
-      if (max <= 101)
-      {
-        max = 101;
-      }
+      
       var randomNumber = r.Next(min, max);
       return randomNumber / (decimal)(max - 1);
     }

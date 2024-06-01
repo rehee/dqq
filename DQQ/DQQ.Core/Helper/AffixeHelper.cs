@@ -1,4 +1,5 @@
 ﻿using DQQ.Commons;
+using DQQ.Components.Items.Equips;
 using DQQ.Enums;
 using DQQ.Pools;
 using DQQ.Profiles.Affixes;
@@ -12,6 +13,16 @@ namespace DQQ.Helper
 {
   public static class AffixeHelper
   {
+    public static AffixeComponent[]? GenerateAllAffieComponents(this EquipComponent? equip)
+    {
+      if (equip?.Avaliable != true || equip?.Rarity == EnumRarity.Normal)
+      {
+        return null;
+      }
+      var affixes = GenerateAllAffies(AffixeChange.New(equip));
+      return affixes.Select(b => b.GenerateAffixe()).ToArray();
+    }
+
     public static IEnumerable<AffixeProfile> GenerateAllAffies(AffixeChange changes)
     {
       var prefixChange = AffixeChange.New(changes);

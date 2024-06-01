@@ -1,4 +1,5 @@
 ﻿using DQQ.Attributes;
+using DQQ.Commons;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Actors.Characters;
@@ -29,13 +30,13 @@ namespace DQQ.Profiles.Skills.Attacks
 
 
 
-    public override Int64 CalculateDamage(ITarget? caster, IMap? map)
+    public override DamageDeal[] CalculateDamage(ITarget? caster, IMap? map)
     {
       var damage = base.CalculateDamage(caster, map);
 
-      if (caster.CombatPanel.IsDuelWield)
+      if (caster?.CombatPanel.IsDuelWield == true)
       {
-        return damage.Percentage(1.5m);
+        return damage.Select(b => DamageDeal.New(b.DamagePoint.Percentage(1.5m), b.DamageType)).ToArray();
       }
 
       return damage;

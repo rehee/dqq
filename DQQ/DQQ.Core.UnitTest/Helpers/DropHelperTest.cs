@@ -1,5 +1,6 @@
 ﻿using DQQ.Components;
 using DQQ.Components.Items;
+using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Maps;
 using DQQ.Drops;
@@ -8,6 +9,7 @@ using DQQ.Helper;
 using DQQ.Profiles;
 using DQQ.TickLogs;
 using DQQ.UnitTest;
+using ReheeCmf.Responses;
 using System.Numerics;
 
 namespace DQQ.Core.UnitTest.Helpers
@@ -79,12 +81,22 @@ namespace DQQ.Core.UnitTest.Helpers
 
     public int WaveTickCount { get; set; }
 
+    public void Dispose()
+    {
+      throw new NotImplementedException();
+    }
+
     public Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier)
     {
       throw new NotImplementedException();
     }
 
     public void Initialize(IDQQEntity entity)
+    {
+      throw new NotImplementedException();
+    }
+
+    public Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
     {
       throw new NotImplementedException();
     }

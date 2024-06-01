@@ -1,4 +1,6 @@
-﻿using DQQ.Enums;
+﻿using DQQ.Components.Items.Equips;
+using DQQ.Enums;
+using DQQ.Profiles.Items.Equipments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,16 @@ namespace DQQ.Commons
         ItemLevel = changes.ItemLevel,
         ItemType = changes.ItemType,
         Rarity = changes.Rarity
+      };
+    }
+    public static AffixeChange New(EquipComponent equip)
+    {
+      return new AffixeChange
+      {
+        EquipType = equip.EquipType.Value,
+        ItemLevel = equip.ItemLevel ?? 0,
+        ItemType = equip.ItemType,
+        Rarity = equip.Rarity
       };
     }
     public bool IsPrefix { get; set; }

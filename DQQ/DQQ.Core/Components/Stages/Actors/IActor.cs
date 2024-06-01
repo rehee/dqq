@@ -15,6 +15,6 @@ namespace DQQ.Components.Stages.Actors
     IEnumerable<ISkillComponent> Skills { get; }
 
 
-    Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap map);
+    //Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap map);
   }
 }

@@ -51,9 +51,9 @@ namespace DQQ.Components.Stages.Actors
       }
     }
 
-    public override async Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map)
+    public override async Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
     {
-      var result = await base.OnTick(targets, map);
+      var result = await base.OnTick(owner, targets, map);
       if (!result.Success)
       {
         return result;
@@ -68,6 +68,6 @@ namespace DQQ.Components.Stages.Actors
       return result;
     }
 
-    
+
   }
 }

@@ -5,7 +5,11 @@ using DQQ.Helper;
 using DQQ.Profiles.Affixes;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Items.Equipments;
+using ReheeCmf.Commons.Jsons.Options;
+using ReheeCmf.Helpers;
 using System.Numerics;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace DQQ.Components.Items.Equips
 {
@@ -14,7 +18,7 @@ namespace DQQ.Components.Items.Equips
     public override bool Avaliable => EquipType != null;
     public EnumRarity Rarity { get; set; }
     public EnumEquipType? EquipType { get; set; }
-    public EnumItemType EnumItemType { get; set; }
+    public EnumItemType ItemType { get; set; }
 
     public EnumEquipSlot? EquipSlot => EquipType?.GetMainSlot();
     public EnumEquipSlot? SecondEquipSlot => EquipType?.GetSecondSlot();
@@ -41,6 +45,22 @@ namespace DQQ.Components.Items.Equips
       {
         cp.SetCompatProperty(this);
       }
+      if (entity is ItemEntity item)
+      {
+        if (!String.IsNullOrEmpty(item.AffixesJson))
+        {
+          try
+          {
+
+            Affixes = JsonSerializer.Deserialize<AffixeComponent[]?>(item.AffixesJson, JsonOption.DefaultOption);
+          }
+          catch
+          {
+
+          }
+        }
+      }
+
     }
 
     public override void Initialize(ItemProfile? itemProfile, int? itemLevel, int? quanty = null)
@@ -56,11 +76,31 @@ namespace DQQ.Components.Items.Equips
     public override ItemEntity ToEntity()
     {
       var result = base.ToEntity();
-
       this.SetCompatProperty(result);
 
+      result.AffixesJson = JsonSerializer.Serialize(Affixes ?? Enumerable.Empty<AffixeComponent>(), JsonOption.DefaultOption);
 
       return result;
+    }
+
+
+    public virtual void AppliedAffixes()
+    {
+      if (Affixes?.Any() != true)
+      {
+        return;
+      }
+      foreach (var a in Affixes)
+      {
+        a.SetProperty(this);
+      }
+      this.DisplayName = $"{String.Join("", Prefixes.Select(b => b.AffixeProfile?.Name))} {ItemProfile?.Name} {String.Join("", Suffixes.Select(b => b.AffixeProfile?.Name))}";
+    }
+    public IEnumerable<AffixeComponent> Prefixes => Affixes?.Where(b => b?.AffixeProfile?.IsPrefix == true) ?? Enumerable.Empty<AffixeComponent>();
+    public IEnumerable<AffixeComponent> Suffixes => Affixes?.Where(b => b?.AffixeProfile?.IsPrefix == false) ?? Enumerable.Empty<AffixeComponent>();
+    public virtual void InitialAffixes(AffixeComponent[]? affixes)
+    {
+      this.Affixes = affixes;
     }
   }
 }

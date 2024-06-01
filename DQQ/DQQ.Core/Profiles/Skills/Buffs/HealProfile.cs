@@ -1,4 +1,5 @@
 ﻿using DQQ.Attributes;
+using DQQ.Commons;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
@@ -30,12 +31,12 @@ namespace DQQ.Profiles.Skills.Buffs
     public override string? Name => "快速治疗";
 
     public override string? Discription => "快速治疗自身. 回复最大生命60%的生命";
-    public override long CalculateDamage(ITarget? caster, IMap? map)
+    public override DamageDeal[] CalculateDamage(ITarget? caster, IMap? map)
     {
-      return 0;
+      return [];
     }
 
-    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, long damage, IMap? map)
+    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
     {
       
     }
