@@ -12,6 +12,7 @@ namespace DQQ.Combats
     decimal? Resistance { get; set; }
     decimal? DamageModifier { get; set; }
 
+    long? AttackRating { get; set; }
     Int64? MainHand { get; set; }
     Int64? OffHand { get; set; }
 

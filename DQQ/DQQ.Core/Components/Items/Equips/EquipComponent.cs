@@ -2,6 +2,7 @@
 using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Helper;
+using DQQ.Profiles.Affixes;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Items.Equipments;
 using System.Numerics;
@@ -10,10 +11,15 @@ namespace DQQ.Components.Items.Equips
 {
   public class EquipComponent : ItemComponent, IEquptment
   {
-    public EnumEquipType EquipType { get; set; }
+    public override bool Avaliable => EquipType != null;
+    public EnumRarity Rarity { get; set; }
+    public EnumEquipType? EquipType { get; set; }
+    public EnumItemType EnumItemType { get; set; }
 
-    public EnumEquipSlot? EquipSlot => EquipType.GetMainSlot();
-    public EnumEquipSlot? SecondEquipSlot => EquipType.GetSecondSlot();
+    public EnumEquipSlot? EquipSlot => EquipType?.GetMainSlot();
+    public EnumEquipSlot? SecondEquipSlot => EquipType?.GetSecondSlot();
+
+    public AffixeComponent[]? Affixes { get; set; }
 
     public Int64? MaximunLife { get; set; }
     public Int64? Armor { get; set; }
@@ -25,6 +31,8 @@ namespace DQQ.Components.Items.Equips
     public Int64? OffHand { get; set; }
     public decimal? DamageModifier { get; set; }
 
+    public long? AttackRating { get; set; }
+
     public override void Initialize(IDQQEntity entity)
     {
       base.Initialize(entity);
@@ -35,7 +43,7 @@ namespace DQQ.Components.Items.Equips
       }
     }
 
-    public override void Initialize(ItemProfile itemProfile, int? itemLevel, int? quanty = null)
+    public override void Initialize(ItemProfile? itemProfile, int? itemLevel, int? quanty = null)
     {
       base.Initialize(itemProfile, itemLevel, quanty);
       if (itemProfile is EquipProfile ep)

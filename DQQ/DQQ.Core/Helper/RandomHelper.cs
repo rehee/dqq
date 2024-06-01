@@ -15,7 +15,7 @@ namespace DQQ.Helper
       int seed = BitConverter.ToInt32(bytes, 0);
       return seed;
     }
-    public static decimal GetRandom(int min, int max = 100)
+    public static decimal GetRandom(int min, int max = 101)
     {
       Random r = new Random(GetRandomSeed());
       if (min <= 0)
@@ -26,20 +26,30 @@ namespace DQQ.Helper
       {
         min = 100;
       }
-      if (max <= 100)
+      if (max <= 101)
       {
-        max = 100;
+        max = 101;
       }
-      var randomNumber = (decimal)r.Next(min, max);
-      return randomNumber / max;
+      var randomNumber = r.Next(min, max);
+      return randomNumber / (decimal)(max - 1);
     }
-
+    public static int GetRandomInt(int min, int max)
+    {
+      Random r = new Random(GetRandomSeed());
+      return r.Next(min, max < min ? (min + 1) : (max + 1));
+    }
     public static T GetRamdom<T>(this IEnumerable<T> enums)
     {
       var array = enums.ToArray();
       Random random = new Random(GetRandomSeed());
       int randomIndex = random.Next(0, array.Length);
       return array[randomIndex];
+    }
+    public static IEnumerable<T> GetNumberOfRandom<T>(this IEnumerable<T> enums, int numbers)
+    {
+      Random random = new Random(GetRandomSeed());
+      return enums.Select(b => (random.Next(), b)).OrderBy(b => b.Item1).Take(numbers).Select(b => b.b);
+
     }
   }
 }

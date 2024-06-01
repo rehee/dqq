@@ -35,7 +35,10 @@ namespace DQQ.Helper
             continue;
           }
           var item = itemProfile.GenerateComponent(map?.MapLevel, (int)Math.Round(mapRate * itemProfile.DropQuantity, 0));
-          list.Add(item);
+          if (item.Avaliable)
+          {
+            list.Add(item);
+          }
         }
       }
       return list.ToArray();

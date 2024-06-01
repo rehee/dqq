@@ -7,6 +7,7 @@ namespace DQQ.Components.Items
 {
   public class ItemComponent : DQQComponent, IItem
   {
+    public virtual bool Avaliable => true;
     public static ItemComponent New() => new ItemComponent();
     public static T New<T>() where T : ItemComponent, new() => new T();
     public DateTime CreateTime { get; protected set; } = DateTime.UtcNow;

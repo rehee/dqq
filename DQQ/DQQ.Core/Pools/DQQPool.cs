@@ -1,6 +1,7 @@
 ﻿using DQQ.Attributes;
 using DQQ.Enums;
 using DQQ.Profiles;
+using DQQ.Profiles.Affixes;
 using DQQ.Profiles.Durations;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Mobs;
@@ -48,6 +49,10 @@ namespace DQQ.Pools
             {
               DQQPool.DurationPool.TryAdd(dp.ProfileNumber, dp);
             }
+            if (instance is AffixeProfile ap)
+            {
+              DQQPool.AffixePool.TryAdd(ap.ProfileNumber, ap);
+            }
           }
 
         }
@@ -81,6 +86,11 @@ namespace DQQ.Pools
       {
         DurationPool.TryGetValue(durationNumber, out var duration);
         return duration as T;
+      }
+      if (key is EnumAffixeNumber affixeNumber)
+      {
+        AffixePool.TryGetValue(affixeNumber, out var affixe);
+        return affixe as T;
       }
       return default(T);
     }

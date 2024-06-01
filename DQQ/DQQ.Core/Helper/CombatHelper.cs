@@ -50,6 +50,10 @@ namespace DQQ.Helper
         {
           main.OffHand = main.OffHand ?? 0 + sub.Property.OffHand;
         }
+        if (sub.Property.AttackRating != null)
+        {
+          main.AttackRating = main.AttackRating.DefaultValue() + sub.Property.AttackRating;
+        }
       }
 
       var mainHandSpeed = subs.Where(b => b?.Slot == Enums.EnumEquipSlot.MainHand && b?.Property?.AttackPerSecond != null).Select(b => b?.Property?.AttackPerSecond).FirstOrDefault();

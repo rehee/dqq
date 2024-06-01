@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DQQ.Enums;
+using DQQ.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,5 +36,7 @@ namespace DQQ.Combats
     public long? MainHand { get; set; }
     public long? OffHand { get; set; }
     public decimal? DamageModifier { get; set; }
+    public long? AttackRating { get; set; }
+
   }
 }

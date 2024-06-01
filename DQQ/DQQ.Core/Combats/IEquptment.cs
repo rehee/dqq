@@ -7,7 +7,7 @@ namespace DQQ.Combats
 {
   public interface IEquptment : ICombatProperty, IItem, IDQQComponent
   {
-    EnumEquipType EquipType { get; set; }
+    EnumEquipType? EquipType { get; set; }
     EnumEquipSlot? EquipSlot { get; }
     EnumEquipSlot? SecondEquipSlot { get; }
   }

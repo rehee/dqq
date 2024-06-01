@@ -137,7 +137,7 @@ namespace DQQ.Helper
       to.Resistance = from.Resistance;
       to.MainHand = from.MainHand;
       to.OffHand = from.OffHand;
-
+      to.AttackRating = from.AttackRating;
     }
   }
 }
