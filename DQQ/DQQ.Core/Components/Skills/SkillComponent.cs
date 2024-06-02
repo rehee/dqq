@@ -1,4 +1,5 @@
 ﻿using DQQ.Commons;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Consts;
@@ -94,16 +95,21 @@ namespace DQQ.Components.Skills
 
     }
 
-    public virtual async Task<ContentResponse<bool>> OnTick(ITarget? caster, IEnumerable<ITarget>? targets, IMap? map)
+    public override async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
     {
-      var result = new ContentResponse<bool>();
-      var target = caster?.Target;
+      var result = await base.OnTick(parameter);
+      if (!result.Success)
+      {
+        return result;
+      }
+      result.SetError();
+      var target = parameter.From?.Target;
       if (CDTickCount > 0)
       {
         CDTickCount--;
         return result;
       }
-      if (CastTickCount < CastWithWeaponSpeedTick(caster))
+      if (CastTickCount < CastWithWeaponSpeedTick(parameter.From))
       {
         CastTickCount++;
         return result;
@@ -111,7 +117,7 @@ namespace DQQ.Components.Skills
       var matchCondition = StrategeCheckResult.New(false, null);
       if (SkillStrategies?.Any() == true)
       {
-        matchCondition = StrategyHelper.MatchSkillStrategy(SkillStrategies, caster, targets, map, this);
+        matchCondition = StrategyHelper.MatchSkillStrategy(SkillStrategies, parameter, this);
       }
       else
       {
@@ -122,10 +128,10 @@ namespace DQQ.Components.Skills
       {
         return result;
       }
-
+      var skillParameter = ComponentTickParameter.New(parameter, matchCondition.MatchedTarget);
       if (SkillProfile != null)
       {
-        result = await SkillProfile.CastSkill(caster, matchCondition.MatchedTarget, targets, map);
+        result = await SkillProfile.CastSkill(skillParameter);
       }
       else
       {
@@ -134,7 +140,7 @@ namespace DQQ.Components.Skills
       TotalCount++;
       WaveCount++;
       CastTickCount = 0;
-      if (CastWithWeaponSpeedTick(caster) <= 0 && CDTick <= 0)
+      if (CastWithWeaponSpeedTick(skillParameter.From) <= 0 && CDTick <= 0)
       {
         CDTickCount = (int)(DQQGeneral.MinCooldown * DQQGeneral.TickPerSecond);
       }
@@ -145,6 +151,8 @@ namespace DQQ.Components.Skills
 
       return result;
     }
+
+    
 
     public virtual SkillEntity ToSkillEntity(Guid? actorId = null)
     {

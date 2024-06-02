@@ -1,4 +1,5 @@
-﻿using DQQ.Consts;
+﻿using DQQ.Components.Parameters;
+using DQQ.Consts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace DQQ.UnitTest.TestBase.Skills
 
       for (var i = 0; i < totalTimeSecond * DQQGeneral.TickPerSecond; i++)
       {
-        await skill.OnTick(null, null, null);
+        await skill.OnTick(new ComponentTickParameter());
       }
       Assert.That(skill.CastTimeCount, Is.EqualTo(countExpected));
     }
@@ -35,7 +36,7 @@ namespace DQQ.UnitTest.TestBase.Skills
 
       for (var i = 0; i < totalTimeSecond * DQQGeneral.TickPerSecond; i++)
       {
-        await skill.OnTick(null, null, null);
+        await skill.OnTick(new ComponentTickParameter());
       }
       Assert.That(skill.CastTimeCount, Is.EqualTo(countExpected));
     }

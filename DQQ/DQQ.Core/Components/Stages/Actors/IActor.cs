@@ -8,13 +8,7 @@ namespace DQQ.Components.Stages.Actors
 {
   public interface IActor : ITarget
   {
-    
-
-    Int64 CurrentHP { get; }
     Int64 BasicDamage { get; }
     IEnumerable<ISkillComponent> Skills { get; }
-
-
-    //Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap map);
   }
 }

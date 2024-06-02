@@ -12,6 +12,7 @@ using DQQ.Consts;
 using DQQ.Pools;
 using DQQ.Combats;
 using DQQ.Profiles.Skills;
+using DQQ.Components.Parameters;
 
 namespace DQQ.Components.Durations
 {
@@ -34,9 +35,13 @@ namespace DQQ.Components.Durations
       }
     }
 
-    public async Task<ContentResponse<bool>> OnTick(ITarget? target, IMap? map)
+    public override async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
     {
-      var result = new ContentResponse<bool>();
+      var result = await base.OnTick(parameter);
+      if (!result.Success)
+      {
+        return result;
+      }
       TickRemain--;
       TickCount++;
       if (TickCount < DQQGeneral.DurationIntervalTick)
@@ -44,14 +49,16 @@ namespace DQQ.Components.Durations
         return result;
       }
       TickCount = 0;
-      Duration?.OnActive(this, target, map);
-      lastTarget = target;
-      lastMap = map;
+      Duration?.OnActive(this, parameter.From, parameter.Map);
+      lastTarget = parameter.From;
+      lastMap = parameter.Map;
       return result;
     }
+
     bool isDisposed { get; set; }
-    public void Dispose()
+    public override void Dispose()
     {
+      base.Dispose();
       if (isDisposed)
       {
         return;

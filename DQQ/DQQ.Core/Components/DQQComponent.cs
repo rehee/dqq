@@ -5,6 +5,7 @@ using DQQ.Profiles;
 using ReheeCmf.Responses;
 using System.Text.Json.Serialization;
 using ReheeCmf.Helpers;
+using DQQ.Components.Parameters;
 
 namespace DQQ.Components
 {
@@ -36,10 +37,10 @@ namespace DQQ.Components
       DisplayId = entity.Id;
       DisplayName = entity.Name;
     }
-    public virtual async Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
+    public virtual async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
     {
       var result = new ContentResponse<bool>();
-      result.SetSuccess(owner?.Alive == true);
+      result.SetSuccess(parameter.From?.Alive == true);
       return result;
     }
   }

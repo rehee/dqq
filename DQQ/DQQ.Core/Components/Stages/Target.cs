@@ -1,6 +1,7 @@
 ﻿using DQQ.Combats;
 using DQQ.Commons;
 using DQQ.Components.Durations;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages.Maps;
 using DQQ.Consts;
 using DQQ.Entities;
@@ -85,7 +86,7 @@ namespace DQQ.Components.Stages
       Alive = true;
     }
     protected int blockingCount { get; set; }
-    public override async Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
+    public override async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
     {
       var result = new ContentResponse<bool>();
       if (Alive)
@@ -101,7 +102,7 @@ namespace DQQ.Components.Stages
         var durations = Durations!.ToArray();
         foreach (var d in durations)
         {
-          await d.OnTick(this, map);
+          await d.OnTick(parameter);
         }
         var durationNeedRemove = durations.Where(b => b.TickRemain < 0);
         foreach (var d in durationNeedRemove)

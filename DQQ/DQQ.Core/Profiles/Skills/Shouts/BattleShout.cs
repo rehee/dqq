@@ -1,5 +1,6 @@
 ﻿using DQQ.Attributes;
 using DQQ.Commons;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Durations;
@@ -33,19 +34,19 @@ namespace DQQ.Profiles.Skills.Shouts
 
     }
 
-    public override async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
+    public override async Task<ContentResponse<bool>> CastSkill(ComponentTickParameter? parameter)
     {
-      var result = await base.CastSkill(caster, caster, target, map);
+      var result = await base.CastSkill(parameter);
       if (!result.Success)
       {
         return result;
       }
       DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.BattleShout)?.CreateDuration(new DurationParameter
       {
-        Creator = caster,
+        Creator = parameter?.From,
         DurationSeconds = 120,
         Value = 0
-      }, caster, map);
+      }, parameter?.From, parameter?.Map);
       return result;
     }
   }

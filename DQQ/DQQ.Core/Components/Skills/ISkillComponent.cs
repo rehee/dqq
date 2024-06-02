@@ -16,7 +16,6 @@ namespace DQQ.Components.Skills
     decimal DamageRate { get; }
     ISkill? SkillProfile { get; }
     SkillStrategy[]? SkillStrategies { get; }
-    Task<ContentResponse<bool>> OnTick(ITarget? caster, IEnumerable<ITarget>? targets, IMap? map);
     int TotalCount { get; set; }
     int WaveCount { get; set; }
   }

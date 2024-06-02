@@ -5,6 +5,7 @@ using DQQ.Enums;
 using DQQ.Helper;
 using ReheeCmf.Responses;
 using ReheeCmf.Helpers;
+using DQQ.Components.Parameters;
 
 namespace DQQ.Profiles.Skills
 {
@@ -63,28 +64,27 @@ namespace DQQ.Profiles.Skills
     {
 
     }
-    public virtual async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
+    public virtual async Task<ContentResponse<bool>> CastSkill(ComponentTickParameter? parameter)
     {
       await Task.CompletedTask;
       var response = new ContentResponse<bool>();
-      var selectedTarget = SelfTarget ? caster : (skillTarget ?? caster?.Target);
+      var selectedTarget = parameter?.SelectedTarget;
       if (selectedTarget?.Alive != true)
       {
         return response;
       }
-      map!.AddMapLogSpillCast(true, caster, skillTarget ?? caster.Target, this);
+      parameter?.Map!.AddMapLogSpillCast(true, parameter?.From, parameter?.SelectedTarget, this);
       response.SetSuccess(true);
-      //check skill hit
       if (SkillType == EnumSkillType.Damage || SkillType == EnumSkillType.hybrid)
       {
-        var damage = CalculateDamage(caster, map);
-        DealingDamage(caster, skillTarget, damage, map);
+        var damage = CalculateDamage(parameter?.From, parameter?.Map);
+        DealingDamage(parameter?.From, parameter?.SelectedTarget, damage, parameter?.Map);
       }
 
       if (SkillType == EnumSkillType.Healing || SkillType == EnumSkillType.hybrid)
       {
-        var healing = CalculateHealing(caster, map);
-        DealingHealing(caster, healing, map);
+        var healing = CalculateHealing(parameter?.From, parameter?.Map);
+        DealingHealing(parameter?.From, healing, parameter?.Map);
       }
 
 

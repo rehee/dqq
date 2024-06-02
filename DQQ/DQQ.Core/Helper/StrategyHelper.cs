@@ -11,12 +11,13 @@ using DQQ.Strategies;
 using System.Collections;
 using DQQ.Components.Skills;
 using DQQ.Consts;
+using DQQ.Components.Parameters;
 
 namespace DQQ.Helper
 {
   public static class StrategyHelper
   {
-    public static StrategeCheckResult MatchSkillStrategy(this IEnumerable<SkillStrategy>? strategies, ITarget? caster, IEnumerable<ITarget>? targets, IMap? map, ISkillComponent skill)
+    public static StrategeCheckResult MatchSkillStrategy(this IEnumerable<SkillStrategy>? strategies, ComponentTickParameter? parameter, ISkillComponent skill)
     {
       if (strategies?.Any() != true)
       {
@@ -31,15 +32,15 @@ namespace DQQ.Helper
             thisMatch = StrategeCheckResult.New(true, null);
             break;
           case EnumStrategyCondition.Target:
-            thisMatch = strategy.MatchSkillStrategyTarget(caster, targets, map);
+            thisMatch = strategy.MatchSkillStrategyTarget(parameter?.From, parameter?.EnemyTargets, parameter?.Map);
             break;
           case EnumStrategyCondition.Players:
           case EnumStrategyCondition.Enemies:
-            thisMatch = strategy.MatchSkillStrategyParty(caster, targets, map);
+            thisMatch = strategy.MatchSkillStrategyParty(parameter?.From, parameter?.EnemyTargets, parameter?.Map);
             break;
           case EnumStrategyCondition.Combat:
           case EnumStrategyCondition.Wave:
-            thisMatch = strategy.MatchSkillStrategyWave(caster, targets, map, skill);
+            thisMatch = strategy.MatchSkillStrategyWave(parameter?.From, parameter?.EnemyTargets, parameter?.Map, skill);
             break;
         }
         if (thisMatch?.Matched == true)

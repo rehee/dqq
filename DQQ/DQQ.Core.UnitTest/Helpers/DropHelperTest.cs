@@ -1,5 +1,6 @@
 ﻿using DQQ.Components;
 using DQQ.Components.Items;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Maps;
@@ -96,7 +97,7 @@ namespace DQQ.Core.UnitTest.Helpers
       throw new NotImplementedException();
     }
 
-    public Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
+    public Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
     {
       throw new NotImplementedException();
     }

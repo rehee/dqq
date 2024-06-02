@@ -1,4 +1,5 @@
 ﻿using DQQ.Commons;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
@@ -16,6 +17,6 @@ namespace DQQ.Profiles.Skills
     decimal CoolDown { get; }
     decimal DamageRate { get; }
     string? Discription { get; }
-    Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map);
+    Task<ContentResponse<bool>> CastSkill(ComponentTickParameter? parameter);
   }
 }

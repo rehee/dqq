@@ -4,6 +4,7 @@ using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Profiles;
 using ReheeCmf.Responses;
+using DQQ.Components.Parameters;
 
 namespace DQQ.Components
 {
@@ -16,6 +17,6 @@ namespace DQQ.Components
 
     IDQQProfile? Profile { get; }
     void Initialize(IDQQEntity entity);
-    Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map);
+    Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter);
   }
 }

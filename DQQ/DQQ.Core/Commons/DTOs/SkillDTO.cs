@@ -1,4 +1,5 @@
-﻿using DQQ.Components.Stages;
+﻿using DQQ.Components.Parameters;
+using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
 using DQQ.Profiles.Skills;
@@ -31,7 +32,7 @@ namespace DQQ.Commons.DTOs
     public bool NoPlayerSkill { get; set; }
     public List<SkillStrategy>? SkillStrategies { get; set; }
 
-    public Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
+    public Task<ContentResponse<bool>> CastSkill(ComponentTickParameter? parameter)
     {
       throw new NotImplementedException();
     }

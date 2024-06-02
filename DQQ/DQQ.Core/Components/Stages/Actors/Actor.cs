@@ -1,5 +1,6 @@
 ﻿using DQQ.Commons;
 using DQQ.Components.Items;
+using DQQ.Components.Parameters;
 using DQQ.Components.Skills;
 using DQQ.Components.Stages.Maps;
 using DQQ.Entities;
@@ -47,9 +48,9 @@ namespace DQQ.Components.Stages.Actors
       }
     }
 
-    public override async Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
+    public override async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
     {
-      var result = await base.OnTick(owner, targets, map);
+      var result = await base.OnTick(parameter);
       if (!result.Success)
       {
         return result;
@@ -58,7 +59,7 @@ namespace DQQ.Components.Stages.Actors
       {
         foreach (var skill in Skills.Where(b => b != null))
         {
-          var skillResult = await skill!.OnTick(this, targets, map);
+          var skillResult = await skill!.OnTick(parameter);
         }
       }
       return result;
