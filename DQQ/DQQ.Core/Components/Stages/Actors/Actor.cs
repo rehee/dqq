@@ -16,10 +16,6 @@ namespace DQQ.Components.Stages.Actors
 {
   public class Actor : TargetBase, IActor
   {
-    public int Level { get; }
-
-
-
     public Int64 BasicDamage { get; set; }
 
     public override EnumTargetLevel PowerLevel => EnumTargetLevel.NotSpecified;

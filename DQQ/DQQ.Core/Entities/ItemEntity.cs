@@ -67,5 +67,35 @@ namespace DQQ.Entities
 
     [NotMapped]
     public string? AffixesJson { get; set; }
+    [NotMapped]
+    public long? Defence { get; set; }
+    [NotMapped]
+    public long? DefencePercentage { get; set; }
+    [NotMapped]
+    public decimal? BlockChance { get; set; }
+    [NotMapped]
+    public decimal? BlockRecovery { get; set; }
+    [NotMapped]
+    public decimal? DodgeChance { get; set; }
+    [NotMapped]
+    public long? PhysicsResistance { get; set; }
+    [NotMapped]
+    public long? FireResistance { get; set; }
+    [NotMapped]
+    public long? ColdResistance { get; set; }
+    [NotMapped]
+    public long? LightningResistance { get; set; }
+    [NotMapped]
+    public long? ChaosResistance { get; set; }
+    [NotMapped]
+    public decimal? PhysicsDamageModifier { get; set; }
+    [NotMapped]
+    public decimal? FireDamageModifier { get; set; }
+    [NotMapped]
+    public decimal? ColdDamageModifier { get; set; }
+    [NotMapped]
+    public decimal? LightningDamageModifier { get; set; }
+    [NotMapped]
+    public decimal? ChaosDamageModifier { get; set; }
   }
 }

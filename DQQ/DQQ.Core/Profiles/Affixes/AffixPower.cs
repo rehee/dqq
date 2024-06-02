@@ -43,6 +43,55 @@ namespace DQQ.Profiles.Affixes
         case EnumPropertyType.OffHand:
           property.OffHand = property.OffHand.DefaultValue() + Power;
           break;
+        
+        case EnumPropertyType.AttackRating:
+          property.AttackRating = property.AttackRating.DefaultValue() + Power;
+          break;
+        case EnumPropertyType.Defence:
+          property.Defence = property.Defence.DefaultValue() + Power;
+          break;
+        case EnumPropertyType.DefencePercentage:
+          property.DefencePercentage = property.DefencePercentage.DefaultValue() + percentage;
+          break;
+        case EnumPropertyType.BlockChance:
+          property.BlockChance = property.BlockChance.DefaultValue() + percentage;
+          break;
+        case EnumPropertyType.BlockRecovery:
+          property.BlockRecovery = property.BlockRecovery.DefaultValue() + percentage;
+          break;
+        case EnumPropertyType.DodgeChance:
+          property.DodgeChance = property.DodgeChance.DefaultValue() + percentage;
+          break;
+        case EnumPropertyType.PhysicsResistance:
+          property.PhysicsResistance = property.PhysicsResistance.DefaultValue() + Power;
+          break;
+        case EnumPropertyType.FireResistance:
+          property.FireResistance = property.FireResistance.DefaultValue() + Power;
+          break;
+        case EnumPropertyType.ColdResistance:
+          property.ColdResistance = property.ColdResistance.DefaultValue() + Power;
+          break;
+        case EnumPropertyType.LightningResistance:
+          property.LightningResistance = property.LightningResistance.DefaultValue() + Power;
+          break;
+        case EnumPropertyType.ChaosResistance:
+          property.ChaosResistance = property.ChaosResistance.DefaultValue() + Power;
+          break;
+        case EnumPropertyType.PhysicsDamageModifier:
+          property.PhysicsDamageModifier = property.PhysicsDamageModifier.DefaultValue() + percentage;
+          break;
+        case EnumPropertyType.FireDamageModifier:
+          property.FireDamageModifier = property.FireDamageModifier.DefaultValue() + percentage;
+          break;
+        case EnumPropertyType.ColdDamageModifier:
+          property.ColdDamageModifier = property.ColdDamageModifier.DefaultValue() + percentage;
+          break;
+        case EnumPropertyType.LightningDamageModifier:
+          property.LightningDamageModifier = property.LightningDamageModifier.DefaultValue() + percentage;
+          break;
+        case EnumPropertyType.ChaosDamageModifier:
+          property.ChaosDamageModifier = property.ChaosDamageModifier.DefaultValue() + percentage;
+          break;
 
 
         case EnumPropertyType.AttackPerSecond:

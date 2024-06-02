@@ -5,10 +5,11 @@ using System.ComponentModel;
 
 namespace DQQ.Combats
 {
-  public interface IEquptment : ICombatProperty, IItem, IDQQComponent
+  public interface IEquptment : IItem, IDQQComponent
   {
     EnumEquipType? EquipType { get; set; }
     EnumEquipSlot? EquipSlot { get; }
     EnumEquipSlot? SecondEquipSlot { get; }
+    CombatProperty? Property { get; set; }
   }
 }

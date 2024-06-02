@@ -54,6 +54,69 @@ namespace DQQ.Helper
         {
           main.AttackRating = main.AttackRating.DefaultValue() + sub.Property.AttackRating;
         }
+
+        if (sub.Property.Defence != null)
+        {
+          main.Defence = main.Defence.DefaultValue() + sub.Property.Defence;
+        }
+        if (sub.Property.DefencePercentage != null)
+        {
+          main.DefencePercentage = main.DefencePercentage.DefaultValue() + sub.Property.DefencePercentage;
+        }
+        if (sub.Property.BlockChance != null)
+        {
+          main.BlockChance = main.BlockChance.DefaultValue() + sub.Property.BlockChance;
+        }
+        if (sub.Property.BlockRecovery != null)
+        {
+          main.BlockRecovery = main.BlockRecovery.DefaultValue() + sub.Property.BlockRecovery;
+        }
+        if (sub.Property.DodgeChance != null)
+        {
+          main.DodgeChance = main.DodgeChance.DefaultValue() + sub.Property.DodgeChance;
+        }
+        if (sub.Property.PhysicsResistance != null)
+        {
+          main.PhysicsResistance = main.PhysicsResistance.DefaultValue() + sub.Property.PhysicsResistance;
+        }
+
+        if (sub.Property.FireResistance != null)
+        {
+          main.FireResistance = main.FireResistance.DefaultValue() + sub.Property.FireResistance;
+        }
+        if (sub.Property.ColdResistance != null)
+        {
+          main.ColdResistance = main.ColdResistance.DefaultValue() + sub.Property.ColdResistance;
+        }
+        if (sub.Property.LightningResistance != null)
+        {
+          main.LightningResistance = main.LightningResistance.DefaultValue() + sub.Property.LightningResistance;
+        }
+        if (sub.Property.ChaosResistance != null)
+        {
+          main.ChaosResistance = main.ChaosResistance.DefaultValue() + sub.Property.ChaosResistance;
+        }
+        if (sub.Property.PhysicsDamageModifier != null)
+        {
+          main.PhysicsDamageModifier = main.PhysicsDamageModifier.DefaultValue() + sub.Property.PhysicsDamageModifier;
+        }
+        if (sub.Property.FireDamageModifier != null)
+        {
+          main.FireDamageModifier = main.FireDamageModifier.DefaultValue() + sub.Property.FireDamageModifier;
+        }
+        if (sub.Property.ColdDamageModifier != null)
+        {
+          main.ColdDamageModifier = main.ColdDamageModifier.DefaultValue() + sub.Property.ColdDamageModifier;
+        }
+        if (sub.Property.LightningDamageModifier != null)
+        {
+          main.LightningDamageModifier = main.LightningDamageModifier.DefaultValue() + sub.Property.LightningDamageModifier;
+        }
+        if (sub.Property.ChaosDamageModifier != null)
+        {
+          main.ChaosDamageModifier = main.ChaosDamageModifier.DefaultValue() + sub.Property.ChaosDamageModifier;
+        }
+        
       }
 
       var mainHandSpeed = subs.Where(b => b?.Slot == Enums.EnumEquipSlot.MainHand && b?.Property?.AttackPerSecond != null).Select(b => b?.Property?.AttackPerSecond).FirstOrDefault();

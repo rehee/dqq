@@ -26,7 +26,7 @@ namespace DQQ.Helper
       {
         min = max;
       }
-      
+
       var randomNumber = r.Next(min, max);
       return randomNumber / (decimal)(max - 1);
     }
@@ -47,6 +47,12 @@ namespace DQQ.Helper
       Random random = new Random(GetRandomSeed());
       return enums.Select(b => (random.Next(), b)).OrderBy(b => b.Item1).Take(numbers).Select(b => b.b);
 
+    }
+
+    public static long GetRandomRange(this long number, int min = 70, int max = 101)
+    {
+      var randomNumber = GetRandomInt(min, max);
+      return (number * min) / max;
     }
   }
 }

@@ -12,7 +12,7 @@ namespace DQQ.Helper
     {
       if (eChar.CombatPanel != null)
       {
-        eChar.CombatPanel.StaticPanel.CombatPropertySummary(eChar.Equips.Where(b => b.Value != null).Select(b => new CombatPropertySum { Slot = b.Key, Property = b.Value }));
+        eChar.CombatPanel.StaticPanel.CombatPropertySummary(eChar.Equips.Where(b => b.Value != null).Select(b => new CombatPropertySum { Slot = b.Key, Property = b.Value?.Property }));
 
       }
     }
@@ -138,6 +138,23 @@ namespace DQQ.Helper
       to.MainHand = from.MainHand;
       to.OffHand = from.OffHand;
       to.AttackRating = from.AttackRating;
+      to.Defence = from.Defence;
+      to.DefencePercentage = from.DefencePercentage;
+      to.MainHand = from.MainHand;
+      to.OffHand = from.OffHand;
+      to.BlockChance = from.BlockChance;
+      to.BlockRecovery = from.BlockRecovery;
+      to.DodgeChance = from.DodgeChance;
+      to.PhysicsResistance = from.PhysicsResistance;
+      to.FireResistance = from.FireResistance;
+      to.ColdResistance = from.ColdResistance;
+      to.LightningResistance = from.LightningResistance;
+      to.ChaosResistance = from.ChaosResistance;
+      to.PhysicsDamageModifier = from.PhysicsDamageModifier;
+      to.FireDamageModifier = from.FireDamageModifier;
+      to.ColdDamageModifier = from.ColdDamageModifier;
+      to.LightningDamageModifier = from.LightningDamageModifier;
+      to.ChaosDamageModifier = from.ChaosDamageModifier;
     }
   }
 }

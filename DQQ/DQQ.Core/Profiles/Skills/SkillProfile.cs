@@ -1,19 +1,8 @@
 ﻿using DQQ.Commons;
-using DQQ.Components;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
-using DQQ.Consts;
 using DQQ.Enums;
 using DQQ.Helper;
-using DQQ.TickLogs;
-using DQQ.Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using System.Numerics;
 using ReheeCmf.Responses;
 using ReheeCmf.Helpers;
 
@@ -102,7 +91,7 @@ namespace DQQ.Profiles.Skills
       return response;
     }
 
-    public virtual EnumHitCheck? CheckHit(ITarget? caster, ITarget? skillTarget, IMap? map)
+    public virtual SkillHitCheck? CheckHit(ITarget? caster, ITarget? skillTarget, IMap? map)
     {
       return null;
     }

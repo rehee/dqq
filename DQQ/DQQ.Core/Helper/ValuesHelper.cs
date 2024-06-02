@@ -16,5 +16,9 @@ namespace DQQ.Helper
     {
       return input == null ? defaultValue : input.Value;
     }
+    public static int DefaultValue(this int? input, int defaultValue = 0)
+    {
+      return input == null ? defaultValue : input.Value;
+    }
   }
 }

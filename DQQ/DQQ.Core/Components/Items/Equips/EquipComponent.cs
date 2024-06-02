@@ -25,25 +25,15 @@ namespace DQQ.Components.Items.Equips
 
     public AffixeComponent[]? Affixes { get; set; }
 
-    public Int64? MaximunLife { get; set; }
-    public Int64? Armor { get; set; }
-    public Int64? Damage { get; set; }
-    public decimal? AttackPerSecond { get; set; }
-    public decimal? ArmorPercentage { get; set; }
-    public decimal? Resistance { get; set; }
-    public Int64? MainHand { get; set; }
-    public Int64? OffHand { get; set; }
-    public decimal? DamageModifier { get; set; }
-
-    public long? AttackRating { get; set; }
+    public CombatProperty? Property { get; set; }
 
     public override void Initialize(IDQQEntity entity)
     {
       base.Initialize(entity);
-
+      Property = new CombatProperty();
       if (entity is ICombatProperty cp)
       {
-        cp.SetCompatProperty(this);
+        cp.SetCompatProperty(Property);
       }
       if (entity is ItemEntity item)
       {
@@ -66,6 +56,7 @@ namespace DQQ.Components.Items.Equips
     public override void Initialize(ItemProfile? itemProfile, int? itemLevel, int? quanty = null)
     {
       base.Initialize(itemProfile, itemLevel, quanty);
+      this.Property = new CombatProperty();
       if (itemProfile is EquipProfile ep)
       {
         Quanty = 1;
@@ -76,7 +67,7 @@ namespace DQQ.Components.Items.Equips
     public override ItemEntity ToEntity()
     {
       var result = base.ToEntity();
-      this.SetCompatProperty(result);
+      Property.SetCompatProperty(result);
 
       result.AffixesJson = JsonSerializer.Serialize(Affixes ?? Enumerable.Empty<AffixeComponent>(), JsonOption.DefaultOption);
 
@@ -92,7 +83,7 @@ namespace DQQ.Components.Items.Equips
       }
       foreach (var a in Affixes)
       {
-        a.SetProperty(this);
+        a.SetProperty(Property);
       }
       this.DisplayName = $"{String.Join("", Prefixes.Select(b => b.AffixeProfile?.Name))} {ItemProfile?.Name} {String.Join("", Suffixes.Select(b => b.AffixeProfile?.Name))}";
     }

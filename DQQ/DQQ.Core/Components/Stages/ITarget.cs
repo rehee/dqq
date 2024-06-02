@@ -13,10 +13,13 @@ namespace DQQ.Components.Stages;
 
 public interface ITarget : IDQQComponent, ICombatCalculate, IWIthCombatPanel
 {
+  int Level { get; }
   EnumTargetPriority? TargetPriority { get; }
   EnumTargetLevel PowerLevel { get; }
   ITarget? Target { get; }
   Int64 CurrentHP { get; set; }
+
+  ContentResponse<bool> TryBlock();
 
   decimal PercentageHP { get; }
   bool Targetable { get; }

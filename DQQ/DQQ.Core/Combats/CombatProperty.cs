@@ -26,6 +26,23 @@ namespace DQQ.Combats
       OffHand = property.OffHand;
       MaximunLife = property.MaximunLife;
       DamageModifier = property.DamageModifier;
+      AttackRating = property.AttackRating;
+      Defence = property.Defence;
+      DefencePercentage = property.DefencePercentage;
+      BlockChance = property.BlockChance;
+      BlockRecovery = property.BlockRecovery;
+      DodgeChance = property.DodgeChance;
+      PhysicsResistance = property.PhysicsResistance;
+      FireResistance = property.FireResistance;
+      ColdResistance = property.ColdResistance;
+      LightningResistance = property.LightningResistance;
+      ChaosResistance = property.ChaosResistance;
+      PhysicsDamageModifier = property.PhysicsDamageModifier;
+      FireDamageModifier = property.FireDamageModifier;
+      ColdDamageModifier = property.ColdDamageModifier;
+      LightningDamageModifier = property.LightningDamageModifier;
+      ChaosDamageModifier = property.ChaosDamageModifier;
+      
     }
     public long? MaximunLife { get; set; }
     public long? Armor { get; set; }
@@ -38,5 +55,20 @@ namespace DQQ.Combats
     public decimal? DamageModifier { get; set; }
     public long? AttackRating { get; set; }
 
+    public long? Defence { get; set; }
+    public long? DefencePercentage { get; set; }
+    public decimal? BlockChance { get; set; }
+    public decimal? BlockRecovery { get; set; }
+    public decimal? DodgeChance { get; set; }
+    public long? PhysicsResistance { get; set; }
+    public long? FireResistance { get; set; }
+    public long? ColdResistance { get; set; }
+    public long? LightningResistance { get; set; }
+    public long? ChaosResistance { get; set; }
+    public decimal? PhysicsDamageModifier { get; set; }
+    public decimal? FireDamageModifier { get; set; }
+    public decimal? ColdDamageModifier { get; set; }
+    public decimal? LightningDamageModifier { get; set; }
+    public decimal? ChaosDamageModifier { get; set; }
   }
 }

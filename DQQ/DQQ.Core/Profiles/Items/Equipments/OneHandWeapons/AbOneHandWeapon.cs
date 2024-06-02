@@ -10,6 +10,6 @@ namespace DQQ.Profiles.Items.Equipments.OneHandWeapons
   public abstract class AbOneHandWeapon : WeopnProfile
   {
     public override EnumEquipType? EquipType => EnumEquipType.OneHandWeapon;
-    public override long DamagePerSecond => 3;
+    public override decimal DamageMultiple => 1m;
   }
 }

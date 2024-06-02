@@ -8,7 +8,7 @@ namespace DQQ.Components.Stages.Actors
 {
   public interface IActor : ITarget
   {
-    int Level { get; }
+    
 
     Int64 CurrentHP { get; }
     Int64 BasicDamage { get; }

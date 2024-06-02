@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\Parameters\" />
     <Folder Include="Profiles\Items\Equipments\Accessories\Amulets\" />
     <Folder Include="Profiles\Items\Equipments\Accessories\Belt\" />
     <Folder Include="Profiles\Items\Equipments\Accessories\Rings\" />

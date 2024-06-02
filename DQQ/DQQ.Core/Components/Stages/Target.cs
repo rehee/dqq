@@ -2,6 +2,7 @@
 using DQQ.Commons;
 using DQQ.Components.Durations;
 using DQQ.Components.Stages.Maps;
+using DQQ.Consts;
 using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Helper;
@@ -17,6 +18,7 @@ namespace DQQ.Components.Stages
 {
   public abstract class TargetBase : DQQComponent, ITarget
   {
+    public int Level { get; set; }
     public bool Targetable { get; set; }
     public bool Alive { get; set; }
     public ITarget? Target { get; set; }
@@ -82,7 +84,7 @@ namespace DQQ.Components.Stages
       Targetable = true;
       Alive = true;
     }
-
+    protected int blockingCount { get; set; }
     public override async Task<ContentResponse<bool>> OnTick(ITarget? owner, IEnumerable<ITarget>? targets, IMap? map)
     {
       var result = new ContentResponse<bool>();
@@ -92,6 +94,10 @@ namespace DQQ.Components.Stages
       }
       if (result.Success)
       {
+        if (blockingCount > 0)
+        {
+          blockingCount--;
+        }
         var durations = Durations!.ToArray();
         foreach (var d in durations)
         {
@@ -121,15 +127,17 @@ namespace DQQ.Components.Stages
       {
         return EnumHitCheck.Hit;
       }
+      SkillHitCheck? skillHitOverride = null;
       if (source is SkillProfile sp)
       {
-        var skillHitOverride = sp.CheckHit(from, this, map);
-        if (skillHitOverride == EnumHitCheck.Hit)
+        skillHitOverride = sp.CheckHit(from, this, map);
+        if (skillHitOverride?.HitCheck == EnumHitCheck.Hit)
         {
           return EnumHitCheck.Hit;
         }
       }
-      return EnumHitCheck.Hit;
+
+      return HitCheckHelper.HitCheck(from, to, map, skillHitOverride);
     }
     public virtual DamageTaken TakeDamage(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
     {
@@ -175,6 +183,20 @@ namespace DQQ.Components.Stages
         this.CurrentHP = this.CurrentHP + healing;
       }
       map.AddMapLogHealingTaken(true, from, this, source, new TickLogHealing(healing, hpOverHealing > 0 ? hpOverHealing : null));
+    }
+
+    public virtual ContentResponse<bool> TryBlock()
+    {
+      var result = new ContentResponse<bool>();
+      if (blockingCount > 0)
+      {
+        return result;
+      }
+      result.SetSuccess(true);
+      var blockTick = DQQGeneral.BlockRecoveryTime * DQQGeneral.TickPerSecond;
+      var blockRecovery = 1 + CombatPanel.DynamicPanel.BlockRecovery.DefaultValue();
+      blockingCount = (int)Math.Round(blockTick / blockRecovery, 0);
+      return result;
     }
   }
 }

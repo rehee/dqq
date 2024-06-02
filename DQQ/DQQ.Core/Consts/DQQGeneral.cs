@@ -26,6 +26,15 @@ namespace DQQ.Consts
     public static EnumTargetLevel[] EliteLevel = { EnumTargetLevel.Magic, EnumTargetLevel.Elite, EnumTargetLevel.Champion };
     public static EnumTargetLevel[] TrashLevel = { EnumTargetLevel.NotSpecified, EnumTargetLevel.Normal };
     public static EnumDamageType[] ElementDamage = { EnumDamageType.Fire, EnumDamageType.Cold, EnumDamageType.Lightning };
+
+
+    public const decimal MaxHitChance = 0.95m;
+    public const decimal MinHitChance = 0.05m;
+    public const decimal SameLevelHitChance = 0.90m;
+    public const decimal HitChanceModifyByLevel = 0.05m;
+    public const decimal AttributeImpact = 0.001m;
+
+    public const decimal BlockRecoveryTime = 0.35m;
     public static Int64 MobStatusCalculate(int mobLevel, Int64 basicValue, EnumMobRarity? rarity = EnumMobRarity.Normal, bool isBoss = false)
     {
       var multiple = 1;
