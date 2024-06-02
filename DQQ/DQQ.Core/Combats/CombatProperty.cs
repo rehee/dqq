@@ -56,7 +56,7 @@ namespace DQQ.Combats
     public long? AttackRating { get; set; }
 
     public long? Defence { get; set; }
-    public long? DefencePercentage { get; set; }
+    public decimal? DefencePercentage { get; set; }
     public decimal? BlockChance { get; set; }
     public decimal? BlockRecovery { get; set; }
     public decimal? DodgeChance { get; set; }

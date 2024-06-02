@@ -1,12 +1,15 @@
 ﻿using DQQ.Combats;
 using DQQ.Components;
+using DQQ.Components.Affixes;
 using DQQ.Components.Items;
 using DQQ.Components.Items.Equips;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Pools;
+using ReheeCmf.Responses;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace DQQ.Profiles.Affixes
@@ -21,6 +24,20 @@ namespace DQQ.Profiles.Affixes
     public virtual EnumItemType[]? ItemTypeLimites => null;
     public virtual EnumEquipType[]? EquipTypeLimites => null;
     public abstract AffixeRange[] Ranges { get; }
+
+
+
+    public virtual int AfterDealingDamageCount => 15;
+
+    public virtual async Task<ContentResponse<bool>> AfterDealingDamage(AfterTakeDamageParameter? parameter)
+    {
+      await Task.CompletedTask;
+      var result = new ContentResponse<bool>();
+      result.Success = true;
+      return result;
+    }
+
+
     public virtual AffixeComponent GenerateAffixe()
     {
       var result = new AffixeComponent();
@@ -55,23 +72,5 @@ namespace DQQ.Profiles.Affixes
     }
   }
 
-  public class AffixeComponent : DQQComponent
-  {
-    public EnumAffixeNumber AffixeNumber { get; set; }
-    public AffixeProfile? AffixeProfile => DQQPool.TryGet<AffixeProfile, EnumAffixeNumber>(AffixeNumber);
-    public AffixPower[]? Powers { get; set; }
-    public void SetProperty(ICombatProperty? property)
-    {
-      if (property == null || Powers?.Any() != true)
-      {
-        return;
-      }
-      foreach (var p in Powers)
-      {
-        p.SetProperty(property);
-      }
-    }
 
-
-  }
 }

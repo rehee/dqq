@@ -6,6 +6,8 @@ using DQQ.Helper;
 using ReheeCmf.Responses;
 using ReheeCmf.Helpers;
 using DQQ.Components.Parameters;
+using DQQ.Components.Stages.Actors;
+using DQQ.Combats;
 
 namespace DQQ.Profiles.Skills
 {
@@ -29,40 +31,33 @@ namespace DQQ.Profiles.Skills
       return DamageHelper.SkillDamage(this, caster!, map).SkillMordifier(caster);
     }
 
-    protected virtual void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
+    protected virtual async Task DealingDamage(ComponentTickParameter? parameter, DamageDeal[] damageDeals, IMap? map)
     {
       var damageWithDeal = damageDeals.Where(b => b.DamagePoint > 0).ToArray();
-      //check hit rate
-      //check damage reduction
-      //check after dealing damage
-      DamageTaken? damageTaken;
-      if (skillTarget != null)
+      DamageTaken? damageTaken = null;
+      if (parameter?.SelectedTarget != null)
       {
-        damageTaken = skillTarget.TakeDamage(caster, damageWithDeal, map, this);
+        damageTaken = parameter!.SelectedTarget.TakeDamage(parameter?.From, damageWithDeal, map, this);
       }
-      else
+      if (DamageHand == EnumDamageHand.EachHand && parameter?.From?.CombatPanel.IsDuelWield == true)
       {
-        damageTaken = caster?.Target?.TakeDamage(caster, damageWithDeal, map, this);
-      }
-      if (DamageHand == EnumDamageHand.EachHand && caster.CombatPanel.IsDuelWield)
-      {
-        if (caster.PrevioursMainHand == null)
+        if (parameter?.From.PrevioursMainHand == null)
         {
-          caster.PrevioursMainHand = true;
+          parameter!.From.PrevioursMainHand = true;
         }
         else
         {
-          caster.PrevioursMainHand = !caster.PrevioursMainHand;
+          parameter!.From.PrevioursMainHand = !parameter?.From.PrevioursMainHand;
         }
       }
       if (damageTaken?.HitCheck == EnumHitCheck.Hit)
       {
-        AfterDealingDamage(caster, skillTarget, damageTaken, map);
+        await AfterDealingDamage(AfterTakeDamageParameter.New(parameter, damageTaken));
       }
     }
-    protected virtual void AfterDealingDamage(ITarget? caster, ITarget? skillTarget, DamageTaken? damageTaken, IMap? map)
+    protected virtual async Task AfterDealingDamage(AfterTakeDamageParameter? parameter)
     {
-
+      await parameter.AfterDealingDamage();
     }
     public virtual async Task<ContentResponse<bool>> CastSkill(ComponentTickParameter? parameter)
     {
@@ -78,7 +73,7 @@ namespace DQQ.Profiles.Skills
       if (SkillType == EnumSkillType.Damage || SkillType == EnumSkillType.hybrid)
       {
         var damage = CalculateDamage(parameter?.From, parameter?.Map);
-        DealingDamage(parameter?.From, parameter?.SelectedTarget, damage, parameter?.Map);
+        DealingDamage(parameter, damage, parameter?.Map);
       }
 
       if (SkillType == EnumSkillType.Healing || SkillType == EnumSkillType.hybrid)

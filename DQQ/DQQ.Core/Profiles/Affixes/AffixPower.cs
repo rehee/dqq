@@ -25,7 +25,7 @@ namespace DQQ.Profiles.Affixes
       {
         return;
       }
-      var percentage = Power / 100;
+      var percentage = Power.DefaultValue(0) / 100m;
       switch (PropertyType)
       {
         case EnumPropertyType.MaximunLife:
@@ -43,7 +43,7 @@ namespace DQQ.Profiles.Affixes
         case EnumPropertyType.OffHand:
           property.OffHand = property.OffHand.DefaultValue() + Power;
           break;
-        
+
         case EnumPropertyType.AttackRating:
           property.AttackRating = property.AttackRating.DefaultValue() + Power;
           break;

@@ -41,7 +41,15 @@ namespace DQQ.Components
     {
       var result = new ContentResponse<bool>();
       result.SetSuccess(parameter.From?.Alive == true);
+      if (result.Success)
+      {
+        if (AfterDealingDamageCount > 0)
+        {
+          AfterDealingDamageCount--;
+        }
+      }
       return result;
     }
+    protected int AfterDealingDamageCount { get; set; }
   }
 }

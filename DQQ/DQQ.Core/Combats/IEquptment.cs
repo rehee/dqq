@@ -1,6 +1,8 @@
 ﻿using DQQ.Components;
 using DQQ.Components.Items;
+using DQQ.Components.Parameters;
 using DQQ.Enums;
+using ReheeCmf.Responses;
 using System.ComponentModel;
 
 namespace DQQ.Combats
@@ -11,5 +13,7 @@ namespace DQQ.Combats
     EnumEquipSlot? EquipSlot { get; }
     EnumEquipSlot? SecondEquipSlot { get; }
     CombatProperty? Property { get; set; }
+
+    public Task<ContentResponse<bool>> AfterDealingDamage(AfterTakeDamageParameter? parameter);
   }
 }

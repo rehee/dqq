@@ -1,13 +1,9 @@
 ﻿using DQQ.Commons;
+using DQQ.Components.Affixes;
 using DQQ.Components.Items.Equips;
 using DQQ.Enums;
 using DQQ.Pools;
 using DQQ.Profiles.Affixes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DQQ.Helper
 {

@@ -31,15 +31,6 @@ namespace DQQ.Profiles.Skills.Buffs
     public override string? Name => "快速治疗";
 
     public override string? Discription => "快速治疗自身. 回复最大生命60%的生命";
-    public override DamageDeal[] CalculateDamage(ITarget? caster, IMap? map)
-    {
-      return [];
-    }
-
-    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
-    {
-
-    }
     protected override HealingDeal[] CalculateHealing(ITarget? caster, IMap? map)
     {
       return [HealingDeal.New((long)((caster?.CombatPanel?.DynamicPanel?.MaximunLife).DefaultValue() * 0.6m))];

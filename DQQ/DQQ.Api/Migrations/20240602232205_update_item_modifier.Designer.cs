@@ -4,6 +4,7 @@ using DQQ.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DQQ.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240602232205_update_item_modifier")]
+    partial class update_item_modifier
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,8 +143,8 @@ namespace DQQ.Api.Migrations
                     b.Property<long?>("Defence")
                         .HasColumnType("bigint");
 
-                    b.Property<decimal?>("DefencePercentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<long?>("DefencePercentage")
+                        .HasColumnType("bigint");
 
                     b.Property<decimal?>("DodgeChance")
                         .HasColumnType("decimal(18,2)");

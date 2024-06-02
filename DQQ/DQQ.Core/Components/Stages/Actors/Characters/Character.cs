@@ -2,6 +2,7 @@
 using DQQ.Commons;
 using DQQ.Commons.DTOs;
 using DQQ.Components.Items.Equips;
+using DQQ.Components.Parameters;
 using DQQ.Components.Skills;
 using DQQ.Components.Stages.Maps;
 using DQQ.Entities;
@@ -9,6 +10,7 @@ using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Profiles.Skills;
 using DQQ.TickLogs;
+using ReheeCmf.Responses;
 using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
@@ -40,6 +42,23 @@ namespace DQQ.Components.Stages.Actors.Characters
 
 
       return entity;
+    }
+    public override async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
+    {
+      var result = await base.OnTick(parameter);
+      if (!result.Success)
+      {
+        return result;
+      }
+      var equips = Equips?.Select(b => b.Value).Where(b => b != null).Select(b => b!).ToArray();
+      if (equips?.Any() == true)
+      {
+        foreach (var e in equips)
+        {
+          await e.OnTick(parameter);
+        }
+      }
+      return result;
     }
     public override void Initialize(IDQQEntity entity)
     {

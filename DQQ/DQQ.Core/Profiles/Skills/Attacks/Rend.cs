@@ -1,5 +1,6 @@
 ﻿using DQQ.Attributes;
 using DQQ.Commons;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Durations;
@@ -35,22 +36,23 @@ namespace DQQ.Profiles.Skills.Attacks
     public override string? Discription => "使用武器撕裂敌人. 在5秒内造成住手武器伤害300%的流血伤害";
 
 
-    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
+    protected override async Task DealingDamage(ComponentTickParameter? parameter, DamageDeal[] damageDeals, IMap? map)
     {
-      base.DealingDamage(caster, skillTarget, [], map);
+      await base.DealingDamage(parameter, [], map);
     }
-    protected override void AfterDealingDamage(ITarget? caster, ITarget? skillTarget, DamageTaken? damageTaken, IMap? map)
+    protected override async Task AfterDealingDamage(AfterTakeDamageParameter? parameter)
     {
-      var rendDamage = CalculateDamage(caster, map);
+      await base.AfterDealingDamage(parameter);
+      var rendDamage = CalculateDamage(parameter?.From, parameter.Map);
       var durationParameter = new DurationParameter
       {
-        Creator = caster,
+        Creator = parameter?.From,
         Value = rendDamage.Sum(b => b.DamagePoint),
         DurationSeconds = 5
       };
-      var actualTarget = skillTarget ?? caster?.Target;
-      DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Rend)?.CreateDuration(durationParameter, actualTarget, map);
+      var actualTarget = parameter?.To;
+      DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Rend)?.CreateDuration(durationParameter, actualTarget, parameter?.Map);
     }
-    
+
   }
 }

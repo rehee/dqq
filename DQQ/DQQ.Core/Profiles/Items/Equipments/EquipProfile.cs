@@ -1,6 +1,7 @@
 ﻿using DQQ.Commons;
 using DQQ.Components.Items;
 using DQQ.Components.Items.Equips;
+using DQQ.Components.Parameters;
 using DQQ.Enums;
 using DQQ.Helper;
 using System;
@@ -17,15 +18,19 @@ namespace DQQ.Profiles.Items.Equipments
     public abstract EnumEquipType? EquipType { get; }
     public abstract EnumItemType? ItemType { get; }
     public override int DropQuantity => 1;
-
+    public virtual int AfterDealingDamageCount => 15;
     public virtual EquipComponent GenerateEquipComponent(int? itemLevel, EnumRarity rarity = EnumRarity.Normal)
     {
       var result = EquipComponent.New<EquipComponent>();
       result.Initialize(this, itemLevel);
 
       result.Rarity = rarity;
-      result.InitialAffixes(result.GenerateAllAffieComponents());
-      result.AppliedAffixes();
+      if(rarity != EnumRarity.Normal)
+      {
+        result.InitialAffixes(result.GenerateAllAffieComponents());
+        result.AppliedAffixes();
+      }
+      
       return result;
     }
 
@@ -34,6 +39,12 @@ namespace DQQ.Profiles.Items.Equipments
     public override ItemComponent GenerateComponent(int? itemLevel, int? quantity, EnumRarity rarity = EnumRarity.Normal)
     {
       return GenerateEquipComponent(itemLevel, rarity);
+    }
+
+
+    public virtual async Task AfterDealingDamage(AfterTakeDamageParameter? parameter)
+    {
+      await Task.CompletedTask;
     }
   }
 }

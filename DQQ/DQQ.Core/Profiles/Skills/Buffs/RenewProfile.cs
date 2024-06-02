@@ -35,10 +35,7 @@ namespace DQQ.Profiles.Skills.Buffs
 
     public override string? Discription => "周期性的持续回复生命";
 
-    protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
-    {
-
-    }
+    
     protected override HealingDeal[] CalculateHealing(ITarget? caster, IMap? map)
     {
       return [HealingDeal.New(CalculateDamage(caster, map).Sum(b => b.DamagePoint), EnumHealingType.HealingOverTime)];

@@ -13,7 +13,7 @@ namespace DQQ.Combats
     decimal? DamageModifier { get; set; }
     long? AttackRating { get; set; }
     long? Defence { get; set; }
-    long? DefencePercentage { get; set; }
+    decimal? DefencePercentage { get; set; }
     long? MainHand { get; set; }
     long? OffHand { get; set; }
 
