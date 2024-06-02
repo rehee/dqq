@@ -6,6 +6,8 @@ using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Profiles;
+using DQQ.Profiles.Durations;
+using DQQ.Profiles.Skills;
 using DQQ.TickLogs;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
@@ -113,18 +115,44 @@ namespace DQQ.Components.Stages
     {
       return damage.Select(b => b).ToArray();
     }
+    protected virtual EnumHitCheck HitCheck(ITarget? from, ITarget? to, IMap? map, IDQQProfile? source)
+    {
+      if (source is DurationProfile)
+      {
+        return EnumHitCheck.Hit;
+      }
+      if (source is SkillProfile sp)
+      {
+        var skillHitOverride = sp.CheckHit(from, this, map);
+        if (skillHitOverride == EnumHitCheck.Hit)
+        {
+          return EnumHitCheck.Hit;
+        }
+      }
+      return EnumHitCheck.Hit;
+    }
     public virtual DamageTaken TakeDamage(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
     {
       //damage reduction
-      var damageAfterReduction = DamageReduction(from, damage, map, source);
-      var result = DamageTaken.New(damage, false);
-      result.DamageTakenSuccess = this.Alive;
-      BeforeTakeDamage(from, result, map, source);
-      DamageReduction(from, result, map, source);
-      TakingDamage(from, result, map, source);
-      AfterTakeDamage(from, result, map, source);
-      map.AddMapLogDamageTaken(result.DamageTakenSuccess, from, this, source, result);
-      return result;
+      var hitResult = HitCheck(from, this, map, source);
+      if (hitResult == EnumHitCheck.Hit)
+      {
+        var damageAfterReduction = DamageReduction(from, damage, map, source);
+        var result = DamageTaken.New(damage, false);
+        result.DamageTakenSuccess = this.Alive;
+        BeforeTakeDamage(from, result, map, source);
+        DamageReduction(from, result, map, source);
+        TakingDamage(from, result, map, source);
+        AfterTakeDamage(from, result, map, source);
+        map.AddMapLogDamageTaken(result.DamageTakenSuccess, from, this, source, result);
+        return result;
+      }
+      else
+      {
+        var result = DamageTaken.New(hitResult, false);
+        return result;
+      }
+
     }
     public virtual void TakeHealing(ITarget? from, long healing, IMap? map, IDQQProfile? source)
     {

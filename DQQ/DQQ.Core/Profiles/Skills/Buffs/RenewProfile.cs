@@ -17,7 +17,7 @@ using DQQ.Commons;
 namespace DQQ.Profiles.Skills.Buffs
 {
   [Pooled]
-  public class RenewProfile : SkillProfile
+  public class RenewProfile : AbHealing
   {
     public override bool NoPlayerSkill => false;
     protected override bool SelfTarget => true;
@@ -39,27 +39,21 @@ namespace DQQ.Profiles.Skills.Buffs
     {
 
     }
-    public override async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
+    protected override HealingDeal[] CalculateHealing(ITarget? caster, IMap? map)
     {
-      var result = await base.CastSkill(caster, caster, target, map);
-      if (!result.Success)
-      {
-        return result;
-      }
-      var actualTarget = skillTarget ?? caster?.Target;
-
-      if (caster?.CombatPanel?.DynamicPanel.MainHand <= 0)
-      {
-        return result;
-      }
+      return [HealingDeal.New(CalculateDamage(caster, map).Sum(b => b.DamagePoint), EnumHealingType.HealingOverTime)];
+    }
+    protected override void DealingHealing(ITarget? from, HealingDeal[] healings, IMap? map)
+    {
+      base.DealingHealing(from, healings, map);
+      var power = healings.Where(b => b.HealingType == EnumHealingType.HealingOverTime).Sum(b => b.Points);
       var durationParameter = new DurationParameter
       {
-        Creator = caster,
+        Creator = from,
         DurationSeconds = 5,
-        Value = CalculateDamage(caster, map).Sum(b => b.DamagePoint)
+        Value = power
       };
-      DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Renew)?.CreateDuration(durationParameter, caster, map);
-      return result;
+      DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Renew)?.CreateDuration(durationParameter, from, map);
     }
   }
 }

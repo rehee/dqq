@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.Skills.Buffs
 {
   [Pooled]
-  public class HealProfile : SkillProfile
+  public class HealProfile : AbHealing
   {
     public override bool NoPlayerSkill => false;
     protected override bool SelfTarget => true;
@@ -38,21 +38,12 @@ namespace DQQ.Profiles.Skills.Buffs
 
     protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
     {
-      
-    }
 
-    public override async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
+    }
+    protected override HealingDeal[] CalculateHealing(ITarget? caster, IMap? map)
     {
-
-      var result = await base.CastSkill(caster, caster, target, map);
-      if (result.Success)
-      {
-        var casterHealHp = (long)(caster?.CombatPanel?.DynamicPanel.MaximunLife * 0.6m);
-        caster.TakeHealing(caster, casterHealHp, map, this);
-      }
-
-
-      return result;
+      return [HealingDeal.New((long)((caster?.CombatPanel?.DynamicPanel?.MaximunLife).DefaultValue() * 0.6m))];
     }
+
   }
 }

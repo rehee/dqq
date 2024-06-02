@@ -29,7 +29,7 @@ namespace DQQ.Profiles.Skills
     public abstract decimal DamageRate { get; }
     public abstract bool CastWithWeaponSpeed { get; }
     public EnumSkill SkillNumber => ProfileNumber;
-
+    public virtual EnumSkillType SkillType => EnumSkillType.Damage;
     public string? SkillName => Name;
 
 
@@ -49,13 +49,14 @@ namespace DQQ.Profiles.Skills
       //check hit rate
       //check damage reduction
       //check after dealing damage
+      DamageTaken? damageTaken;
       if (skillTarget != null)
       {
-        skillTarget.TakeDamage(caster, damageWithDeal, map, this);
+        damageTaken = skillTarget.TakeDamage(caster, damageWithDeal, map, this);
       }
       else
       {
-        caster?.Target?.TakeDamage(caster, damageWithDeal, map, this);
+        damageTaken = caster?.Target?.TakeDamage(caster, damageWithDeal, map, this);
       }
       if (DamageHand == EnumDamageHand.EachHand && caster.CombatPanel.IsDuelWield)
       {
@@ -68,8 +69,15 @@ namespace DQQ.Profiles.Skills
           caster.PrevioursMainHand = !caster.PrevioursMainHand;
         }
       }
+      if (damageTaken?.HitCheck == EnumHitCheck.Hit)
+      {
+        AfterDealingDamage(caster, skillTarget, damageTaken, map);
+      }
     }
-    
+    protected virtual void AfterDealingDamage(ITarget? caster, ITarget? skillTarget, DamageTaken? damageTaken, IMap? map)
+    {
+
+    }
     public virtual async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
     {
       await Task.CompletedTask;
@@ -79,14 +87,40 @@ namespace DQQ.Profiles.Skills
       {
         return response;
       }
-      response.SetSuccess(true);
       map!.AddMapLogSpillCast(true, caster, skillTarget ?? caster.Target, this);
-      
-      var damage = CalculateDamage(caster, map);
+      response.SetSuccess(true);
+      //check skill hit
+      if (SkillType == EnumSkillType.Damage || SkillType == EnumSkillType.hybrid)
+      {
+        var damage = CalculateDamage(caster, map);
+        DealingDamage(caster, skillTarget, damage, map);
+      }
 
-      DealingDamage(caster, skillTarget, damage, map);
-      
+      if (SkillType == EnumSkillType.Healing || SkillType == EnumSkillType.hybrid)
+      {
+        var healing = CalculateHealing(caster, map);
+        DealingHealing(caster, healing, map);
+      }
+
+
       return response;
+    }
+
+    public virtual EnumHitCheck? CheckHit(ITarget? caster, ITarget? skillTarget, IMap? map)
+    {
+      return null;
+    }
+
+    protected virtual HealingDeal[] CalculateHealing(ITarget? caster, IMap? map)
+    {
+      return [];
+    }
+    protected virtual void DealingHealing(ITarget? from, HealingDeal[] healings, IMap? map)
+    {
+      foreach (var h in healings.Where(b => b.HealingType == EnumHealingType.DirectHeal))
+      {
+        from?.TakeHealing(from, h.Points, map, this);
+      }
     }
   }
 }
