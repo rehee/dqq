@@ -41,10 +41,6 @@ namespace DQQ.Profiles.Skills
 
     protected virtual void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
     {
-      if (damageDeals?.Any(b => b.DamagePoint > 0) != true)
-      {
-        return;
-      }
       var damageWithDeal = damageDeals.Where(b => b.DamagePoint > 0).ToArray();
       //check hit rate
       //check damage reduction

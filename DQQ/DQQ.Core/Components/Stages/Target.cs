@@ -137,6 +137,10 @@ namespace DQQ.Components.Stages
       var hitResult = HitCheck(from, this, map, source);
       if (hitResult == EnumHitCheck.Hit)
       {
+        if (damage.Length <= 0 || damage.All(b => b.DamagePoint == 0))
+        {
+          return DamageTaken.New(hitResult, false);
+        }
         var damageAfterReduction = DamageReduction(from, damage, map, source);
         var result = DamageTaken.New(damage, false);
         result.DamageTakenSuccess = this.Alive;
@@ -150,6 +154,7 @@ namespace DQQ.Components.Stages
       else
       {
         var result = DamageTaken.New(hitResult, false);
+        result.DamageTakenSuccess = false;
         return result;
       }
 

@@ -37,22 +37,10 @@ namespace DQQ.Profiles.Skills.Attacks
 
     protected override void DealingDamage(ITarget? caster, ITarget? skillTarget, DamageDeal[] damageDeals, IMap? map)
     {
-
+      base.DealingDamage(caster, skillTarget, [], map);
     }
-
-    public override async Task<ContentResponse<bool>> CastSkill(ITarget? caster, ITarget? skillTarget, IEnumerable<ITarget>? target, IMap? map)
+    protected override void AfterDealingDamage(ITarget? caster, ITarget? skillTarget, DamageTaken? damageTaken, IMap? map)
     {
-      var result = await base.CastSkill(caster, skillTarget, target, map);
-      if (!result.Success)
-      {
-        return result;
-      }
-      var actualTarget = skillTarget ?? caster?.Target;
-
-      if (caster?.CombatPanel?.DynamicPanel.MainHand <= 0)
-      {
-        return result;
-      }
       var rendDamage = CalculateDamage(caster, map);
       var durationParameter = new DurationParameter
       {
@@ -60,8 +48,9 @@ namespace DQQ.Profiles.Skills.Attacks
         Value = rendDamage.Sum(b => b.DamagePoint),
         DurationSeconds = 5
       };
+      var actualTarget = skillTarget ?? caster?.Target;
       DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Rend)?.CreateDuration(durationParameter, actualTarget, map);
-      return result;
     }
+    
   }
 }
