@@ -39,6 +39,7 @@ namespace DQQ.Components
     }
     public virtual async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
     {
+      await Task.CompletedTask;
       var result = new ContentResponse<bool>();
       result.SetSuccess(parameter.From?.Alive == true);
       if (result.Success)

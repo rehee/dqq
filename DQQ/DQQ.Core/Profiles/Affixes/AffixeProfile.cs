@@ -29,7 +29,7 @@ namespace DQQ.Profiles.Affixes
 
     public virtual int AfterDealingDamageCount => 15;
 
-    public virtual async Task<ContentResponse<bool>> AfterDealingDamage(AfterTakeDamageParameter? parameter)
+    public virtual async Task<ContentResponse<bool>> AfterDealingDamage(AfterDealingDamageParameter? parameter)
     {
       await Task.CompletedTask;
       var result = new ContentResponse<bool>();

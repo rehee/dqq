@@ -52,10 +52,10 @@ namespace DQQ.Profiles.Skills
       }
       if (damageTaken?.HitCheck == EnumHitCheck.Hit)
       {
-        await AfterDealingDamage(AfterTakeDamageParameter.New(parameter, damageTaken));
+        await AfterDealingDamage(AfterDealingDamageParameter.New(parameter, damageTaken));
       }
     }
-    protected virtual async Task AfterDealingDamage(AfterTakeDamageParameter? parameter)
+    protected virtual async Task AfterDealingDamage(AfterDealingDamageParameter? parameter)
     {
       await parameter.AfterDealingDamage();
     }

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DQQ.Components.Parameters
 {
-  public class AfterTakeDamageParameter
+  public class AfterDealingDamageParameter
   {
-    public static AfterTakeDamageParameter New(ComponentTickParameter? parameter, DamageTaken? damage)
+    public static AfterDealingDamageParameter New(ComponentTickParameter? parameter, DamageTaken? damage)
     {
-      return new AfterTakeDamageParameter
+      return new AfterDealingDamageParameter
       {
         From = parameter?.From,
         To = parameter?.SelectedTarget,

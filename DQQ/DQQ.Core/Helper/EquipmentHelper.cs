@@ -12,7 +12,7 @@ namespace DQQ.Helper
 {
   public static class EquipmentHelper
   {
-    public static async Task AfterDealingDamage(this AfterTakeDamageParameter? parameter)
+    public static async Task AfterDealingDamage(this AfterDealingDamageParameter? parameter)
     {
       if (parameter == null || parameter?.From == null)
       {

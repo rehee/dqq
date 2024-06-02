@@ -42,7 +42,7 @@ namespace DQQ.Profiles.Items.Equipments
     }
 
 
-    public virtual async Task AfterDealingDamage(AfterTakeDamageParameter? parameter)
+    public virtual async Task AfterDealingDamage(AfterDealingDamageParameter? parameter)
     {
       await Task.CompletedTask;
     }

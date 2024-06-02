@@ -14,6 +14,6 @@ namespace DQQ.Combats
     EnumEquipSlot? SecondEquipSlot { get; }
     CombatProperty? Property { get; set; }
 
-    public Task<ContentResponse<bool>> AfterDealingDamage(AfterTakeDamageParameter? parameter);
+    public Task<ContentResponse<bool>> AfterDealingDamage(AfterDealingDamageParameter? parameter);
   }
 }
