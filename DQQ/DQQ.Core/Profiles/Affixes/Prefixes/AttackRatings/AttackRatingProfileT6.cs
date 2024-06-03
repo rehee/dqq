@@ -14,7 +14,7 @@ namespace DQQ.Profiles.Affixes.Prefixes.AttackRatings
     public override int TierLevel => 6;
     public override int AffixeLevel => 22;
 
-    public override AffixeRange[] Ranges => new[] { AffixeRange.New(EnumPropertyType.AttackRating, 101, 120) };
+    public override AffixeRange[] Ranges => [AffixeRange.New(EnumPropertyType.AttackRating, 101, 120)];
 
     public override EnumAffixeNumber ProfileNumber => EnumAffixeNumber.Platinum;
 

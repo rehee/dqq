@@ -113,6 +113,9 @@ namespace DQQ.Components.Items.Equips
       return result;
     }
 
+
+
+
     public async Task<ContentResponse<bool>> AfterDealingDamage(AfterDealingDamageParameter? parameter)
     {
       await Task.CompletedTask;

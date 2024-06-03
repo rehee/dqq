@@ -16,7 +16,7 @@ using DQQ.Components.Parameters;
 
 namespace DQQ.Components.Durations
 {
-  public class DurationComponent : DQQComponent, IDisposable
+  public class DurationComponent : DQQComponent
   {
     public EnumDurationNumber DurationNumber { get; set; }
     public DurationProfile? Duration => DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(DurationNumber);
@@ -24,6 +24,7 @@ namespace DQQ.Components.Durations
     public int TickRemain { get; set; }
     public int TickCount = 0;
     public long TickPower = 0;
+    public long Power = 0;
     private ITarget? lastTarget { get; set; }
     private IMap? lastMap { get; set; }
 
@@ -43,22 +44,36 @@ namespace DQQ.Components.Durations
         return result;
       }
       TickRemain--;
-      TickCount++;
-      if (TickCount < DQQGeneral.DurationIntervalTick)
+
+
+
+      if (Duration?.DurationType == EnumDurationType.Buff)
       {
-        return result;
+
       }
-      TickCount = 0;
-      Duration?.OnActive(this, parameter.From, parameter.Map);
-      lastTarget = parameter.From;
-      lastMap = parameter.Map;
+      else
+      {
+        TickCount++;
+        if (TickCount < DQQGeneral.DurationIntervalTick)
+        {
+          return result;
+        }
+        TickCount = 0;
+        Duration?.OnActive(this, parameter.From, parameter.Map);
+
+        lastTarget = parameter.From;
+        lastMap = parameter.Map;
+      }
+
+
       return result;
     }
 
     bool isDisposed { get; set; }
-    public override void Dispose()
+    public override async ValueTask DisposeAsync()
     {
-      base.Dispose();
+      await base.DisposeAsync();
+
       if (isDisposed)
       {
         return;

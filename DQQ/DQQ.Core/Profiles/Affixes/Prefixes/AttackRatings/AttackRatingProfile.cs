@@ -10,7 +10,7 @@ namespace DQQ.Profiles.Affixes.Prefixes.AttackRatings
   public abstract class AttackRatingProfile : PrefixProfile
   {
     public override EnumAffixeGroup AffixeGroup => EnumAffixeGroup.AttackRating;
-    public override EnumEquipType[]? EquipTypeLimites => new[] { EnumEquipType.OneHandWeapon, EnumEquipType.MainHandWeapon, EnumEquipType.TwoHandWeapon, EnumEquipType.Glove, EnumEquipType.Ring };
+    public override EnumEquipType[]? EquipTypeLimites => [EnumEquipType.OneHandWeapon, EnumEquipType.MainHandWeapon, EnumEquipType.TwoHandWeapon, EnumEquipType.Glove, EnumEquipType.Ring];
 
     public override string? Discription => "准确率增加";
   }

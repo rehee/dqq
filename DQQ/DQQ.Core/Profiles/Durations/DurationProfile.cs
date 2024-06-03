@@ -44,12 +44,20 @@ namespace DQQ.Profiles.Durations
       result.Content!.DurationNumber = this.ProfileNumber;
       result.Content!.TickRemain = (int)((parameter?.DurationSeconds ?? 0) * DQQGeneral.TickPerSecond);
       var ticks = result.Content!.TickRemain == 0 ? 1 : (result.Content!.TickRemain / DQQGeneral.DurationIntervalTick);
-      if (parameter?.Value != 0)
+      if (DurationType == EnumDurationType.Buff)
       {
-        result.Content!.TickPower = ((parameter?.Value ?? 0) / ticks);
-        result.Content!.TickPower = result.Content!.TickPower == 0 ? 0 : result.Content!.TickPower;
-
+        result.Content!.Power = (parameter?.Value).GetValueOrDefault();
       }
+      else
+      {
+        if (parameter?.Value != 0)
+        {
+          result.Content!.TickPower = ((parameter?.Value ?? 0) / ticks);
+          result.Content!.TickPower = result.Content!.TickPower == 0 ? 0 : result.Content!.TickPower;
+
+        }
+      }
+
       result.Content!.Creator = parameter?.Creator;
       target?.Durations?.Add(result.Content!);
       return result;

@@ -8,7 +8,7 @@ using DQQ.Components.Parameters;
 
 namespace DQQ.Components
 {
-  public interface IDQQComponent : IDisposable
+  public interface IDQQComponent : IAsyncDisposable
   {
     Guid? DisplayId { get; }
     string? DisplayName { get; }

@@ -10,6 +10,6 @@ namespace DQQ.Profiles.Affixes.Suffixes.EnhancedDamages
   public abstract class EnhancedDamageSufixe : SuffixProfile
   {
     public override EnumAffixeGroup AffixeGroup => EnumAffixeGroup.EnhancedDamage;
-    public override EnumEquipType[]? EquipTypeLimites => new[] { EnumEquipType.OneHandWeapon, EnumEquipType.MainHandWeapon, EnumEquipType.TwoHandWeapon };
+    public override EnumEquipType[]? EquipTypeLimites => [EnumEquipType.OneHandWeapon, EnumEquipType.MainHandWeapon, EnumEquipType.TwoHandWeapon];
   }
 }

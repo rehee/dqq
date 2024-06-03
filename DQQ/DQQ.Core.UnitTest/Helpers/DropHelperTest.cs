@@ -87,6 +87,11 @@ namespace DQQ.Core.UnitTest.Helpers
       throw new NotImplementedException();
     }
 
+    public ValueTask DisposeAsync()
+    {
+      throw new NotImplementedException();
+    }
+
     public Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier)
     {
       throw new NotImplementedException();

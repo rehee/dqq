@@ -170,25 +170,26 @@ namespace DQQ.Components.Stages.Maps
         }
         try
         {
-          foreach (var p in Players)
+          if (Players?.Any() == true)
           {
-            p.CombatPanel.CalculateDynamicPanel(p, this);
-            if (p.TargetPriority != null)
+            foreach (var p in Players)
             {
-              p.SelectTarget(p.TargetPriority.SelectTargetByPriority(currentPack));
-            }
-            else
-            {
-              if (p.Target == null || p.Target.Alive == false)
+              p.CombatPanel.CalculateDynamicPanel(p, this);
+              if (p.TargetPriority != null)
               {
-                p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).FirstOrDefault());
+                p.SelectTarget(p.TargetPriority.SelectTargetByPriority(currentPack));
               }
+              else
+              {
+                if (p.Target == null || p.Target.Alive == false)
+                {
+                  p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).FirstOrDefault());
+                }
+              }
+              await p.OnTick(ComponentTickParameter.New(p, Players, currentPack, this));
             }
-
-
-            await p.OnTick(ComponentTickParameter.New(p, Players, currentPack, this));
-
           }
+
           foreach (var p in currentPack)
           {
             if (!p.Alive)
@@ -197,7 +198,7 @@ namespace DQQ.Components.Stages.Maps
             }
             if (p.Target == null)
             {
-              p.SelectTarget(Players.FirstOrDefault());
+              p.SelectTarget(Players?.FirstOrDefault());
             }
 
             await p.OnTick(ComponentTickParameter.New(p, currentPack, Players, this));
@@ -223,8 +224,9 @@ namespace DQQ.Components.Stages.Maps
     }
 
     public bool IsDisposed { get; protected set; }
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
+      await Task.CompletedTask;
       if (IsDisposed)
       {
         return;

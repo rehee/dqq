@@ -19,9 +19,10 @@ namespace DQQ.Components
     [JsonIgnore]
     public IDQQProfile? Profile { get; set; }
 
-    public bool IsDisposed { get; protected set; }
-    public virtual void Dispose()
+    bool IsDisposed { get; set; }
+    public virtual async ValueTask DisposeAsync()
     {
+      await Task.CompletedTask;
       if (IsDisposed)
       {
         return;
@@ -51,6 +52,9 @@ namespace DQQ.Components
       }
       return result;
     }
+
+
+
     protected int AfterDealingDamageCount { get; set; }
   }
 }

@@ -108,7 +108,7 @@ namespace DQQ.Components.Stages
         foreach (var d in durationNeedRemove)
         {
           Durations?.Remove(d);
-          d.Dispose();
+          await d.DisposeAsync();
         }
       }
       else
@@ -119,6 +119,14 @@ namespace DQQ.Components.Stages
       return result;
     }
     protected virtual DamageDeal[] DamageReduction(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
+    {
+      return damage.Select(b => b).ToArray();
+    }
+    protected virtual DamageDeal[] BeforeDamageTaken(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
+    {
+      return damage.Select(b => b).ToArray();
+    }
+    protected virtual DamageDeal[] AfterDamageTaken(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
     {
       return damage.Select(b => b).ToArray();
     }
