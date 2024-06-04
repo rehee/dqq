@@ -82,6 +82,26 @@ namespace DQQ.Core.UnitTest.Helpers
 
     public int WaveTickCount { get; set; }
 
+    public void AfterTakeDamage(DamageTakenParameter parameter)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void BeforeDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void BeforeTakeDamage(DamageTakenParameter parameter)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void DamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      throw new NotImplementedException();
+    }
+
     public void Dispose()
     {
       throw new NotImplementedException();

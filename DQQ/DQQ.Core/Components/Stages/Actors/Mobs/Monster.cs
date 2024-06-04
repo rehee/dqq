@@ -1,4 +1,5 @@
 ﻿using DQQ.Commons;
+using DQQ.Components.Parameters;
 using DQQ.Components.Skills;
 using DQQ.Components.Stages.Maps;
 using DQQ.Consts;
@@ -47,7 +48,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
     public static Monster Create(MobProfile profile, int level, EnumMobRarity? rarity = null)
     {
       var mob = new Monster();
-      
+
       mob.Profile = profile;
       var namePrefix = "";
       var dropTimes = 1;
@@ -98,19 +99,19 @@ namespace DQQ.Components.Stages.Actors.Mobs
       return mob;
     }
 
-    protected override void AfterTakeDamage(ITarget? from, DamageTaken damage, IMap? map, IDQQProfile? source)
+    protected override void SelfAfterTakeDamage(DamageTakenParameter parameter)
     {
-      base.AfterTakeDamage(from, damage, map, source);
-      if (!damage.DamageTakenSuccess)
+      base.SelfAfterTakeDamage(parameter);
+      if (parameter.Damage?.DamageTakenSuccess != true)
       {
         return;
       }
-      if (!damage.IsKilled)
+      if (parameter.Damage?.IsKilled != true)
       {
         return;
       }
-      damage.Drops = DropHelper.Drop(this, map);
-      damage.XP = XP;
+      parameter.Damage.Drops = DropHelper.Drop(this, parameter.Map);
+      parameter.Damage.XP = XP;
     }
   }
 }

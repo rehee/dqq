@@ -16,7 +16,7 @@ namespace DQQ.Commons
       return new DamageTaken
       {
         HitCheck = EnumHitCheck.Hit,
-        DamagePoint = damageDeals.Sum(b => b.DamagePoint),
+        DamagePoint = damageDeals.Sum(b => b.DamagePoint + b.CriticalDamagePoint),
         IsKilled = killed,
         Deals = damageDeals.Select(b => b).ToArray(),
       };

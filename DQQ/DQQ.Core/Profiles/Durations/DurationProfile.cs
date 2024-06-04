@@ -12,6 +12,7 @@ using DQQ.Consts;
 using DQQ.Combats;
 using ReheeCmf.Responses;
 using ReheeCmf.Helpers;
+using DQQ.Components.Parameters;
 
 namespace DQQ.Profiles.Durations
 {
@@ -89,6 +90,15 @@ namespace DQQ.Profiles.Durations
 
     }
     public virtual void WhenExpired()
+    {
+
+    }
+
+    public virtual void BeforeDamageReduction(BeforeDamageTakenParameter parameter, DurationComponent component)
+    {
+
+    }
+    public virtual void DamageReduction(BeforeDamageTakenParameter parameter, DurationComponent component)
     {
 
     }

@@ -15,6 +15,7 @@ namespace DQQ.Enums
     Renew = 1002,
     BattleShout = 2001,
     HatefulStrike = 10001,
+    PowerWordShield = 11001,
 
   }
 }

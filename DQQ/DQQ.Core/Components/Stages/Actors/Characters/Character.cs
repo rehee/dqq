@@ -91,5 +91,33 @@ namespace DQQ.Components.Stages.Actors.Characters
       }
       this.TotalEquipProperty();
     }
+
+
+    protected override void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      var equips = Equips?.Select(b => b.Value).Where(b => b != null).Select(b => b!).ToArray();
+      if (equips?.Any() == true)
+      {
+        foreach (var e in equips)
+        {
+          e.BeforeDamageReduction(parameter);
+        }
+      }
+      base.SelfBeforeDamageReduction(parameter);
+    }
+    protected override void SelfDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      
+      var equips = Equips?.Select(b => b.Value).Where(b => b != null).Select(b => b!).ToArray();
+      if (equips?.Any() == true)
+      {
+        foreach (var e in equips)
+        {
+          e.DamageReduction(parameter);
+        }
+      }
+      base.SelfDamageReduction(parameter);
+    }
+    
   }
 }

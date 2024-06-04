@@ -139,7 +139,7 @@ namespace DQQ.Components.Stages.Maps
           WaveTickCount = 0;
           if (Players?.Any() == true)
           {
-            foreach (var p in Players.Where(b => b.Alive))
+            foreach (var p in Players.Where(b => b.Alive).ToArray())
             {
               if (p.Skills?.Any() == true)
               {
@@ -152,7 +152,7 @@ namespace DQQ.Components.Stages.Maps
           }
           if (currentPack?.Any() != null)
           {
-            foreach (var m in currentPack.Where(b => b.Alive))
+            foreach (var m in currentPack.Where(b => b.Alive).ToArray())
             {
               if (m.Skills?.Any() == true)
               {
@@ -172,7 +172,7 @@ namespace DQQ.Components.Stages.Maps
         {
           if (Players?.Any() == true)
           {
-            foreach (var p in Players)
+            foreach (var p in Players.ToArray())
             {
               p.CombatPanel.CalculateDynamicPanel(p, this);
               if (p.TargetPriority != null)
@@ -190,7 +190,7 @@ namespace DQQ.Components.Stages.Maps
             }
           }
 
-          foreach (var p in currentPack)
+          foreach (var p in currentPack.ToArray())
           {
             if (!p.Alive)
             {
@@ -200,7 +200,7 @@ namespace DQQ.Components.Stages.Maps
             {
               p.SelectTarget(Players?.FirstOrDefault());
             }
-
+            p.CombatPanel.CalculateDynamicPanel(p, this);
             await p.OnTick(ComponentTickParameter.New(p, currentPack, Players, this));
           }
           if (Players?.All(b => b.Alive == false) == true)
@@ -232,6 +232,26 @@ namespace DQQ.Components.Stages.Maps
         return;
       }
       IsDisposed = true;
+    }
+
+    public void BeforeDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void DamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void BeforeTakeDamage(DamageTakenParameter parameter)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void AfterTakeDamage(DamageTakenParameter parameter)
+    {
+      throw new NotImplementedException();
     }
   }
 }

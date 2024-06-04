@@ -12,22 +12,22 @@ namespace DQQ.Combats
   {
     public CombatProperty StaticPanel { get; set; } = new CombatProperty();
 
-    private CombatProperty? calculatedPanel { get; set; }
-    public CombatProperty DynamicPanel => calculatedPanel ?? StaticPanel;
+    public CombatProperty? CalculatedPanel { get; set; }
+    public CombatProperty DynamicPanel => CalculatedPanel ?? StaticPanel;
 
     public void CalculateDynamicPanel(ITarget actor, IMap map)
     {
-      if (actor.Alive)
+      if (actor.Alive && actor.Durations?.Any() == true)
       {
-        calculatedPanel = new CombatProperty(StaticPanel);
-        foreach (var duration in actor.Durations)
+        CalculatedPanel = new CombatProperty(StaticPanel);
+        foreach (var duration in actor.Durations.ToArray())
         {
-          duration.CombatPropertyCalculate(calculatedPanel, StaticPanel, map);
+          duration.CombatPropertyCalculate(CalculatedPanel, StaticPanel, map);
         }
       }
       else
       {
-        calculatedPanel = StaticPanel;
+        CalculatedPanel = StaticPanel;
       }
 
     }

@@ -6,5 +6,6 @@
     Rend = 1,
     Renew = 1001,
     BattleShout = 2001,
+    PowerWordShield = 10001,
   }
 }

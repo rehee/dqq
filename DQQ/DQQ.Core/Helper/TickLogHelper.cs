@@ -1,5 +1,6 @@
 ﻿using DQQ.Commons;
 using DQQ.Components.Items;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors.Mobs;
 using DQQ.Components.Stages.Maps;
@@ -108,31 +109,31 @@ namespace DQQ.Helper
       }
 
     }
-    public static void AddMapLogDamageTaken(this IMap? map, bool success, ITarget? from, ITarget? to, IDQQProfile? profile, DamageTaken? damageTaken)
+    public static void AddMapLogDamageTaken(this IMap? map, DamageTakenParameter parameter)
     {
-      var item = map.GetTickLogItemFromMap(success);
+      var item = map.GetTickLogItemFromMap(parameter.Damage?.DamageTakenSuccess == true);
       item.LogType = EnumLogType.DamageTaken;
 
 
-      item.From = from.ToLogActor();
-      item.Target = to.ToLogActor();
-      item.SetLogProfile(profile);
-      if (damageTaken != null)
+      item.From = parameter.From.ToLogActor();
+      item.Target = parameter.To.ToLogActor();
+      item.SetLogProfile(parameter.Source);
+      if (parameter.Damage != null)
       {
         item.Damage = new TicklogDamage
         {
-          DamagePoint = damageTaken?.DamagePoint.ToString(),
-          IsKilled = damageTaken?.IsKilled == true
+          DamagePoint = parameter.Damage.DamagePoint.ToString(),
+          IsKilled = parameter.Damage.IsKilled == true
         };
       }
 
       if (map != null)
       {
-        if (damageTaken?.Drops?.Any() == true)
+        if (parameter.Damage?.Drops?.Any() == true)
         {
-          map!.Drops!.AddRange(damageTaken!.Drops.ToArray());
+          map!.Drops!.AddRange(parameter.Damage!.Drops.ToArray());
         }
-        map.XP = map.XP + (damageTaken?.XP ?? 0);
+        map.XP = map.XP + (parameter.Damage?.XP ?? 0);
         map.Logs.Add(item);
       }
 

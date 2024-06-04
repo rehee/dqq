@@ -18,7 +18,7 @@ namespace DQQ.Profiles.Items.Equipments
     public abstract EnumEquipType? EquipType { get; }
     public abstract EnumItemType? ItemType { get; }
     public override int DropQuantity => 1;
-    public virtual int AfterDealingDamageCount => 15;
+    
     public virtual EquipComponent GenerateEquipComponent(int? itemLevel, EnumRarity rarity = EnumRarity.Normal)
     {
       var result = EquipComponent.New<EquipComponent>();

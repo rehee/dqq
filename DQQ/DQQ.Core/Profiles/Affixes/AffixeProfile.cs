@@ -27,7 +27,7 @@ namespace DQQ.Profiles.Affixes
 
 
 
-    public virtual int AfterDealingDamageCount => 15;
+    
 
     public virtual async Task<ContentResponse<bool>> AfterDealingDamage(AfterDealingDamageParameter? parameter)
     {

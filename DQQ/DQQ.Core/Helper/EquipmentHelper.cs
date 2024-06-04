@@ -24,7 +24,7 @@ namespace DQQ.Helper
         {
           return;
         }
-        foreach (var c in character.Equips)
+        foreach (var c in character.Equips.ToArray())
         {
           if (c.Value == null)
           {

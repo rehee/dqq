@@ -18,5 +18,10 @@ namespace DQQ.Components
     IDQQProfile? Profile { get; }
     void Initialize(IDQQEntity entity);
     Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter);
+
+    void BeforeDamageReduction(BeforeDamageTakenParameter parameter);
+    void DamageReduction(BeforeDamageTakenParameter parameter);
+    void BeforeTakeDamage(DamageTakenParameter parameter);
+    void AfterTakeDamage(DamageTakenParameter parameter);
   }
 }

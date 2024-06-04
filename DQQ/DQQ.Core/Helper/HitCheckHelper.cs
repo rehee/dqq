@@ -1,4 +1,5 @@
 ﻿using DQQ.Commons;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Consts;
@@ -15,39 +16,39 @@ namespace DQQ.Helper
 {
   public static class HitCheckHelper
   {
-    public static EnumHitCheck HitCheck(this ITarget? from, ITarget? to, IMap? map, SkillHitCheck? skillCheck)
+    public static EnumHitCheck HitCheck(BeforeDamageTakenParameter parameter, SkillHitCheck? skillCheck)
     {
       if (skillCheck?.HitCheck == EnumHitCheck.Hit)
       {
         return EnumHitCheck.Hit;
       }
-      if (to == null)
+      if (parameter.To == null)
       {
         return EnumHitCheck.Hit;
       }
-      if (MissCheck(from, to, map, skillCheck))
+      if (MissCheck(parameter, skillCheck))
       {
         return EnumHitCheck.Miss;
       }
 
-      if (DodgeCheck(to, map, skillCheck))
+      if (DodgeCheck(parameter, skillCheck))
       {
         return EnumHitCheck.Dodge;
       }
-      if (BlockCheck(to, map, skillCheck))
+      if (BlockCheck(parameter, skillCheck))
       {
         return EnumHitCheck.Block;
       }
       return EnumHitCheck.Hit;
     }
 
-    public static bool BlockCheck(ITarget? to, IMap map, SkillHitCheck? skillCheck)
+    public static bool BlockCheck(BeforeDamageTakenParameter parameter, SkillHitCheck? skillCheck)
     {
       if (skillCheck?.IgnoreCheck?.Any(b => b == EnumHitCheck.Block) == true)
       {
         return false;
       }
-      var blockChance = (to?.CombatPanel.DynamicPanel.BlockChance).DefaultValue();
+      var blockChance = (parameter?.To?.CombatPanel.DynamicPanel.BlockChance).DefaultValue();
       if (blockChance <= 0)
       {
         return false;
@@ -56,15 +57,15 @@ namespace DQQ.Helper
       {
         return false;
       }
-      return to?.TryBlock().Success == true;
+      return parameter?.To?.TryBlock().Success == true;
     }
-    public static bool DodgeCheck(ITarget? to, IMap map, SkillHitCheck? skillCheck)
+    public static bool DodgeCheck(BeforeDamageTakenParameter parameter, SkillHitCheck? skillCheck)
     {
       if (skillCheck?.IgnoreCheck?.Any(b => b == EnumHitCheck.Dodge) == true)
       {
         return false;
       }
-      var dogeChance = (to?.CombatPanel.DynamicPanel.DodgeChance).DefaultValue();
+      var dogeChance = (parameter?.To?.CombatPanel.DynamicPanel.DodgeChance).DefaultValue();
       if (dogeChance <= 0)
       {
         return false;
@@ -72,14 +73,14 @@ namespace DQQ.Helper
 
       return dogeChance >= RandomHelper.GetRandom(0);
     }
-    public static bool MissCheck(ITarget? from, ITarget? to, IMap map, SkillHitCheck? skillCheck)
+    public static bool MissCheck(BeforeDamageTakenParameter parameter, SkillHitCheck? skillCheck)
     {
-      var levelDifferent = (from?.Level).DefaultValue() - (to?.Level).DefaultValue();
+      var levelDifferent = (parameter?.From?.Level).DefaultValue() - (parameter?.To?.Level).DefaultValue();
       var baseHitChance = DQQGeneral.SameLevelHitChance + levelDifferent * DQQGeneral.HitChanceModifyByLevel;
 
       long attributeDifference =
-        ((from?.CombatPanel.DynamicPanel.AttackRating).DefaultValue() + (from?.Level).DefaultValue(1)) -
-        ((to?.CombatPanel.DynamicPanel.Defence).DefaultValue() + (to?.Level).DefaultValue(1));
+        ((parameter?.From?.CombatPanel.DynamicPanel.AttackRating).DefaultValue() + (parameter?.From?.Level).DefaultValue(1)) -
+        ((parameter?.To?.CombatPanel.DynamicPanel.Defence).DefaultValue() + (parameter?.To?.Level).DefaultValue(1));
       baseHitChance = baseHitChance + DQQGeneral.AttributeImpact * attributeDifference;
       baseHitChance = Math.Max(DQQGeneral.MinHitChance, baseHitChance);
       baseHitChance = Math.Min(DQQGeneral.MaxHitChance, baseHitChance);

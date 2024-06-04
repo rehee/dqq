@@ -89,5 +89,13 @@ namespace DQQ.Components.Durations
       Creator = null;
     }
 
+    protected override void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      Duration!.BeforeDamageReduction(parameter, this);
+    }
+    protected override void SelfDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      Duration!.DamageReduction(parameter, this);
+    }
   }
 }

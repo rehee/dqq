@@ -49,12 +49,81 @@ namespace DQQ.Components
         {
           AfterDealingDamageCount--;
         }
+        if (BeforeDamageReductionCount > 0)
+        {
+          BeforeDamageReductionCount--;
+        }
+        if (DamageReductionCount > 0)
+        {
+          DamageReductionCount--;
+        }
+        if (BeforeTakeDamageCount > 0)
+        {
+          BeforeTakeDamageCount--;
+        }
+        if (AfterTakeDamageCount > 0)
+        {
+          AfterTakeDamageCount--;
+        }
       }
       return result;
     }
-
-
-
     protected int AfterDealingDamageCount { get; set; }
+    protected int BeforeDamageReductionCount { get; set; }
+    protected int DamageReductionCount { get; set; }
+    protected int BeforeTakeDamageCount { get; set; }
+    protected int AfterTakeDamageCount { get; set; }
+    public void BeforeDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      if (BeforeDamageReductionCount > 0)
+      {
+        return;
+      }
+      BeforeDamageReductionCount = Profile?.BeforeDamageReductionCount ?? 0;
+      SelfBeforeDamageReduction(parameter);
+    }
+    protected virtual void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+
+    }
+    public void DamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      if (DamageReductionCount > 0)
+      {
+        return;
+      }
+      DamageReductionCount = Profile?.DamageReductionCount ?? 0;
+      SelfDamageReduction(parameter);
+    }
+    protected virtual void SelfDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+
+    }
+    public  void BeforeTakeDamage(DamageTakenParameter parameter)
+    {
+      if (BeforeTakeDamageCount > 0)
+      {
+        return;
+      }
+      BeforeTakeDamageCount = Profile?.BeforeTakeDamageCount ?? 0;
+      SelfBeforeTakeDamage(parameter);
+    }
+    protected virtual void SelfBeforeTakeDamage(DamageTakenParameter parameter)
+    {
+
+    }
+    public void AfterTakeDamage(DamageTakenParameter parameter)
+    {
+      if (AfterTakeDamageCount > 0)
+      {
+        return;
+      }
+      AfterTakeDamageCount = Profile?.AfterTakeDamageCount ?? 0;
+      SelfAfterTakeDamage(parameter);
+    }
+    protected virtual void SelfAfterTakeDamage(DamageTakenParameter parameter)
+    {
+      
+    }
   }
 }

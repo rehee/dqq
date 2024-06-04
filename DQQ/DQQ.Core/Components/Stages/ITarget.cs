@@ -1,6 +1,7 @@
 ﻿using DQQ.Combats;
 using DQQ.Commons;
 using DQQ.Components.Durations;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
 using DQQ.Profiles;
@@ -25,7 +26,7 @@ public interface ITarget : IDQQComponent, ICombatCalculate, IWIthCombatPanel
   bool Targetable { get; }
   bool Alive { get; }
   void SelectTarget(ITarget? target);
-  DamageTaken TakeDamage(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source);
+  DamageTaken TakeDamage(BeforeDamageTakenParameter parameter);
   void TakeHealing(ITarget? from, Int64 healing, IMap? map, IDQQProfile? source);
 
   //Task<ContentResponse<bool>> OnTick(IEnumerable<ITarget>? targets, IMap? map);

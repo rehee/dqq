@@ -1,6 +1,7 @@
 ﻿using DQQ.Attributes;
 using DQQ.Commons;
 using DQQ.Components.Durations;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
@@ -30,7 +31,7 @@ namespace DQQ.Profiles.Durations.Debuffs
       {
         return;
       }
-      var result = target!.TakeDamage(compose.Creator, [DamageDeal.New(compose.TickPower)], map, this);
+      var result = target!.TakeDamage(BeforeDamageTakenParameter.New(compose.Creator, target, map, this, DamageDeal.New(compose.TickPower)));
 
     }
   }

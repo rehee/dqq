@@ -132,13 +132,37 @@ namespace DQQ.Components.Items.Equips
       await EquipProfile.AfterDealingDamage(parameter);
       if (Affixes?.Any() == true)
       {
-        foreach (var aff in Affixes)
+        foreach (var aff in Affixes.ToArray())
         {
           await aff.AfterDealingDamage(parameter);
         }
       }
       result.SetSuccess(true);
       return result;
+    }
+
+    protected override void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      if (Affixes?.Any() != true)
+      {
+        return;
+      }
+      foreach (var p in Affixes.ToArray())
+      {
+        p.BeforeDamageReduction(parameter);
+      }
+    }
+
+    protected override void SelfDamageReduction(BeforeDamageTakenParameter parameter)
+    {
+      if (Affixes?.Any() != true)
+      {
+        return;
+      }
+      foreach (var p in Affixes.ToArray())
+      {
+        p.DamageReduction(parameter);
+      }
     }
   }
 }

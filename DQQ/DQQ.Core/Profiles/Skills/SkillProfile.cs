@@ -8,6 +8,7 @@ using ReheeCmf.Helpers;
 using DQQ.Components.Parameters;
 using DQQ.Components.Stages.Actors;
 using DQQ.Combats;
+using System.Reflection.Metadata;
 
 namespace DQQ.Profiles.Skills
 {
@@ -37,7 +38,7 @@ namespace DQQ.Profiles.Skills
       DamageTaken? damageTaken = null;
       if (parameter?.SelectedTarget != null)
       {
-        damageTaken = parameter!.SelectedTarget.TakeDamage(parameter?.From, damageWithDeal, map, this);
+        damageTaken = parameter!.SelectedTarget.TakeDamage(BeforeDamageTakenParameter.New(parameter, this, damageWithDeal));
       }
       if (DamageHand == EnumDamageHand.EachHand && parameter?.From?.CombatPanel.IsDuelWield == true)
       {
@@ -73,7 +74,7 @@ namespace DQQ.Profiles.Skills
       if (SkillType == EnumSkillType.Damage || SkillType == EnumSkillType.hybrid)
       {
         var damage = CalculateDamage(parameter?.From, parameter?.Map);
-        DealingDamage(parameter, damage, parameter?.Map);
+        await DealingDamage(parameter, damage, parameter?.Map);
       }
 
       if (SkillType == EnumSkillType.Healing || SkillType == EnumSkillType.hybrid)
@@ -81,12 +82,10 @@ namespace DQQ.Profiles.Skills
         var healing = CalculateHealing(parameter?.From, parameter?.Map);
         DealingHealing(parameter?.From, healing, parameter?.Map);
       }
-
-
       return response;
     }
 
-    public virtual SkillHitCheck? CheckHit(ITarget? caster, ITarget? skillTarget, IMap? map)
+    public virtual SkillHitCheck? CheckHit(BeforeDamageTakenParameter parameter)
     {
       return null;
     }

@@ -19,5 +19,7 @@ namespace DQQ.Commons
     }
     public long DamagePoint { get; set; }
     public EnumDamageType DamageType { get; set; }
+    public bool IsCritical { get; set; }
+    public long CriticalDamagePoint { get; set; }
   }
 }

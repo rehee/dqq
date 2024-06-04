@@ -42,26 +42,20 @@ namespace DQQ.Components.Stages
       Target = target;
     }
 
-    protected virtual void BeforeTakeDamage(ITarget? from, DamageTaken damage, IMap? map, IDQQProfile? source)
-    {
+    
 
-    }
-    protected virtual void DamageReduction(ITarget? from, DamageTaken damage, IMap? map, IDQQProfile? source)
+    protected virtual void TakingDamage(DamageTakenParameter parameter)
     {
-
-    }
-    protected virtual void TakingDamage(ITarget? from, DamageTaken damage, IMap? map, IDQQProfile? source)
-    {
-      if (!damage.DamageTakenSuccess)
+      if (parameter?.Damage == null || parameter?.Damage?.DamageTakenSuccess != true)
       {
         return;
       }
       if (!Alive)
       {
-        damage.DamageTakenSuccess = false;
+        parameter.Damage.DamageTakenSuccess = false;
         return;
       }
-      Int64 damageTaken = damage.DamagePoint;
+      Int64 damageTaken = parameter.Damage.DamagePoint;
       bool isDead = false;
       CurrentHP = CurrentHP - damageTaken;
       if (CurrentHP <= 0)
@@ -69,14 +63,11 @@ namespace DQQ.Components.Stages
         Alive = false;
         isDead = true;
       }
-      damage.DamagePoint = damageTaken;
-      damage.IsKilled = isDead;
-      damage.DamageTakenSuccess = true;
+      parameter.Damage.DamagePoint = damageTaken;
+      parameter.Damage.IsKilled = isDead;
+      parameter.Damage.DamageTakenSuccess = true;
     }
-    protected virtual void AfterTakeDamage(ITarget? from, DamageTaken damage, IMap? map, IDQQProfile? source)
-    {
-
-    }
+    
     protected object lockObject = new object();
 
     public override void Initialize(IDQQEntity profile)
@@ -118,54 +109,97 @@ namespace DQQ.Components.Stages
 
       return result;
     }
-    protected virtual DamageDeal[] DamageReduction(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
+
+    protected override void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
     {
-      return damage.Select(b => b).ToArray();
+      if (this.Durations?.Any() != true)
+      {
+        return;
+      }
+      foreach (var d in Durations.ToArray())
+      {
+        d.BeforeDamageReduction(parameter);
+      }
+      base.SelfBeforeDamageReduction(parameter);
     }
-    protected virtual DamageDeal[] BeforeDamageTaken(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
+    protected override void SelfDamageReduction(BeforeDamageTakenParameter parameter)
     {
-      return damage.Select(b => b).ToArray();
+      if (this.Durations?.Any() != true)
+      {
+        return;
+      }
+      foreach (var d in Durations.ToArray())
+      {
+        d.DamageReduction(parameter);
+      }
+      base.SelfDamageReduction(parameter);
     }
-    protected virtual DamageDeal[] AfterDamageTaken(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
+
+    protected override void SelfBeforeTakeDamage(DamageTakenParameter parameter)
     {
-      return damage.Select(b => b).ToArray();
+      if (this.Durations?.Any() != true)
+      {
+        return;
+      }
+      foreach (var d in Durations.ToArray())
+      {
+        d.BeforeTakeDamage(parameter);
+      }
+      base.SelfBeforeTakeDamage(parameter);
     }
-    protected virtual EnumHitCheck HitCheck(ITarget? from, ITarget? to, IMap? map, IDQQProfile? source)
+    protected override void SelfAfterTakeDamage(DamageTakenParameter parameter)
     {
-      if (source is DurationProfile)
+      if (this.Durations?.Any() != true)
+      {
+        return;
+      }
+      foreach (var d in Durations.ToArray())
+      {
+        d.AfterTakeDamage(parameter);
+      }
+      base.SelfAfterTakeDamage(parameter);
+    }
+
+    protected virtual EnumHitCheck HitCheck(BeforeDamageTakenParameter parameter)
+    {
+      if (parameter.Source is DurationProfile)
       {
         return EnumHitCheck.Hit;
       }
       SkillHitCheck? skillHitOverride = null;
-      if (source is SkillProfile sp)
+      if (parameter.Source is SkillProfile sp)
       {
-        skillHitOverride = sp.CheckHit(from, this, map);
+        skillHitOverride = sp.CheckHit(parameter);
         if (skillHitOverride?.HitCheck == EnumHitCheck.Hit)
         {
           return EnumHitCheck.Hit;
         }
       }
 
-      return HitCheckHelper.HitCheck(from, to, map, skillHitOverride);
+      return HitCheckHelper.HitCheck(parameter, skillHitOverride);
     }
-    public virtual DamageTaken TakeDamage(ITarget? from, DamageDeal[] damage, IMap? map, IDQQProfile? source)
+    public virtual DamageTaken TakeDamage(BeforeDamageTakenParameter parameter)
     {
       //damage reduction
-      var hitResult = HitCheck(from, this, map, source);
+      var hitResult = HitCheck(parameter);
       if (hitResult == EnumHitCheck.Hit)
       {
-        if (damage.Length <= 0 || damage.All(b => b.DamagePoint == 0))
+        if (parameter.Damages?.Any() != true || parameter.Damages?.All(b => b.DamagePoint == 0) == true)
         {
           return DamageTaken.New(hitResult, false);
         }
-        var damageAfterReduction = DamageReduction(from, damage, map, source);
-        var result = DamageTaken.New(damage, false);
+
+        BeforeDamageReduction(parameter);
+        DamageReduction(parameter);
+
+        var result = DamageTaken.New(parameter.Damages?.ToArray() ?? [], false);
         result.DamageTakenSuccess = this.Alive;
-        BeforeTakeDamage(from, result, map, source);
-        DamageReduction(from, result, map, source);
-        TakingDamage(from, result, map, source);
-        AfterTakeDamage(from, result, map, source);
-        map.AddMapLogDamageTaken(result.DamageTakenSuccess, from, this, source, result);
+        var damageTaken = DamageTakenParameter.New(parameter, result);
+        BeforeTakeDamage(damageTaken);
+        TakingDamage(damageTaken);
+        AfterTakeDamage(damageTaken);
+
+        parameter.Map.AddMapLogDamageTaken(damageTaken);
         return result;
       }
       else
