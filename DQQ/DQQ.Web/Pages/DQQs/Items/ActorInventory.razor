@@ -5,31 +5,31 @@
 
 @if (Items != null)
 {
-  foreach (var item in Items)
-  {
-    var equip = item.Profile as EquipProfile;
-    <p>
-      @item.Name
-      @if (item.Profile.IsStack)
-      {
-        <span>(@item.Quantity)</span>
-      }
-      @if (equip != null)
-      {
-        var slots = EquiptableHelper.GetAvaliableSlots(equip.EquipType);
+	foreach (var item in Items)
+	{
+		var equip = item.Profile as EquipProfile;
+		<p>
+			@item.Name
+			@if (item?.Profile?.IsStack == true)
+			{
+				<span>(@item?.Quantity)</span>
+			}
+			@if (equip != null)
+			{
+				var slots = EquiptableHelper.GetAvaliableSlots(equip.EquipType);
 
-        if (slots.Count() > 1)
-        {
-          foreach (var slot in slots)
-          {
-            <Button Color="Color.Success" Text="@($"装备 ({slot})")" OnClick="()=>EquipItem(item.Id,slot)" />
-          }
-        }
-        else
-        {
-          <Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(item.Id,null)" />
-        }
-      }
-    </p>
-  }
+				if (slots?.Count() > 1)
+				{
+					foreach (var slot in slots)
+					{
+						<Button Color="Color.Success" Text="@($"装备 ({slot})")" OnClick="()=>EquipItem(item?.Id,slot)" />
+					}
+				}
+				else
+				{
+					<Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(item?.Id,null)" />
+				}
+			}
+		</p>
+	}
 }
