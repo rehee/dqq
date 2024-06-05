@@ -16,8 +16,8 @@ namespace DQQ.Profiles.Items.Equipments.Armors.BodyArmor
 
     public override EnumItem ProfileNumber => EnumItem.LeatherArmor;
 
-    public override string? Name => "皮甲";
+    public override string? Name => "皮甲盔甲";
 
-    public override string? Discription => "皮甲";
+    public override string? Discription => "皮甲盔甲";
   }
 }

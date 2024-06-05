@@ -16,8 +16,8 @@ namespace DQQ.Profiles.Items.Equipments.Armors.BodyArmor
 
     public override EnumItem ProfileNumber => EnumItem.ScaleArmour;
 
-    public override string? Name => "鳞甲";
+    public override string? Name => "鳞甲盔甲";
 
-    public override string? Discription => "鳞甲";
+    public override string? Discription => "鳞甲盔甲";
   }
 }

@@ -16,8 +16,8 @@ namespace DQQ.Profiles.Items.Equipments.Armors.BodyArmor
 
     public override EnumItem ProfileNumber => EnumItem.PlateArmor;
 
-    public override string? Name => "板甲";
+    public override string? Name => "板甲盔甲";
 
-    public override string? Discription => "板甲";
+    public override string? Discription => "板甲盔甲";
   }
 }
