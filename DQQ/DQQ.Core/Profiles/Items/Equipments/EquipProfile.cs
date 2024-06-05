@@ -4,6 +4,7 @@ using DQQ.Components.Items.Equips;
 using DQQ.Components.Parameters;
 using DQQ.Enums;
 using DQQ.Helper;
+using DQQ.Profiles.Affixes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,19 +19,29 @@ namespace DQQ.Profiles.Items.Equipments
     public abstract EnumEquipType? EquipType { get; }
     public abstract EnumItemType? ItemType { get; }
     public override int DropQuantity => 1;
-    
+
+    public virtual AffixeRange[]? Range => [];
+
     public virtual EquipComponent GenerateEquipComponent(int? itemLevel, EnumRarity rarity = EnumRarity.Normal)
     {
       var result = EquipComponent.New<EquipComponent>();
       result.Initialize(this, itemLevel);
 
+      if (Range?.Any() == true)
+      {
+        foreach (var p in Range.Select(b => b.NewPower(itemLevel.DefaultValue(1))))
+        {
+          p.SetProperty(result.Property);
+        }
+      }
+
       result.Rarity = rarity;
-      if(rarity != EnumRarity.Normal)
+      if (rarity != EnumRarity.Normal)
       {
         result.InitialAffixes(result.GenerateAllAffieComponents());
         result.AppliedAffixes();
       }
-      
+
       return result;
     }
 

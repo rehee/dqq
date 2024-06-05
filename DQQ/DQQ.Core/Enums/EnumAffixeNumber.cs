@@ -9,8 +9,10 @@ namespace DQQ.Enums
   public enum EnumAffixeNumber
   {
     NotSpecified = 0,
-    Maiden = 4001,
     Evisceration = 3015,
+    
+    Maiden = 4001,
+    
     Bronze = 5001,
     Iron = 5002,
     Silver = 5003,

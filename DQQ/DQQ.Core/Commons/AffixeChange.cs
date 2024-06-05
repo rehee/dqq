@@ -22,14 +22,14 @@ namespace DQQ.Commons
         Rarity = changes.Rarity
       };
     }
-    public static AffixeChange New(EquipComponent equip)
+    public static AffixeChange New(EquipComponent? equip)
     {
       return new AffixeChange
       {
-        EquipType = equip.EquipType.Value,
-        ItemLevel = equip.ItemLevel ?? 0,
-        ItemType = equip.ItemType,
-        Rarity = equip.Rarity
+        EquipType = equip?.EquipType ?? EnumEquipType.NotSpecified,
+        ItemLevel = equip?.ItemLevel ?? 0,
+        ItemType = equip?.ItemType ?? EnumItemType.NotSpecified,
+        Rarity = equip?.Rarity ?? EnumRarity.Normal
       };
     }
     public bool IsPrefix { get; set; }
@@ -37,5 +37,6 @@ namespace DQQ.Commons
     public EnumRarity Rarity { get; set; }
     public EnumEquipType EquipType { get; set; }
     public EnumItemType ItemType { get; set; }
+    public int MinAffex { get; set; }
   }
 }

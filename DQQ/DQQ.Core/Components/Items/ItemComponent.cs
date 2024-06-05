@@ -1,5 +1,6 @@
 ﻿using DQQ.Entities;
 using DQQ.Enums;
+using DQQ.Helper;
 using DQQ.Pools;
 using DQQ.Profiles.Items;
 
@@ -38,12 +39,12 @@ namespace DQQ.Components.Items
       if (ItemProfile?.IsStack != true)
       {
         Quanty = 1;
-        ItemLevel = itemLevel == null || itemLevel <= 0 ? 1 : itemLevel;
+        ItemLevel = itemLevel.DefaultValue(1);
       }
       else
       {
         ItemLevel = null;
-        Quanty = quanty == null || quanty <= 0 ? 1 : quanty;
+        Quanty = quanty.DefaultValue(1);
       }
 
     }

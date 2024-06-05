@@ -8,6 +8,7 @@ namespace DQQ.Enums
 {
   public enum EnumEquipType
   {
+    NotSpecified = 0,
     OneHandWeapon,
     TwoHandWeapon,
     MainHandWeapon,

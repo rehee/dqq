@@ -27,7 +27,7 @@ namespace DQQ.Profiles.Affixes
 
 
 
-    
+
 
     public virtual async Task<ContentResponse<bool>> AfterDealingDamage(AfterDealingDamageParameter? parameter)
     {
@@ -38,10 +38,10 @@ namespace DQQ.Profiles.Affixes
     }
 
 
-    public virtual AffixeComponent GenerateAffixe()
+    public virtual AffixeComponent GenerateAffixe(int level)
     {
       var result = new AffixeComponent();
-      result.Powers = Ranges.Select(b => b.NewPower()).ToArray();
+      result.Powers = Ranges.Select(b => b.NewPower(level)).ToArray();
       result.AffixeNumber = ProfileNumber;
       return result;
     }

@@ -14,25 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Profiles\Items\Equipments\Accessories\Amulets\" />
-    <Folder Include="Profiles\Items\Equipments\Accessories\Belt\" />
-    <Folder Include="Profiles\Items\Equipments\Accessories\Rings\" />
-    <Folder Include="Profiles\Items\Equipments\Armors\Boots\" />
-    <Folder Include="Profiles\Items\Equipments\Armors\Glove\" />
-    <Folder Include="Profiles\Items\Equipments\Armors\BodyArmor\" />
-    <Folder Include="Profiles\Items\Equipments\Armors\Helmet\" />
     <Folder Include="Profiles\Items\Equipments\OffHands\Shields\" />
     <Folder Include="Profiles\Items\Equipments\OffHands\Quivers\" />
-    <Folder Include="Profiles\Items\Equipments\OneHandWeapons\Scepters\" />
-    <Folder Include="Profiles\Items\Equipments\OneHandWeapons\OneHandMaces\" />
-    <Folder Include="Profiles\Items\Equipments\OneHandWeapons\OneHandAxes\" />
-    <Folder Include="Profiles\Items\Equipments\OneHandWeapons\Wands\" />
-    <Folder Include="Profiles\Items\Equipments\OneHandWeapons\Daggers\" />
-    <Folder Include="Profiles\Items\Equipments\TwoHandWeapons\Spears\" />
-    <Folder Include="Profiles\Items\Equipments\TwoHandWeapons\TwoHandMaces\" />
-    <Folder Include="Profiles\Items\Equipments\TwoHandWeapons\TwoHandAxes\" />
-    <Folder Include="Profiles\Items\Equipments\TwoHandWeapons\Staves\" />
-    <Folder Include="Profiles\Items\Equipments\TwoHandWeapons\Bows\" />
     <Folder Include="Strategies\TqrgetStrategies\" />
   </ItemGroup>
 

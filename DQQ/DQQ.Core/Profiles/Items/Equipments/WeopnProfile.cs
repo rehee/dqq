@@ -12,6 +12,10 @@ namespace DQQ.Profiles.Items.Equipments
 
     public override EquipComponent GenerateEquipComponent(int? itemLevel, EnumRarity rarity = EnumRarity.Normal)
     {
+      if (itemLevel <= 0)
+      {
+        itemLevel = 1;
+      }
       var equip = base.GenerateEquipComponent(itemLevel, rarity);
       equip.Property!.AttackPerSecond = AttackPerSecond;
       var baseDamage = itemLevel.DefaultValue(1).WeponDamageIncrease(DamageMultiple);
