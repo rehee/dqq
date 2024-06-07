@@ -24,31 +24,31 @@ namespace DQQ.Helper
         }
         if (sub.Property.MaximunLife != null)
         {
-          main.MaximunLife = main.MaximunLife ?? 0 + sub.Property.MaximunLife;
+          main.MaximunLife = main.MaximunLife.DefaultValue() + sub.Property.MaximunLife;
         }
         if (sub.Property.Armor != null)
         {
-          main.Armor = main.Armor ?? 0 + sub.Property.Armor;
+          main.Armor = main.Armor.DefaultValue() + sub.Property.Armor;
         }
         if (sub.Property.ArmorPercentage != null)
         {
-          main.ArmorPercentage = main.ArmorPercentage ?? 0 + sub.Property.ArmorPercentage;
+          main.ArmorPercentage = main.ArmorPercentage.DefaultValue() + sub.Property.ArmorPercentage;
         }
         if (sub.Property.Resistance != null)
         {
-          main.Resistance = main.Resistance ?? 0 + sub.Property.Resistance;
+          main.Resistance = main.Resistance.DefaultValue() + sub.Property.Resistance;
         }
         if (sub.Property.Damage != null)
         {
-          main.Damage = main.Damage ?? 0 + sub.Property.Damage;
+          main.Damage = main.Damage.DefaultValue() + sub.Property.Damage;
         }
         if (sub.Slot == Enums.EnumEquipSlot.MainHand && sub.Property.MainHand != null)
         {
-          main.MainHand = main.MainHand ?? 0 + sub.Property.MainHand ?? 0;
+          main.MainHand = main.MainHand.DefaultValue() + sub.Property.MainHand.DefaultValue();
         }
         if (sub.Slot == Enums.EnumEquipSlot.OffHand && sub.Property.OffHand != null)
         {
-          main.OffHand = main.OffHand ?? 0 + sub.Property.OffHand;
+          main.OffHand = main.OffHand.DefaultValue() + sub.Property.OffHand;
         }
         if (sub.Property.AttackRating != null)
         {

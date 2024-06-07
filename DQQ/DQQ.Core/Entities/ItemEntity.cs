@@ -23,6 +23,7 @@ namespace DQQ.Entities
     public EnumItem? ItemNumber { get; set; }
     [NotMapped]
     public ItemProfile? Profile => DQQPool.TryGet<ItemProfile, EnumItem?>(ItemNumber);
+
     //[NotMapped]
     //public EquipProfile? EquipProfile => Profile as EquipProfile;
 
@@ -34,8 +35,15 @@ namespace DQQ.Entities
     public int? Quantity { get; set; }
     public int? ItemLevel { get; set; }
 
+    public EnumRarity Rarity { get; set; }
+
+    [NotMapped]
+    public EnumItemType? ItemType => Profile?.ItemType;
+
     [NotMapped]
     public EquipProfile? EquipProfile => Profile is EquipProfile ? Profile as EquipProfile : null;
+
+
 
     [NotMapped]
     public EnumEquipType? EquipType => EquipProfile?.EquipType;
@@ -45,10 +53,13 @@ namespace DQQ.Entities
         .Is(e => e.ActorEquipments != null && e.ActorEquipments.Any() == true);
     public virtual List<ActorEquipmentEntity>? ActorEquipments { get; set; }
 
+    [NotMapped]
+    public string? ComponentString { get; protected set; }
 
-
-
-
+    public void SetComponentString(string? componentString)
+    {
+      ComponentString = componentString;
+    }
 
 
 
@@ -62,7 +73,7 @@ namespace DQQ.Entities
     public long? OffHand { get; set; }
     public decimal? DamageModifier { get; set; }
 
-    
+
     public long? AttackRating { get; set; }
     public string? AffixesJson { get; set; }
     public long? Defence { get; set; }

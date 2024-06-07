@@ -18,5 +18,7 @@ namespace DQQ.Profiles.Items.Currencies
     public override int DropQuantity => 1;
 
     public override decimal Rarity => 1m;
-  }
+
+		public override EnumItemType? ItemType => EnumItemType.Currency;
+	}
 }

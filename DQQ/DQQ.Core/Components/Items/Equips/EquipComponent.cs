@@ -30,6 +30,7 @@ namespace DQQ.Components.Items.Equips
 		public override void Initialize(IDQQEntity entity)
 		{
 			base.Initialize(entity);
+
 			Property = new CombatProperty();
 			if (entity is ICombatProperty cp)
 			{
@@ -37,12 +38,15 @@ namespace DQQ.Components.Items.Equips
 			}
 			if (entity is ItemEntity item)
 			{
+				this.Rarity = item.Rarity;
+
 				if (!String.IsNullOrEmpty(item.AffixesJson))
 				{
 					try
 					{
 
 						Affixes = JsonSerializer.Deserialize<AffixeComponent[]?>(item.AffixesJson, JsonOption.DefaultOption);
+						//this.AppliedAffixes();
 					}
 					catch
 					{
@@ -70,7 +74,7 @@ namespace DQQ.Components.Items.Equips
 			Property.SetCompatProperty(result);
 
 			result.AffixesJson = JsonSerializer.Serialize(Affixes ?? Enumerable.Empty<AffixeComponent>(), JsonOption.DefaultOption);
-
+			result.Rarity = Rarity;
 			return result;
 		}
 

@@ -76,7 +76,7 @@ namespace DQQ.Enums
 
     StoneAxe = 1400001,
     Labrys = 1400002,
-    KaruiChopper = 140003,
+    KaruiChopper = 1400003,
 
     Mallet = 1500001,
     MorningStar = 1500002,

@@ -13,8 +13,8 @@ namespace DQQ.Profiles.Items
     public abstract bool IsStack { get; }
     public abstract int DropQuantity { get; }
     public abstract decimal Rarity { get; }
-    
-    public virtual ItemComponent GenerateComponent(int? itemLevel, int? quantity, EnumRarity rarity = EnumRarity.Normal)
+		public abstract EnumItemType? ItemType { get; }
+		public virtual ItemComponent GenerateComponent(int? itemLevel, int? quantity, EnumRarity rarity = EnumRarity.Normal)
     {
       var result = ItemComponent.New();
       result.Initialize(this, itemLevel, quantity);

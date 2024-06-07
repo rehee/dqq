@@ -1,0 +1,85 @@
+﻿<Card Color="ThisColor">
+	<HeaderTemplate>
+		@Item?.Name
+	</HeaderTemplate>
+	<BodyTemplate>
+		@switch (Item?.ItemType)
+		{
+			case EnumItemType.Currency:
+				<h6>通货</h6>
+				break;
+			default:
+				@if (Item?.MainHand != null)
+				{
+					<h6>伤害: @Item?.MainHand 攻速(秒): @Item?.AttackPerSecond</h6>
+				}
+				if (Item?.Armor != null)
+				{
+					<h6>护甲: @Item?.Armor</h6>
+				}
+				if (Item?.Defence != null)
+				{
+					<h6>防御: @Item?.Defence</h6>
+				}
+				break;
+		}
+		<p>
+			<span>物品等级 @Item?.ItemLevel</span> <br />
+			@foreach (var item in ItemTags)
+			{
+				<Badge Color="Color.Dark">@item</Badge>
+				<span> </span>
+			}
+		</p>
+		<ItemProperty Field="最大生命" LongValue="Item?.MaximunLife" />
+		<ItemProperty Field="额外伤害" LongValue="Item?.Damage" />
+		<ItemProperty Field="攻击比率" LongValue="Item?.AttackRating" />
+		<ItemProperty Field="物理抗性" LongValue="Item?.PhysicsResistance" />
+		<ItemProperty Field="火焰抗性" LongValue="Item?.FireResistance" />
+		<ItemProperty Field="冰冷抗性" LongValue="Item?.ColdResistance" />
+		<ItemProperty Field="闪电抗性" LongValue="Item?.LightningResistance" />
+		<ItemProperty Field="混乱抗性" LongValue="Item?.ChaosResistance" />
+
+
+
+		<ItemProperty Field="护甲比例" DecimalValue="Item?.ArmorPercentage" />
+		<ItemProperty Field="防御比例" DecimalValue="Item?.DefencePercentage" />
+		<ItemProperty Field="全部抗性" DecimalValue="Item?.Resistance" />
+		<ItemProperty Field="伤害提升" DecimalValue="Item?.DamageModifier" />
+		<ItemProperty Field="格挡率" DecimalValue="Item?.BlockChance" />
+		<ItemProperty Field="格挡回复" DecimalValue="Item?.BlockRecovery" />
+		<ItemProperty Field="闪避率" DecimalValue="Item?.DodgeChance" />
+
+		<ItemProperty Field="物理伤害提升" DecimalValue="Item?.PhysicsDamageModifier" />
+		<ItemProperty Field="火焰伤害提升" DecimalValue="Item?.FireDamageModifier" />
+		<ItemProperty Field="冰冷伤害提升" DecimalValue="Item?.ColdDamageModifier" />
+		<ItemProperty Field="闪电伤害提升" DecimalValue="Item?.LightningDamageModifier" />
+		<ItemProperty Field="混乱伤害提升" DecimalValue="Item?.ChaosDamageModifier" />
+
+
+
+
+
+
+
+	</BodyTemplate>
+	<FooterTemplate>
+		@if (Footer?.Any() == true)
+		{
+			foreach (var f in Footer)
+			{
+				<span>
+					@f.Item1 (@f.Item2)
+				</span>
+			}
+		}
+		else
+		{
+			<span>
+				无词缀
+			</span>
+		}
+	</FooterTemplate>
+</Card>
+
+

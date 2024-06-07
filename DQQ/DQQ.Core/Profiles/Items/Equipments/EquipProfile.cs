@@ -17,7 +17,7 @@ namespace DQQ.Profiles.Items.Equipments
   {
     public override bool IsStack => false;
     public abstract EnumEquipType? EquipType { get; }
-    public abstract EnumItemType? ItemType { get; }
+    
     public override int DropQuantity => 1;
 
     public virtual AffixeRange[]? Range => [];
@@ -26,7 +26,7 @@ namespace DQQ.Profiles.Items.Equipments
     {
       var result = EquipComponent.New<EquipComponent>();
       result.Initialize(this, itemLevel);
-
+      
       if (Range?.Any() == true)
       {
         foreach (var p in Range.Select(b => b.NewPower(itemLevel.DefaultValue(1))))

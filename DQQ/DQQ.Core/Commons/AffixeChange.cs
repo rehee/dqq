@@ -27,7 +27,7 @@ namespace DQQ.Commons
       return new AffixeChange
       {
         EquipType = equip?.EquipType ?? EnumEquipType.NotSpecified,
-        ItemLevel = equip?.ItemLevel ?? 0,
+        ItemLevel = equip?.ItemLevel ?? 1,
         ItemType = equip?.ItemType ?? EnumItemType.NotSpecified,
         Rarity = equip?.Rarity ?? EnumRarity.Normal
       };

@@ -25,6 +25,7 @@ namespace DQQ.Helper
       var saveOnProgress = false;
       var dotion = new DialogOption()
       {
+        Class= "dialog-table",
         IsScrolling = true,
         Title = title,
         Size = size,

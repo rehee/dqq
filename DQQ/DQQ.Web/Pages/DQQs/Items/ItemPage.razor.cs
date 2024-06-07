@@ -12,7 +12,7 @@ namespace DQQ.Web.Pages.DQQs.Items
         new Dictionary<string, object?>
         {
           ["ActorId"] = ActorId,
-        }, "", true);
+        }, "");
     }
     public async Task ShowInventory()
     {

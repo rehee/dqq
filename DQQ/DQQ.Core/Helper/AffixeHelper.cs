@@ -30,11 +30,11 @@ namespace DQQ.Helper
       var sufixChange = AffixeChange.New(changes);
       sufixChange.IsPrefix = false;
       var result = GenerateAffixeChange(prefixChange).Concat(GenerateAffixeChange(sufixChange));
-      //if (result.Any() != true)
-      //{
-      //  changes.MinAffex = changes.MinAffex + 1;
-      //  return GenerateAllAffies(changes);
-      //}
+      if (result.Any() != true)
+      {
+        changes.MinAffex = changes.MinAffex + 1;
+        return GenerateAllAffies(changes);
+      }
       return result;
     }
 

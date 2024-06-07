@@ -1,0 +1,24 @@
+﻿@if (LongValue != null)
+{
+	<p class="text-dark">
+		@Field: @LongValue
+	</p>
+}
+@if (DecimalValue != null)
+{
+	<p class="text-dark">
+		@Field: @(Math.Round(DecimalValue.DefaultValue(0) * 100, 2))
+	</p>
+}
+
+@code {
+
+	[Parameter]
+	public long? LongValue { get; set; }
+
+	[Parameter]
+	public decimal? DecimalValue { get; set; }
+	[Parameter]
+	public string? Field { get; set; }
+
+}
