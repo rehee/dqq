@@ -11,7 +11,7 @@
 			default:
 				@if (Item?.MainHand != null)
 				{
-					<h6>伤害: @Item?.MainHand 攻速(秒): @Item?.AttackPerSecond</h6>
+					<h6>伤害: @Item?.MainHand 攻速(秒): @(Math.Round(Item?.AttackPerSecond ?? 0, 2))</h6>
 				}
 				if (Item?.Armor != null)
 				{
@@ -49,8 +49,6 @@
 		<ItemProperty Field="闪电抗性" LongValue="Item?.LightningResistance" />
 		<ItemProperty Field="混乱抗性" LongValue="Item?.ChaosResistance" />
 
-
-
 		<ItemProperty Field="护甲比例" DecimalValue="Item?.ArmorPercentage" />
 		<ItemProperty Field="防御比例" DecimalValue="Item?.DefencePercentage" />
 		<ItemProperty Field="全部抗性" DecimalValue="Item?.Resistance" />
@@ -64,11 +62,6 @@
 		<ItemProperty Field="冰冷伤害提升" DecimalValue="Item?.ColdDamageModifier" />
 		<ItemProperty Field="闪电伤害提升" DecimalValue="Item?.LightningDamageModifier" />
 		<ItemProperty Field="混乱伤害提升" DecimalValue="Item?.ChaosDamageModifier" />
-
-
-
-
-
 
 
 	</BodyTemplate>
