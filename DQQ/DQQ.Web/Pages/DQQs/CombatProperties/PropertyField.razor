@@ -1,0 +1,39 @@
+﻿<p>
+	@Name:
+
+	@if (LongNumber.HasValue)
+	{
+		<span>@LongNumber</span>
+	}
+	else
+	{
+		if (IsPercentage == true)
+		{
+			<span>@ThisDecimal</span>
+			<span>%</span>
+		}
+		else
+		{
+			<span>@ThisDecimalRaw</span>
+		}
+	}
+
+</p>
+
+
+@code {
+	[Parameter]
+	public string? Name { get; set; }
+
+	[Parameter]
+	public long? LongNumber { get; set; }
+
+	[Parameter]
+	public decimal? DecimalNumber { get; set; }
+
+	public decimal ThisDecimal => Math.Round((DecimalNumber.HasValue ? DecimalNumber.Value : 0) * 100, 2);
+	public decimal ThisDecimalRaw => Math.Round((DecimalNumber.HasValue ? DecimalNumber.Value : 0), 2);
+	[Parameter]
+	public bool? IsPercentage { get; set; }
+
+}

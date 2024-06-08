@@ -1,0 +1,33 @@
+﻿<div class="container">
+	@if (EquipedItems != null)
+	{
+		<h4>目前的装备</h4>
+		<div class="row">
+			@foreach (var e in EquipedItems)
+			{
+
+				<div class="item_popup col-6">
+					<ItemComponent Item="e.Value" Slot="e.Key" />
+				</div>
+
+
+			}
+		</div>
+	}
+	<h4>对比的装备</h4>
+	<div class="row">
+		@if (CurrentItem != null)
+		{
+
+			<div class="item_popup">
+				<ItemComponent Item="CurrentItem" />
+			</div>
+
+
+		}
+	</div>
+
+
+</div>
+
+

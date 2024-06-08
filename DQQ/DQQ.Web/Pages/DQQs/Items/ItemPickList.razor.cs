@@ -51,7 +51,7 @@ namespace DQQ.Web.Pages.DQQs.Items
     }
     public bool ShowSelectAll => filtered == null ? true : filtered.Length > SelectedItems.Count;
     private ItemEntity[]? filtered { get; set; }
-    private QueryPageOptions? pOptions = null;
+    
 
     public async Task<QueryData<ItemEntity>> OnQueryAsync(QueryPageOptions options)
     {

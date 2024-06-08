@@ -1,0 +1,60 @@
+﻿<Card>
+	<HeaderTemplate>
+		基础属性
+	</HeaderTemplate>
+	<BodyTemplate>
+		<PropertyField Name="最大生命" LongNumber="CombatProperty?.MaximunLife" />
+
+	</BodyTemplate>
+	<FooterTemplate>
+
+	</FooterTemplate>
+</Card>
+
+<Card>
+	<HeaderTemplate>
+		进攻属性
+	</HeaderTemplate>
+	<BodyTemplate>
+		<PropertyField Name="主手(双手)武器伤害" LongNumber="CombatProperty?.MainHand" />
+		<PropertyField Name="副手武器伤害" LongNumber="CombatProperty?.OffHand" />
+		<PropertyField Name="每秒攻击次数" DecimalNumber="CombatProperty?.AttackPerSecond" />
+		<PropertyField Name="附加伤害" LongNumber="CombatProperty?.Damage" />
+		<PropertyField Name="伤害提升" DecimalNumber="CombatProperty?.DamageModifier" IsPercentage="true" />
+		<PropertyField Name="命中比率" LongNumber="CombatProperty?.AttackRating" />
+
+		<PropertyField Name="物理伤害提升" DecimalNumber="CombatProperty?.PhysicsDamageModifier" IsPercentage="true" />
+		<PropertyField Name="火焰伤害提升" DecimalNumber="CombatProperty?.FireDamageModifier" IsPercentage="true" />
+		<PropertyField Name="冰冷伤害提升" DecimalNumber="CombatProperty?.ColdDamageModifier" IsPercentage="true" />
+		<PropertyField Name="闪电伤害提升" DecimalNumber="CombatProperty?.LightningDamageModifier" IsPercentage="true" />
+		<PropertyField Name="混乱伤害提升" DecimalNumber="CombatProperty?.ChaosDamageModifier" IsPercentage="true" />
+	</BodyTemplate>
+	<FooterTemplate>
+
+	</FooterTemplate>
+</Card>
+<Card>
+	<HeaderTemplate>
+		防御属性
+	</HeaderTemplate>
+	<BodyTemplate>
+		<PropertyField Name="护甲" LongNumber="CombatProperty?.Armor" />
+		<PropertyField Name="护甲提升" DecimalNumber="CombatProperty?.ArmorPercentage" IsPercentage="true" />
+		<PropertyField Name="防御" LongNumber="CombatProperty?.Defence" />
+		<PropertyField Name="防御提升" DecimalNumber="CombatProperty?.DefencePercentage" IsPercentage="true" />
+		<PropertyField Name="格挡率" DecimalNumber="CombatProperty?.BlockChance" IsPercentage="true" />
+		<PropertyField Name="再格挡提升" DecimalNumber="CombatProperty?.BlockRecovery" IsPercentage="true" />
+		<PropertyField Name="躲闪率" DecimalNumber="CombatProperty?.DodgeChance" IsPercentage="true" />
+		<PropertyField Name="全部抗性" DecimalNumber="CombatProperty?.Resistance" IsPercentage="true" />
+		<PropertyField Name="物理抗性" LongNumber="CombatProperty?.PhysicsResistance" />
+		<PropertyField Name="火焰抗性" LongNumber="CombatProperty?.FireResistance" />
+		<PropertyField Name="冰冷抗性" LongNumber="CombatProperty?.ColdResistance" />
+		<PropertyField Name="闪电抗性" LongNumber="CombatProperty?.LightningResistance" />
+		<PropertyField Name="混乱抗性" LongNumber="CombatProperty?.ChaosResistance" />
+	</BodyTemplate>
+	<FooterTemplate>
+
+
+
+	</FooterTemplate>
+</Card>

@@ -111,8 +111,9 @@ code {
   width: 100%;
   height: 100%;
   margin: 0;
-  border-radius:0;
+  border-radius: 0;
 }
+
 .badge-widget {
   display: inline-block;
   border: solid 1px #ddd;
@@ -122,12 +123,17 @@ code {
   transition: all .25s linear;
   cursor: pointer;
 }
+
   .badge-widget .badge {
     position: absolute;
     top: -10px;
     right: -20px;
     opacity: 0.8;
   }
-
-
-
+.item_popup {
+  max-width: 276px;
+  min-width: 276px;
+}
+.compare_popup {
+  max-width: 600px !important;
+}

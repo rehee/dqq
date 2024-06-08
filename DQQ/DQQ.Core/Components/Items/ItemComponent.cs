@@ -6,9 +6,10 @@ using DQQ.Profiles.Items;
 
 namespace DQQ.Components.Items
 {
-	public class ItemComponent : DQQComponent, IItem
+	public class ItemComponent : DQQComponent, IItem, IWithRarity
 	{
 		public virtual bool Avaliable => true;
+		public EnumRarity Rarity { get; set; }
 		public static ItemComponent New() => new ItemComponent();
 		public static T New<T>() where T : ItemComponent, new() => new T();
 		public DateTime CreateTime { get; protected set; } = DateTime.UtcNow;

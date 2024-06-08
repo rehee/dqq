@@ -20,7 +20,7 @@ namespace DQQ.Helper
 				enumResult.Add(new SelectedItem($"", $"N/A"));
 				foreach (var value in enumValues)
 				{
-					var valueString = value.GetStragyEnumString();
+					var valueString = value.GetEnumString();
 					if (string.IsNullOrEmpty(valueString))
 					{
 						continue;

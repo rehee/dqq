@@ -1,8 +1,10 @@
-﻿@using DQQ.Profiles.Items.Equipments
+﻿@using DQQ.Entities
+@using DQQ.Profiles.Items.Equipments
 @using DQQ.Helper
 @using DQQ.Web.Pages.DQQs.Items.Components
+@using DQQ.Web.Pages.DQQs.CombatProperties
 @inherits ActorInventoryPage
-<h3>背包 <button type="button" class="btn btn-primary" @onclick="@OpenDrawer">汇总</button></h3>
+<h3>背包 <button type="button" class="btn btn-primary" @onclick="@OpenDrawer">查看属性</button></h3>
 <Layout ShowFooter="true">
 	<Header>
 		<div>
@@ -20,9 +22,7 @@
 		<div>
 
 			<Drawer Placement="Placement.Left" @bind-IsOpen="@IsBackdropOpen" IsBackdrop="true">
-				<p class="mt-3 text-center">
-					属性汇总
-				</p>
+				<CombatPropertySummary CombatProperty="SelectedCharacter?.CombatPanel?.StaticPanel" />
 			</Drawer>
 		</div>
 	</Header>
@@ -31,33 +31,119 @@
 		<div style="overflow:hidden;height: calc(100vh - 300px);">
 			@if (Items != null)
 			{
-				foreach (var item in Items)
-				{
-					var equip = item.Profile as EquipProfile;
-					<p>
-						@item.Name
-						@if (item?.Profile?.IsStack == true)
-						{
-							<span>(@item?.Quantity)</span>
-						}
-						@if (equip != null)
-						{
-							var slots = EquiptableHelper.GetAvaliableSlots(equip.EquipType);
+				@* foreach (var item in Items)
+			{
+			var equip = item.Profile as EquipProfile;
+			<p>
+			@item.Name
+			@if (item?.Profile?.IsStack == true)
+			{
+			<span>(@item?.Quantity)</span>
+			}
+			@if (equip != null)
+			{
+			var slots = EquiptableHelper.GetAvaliableSlots(equip.EquipType);
 
-							if (slots?.Count() > 1)
-							{
-								foreach (var slot in slots)
-								{
-									<Button Color="Color.Success" Text="@($"装备 ({slot})")" OnClick="()=>EquipItem(item?.Id,slot)" />
+			if (slots?.Count() > 1)
+			{
+			foreach (var slot in slots)
+			{
+			<Button Color="Color.Success" Text="@($"装备 ({slot})")" OnClick="()=>EquipItem(item?.Id,slot)" />
+			}
+			}
+			else
+			{
+			<Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(item?.Id,null)" />
+			}
+			}
+			</p>
+			} *@
+				<Table TItem="ItemEntity" IsAutoRefresh="true" AutoRefreshInterval="501" @bind-SelectedRows="SelectedItems" ShowToolbar="true" ShowRefresh="false" ShowDefaultButtons="false" IsPagination="true" OnQueryAsync="OnQueryAsync" PageItemsSource="PageItemsSource" IsMultipleSelect="true" IsFixedHeader="true" ShowTopPagination="true">
+					<TableToolbarTemplate>
+						<BootstrapInputGroup>
+							<Button Color="Color.Success" Text="全选" OnClick="()=>SelectAll()"></Button>
+							@* <Button Color="Color.Warning" Text="拾取" OnClick="()=>PickSelected()"></Button> *@
+							<BootstrapInputGroupLabel DisplayText="选择稀有度" />
+							<Select Items="SelectedItemHelper.GetSelectedItem<EnumRarity>()" @bind-Value="Rarity">
+							</Select>
+							<BootstrapInputGroupLabel DisplayText="选择物品种类" />
+							<Select Items="SelectedItemHelper.GetSelectedItem<EnumItemType>()" @bind-Value="ItemType">
+							</Select>
+						</BootstrapInputGroup>
+
+
+					</TableToolbarTemplate>
+					<TableColumns>
+						<TableColumn @bind-Field="@context.Name" Text="物品" Width="180">
+							<Template Context="value">
+								@{
+									var color = Color.Light;
+									switch (value.Row.Rarity)
+									{
+										case EnumRarity.Magic:
+											color = Color.Primary;
+											break;
+										case EnumRarity.Rare:
+											color = Color.Warning;
+											break;
+									}
 								}
-							}
-							else
-							{
-								<Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(item?.Id,null)" />
-							}
-						}
-					</p>
-				}
+								<Popover Placement="Placement.Right" Content="@value.Row.ComponentString" IsHtml="true">
+									<Tag Color="color">
+										@value.Value
+									</Tag>
+								</Popover>
+
+
+							</Template>
+						</TableColumn>
+						<TableColumn @bind-Field="@context.Quantity" Text="数量" Width="180" />
+						<TableColumn @bind-Field="@context.Rarity" Text="稀有度" Width="180" />
+						<TableColumn @bind-Field="@context.Id" Text="操作">
+							<Template Context="value">
+								@{
+									var equip = value.Row.Profile as EquipProfile;
+									if (equip != null)
+									{
+										var slots = EquiptableHelper.GetAvaliableSlots(equip.EquipType);
+
+										if (slots?.Count() > 1)
+										{
+											foreach (var slot in slots)
+											{
+												string? compareString = "";
+
+												value.Row.CompareComponentString?.TryGetValue(slot, out compareString);
+												if (String.IsNullOrEmpty(compareString))
+												{
+													<Popover Placement="Placement.Top" Content="@value.Row.ComponentString" IsHtml="true">
+														<Button Color="Color.Success" Text="@($"装备 ({slot.GetEnumString()})")" OnClick="()=>EquipItem(value.Row?.Id,slot)" />
+													</Popover>
+												}
+												else
+												{
+													<Popover Placement="Placement.Top" CustomClass="compare_popup" Content="@compareString" IsHtml="true">
+														<Button Color="Color.Success" Text="@($"装备 ({slot.GetEnumString()})")" OnClick="()=>EquipItem(value.Row?.Id,slot)" />
+													</Popover>
+												}
+												
+											}
+										}
+										else
+										{
+											<Popover Placement="Placement.Top" CustomClass="compare_popup" Content="@(value.Row.CompareComponentStringAll)" IsHtml="true">
+												<Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(value.Row?.Id,null)" />
+											</Popover>
+										}
+									}
+								}
+
+								<span></span>
+
+							</Template>
+						</TableColumn>
+					</TableColumns>
+				</Table>
 			}
 
 		</div>

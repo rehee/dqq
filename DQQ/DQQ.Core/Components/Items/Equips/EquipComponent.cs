@@ -16,7 +16,7 @@ namespace DQQ.Components.Items.Equips
 	public class EquipComponent : ItemComponent, IEquptment
 	{
 		public override bool Avaliable => EquipType != null;
-		public EnumRarity Rarity { get; set; }
+		
 		public EnumEquipType? EquipType { get; set; }
 		public EnumItemType ItemType { get; set; }
 
