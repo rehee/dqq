@@ -51,7 +51,7 @@ namespace DQQ.Web.Pages.DQQs.Items
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
-			await Refresh();
+			await Refresh(false);
 		}
 
 		public async Task EquipItem(Guid? id, EnumEquipSlot? slot)
@@ -74,10 +74,13 @@ namespace DQQ.Web.Pages.DQQs.Items
 
 		}
 
-		public async Task Refresh()
+		public async Task Refresh(bool refreshChar = true)
 		{
 			Items = await itemService.ActorInventory(ActorId);
-			SelectedCharacter = await characterService.GetCharacter(ActorId);
+			if (refreshChar)
+			{
+				SelectedCharacter = await characterService.GetCharacter(ActorId);
+			}
 			StateHasChanged();
 		}
 		public static IEnumerable<int> PageItemsSource => [10, 20, 50];
