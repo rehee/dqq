@@ -20,6 +20,11 @@ namespace DQQ.Web.Pages.DQQs.Items
 
 		[Parameter]
 		public Character? SelectedCharacter { get; set; }
+		public bool IsBackdropOpen { get; set; }
+		public void OpenDrawer()
+		{
+			IsBackdropOpen = true;
+		}
 
 		public async Task UnEquipSlog(EnumEquipSlot? slot)
 		{
