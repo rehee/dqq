@@ -24,13 +24,22 @@
 				break;
 		}
 		<p>
-			<span>物品等级 @Item?.ItemLevel</span> <br />
+			@if (Item?.ItemLevel > 0)
+			{
+				<span>物品等级 @Item?.ItemLevel</span> <br />
+			}
 			@foreach (var item in ItemTags)
 			{
 				<Badge Color="Color.Dark">@item</Badge>
 				<span> </span>
 			}
 		</p>
+		@if (Item?.Profile == null)
+		{
+			<p>
+				过期物品. 已无法生效.
+			</p>
+		}
 		<ItemProperty Field="最大生命" LongValue="Item?.MaximunLife" />
 		<ItemProperty Field="额外伤害" LongValue="Item?.Damage" />
 		<ItemProperty Field="攻击比率" LongValue="Item?.AttackRating" />
