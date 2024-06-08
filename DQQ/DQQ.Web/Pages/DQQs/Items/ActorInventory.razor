@@ -28,36 +28,10 @@
 	</Header>
 
 	<Main>
-		<div style="overflow:hidden;height: calc(100vh - 300px);">
+		<div style="overflow:hidden;height: calc(100vh - 350px);">
 			@if (Items != null)
 			{
-				@* foreach (var item in Items)
-			{
-			var equip = item.Profile as EquipProfile;
-			<p>
-			@item.Name
-			@if (item?.Profile?.IsStack == true)
-			{
-			<span>(@item?.Quantity)</span>
-			}
-			@if (equip != null)
-			{
-			var slots = EquiptableHelper.GetAvaliableSlots(equip.EquipType);
-
-			if (slots?.Count() > 1)
-			{
-			foreach (var slot in slots)
-			{
-			<Button Color="Color.Success" Text="@($"装备 ({slot})")" OnClick="()=>EquipItem(item?.Id,slot)" />
-			}
-			}
-			else
-			{
-			<Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(item?.Id,null)" />
-			}
-			}
-			</p>
-			} *@
+			
 				<Table TItem="ItemEntity" IsAutoRefresh="true" AutoRefreshInterval="501" @bind-SelectedRows="SelectedItems" ShowToolbar="true" ShowRefresh="false" ShowDefaultButtons="false" IsPagination="true" OnQueryAsync="OnQueryAsync" PageItemsSource="PageItemsSource" IsMultipleSelect="true" IsFixedHeader="true" ShowTopPagination="true">
 					<TableToolbarTemplate>
 						<BootstrapInputGroup>
