@@ -1,4 +1,5 @@
 ﻿using DQQ.Combats;
+using DQQ.Commons;
 using DQQ.Components.Affixes;
 using DQQ.Components.Parameters;
 using DQQ.Entities;
@@ -16,7 +17,7 @@ namespace DQQ.Components.Items.Equips
 	public class EquipComponent : ItemComponent, IEquptment
 	{
 		public override bool Avaliable => EquipType != null;
-		
+
 		public EnumEquipType? EquipType { get; set; }
 		public EnumItemType ItemType { get; set; }
 
@@ -72,7 +73,6 @@ namespace DQQ.Components.Items.Equips
 		{
 			var result = base.ToEntity();
 			Property.SetCompatProperty(result);
-
 			result.AffixesJson = JsonSerializer.Serialize(Affixes ?? Enumerable.Empty<AffixeComponent>(), JsonOption.DefaultOption);
 			result.Rarity = Rarity;
 			return result;

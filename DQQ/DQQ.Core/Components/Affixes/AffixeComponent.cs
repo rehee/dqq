@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DQQ.Components.Affixes
@@ -17,6 +18,7 @@ namespace DQQ.Components.Affixes
   public class AffixeComponent : DQQComponent
   {
     public EnumAffixeNumber AffixeNumber { get; set; }
+    [JsonIgnore]
     public AffixeProfile? AffixeProfile => DQQPool.TryGet<AffixeProfile, EnumAffixeNumber>(AffixeNumber);
     public AffixPower[]? Powers { get; set; }
     public void SetProperty(ICombatProperty? property)

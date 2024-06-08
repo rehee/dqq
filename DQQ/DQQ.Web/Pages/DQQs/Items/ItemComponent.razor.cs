@@ -49,21 +49,18 @@ namespace DQQ.Web.Pages.DQQs.Items
 				var componentFooter = new List<(string?, int?)>();
 				try
 				{
-					var affixes = JsonSerializer.Deserialize<AffixeComponent[]?>(Item?.AffixesJson ?? "[]", JsonOption.DefaultOption);
-
-					if (affixes?.Any() == true)
+					if (Item?.Affixes.Any() == true)
 					{
-						var ag = affixes.GroupBy(b => b.AffixeProfile?.IsPrefix == true).OrderByDescending(b => b.Key);
-
-						foreach (var a in ag)
+						var ag = Item?.Affixes.GroupBy(b => b.AffixeProfile?.IsPrefix == true).OrderByDescending(b => b.Key);
+						foreach (var aa in ag)
 						{
-							foreach (var aa in a)
+							foreach (var aaa in aa)
 							{
-								componentFooter.Add((aa.AffixeProfile?.Name, aa.AffixeProfile?.TierLevel));
+								componentFooter.Add((aaa?.AffixeProfile?.Name, aaa?.AffixeProfile?.TierLevel));
 							}
 						}
-						componentFooter = null;
 						Footer = componentFooter?.ToArray();
+						componentFooter = null;
 					}
 				}
 				catch

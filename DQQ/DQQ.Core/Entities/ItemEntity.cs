@@ -1,18 +1,22 @@
 ﻿using DQQ.Attributes;
 using DQQ.Combats;
+using DQQ.Components.Affixes;
 using DQQ.Components.Items;
 using DQQ.Components.Skills;
 using DQQ.Enums;
 using DQQ.Pools;
+using DQQ.Profiles.Affixes;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Items.Equipments;
 using Microsoft.Linq.Translations;
+using ReheeCmf.Commons.Jsons.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -86,6 +90,25 @@ namespace DQQ.Entities
 
 		public long? AttackRating { get; set; }
 		public string? AffixesJson { get; set; }
+
+		[NotMapped]
+		public AffixeComponent[] Affixes
+		{
+			get
+			{
+				if (String.IsNullOrEmpty(AffixesJson))
+				{
+					return [];
+				}
+				try
+				{
+					return JsonSerializer.Deserialize<AffixeComponent[]>(AffixesJson, JsonOption.DefaultOption) ?? [];
+				}
+				catch { }
+				return [];
+			}
+		}
+
 		public long? Defence { get; set; }
 		public decimal? DefencePercentage { get; set; }
 		public decimal? BlockChance { get; set; }
