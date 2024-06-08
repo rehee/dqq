@@ -42,6 +42,7 @@ namespace DQQ.Web.Pages
     {
       ActorId = characterService.GetSelectedCharacter();
       SelectedCharacter = await characterService.GetCharacter(ActorId);
+      ParentGuid = Guid.NewGuid();
       StateHasChanged();
       await Task.CompletedTask;
 

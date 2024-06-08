@@ -53,6 +53,10 @@ namespace DQQ.Profiles.Affixes
         case EnumPropertyType.DefencePercentage:
           property.DefencePercentage = property.DefencePercentage.DefaultValue() + percentage;
           break;
+        case EnumPropertyType.ArmorPercentage:
+					property.ArmorPercentage = property.ArmorPercentage.DefaultValue() + percentage;
+					break;
+        
         case EnumPropertyType.BlockChance:
           property.BlockChance = property.BlockChance.DefaultValue() + percentage;
           break;
@@ -103,7 +107,7 @@ namespace DQQ.Profiles.Affixes
         case EnumPropertyType.DamageModifier:
           property.DamageModifier = property.DamageModifier.DefaultValue() + percentage;
           break;
-      }
+			}
     }
   }
 }

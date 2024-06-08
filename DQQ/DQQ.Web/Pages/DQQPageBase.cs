@@ -20,6 +20,8 @@ namespace DQQ.Web.Pages
     [NotNull]
     public RequestClient<DQQGetHttpClient>? client { get; set; }
 
+    
+
     [Inject]
     public DialogService? dialogService { get; set; }
 
@@ -34,6 +36,9 @@ namespace DQQ.Web.Pages
     public EventParameter? ParentRefreshEvent { get; set; }
 
     public EventParameter? RefreshEvent { get; set; }
+
+    [Parameter]
+    public Guid? ParentGuid { get; set; }
 
     bool isDispose { get; set; }
     public virtual async ValueTask DisposeAsync()

@@ -1,35 +1,64 @@
 ﻿@using DQQ.Profiles.Items.Equipments
 @using DQQ.Helper
+@using DQQ.Web.Pages.DQQs.Items.Components
 @inherits ActorInventoryPage
-<h3>ActorInventory</h3>
+<h3>背包</h3>
+<Layout ShowFooter="true">
+	<Header>
+		<div>
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Head)" Slots="EnumEquipSlot.Head" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Body)" Slots="EnumEquipSlot.Body" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Gloves)" Slots="EnumEquipSlot.Gloves" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Boots)" Slots="EnumEquipSlot.Boots" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.MainHand)" Slots="EnumEquipSlot.MainHand" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.OffHand)" Slots="EnumEquipSlot.OffHand" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Amulet)" Slots="EnumEquipSlot.Amulet" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Belt)" Slots="EnumEquipSlot.Belt" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.LeftRing)" Slots="EnumEquipSlot.LeftRing" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.RightRing)" Slots="EnumEquipSlot.RightRing" />
+		</div>
+	</Header>
+	<Side>
+		<div>
+		</div>
+	</Side>
 
-@if (Items != null)
-{
-	foreach (var item in Items)
-	{
-		var equip = item.Profile as EquipProfile;
-		<p>
-			@item.Name
-			@if (item?.Profile?.IsStack == true)
+	<Main>
+		<div style="overflow:hidden;height: calc(100vh - 300px);">
+			@if (Items != null)
 			{
-				<span>(@item?.Quantity)</span>
-			}
-			@if (equip != null)
-			{
-				var slots = EquiptableHelper.GetAvaliableSlots(equip.EquipType);
+				foreach (var item in Items)
+				{
+					var equip = item.Profile as EquipProfile;
+					<p>
+						@item.Name
+						@if (item?.Profile?.IsStack == true)
+						{
+							<span>(@item?.Quantity)</span>
+						}
+						@if (equip != null)
+						{
+							var slots = EquiptableHelper.GetAvaliableSlots(equip.EquipType);
 
-				if (slots?.Count() > 1)
-				{
-					foreach (var slot in slots)
-					{
-						<Button Color="Color.Success" Text="@($"装备 ({slot})")" OnClick="()=>EquipItem(item?.Id,slot)" />
-					}
-				}
-				else
-				{
-					<Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(item?.Id,null)" />
+							if (slots?.Count() > 1)
+							{
+								foreach (var slot in slots)
+								{
+									<Button Color="Color.Success" Text="@($"装备 ({slot})")" OnClick="()=>EquipItem(item?.Id,slot)" />
+								}
+							}
+							else
+							{
+								<Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(item?.Id,null)" />
+							}
+						}
+					</p>
 				}
 			}
-		</p>
-	}
-}
+
+		</div>
+	</Main>
+	<Footer>
+		<div>Footer</div>
+	</Footer>
+</Layout>

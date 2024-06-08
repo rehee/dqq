@@ -1,3 +1,4 @@
+using DQQ.Components.Stages.Actors.Characters;
 using Microsoft.AspNetCore.Components;
 
 namespace DQQ.Web.Pages.DQQs.Items
@@ -6,6 +7,16 @@ namespace DQQ.Web.Pages.DQQs.Items
   {
     [Parameter]
     public Guid? ActorId { get; set; }
+
+    [Parameter]
+    public Character? SelectedCharacter { get; set; }
+
+
+    protected override void OnParametersSet()
+    {
+      base.OnParametersSet();
+      StateHasChanged();
+    }
     public async Task ShowPickList()
     {
       await dialogService.ShowComponent<ItemPickList>(
@@ -20,7 +31,10 @@ namespace DQQ.Web.Pages.DQQs.Items
         new Dictionary<string, object?>
         {
           ["ActorId"] = ActorId,
-          ["ParentRefreshEvent"] = ParentRefreshEvent
+          ["ParentRefreshEvent"] = ParentRefreshEvent,
+          ["SelectedCharacter"] = SelectedCharacter,
+          ["ParentGuid"] = ParentGuid,
+
         }, "");
     }
   }

@@ -23,14 +23,19 @@ namespace DQQ.Components.Stages.Actors.Characters
 		public Character()
 		{
 			Equips = new ConcurrentDictionary<EnumEquipSlot, IEquptment?>();
+			EquipItems = new ConcurrentDictionary<EnumEquipSlot, ItemEntity?>();
 		}
 		public override EnumTargetLevel PowerLevel => EnumTargetLevel.Elite;
 		public string? OwnerId { get; set; }
 		public BigInteger CurrentXP { get; set; }
 		public BigInteger NextLevelXP { get; set; }
+
 		[NotMapped]
 		[JsonIgnore]
 		public ConcurrentDictionary<EnumEquipSlot, IEquptment?> Equips { get; set; }
+
+		[NotMapped]
+		public ConcurrentDictionary<EnumEquipSlot, ItemEntity?> EquipItems { get; set; }
 
 		public Dictionary<int, SkillDTO>? SkillMap { get; set; }
 
@@ -87,6 +92,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 						continue;
 					}
 					Equips.AddOrUpdate(equip.EquipSlot!.Value, equipComponent!, (a, b) => equipComponent);
+					EquipItems.AddOrUpdate(equip.EquipSlot!.Value, equip?.Item, (a, b) => equip?.Item);
 				}
 			}
 			this.TotalEquipProperty();
