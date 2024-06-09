@@ -7,7 +7,7 @@
 	<BodyTemplate>
 		@if (SelectedSkillDTO != null && SelectedSkillDTO.SkillStrategies != null)
 		{
-			<div style="overflow:hidden;height: calc(100vh - 450px);">
+			<div style="overflow:hidden;height: calc(100vh - 490px);">
 				<Table TableSize="TableSize.Compact" RenderModeResponsiveWidth="BreakPoint.Large" TItem="SkillStrategy" Items="SelectedSkillDTO.SkillStrategies?.OrderBy(b=>b.Priority)" ScrollingDialogContent="true">
 
 					<TableColumns>
