@@ -80,6 +80,6 @@ namespace DQQ.Web.Pages.DQQs.Builds
 		}
 
 		public Color SkillBordColor => Avaliable ? Color.None : Color.Danger;
-		public string SubTitle => SkillBordColor == Color.Danger ? $"[无法生效]" : "";
+
 	}
 }

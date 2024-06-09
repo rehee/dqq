@@ -23,5 +23,10 @@ namespace DQQ.Helper
 
 			return Color.None;
 		}
+
+		public static string UnAvliable(this Color c)
+		{
+			return c == Color.Danger ? "[无法生效]" : "";
+		}
 	}
 }
