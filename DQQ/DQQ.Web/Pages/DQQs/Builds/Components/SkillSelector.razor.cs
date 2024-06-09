@@ -40,7 +40,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 		}
 		public bool CollapsedGroupCallback(object? groupKey)
 		{
-			if (SelectedSkillDTO != null)
+			if (SelectedSkillDTO?.Profile != null)
 			{
 				return groupKey?.ToString()?.EndsWith(SelectedSkillDTO?.Profile?.Category.GetEnumString() ?? "") != true;
 			}
