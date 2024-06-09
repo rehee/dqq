@@ -2,6 +2,7 @@ using BootstrapBlazor.Components;
 using DQQ.Commons.DTOs;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Consts;
 using DQQ.Enums;
 using DQQ.Services.SkillServices;
 using DQQ.Web.Pages.DQQs.Builds.Components;
@@ -43,8 +44,7 @@ namespace DQQ.Web.Pages.DQQs.Builds
 				newOptions.Add(
 					new StepOption()
 					{
-						Text = "主动技能选择",
-						Title = "主动技能选择",
+						Text = WebConsts.ActiveSkillChooseText,
 						Template = BootstrapDynamicComponent.CreateComponent<ActiveSkillSelect>
 						(
 							new Dictionary<string, object?>
@@ -57,8 +57,8 @@ namespace DQQ.Web.Pages.DQQs.Builds
 				newOptions.Add(
 					new StepOption()
 					{
-						Text = "辅助技能选择",
-						Title = "辅助技能选择",
+						Text = WebConsts.SupportSkillChooseText,
+
 						Template = BootstrapDynamicComponent.CreateComponent<SupportSkillSelect>
 						(
 							new Dictionary<string, object?>
@@ -74,8 +74,8 @@ namespace DQQ.Web.Pages.DQQs.Builds
 				newOptions.Add(
 					new StepOption()
 					{
-						Text = "技能策略选择",
-						Title = "技能策略选择",
+						Text = WebConsts.StrategySkillChooseText,
+
 						Template = BootstrapDynamicComponent.CreateComponent<StrategySelect>
 						(
 							new Dictionary<string, object?>
