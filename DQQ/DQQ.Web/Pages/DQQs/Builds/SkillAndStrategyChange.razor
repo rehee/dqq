@@ -1,0 +1,35 @@
+﻿@inherits SkillAndStrategyChangePage
+<Step @ref="@Step_1" Items="Items">
+	<FinishedTemplate>
+		<div>
+			您已经选择了
+			@if (SkillSelect == true)
+			{
+				<span>
+					技能
+				</span>
+			}
+			@if (StrageySelect == true)
+			{
+				<span>
+					策略
+				</span>
+			}
+
+			,点击保存以确定修改.
+		</div>
+	</FinishedTemplate>
+</Step>
+<br />
+<BootstrapInputGroup>
+	<Button OnClick="() => PrevStep(Step_1)">上一步</Button>
+	@if (IsLastStep != true)
+	{
+		<Button Color="Color.Warning" OnClick="() => NextStep(Step_1)">下一步</Button>
+	}
+	else
+	{
+
+		<Button IsAsync="true" Color="Color.Success" OnClick="SaveDTO">保存</Button>
+	}
+</BootstrapInputGroup>

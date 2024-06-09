@@ -1,0 +1,27 @@
+﻿@using DQQ.Profiles.Skills
+@inherits SkillSelectorPage
+<Card>
+	<HeaderTemplate>
+		@CardTitle
+	</HeaderTemplate>
+	<BodyTemplate>
+		<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
+			<HeaderTemplate>
+				<div>技能列表</div>
+			</HeaderTemplate>
+			<BodyTemplate>
+				<Card Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.None)">
+					<BodyTemplate>
+						<p>
+							@context.SkillName
+						</p>
+					</BodyTemplate>
+				</Card>
+			</BodyTemplate>
+		</ListView>
+
+	</BodyTemplate>
+	<FooterTemplate>
+		汇总信息:
+	</FooterTemplate>
+</Card>

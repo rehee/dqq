@@ -37,9 +37,20 @@ namespace DQQ.Components.Stages.Actors.Characters
 		[NotMapped]
 		public ConcurrentDictionary<EnumEquipSlot, ItemEntity?> EquipItems { get; set; }
 
-		public Dictionary<int, SkillDTO>? SkillMap { get; set; }
+		public Dictionary<EnumSkillSlot, SkillDTO>? SkillMap { get; set; }
 
 
+		[JsonIgnore]
+		public bool WithTwoHandWeapon => EquipItems == null ? false :
+			EquipItems.Any(b => b.Key == EnumEquipSlot.MainHand && b.Value?.EquipType == EnumEquipType.TwoHandWeapon);
+
+		[JsonIgnore]
+		public bool WithWeapon1 => (EquipItems == null || WithTwoHandWeapon) ? false :
+			EquipItems?.Any(b => b.Key == EnumEquipSlot.MainHand && b.Value != null) == true;
+
+		[JsonIgnore]
+		public bool WithWeapon2 => (EquipItems == null || WithTwoHandWeapon) ? false :
+			EquipItems?.Any(b => b.Key == EnumEquipSlot.OffHand && b.Value != null) == true;
 
 		public ActorEntity ToActorEntity()
 		{
@@ -69,12 +80,23 @@ namespace DQQ.Components.Stages.Actors.Characters
 		{
 			base.Initialize(entity);
 
-			SkillMap = Skills?.DistinctBy(b => b.Slot).OrderBy(b => b.Slot).ToDictionary(b => b.Slot, b => new SkillDTO
+			var skills = Skills?.DistinctBy(b => b.Slot).OrderBy(b => b.Slot).ToDictionary(b => b.Slot, b => new SkillDTO
 			{
 				SkillName = b.SkillProfile?.SkillName,
 				SkillNumber = b.SkillProfile?.SkillNumber ?? EnumSkill.NormalAttack,
 				SkillStrategies = b.SkillStrategies?.OrderBy(b => b.Property).ToList() ?? new List<Strategies.SkillStrategies.SkillStrategy>()
-			}) ?? new Dictionary<int, SkillDTO>();
+			}) ?? new Dictionary<EnumSkillSlot, SkillDTO>();
+
+			SkillMap = new Dictionary<EnumSkillSlot, SkillDTO>();
+
+			foreach (EnumSkillSlot slot in Enum.GetValues(typeof(EnumSkillSlot)))
+			{
+				skills.TryGetValue(slot, out var skill);
+				SkillMap.TryAdd(slot, skill ?? new SkillDTO
+				{
+					SkillNumber = EnumSkill.NotSpecified
+				});
+			}
 
 			if (entity is ActorEntity ae)
 			{
@@ -99,6 +121,22 @@ namespace DQQ.Components.Stages.Actors.Characters
 			this.CurrentHP = this.CombatPanel.DynamicPanel.MaximunLife.DefaultValue(1);
 		}
 
+
+		public SkillDTO? GetSelectedSkillDTO(EnumSkillSlot? Slot)
+		{
+			if (Slot == null) return null;
+
+			if (SkillMap?.TryGetValue(Slot!.Value, out var selected) == true)
+			{
+				if (selected != null) return selected;
+			}
+			var result = new SkillDTO()
+			{
+				SkillNumber = EnumSkill.NotSpecified
+			};
+			SkillMap?.TryAdd(Slot!.Value, result);
+			return result;
+		}
 
 		protected override void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
 		{

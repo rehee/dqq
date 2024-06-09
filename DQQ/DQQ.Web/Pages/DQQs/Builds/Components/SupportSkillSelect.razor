@@ -1,0 +1,31 @@
+﻿@inherits SupportSkillSelectPage
+
+
+<Card>
+	<HeaderTemplate>
+		辅助或触发技能 [玩命开发中]
+	</HeaderTemplate>
+	<BodyTemplate>
+
+		<Row ItemsPerRow="ItemsPerRow.Three">
+			@for (var i = 0; i < SkillLimit; i++)
+			{
+				var i2 = i;
+				var e = (EnumBindingSlot)i;
+				<Card>
+					<BodyTemplate>
+						<div>
+							@e.ToString()
+
+						</div>
+					</BodyTemplate>
+				</Card>
+			}
+
+
+		</Row>
+	</BodyTemplate>
+	<FooterTemplate>
+		汇总信息:
+	</FooterTemplate>
+</Card>

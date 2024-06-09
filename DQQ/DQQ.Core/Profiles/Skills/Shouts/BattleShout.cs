@@ -19,7 +19,8 @@ namespace DQQ.Profiles.Skills.Shouts
   [Pooled]
   public class BattleShout : SkillProfile
   {
-    public override bool NoPlayerSkill => false;
+    public override EnumSkillCategory Category => EnumSkillCategory.Strategy;
+		public override bool NoPlayerSkill => false;
     public override decimal CastTime => 0;
     public override decimal CoolDown => 15m;
     public override decimal DamageRate => 0;

@@ -5,6 +5,7 @@
 @using DQQ.Web.Pages.DQQs.Combats
 @using DQQ.Web.Pages.DQQs.Items
 @using DQQ.Helper
+@using DQQ.Web.Pages.DQQs.Builds
 <PageTitle>Home</PageTitle>
 <Button Color="Color.Success" Text="ReadMe" OnClick="OpenReadMe" />
 <Button Color="Color.Primary" Text="提示" OnClick="OpenTips" />
@@ -30,6 +31,7 @@ else
   else
   {
     <SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
+    <BuildPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
     <CombatSummary ActorId="ActorId" />
     <ItemPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentGuid="ParentGuid" ParentRefreshEvent="RefreshEvent" />
   }

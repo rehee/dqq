@@ -44,6 +44,7 @@ namespace DQQ.Web.Pages.DQQs.Items.Components
 			await Item.SetComponent(Renderer);
 			ComponentString = Item?.ComponentString;
 		}
+		public bool ShowsDismiss => OnDismiss != null;
 		public Task ThisOnDismiss()
 		{
 			if (OnDismiss == null)

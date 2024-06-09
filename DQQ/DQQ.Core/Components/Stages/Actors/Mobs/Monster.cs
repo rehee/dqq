@@ -87,10 +87,10 @@ namespace DQQ.Components.Stages.Actors.Mobs
       if (profile?.Skills?.Any() == true)
       {
         var list = new List<ISkillComponent>();
-        var skillCount = 0;
+        var skillCount = 1;
         foreach (var skill in profile.Skills)
         {
-          list.Add(SkillComponent.New(skill, skillCount));
+          list.Add(SkillComponent.New(skill, (EnumSkillSlot)skillCount));
           skillCount++;
         }
         mob.Skills = list.ToArray();

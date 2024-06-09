@@ -1,0 +1,37 @@
+﻿@using DQQ.Web.Pages.DQQs.Items.Components
+@inherits BuildPagePage
+
+<Card>
+	<HeaderTemplate>
+		构筑(bd) [bd 列表]
+	</HeaderTemplate>
+	<BodyTemplate>
+		<h6>
+			当前bd
+		</h6>
+		<div>
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Head" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Body" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Gloves" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Boots" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.MainHand" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.OffHand" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Amulet" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Belt" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.LeftRing" />
+			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.RightRing" />
+			<Button Color="Color.Primary" Text="装备选择" OnClick="ShowInventory" />
+		</div>
+		
+		<h6>
+			技能与策略
+		</h6>
+
+		<SkillSlotList ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" />
+
+	</BodyTemplate>
+	<FooterTemplate>
+		bd数量 (x/y) 目前只有一个. 计划添加多个 但同一时间只能激活一个bd
+	</FooterTemplate>
+</Card>
+

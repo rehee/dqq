@@ -1,6 +1,7 @@
 ﻿using DQQ.Commons;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
+using DQQ.Enums;
 using DQQ.Profiles.Skills;
 using DQQ.Strategies.SkillStrategies;
 using DQQ.Tags;
@@ -10,7 +11,7 @@ namespace DQQ.Components.Skills
 {
   public interface ISkillComponent : ITagged, IDQQComponent
   {
-    int Slot { get; set; }
+    EnumSkillSlot Slot { get; set; }
     decimal CastTime { get; }
     decimal Cooldown { get; }
     decimal DamageRate { get; }

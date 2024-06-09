@@ -18,7 +18,8 @@ namespace DQQ.Profiles.Skills.Attacks
   [Pooled]
   public class SwingAttack : GeneralSkill
   {
-    public override EnumDamageHand DamageHand => EnumDamageHand.BothHand;
+		public override EnumSkillCategory Category => EnumSkillCategory.Core;
+		public override EnumDamageHand DamageHand => EnumDamageHand.BothHand;
     public override decimal CastTime => 0m;
     public override decimal CoolDown => 6m;
     public override decimal DamageRate => 1.5m;

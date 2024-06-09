@@ -10,5 +10,6 @@ namespace DQQ.Profiles.Skills.Buffs
   public abstract class AbHealing : SkillProfile
   {
     public override EnumSkillType SkillType => EnumSkillType.Healing;
-  }
+    public override EnumSkillCategory Category => EnumSkillCategory.Defence;
+	}
 }

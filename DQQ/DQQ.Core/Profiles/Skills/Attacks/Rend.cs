@@ -22,7 +22,8 @@ namespace DQQ.Profiles.Skills.Attacks
   [Pooled]
   public class Rend : GeneralSkill
   {
-    public override EnumDamageHand DamageHand => EnumDamageHand.MainHand;
+    public override EnumSkillCategory Category => EnumSkillCategory.Core;
+		public override EnumDamageHand DamageHand => EnumDamageHand.MainHand;
     public override decimal CastTime => 0;
     public override decimal CoolDown => 1.5m;
     public override decimal DamageRate => 3m;

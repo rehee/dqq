@@ -60,7 +60,14 @@ namespace DQQ.Helper
 			{
 				return GetString(ei);
 			}
-			
+			if (input is EnumSkillSlot ess)
+			{
+				return GetString(ess);
+			}
+			if (input is EnumSkillCategory escc)
+			{
+				return GetString(escc);
+			}
 			return $"{input}";
 		}
 
@@ -128,14 +135,14 @@ namespace DQQ.Helper
 		{
 			switch (input)
 			{
-				case EnumCompare.MoreThan: return "大于";
-				case EnumCompare.MoreOrEqual: return "大于等于";
-				case EnumCompare.LessThan: return "小于";
-				case EnumCompare.LessOrEqual: return "小于等于";
-				case EnumCompare.Equal: return "等于";
-				case EnumCompare.NotEqual: return "不等于";
+				case EnumCompare.MoreThan: return ">";
+				case EnumCompare.MoreOrEqual: return ">=";
+				case EnumCompare.LessThan: return "<";
+				case EnumCompare.LessOrEqual: return "<=";
+				case EnumCompare.Equal: return "==";
+				case EnumCompare.NotEqual: return "!=";
 				default:
-					return "无策略";
+					return "无";
 			}
 		}
 		public static string? GetString(this EnumStrategyParty? input)
@@ -240,6 +247,39 @@ namespace DQQ.Helper
 				case EnumEquipSlot.Belt: return "腰带";
 				case EnumEquipSlot.LeftRing: return "左戒指";
 				case EnumEquipSlot.RightRing: return "右戒指";
+				default:
+					return "";
+			}
+		}
+
+		public static string? GetString(this EnumSkillSlot? input)
+		{
+			switch (input)
+			{
+				case EnumSkillSlot.MainSlot: return "主技能槽";
+				case EnumSkillSlot.WeaponSlotTH: return "双手武器技能槽";
+				case EnumSkillSlot.WeaponSlot1: return "单手武器能槽 1";
+				case EnumSkillSlot.WeaponSlot2: return "单手武器能槽 2";
+				case EnumSkillSlot.GeneralSlot1: return "通用技能槽 1";
+				case EnumSkillSlot.GeneralSlot2: return "通用技能槽 2";
+				case EnumSkillSlot.GeneralSlot3: return "通用技能槽 3";
+				default:
+					return "";
+			}
+		}
+
+		public static string? GetString(this EnumSkillCategory? input)
+		{
+			switch (input)
+			{
+				case EnumSkillCategory.NotSpecified: return "未分类";
+				case EnumSkillCategory.Primary: return "基础";
+				case EnumSkillCategory.Core: return "核心";
+				case EnumSkillCategory.Secondary: return "次级";
+				case EnumSkillCategory.Defence: return "防御";
+				case EnumSkillCategory.Strategy: return "战术";
+				case EnumSkillCategory.Mastery: return "精通";
+				case EnumSkillCategory.Ultimate: return "大招";
 				default:
 					return "";
 			}

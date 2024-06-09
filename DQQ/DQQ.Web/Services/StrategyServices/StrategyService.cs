@@ -14,7 +14,7 @@ namespace DQQ.Web.Services.StrategyServices
     {
     }
 
-    public async Task<ContentResponse<bool>> SetActorSkillStrategy(Guid? actorId, int slot, IEnumerable<SkillStrategy>? strategies)
+    public async Task<ContentResponse<bool>> SetActorSkillStrategy(Guid? actorId, EnumSkillSlot slot, IEnumerable<SkillStrategy>? strategies)
     {
       return await client.Request<bool>(HttpMethod.Put, $"Strategy/SkillStrategy/{actorId}/{slot}", strategies.ToJson());
     }

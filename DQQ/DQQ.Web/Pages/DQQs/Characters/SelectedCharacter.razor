@@ -27,27 +27,6 @@
       <div>
         <Button Color="Color.Primary" Text="更换优先级" OnClick="ChangePriority" />
       </div>
-      <div>
-        <div>
-          技能
-        </div>
-        @if (Character.SkillMap != null)
-        {
-          for (var i = 0; i < 6; i++)
-          {
-            var i2 = i;
-            var s2 = Character.SkillMap.ContainsKey(i2) ? (EnumSkill?)Character.SkillMap[i2].SkillNumber : null;
-            <div>
-              @i2 @(Character.SkillMap.ContainsKey(i2) ? Character.SkillMap[i2].SkillName : "无")
-              <Button Color="Color.Primary" Text="选择技能" OnClick="async ()=> await SelectSkill(i2,s2)" />
-              @if (s2 != null)
-              {
-                <Button Color="Color.Success" Text="选择策略" OnClick="async ()=> await SelectStrategy(i2)" />
-              }
-            </div>
-          }
-        }
-      </div>
     }
   </BodyTemplate>
 </Card>

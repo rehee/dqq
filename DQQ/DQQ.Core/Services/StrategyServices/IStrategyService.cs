@@ -13,6 +13,6 @@ namespace DQQ.Services.StrategyServices
   public interface IStrategyService
   {
     Task<ContentResponse<bool>> SetActorTargetPriority(Guid? actorId, EnumTargetPriority? priority);
-    Task<ContentResponse<bool>> SetActorSkillStrategy(Guid? actorId, int slot, IEnumerable<SkillStrategy>? strategies);
+    Task<ContentResponse<bool>> SetActorSkillStrategy(Guid? actorId, EnumSkillSlot slot, IEnumerable<SkillStrategy>? strategies);
   }
 }
