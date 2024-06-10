@@ -21,10 +21,13 @@ namespace DQQ.Api.Services.SkillServices
 		{
 			this.context = context;
 		}
-		public async Task<IEnumerable<ISkill>> GetAllSkills()
+		public async Task<IEnumerable<SkillDTO>> GetAllSkills()
 		{
 			await Task.CompletedTask;
-			return DQQPool.SkillPool.Select(b => b.Value).Where(b => b.NoPlayerSkill != true).ToArray();
+			return DQQPool.SkillPool.Select(b => b.Value).Where(b => b.NoPlayerSkill != true).Select(b=> new SkillDTO
+			{
+				SkillNumber = b.SkillNumber,
+			}).ToArray();
 		}
 
 		public async Task<ContentResponse<bool>> PickSkill(PickSkillDTO dto)

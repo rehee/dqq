@@ -15,29 +15,25 @@ using System.Threading.Tasks;
 
 namespace DQQ.Commons.DTOs
 {
-  public class SkillDTO : ISkill
-  {
-    public EnumSkill SkillNumber { get; set; }
-    [JsonIgnore]
-    public SkillProfile? Profile => DQQPool.TryGet<SkillProfile, EnumSkill>(SkillNumber);
-    public string? SkillName { get; set; }
+	public class SkillDTO
+	{
+		public EnumSkill SkillNumber { get; set; }
+		[JsonIgnore]
+		public SkillProfile? Profile => DQQPool.TryGet<SkillProfile, EnumSkill>(SkillNumber);
+		public string? SkillName => Profile?.SkillName;
 
-    public decimal CastTime { get; set; }
+		public decimal CastTime => Profile?.CastTime ?? 0;
 
-    public bool CastWithWeaponSpeed { get; set; }
+		public bool CastWithWeaponSpeed => Profile?.CastWithWeaponSpeed ?? false;
 
-    public decimal CoolDown { get; set; }
+		public decimal CoolDown => Profile?.CoolDown ?? 0;
 
-    public decimal DamageRate { get; set; }
+		public decimal DamageRate => Profile?.DamageRate ?? 0;
 
-    public string? Discription { get; set; }
+		public string? Discription => Profile?.Discription;
 
-    public bool NoPlayerSkill { get; set; }
-    public List<SkillStrategy>? SkillStrategies { get; set; }
+		public bool NoPlayerSkill => Profile?.NoPlayerSkill ?? false;
+		public List<SkillStrategy>? SkillStrategies { get; set; }
 
-    public Task<ContentResponse<bool>> CastSkill(ComponentTickParameter? parameter)
-    {
-      throw new NotImplementedException();
-    }
-  }
+	}
 }

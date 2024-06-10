@@ -19,7 +19,7 @@ using System.Text.Json;
 
 namespace DQQ.Components.Skills
 {
-	public class SkillComponent : DQQComponent, ISkillComponent
+	public class SkillComponent : DQQComponent
 	{
 		public static SkillComponent New(EnumSkill skill, EnumSkillSlot skillSlot = EnumSkillSlot.NotSpecified)
 		{
@@ -49,7 +49,7 @@ namespace DQQ.Components.Skills
 		public int CDTickCount { get; set; }
 		public IEnumerable<ITag>? Tags { get; set; }
 
-		public ISkill? SkillProfile { get; protected set; }
+		public SkillProfile? SkillProfile { get; protected set; }
 
 		public int TotalCount { get; set; } = 0;
 		public int WaveCount { get; set; } = 0;
@@ -74,7 +74,7 @@ namespace DQQ.Components.Skills
 			}
 		}
 
-		public void InitSkillProfile(ISkill? profile, EnumSkillSlot skillSlot = EnumSkillSlot.NotSpecified)
+		public void InitSkillProfile(SkillProfile? profile, EnumSkillSlot skillSlot = EnumSkillSlot.NotSpecified)
 		{
 			SkillProfile = profile;
 			CastTime = profile?.CastTime ?? 0;

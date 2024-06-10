@@ -17,7 +17,7 @@ namespace DQQ.Helper
 {
   public static class StrategyHelper
   {
-    public static StrategeCheckResult MatchSkillStrategy(this IEnumerable<SkillStrategy>? strategies, ComponentTickParameter? parameter, ISkillComponent skill)
+    public static StrategeCheckResult MatchSkillStrategy(this IEnumerable<SkillStrategy>? strategies, ComponentTickParameter? parameter,SkillComponent skill)
     {
       if (strategies?.Any() != true)
       {
@@ -110,7 +110,7 @@ namespace DQQ.Helper
       }
       return null;
     }
-    public static StrategeCheckResult? MatchSkillStrategyWave(this SkillStrategy strategy, ITarget? caster, IEnumerable<ITarget>? targets, IMap? map, ISkillComponent skill)
+    public static StrategeCheckResult? MatchSkillStrategyWave(this SkillStrategy strategy, ITarget? caster, IEnumerable<ITarget>? targets, IMap? map, SkillComponent skill)
     {
       if (skill == null)
       {

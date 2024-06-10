@@ -40,7 +40,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
       var skill = new TestSkill();
       skill.CastTime = cast;
       skill.Cooldown = cd;
-      actor.Skills = new List<ISkillComponent> { skill };
+      actor.Skills = new List<SkillComponent> { skill };
 
       for (var i = 0; i < time * DQQGeneral.TickPerSecond; i++)
       {
@@ -63,7 +63,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
       var skill = new AttackTestSkill();
       skill.CastTime = cast;
       skill.Cooldown = cd;
-      actor.Skills = new ISkillComponent[] { skill };
+      actor.Skills = new SkillComponent[] { skill };
 
       for (var i = 0; i < time * DQQGeneral.TickPerSecond; i++)
       {

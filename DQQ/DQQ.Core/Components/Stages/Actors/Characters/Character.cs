@@ -82,7 +82,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 
 			var skills = Skills?.DistinctBy(b => b.Slot).OrderBy(b => b.Slot).ToDictionary(b => b.Slot, b => new SkillDTO
 			{
-				SkillName = b.SkillProfile?.SkillName,
+				
 				SkillNumber = b.SkillProfile?.SkillNumber ?? EnumSkill.NormalAttack,
 				SkillStrategies = b.SkillStrategies?.OrderBy(b => b.Property).ToList() ?? new List<Strategies.SkillStrategies.SkillStrategy>()
 			}) ?? new Dictionary<EnumSkillSlot, SkillDTO>();

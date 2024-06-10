@@ -1,3 +1,4 @@
+using DQQ.Commons.DTOs;
 using DQQ.Enums;
 using DQQ.Profiles.Skills;
 using DQQ.Services.SkillServices;
@@ -20,7 +21,7 @@ namespace DQQ.Web.Pages.DQQs.Skills
 		[Parameter]
 		public Guid? ActorId { get; set; }
 
-		public IEnumerable<ISkill>? Skills { get; set; }
+		public IEnumerable<SkillDTO>? Skills { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{

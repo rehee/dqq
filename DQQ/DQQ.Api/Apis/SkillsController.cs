@@ -19,7 +19,7 @@ namespace DQQ.Api.Apis
     }
     [HttpGet]
     [CmfAuthorize(AuthOnly = true)]
-    public async Task<IEnumerable<ISkill>> Index()
+    public async Task<IEnumerable<SkillDTO>> Index()
     {
       return await skillService.GetAllSkills();
     }

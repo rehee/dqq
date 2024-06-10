@@ -31,7 +31,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Maps
       creator.CurrentHP = 1000;
       creator.CombatPanel.DynamicPanel.MaximunLife = 1000;
       creator.BasicDamage = 10;
-      creator.Skills = new ISkillComponent[]
+      creator.Skills = new SkillComponent[]
       {
         SkillComponent.New(EnumSkill.NormalAttack)
       };

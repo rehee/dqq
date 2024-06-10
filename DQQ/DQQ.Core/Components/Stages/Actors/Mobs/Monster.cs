@@ -86,7 +86,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
       mob.DropRate = profile.DropRate * dropTimes;
       if (profile?.Skills?.Any() == true)
       {
-        var list = new List<ISkillComponent>();
+        var list = new List<SkillComponent>();
         var skillCount = 1;
         foreach (var skill in profile.Skills)
         {

@@ -9,6 +9,6 @@ namespace DQQ.Components.Stages.Actors
   public interface IActor : ITarget
   {
     Int64 BasicDamage { get; }
-    IEnumerable<ISkillComponent> Skills { get; }
+    IEnumerable<SkillComponent> Skills { get; }
   }
 }

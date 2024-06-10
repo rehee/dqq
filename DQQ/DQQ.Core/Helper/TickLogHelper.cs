@@ -17,7 +17,7 @@ namespace DQQ.Helper
   public static class TickLogHelper
   {
 
-    public static void SetSuccess(this TickLogItem item, int tick, ISkill? skill, ITarget? from, ITarget? to, DamageTaken? damage)
+    public static void SetSuccess(this TickLogItem item, int tick, SkillProfile? skill, ITarget? from, ITarget? to, DamageTaken? damage)
     {
       item.Success = true;
       item.ActionSecond = tick / (decimal)DQQGeneral.TickPerSecond;
@@ -73,7 +73,7 @@ namespace DQQ.Helper
       return item;
     }
 
-    public static void AddMapLogSpillCast(this IMap map, bool success, ITarget? from, ITarget? to, ISkill? skill)
+    public static void AddMapLogSpillCast(this IMap map, bool success, ITarget? from, ITarget? to, SkillProfile? skill)
     {
       var item = map.GetTickLogItemFromMap(success);
       item.LogType = EnumLogType.CastSkill;

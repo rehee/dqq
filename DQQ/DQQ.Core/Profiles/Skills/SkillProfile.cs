@@ -12,7 +12,7 @@ using System.Reflection.Metadata;
 
 namespace DQQ.Profiles.Skills
 {
-	public abstract class SkillProfile : DQQProfile<EnumSkill>, ISkill
+	public abstract class SkillProfile : DQQProfile<EnumSkill>
 	{
 		public virtual EnumDamageHand DamageHand => EnumDamageHand.Any;
 		public virtual EnumSkillBindingType BindingType => EnumSkillBindingType.Active;
