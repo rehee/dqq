@@ -8,7 +8,7 @@
 	</HeaderTemplate>
 	<BodyTemplate>
 		<BootstrapInputGroup>
-			<Button Color="Color.Success" OnClick="CreateBD">
+			<Button IsAsync="true" Color="Color.Success" OnClick="CreateBD">
 				保存现有配置为新的bd
 			</Button>
 		</BootstrapInputGroup>
@@ -55,9 +55,9 @@
 								</p>
 							</div>
 							<BootstrapInputGroup>
-								<Button Color="Color.Success" OnClick="()=> Apply(id)">使用bd</Button>
-								<Button Color="Color.Danger" OnClick="()=> Delete(id)">删除bd</Button>
-								<Button Color="Color.Warning" OnClick="()=> Update(id)">更新bd</Button>
+								<Button IsAsync="true" Color="Color.Success" OnClick="()=> Apply(id)">使用bd</Button>
+								<Button IsAsync="true" Color="Color.Danger" OnClick="()=> Delete(id)">删除bd</Button>
+								<Button IsAsync="true" Color="Color.Warning" OnClick="()=> Update(id)">更新bd</Button>
 							</BootstrapInputGroup>
 						</BodyTemplate>
 					</Card>
