@@ -4,6 +4,7 @@ using DQQ.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DQQ.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240610195642_add_build_and_support_skills")]
+    partial class add_build_and_support_skills
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,65 +27,6 @@ namespace DQQ.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DQQ.Entities.ActorBuild", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ActorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AmuletId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BeltId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BodyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BootsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("BuildDescribe")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("GlovesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("HeadId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("LeftRingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("MainHandId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("OffHandId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RightRingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SkillAndStrategyJson")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TargetPriority")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("TenantID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ActorBuilds");
-                });
 
             modelBuilder.Entity("DQQ.Entities.ActorEntity", b =>
                 {

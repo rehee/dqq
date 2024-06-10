@@ -94,13 +94,9 @@ namespace DQQ.Web.Pages.DQQs.Builds
 		public async Task SaveDTO()
 		{
 			var dto = SelectedCharacter?.GetSelectedSkillDTO(Slot);
-			var result = await skillServices.PickSkill(new Commons.DTOs.PickSkillDTO
-			{
-				ActorId = SelectedCharacter?.DisplayId,
-				SkillNumber = dto?.SkillNumber,
-				Slot = Slot,
-				Strategies = dto?.SkillStrategies?.ToArray() ?? []
-			});
+			
+			var result = await skillServices.PickSkill(
+				PickSkillDTO.New(dto, SelectedCharacter?.DisplayId, Slot));
 			ParentRefreshEvent?.InvokeEvent(this, new EventArgs());
 			await CloseDynamicDialog();
 		}

@@ -1,0 +1,78 @@
+﻿@using DQQ.Entities
+@using DQQ.Web.Pages.DQQs.Items.Components
+@using System.Collections.Concurrent
+@inherits BuildManagePage
+<Card>
+	<HeaderTemplate>
+		Build 管理
+	</HeaderTemplate>
+	<BodyTemplate>
+		<BootstrapInputGroup>
+			<Button Color="Color.Success" OnClick="CreateBD">
+				保存现有配置为新的bd
+			</Button>
+		</BootstrapInputGroup>
+		<br />
+		<h6>Build 列表</h6>
+		@if (BuildDTOs == null)
+		{
+			<span>数据读取中</span>
+		}
+		else
+		{
+			if (BuildDTOs?.Any() == true)
+			{
+				@foreach (var bd in BuildDTOs)
+				{
+					var id = bd.BuildId;
+					var bdEquip = new ConcurrentDictionary<EnumEquipSlot, ItemEntity?>();
+					if (bd?.Equips?.Any() == true)
+					{
+						foreach (var b in bd.Equips)
+						{
+							bdEquip.TryAdd(b.Key, b.Value);
+						}
+					}
+
+					<Card>
+						<BodyTemplate>
+							<div>
+								目标优先级: @bd.TargetPriority.GetString()
+							</div>
+							<div>
+								<h6>装备</h6>
+								<p>
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.Head" />
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.Body" />
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.Gloves" />
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.Boots" />
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.MainHand" />
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.OffHand" />
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.Amulet" />
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.Belt" />
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.LeftRing" />
+									<EquipInSlot Equips="bdEquip" Slots="EnumEquipSlot.RightRing" />
+								</p>
+							</div>
+							<BootstrapInputGroup>
+								<Button Color="Color.Success" OnClick="()=> Apply(id)">使用bd</Button>
+								<Button Color="Color.Danger" OnClick="()=> Delete(id)">删除bd</Button>
+								<Button Color="Color.Warning" OnClick="()=> Update(id)">更新bd</Button>
+							</BootstrapInputGroup>
+						</BodyTemplate>
+					</Card>
+
+				}
+
+			}
+			else
+			{
+				<span>
+					没有bd
+				</span>
+			}
+		}
+
+	</BodyTemplate>
+</Card>
+

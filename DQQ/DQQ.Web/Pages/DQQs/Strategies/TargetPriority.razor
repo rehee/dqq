@@ -2,14 +2,14 @@
 @inherits TargetPriorityPage
 @foreach (var e in (EnumTargetPriority[])Enum.GetValues(typeof(EnumTargetPriority)))
 {
-  <p>
-    <Button Color="Color.Primary" Text="选择" OnClick="async ()=> await SelectPriority(e)" />
-    @if (e == TargetPriority)
-    {
-      <span>已选择</span>
-    }
-    @e.ToString()
-  </p>
+	<p>
+		<Button Color="Color.Primary" Text="选择" OnClick="async ()=> await SelectPriority(e)" />
+		@if (e == TargetPriority)
+		{
+			<span>已选择</span>
+		}
+		@EnumStringHelper.GetString(e)
+	</p>
 }
 
 

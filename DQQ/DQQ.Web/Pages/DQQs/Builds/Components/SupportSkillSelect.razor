@@ -13,13 +13,24 @@
 				var i2 = i;
 				var e = (EnumBindingSlot)i;
 				<Card>
+					<HeaderTemplate>
+						辅助槽位 @(i2 + 1)
+						<span>&nbsp;</span>
+						<Button Color="Color.Warning" Size="Size.ExtraSmall" OnClick="()=>OpenDrawer(i2)">选择技能</Button>
+					</HeaderTemplate>
 					<BodyTemplate>
 						<div>
-							@e.ToString()
+							<h5>
+								@(SupportSkills?[i2]?.Profile?.SkillName ?? "未选择")
+							</h5>
 
 						</div>
+						<Drawer Placement="Placement.Left" @bind-IsOpen="@IsBackdropOpens[i2]" IsBackdrop="true">
+							<SkillSelector SupportSkillIndex="i2" SelectedCharacter="SelectedCharacter" Slot="Slot" CardTitle="辅助技选择" />
+						</Drawer>
 					</BodyTemplate>
 				</Card>
+
 			}
 
 

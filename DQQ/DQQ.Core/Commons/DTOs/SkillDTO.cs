@@ -1,4 +1,5 @@
 ﻿using DQQ.Components.Parameters;
+using DQQ.Components.Skills;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
@@ -17,6 +18,22 @@ namespace DQQ.Commons.DTOs
 {
 	public class SkillDTO
 	{
+		public static SkillDTO New(SkillComponent component)
+		{
+			return new SkillDTO
+			{
+				SkillNumber = component?.SkillProfile?.SkillNumber ?? EnumSkill.NotSpecified,
+				SkillStrategies = component?.SkillStrategies?.OrderBy(b => b.Property).ToList() ?? [],
+				SupportSkills = component?.SupportSkills
+			};
+		}
+		public static SkillDTO New(EnumSkill skill)
+		{
+			return new SkillDTO
+			{
+				SkillNumber = skill
+			};
+		}
 		public EnumSkill SkillNumber { get; set; }
 		[JsonIgnore]
 		public SkillProfile? Profile => DQQPool.TryGet<SkillProfile, EnumSkill>(SkillNumber);
@@ -35,5 +52,6 @@ namespace DQQ.Commons.DTOs
 		public bool NoPlayerSkill => Profile?.NoPlayerSkill ?? false;
 		public List<SkillStrategy>? SkillStrategies { get; set; }
 
+		public SkillDTO[]? SupportSkills { get; set; }
 	}
 }

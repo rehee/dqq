@@ -4,6 +4,7 @@ using DQQ.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DQQ.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240610195733_add_build_and_support_skills2")]
+    partial class add_build_and_support_skills2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,9 +75,6 @@ namespace DQQ.Api.Migrations
 
                     b.Property<string>("SkillAndStrategyJson")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TargetPriority")
-                        .HasColumnType("int");
 
                     b.Property<Guid?>("TenantID")
                         .HasColumnType("uniqueidentifier");

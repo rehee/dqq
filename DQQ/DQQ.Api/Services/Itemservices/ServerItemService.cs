@@ -36,6 +36,10 @@ namespace DQQ.Api.Services.Itemservices
 
 		public async Task<ContentResponse<bool>> EquipItem(Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
 		{
+			return await equipItem(true, actorId, itemId, slot);
+		}
+		public async Task<ContentResponse<bool>> equipItem(bool saveAtEnd, Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
+		{
 			var result = new ContentResponse<bool>();
 			try
 			{
@@ -111,15 +115,28 @@ namespace DQQ.Api.Services.Itemservices
 					EquipSlot = equipSlot,
 				};
 				await context.AddAsync(newEquip);
-				await context.SaveChangesAsync();
+				if (saveAtEnd)
+				{
+					await context.SaveChangesAsync();
+				}
 				result.SetSuccess(true);
-
 			}
 			catch (Exception ex)
 			{
 				result.SetError(ex);
 			}
 
+			return result;
+		}
+		public async Task<ContentResponse<bool>> EquipItems(Guid? actorId, params (EnumEquipSlot Slot, Guid? Id)[] items)
+		{
+			var result = new ContentResponse<bool>();
+
+			foreach (var item in items)
+			{
+				await equipItem(false, actorId, item.Id, item.Slot);
+			}
+			result.SetSuccess(true);
 			return result;
 		}
 

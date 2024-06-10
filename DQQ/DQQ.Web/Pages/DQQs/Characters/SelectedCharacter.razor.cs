@@ -66,15 +66,7 @@ namespace DQQ.Web.Pages.DQQs.Characters
          ["DTO"] = skillDTO,
        }, "", true, async save => await Refresh2());
     }
-    public async Task ChangePriority()
-    {
-      await dialogService.ShowComponent<TargetPriority>(
-       new Dictionary<string, object?>
-       {
-         ["TargetPriority"] = Character?.TargetPriority,
-         ["ActorId"] = Character?.DisplayId
-       }, "", true, async save => await Refresh2());
-    }
+    
 
     protected override async Task OnParametersSetAsync()
     {

@@ -80,22 +80,14 @@ namespace DQQ.Components.Stages.Actors.Characters
 		{
 			base.Initialize(entity);
 
-			var skills = Skills?.DistinctBy(b => b.Slot).OrderBy(b => b.Slot).ToDictionary(b => b.Slot, b => new SkillDTO
-			{
-				
-				SkillNumber = b.SkillProfile?.SkillNumber ?? EnumSkill.NormalAttack,
-				SkillStrategies = b.SkillStrategies?.OrderBy(b => b.Property).ToList() ?? new List<Strategies.SkillStrategies.SkillStrategy>()
-			}) ?? new Dictionary<EnumSkillSlot, SkillDTO>();
+			var skills = Skills?.DistinctBy(b => b.Slot).OrderBy(b => b.Slot).ToDictionary(b => b.Slot, b => SkillDTO.New(b)) ?? [];
 
 			SkillMap = new Dictionary<EnumSkillSlot, SkillDTO>();
 
 			foreach (EnumSkillSlot slot in Enum.GetValues(typeof(EnumSkillSlot)))
 			{
 				skills.TryGetValue(slot, out var skill);
-				SkillMap.TryAdd(slot, skill ?? new SkillDTO
-				{
-					SkillNumber = EnumSkill.NotSpecified
-				});
+				SkillMap.TryAdd(slot, skill ?? SkillDTO.New(EnumSkill.NotSpecified));
 			}
 
 			if (entity is ActorEntity ae)
@@ -118,7 +110,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 				}
 			}
 			this.TotalEquipProperty();
-			this.CurrentHP = this.CombatPanel.DynamicPanel.MaximunLife.DefaultValue(1);
+			this.CurrentHP = CombatPanel.DynamicPanel.MaximunLife.DefaultValue(1);
 		}
 
 
@@ -130,10 +122,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 			{
 				if (selected != null) return selected;
 			}
-			var result = new SkillDTO()
-			{
-				SkillNumber = EnumSkill.NotSpecified
-			};
+			var result = SkillDTO.New(EnumSkill.NotSpecified);
 			SkillMap?.TryAdd(Slot!.Value, result);
 			return result;
 		}

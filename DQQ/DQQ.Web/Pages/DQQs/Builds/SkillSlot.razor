@@ -29,6 +29,16 @@
 			关联技能
 		</p>
 		<p>
+			@if (SelectedDTO?.SupportSkills?.Any() == true)
+			{
+				foreach (var s in SelectedDTO.SupportSkills)
+				{
+					<span>@s.SkillName</span>
+					<span> </span>
+				}
+			}
+		</p>
+		<p>
 			策略数量 @SelectedDTO?.SkillStrategies?.Count()
 		</p>
 	</BodyTemplate>

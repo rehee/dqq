@@ -6,6 +6,7 @@ using DQQ.Pools;
 using DQQ.Profiles.Skills;
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DQQ.Web.Pages.DQQs.Builds.Components
 {
@@ -23,9 +24,27 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 		[Parameter]
 		public Character? SelectedCharacter { get; set; }
 
-		public SkillDTO? SelectedSkillDTO => SelectedCharacter?.GetSelectedSkillDTO(Slot);
+		[Parameter]
+		public int? SupportSkillIndex { get; set; }
 
-		
+		public int MaxSlotIndex => Slot.MaxSkillNumber() - 1;
+
+		public int SelectedIndex => SupportSkillIndex == null ? 0 : SupportSkillIndex > MaxSlotIndex ? MaxSlotIndex : SupportSkillIndex < 0 ? 0 : SupportSkillIndex.Value;
+
+		public SkillDTO? SelectedSkillDTO
+		{
+			get
+			{
+				if (IsActiveSkill)
+				{
+					return SelectedCharacter?.GetSelectedSkillDTO(Slot);
+				}
+				return SelectedCharacter?.GetSelectedSkillDTO(Slot)?.SupportSkills?[SelectedIndex];
+			}
+		}
+
+		public bool IsActiveSkill => SupportSkillIndex == null;
+
 
 		[NotNull]
 		public List<SkillProfile>? SkillProfiles { get; set; }
@@ -52,6 +71,15 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 			if (SelectedSkillDTO != null)
 			{
 				SelectedSkillDTO.SkillNumber = profile?.SkillNumber ?? EnumSkill.NotSpecified;
+			}
+		}
+
+		public async Task SkillUnselect()
+		{
+			await Task.CompletedTask;
+			if (SelectedSkillDTO != null)
+			{
+				SelectedSkillDTO.SkillNumber = EnumSkill.NotSpecified;
 			}
 		}
 		protected override async Task OnInitializedAsync()

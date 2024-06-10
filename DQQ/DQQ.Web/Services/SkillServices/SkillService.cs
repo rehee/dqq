@@ -26,5 +26,10 @@ namespace DQQ.Web.Services.SkillServices
 			var result = await client.Request<bool>(HttpMethod.Post, "Skills", dto.ToJson());
 			return result;
 		}
+
+		public Task<ContentResponse<bool>> PickSkills(Guid? actorId, params PickSkillDTO?[] dtos)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using DQQ.Commons;
+using DQQ.Commons.DTOs;
 using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
@@ -50,7 +51,7 @@ namespace DQQ.Components.Skills
 		public IEnumerable<ITag>? Tags { get; set; }
 
 		public SkillProfile? SkillProfile { get; protected set; }
-
+		public SkillDTO[]? SupportSkills { get; protected set; }
 		public int TotalCount { get; set; } = 0;
 		public int WaveCount { get; set; } = 0;
 
@@ -65,6 +66,8 @@ namespace DQQ.Components.Skills
 					InitSkillProfile(skillProfile, sp.Slot);
 					SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
 					JsonSerializer.Deserialize<SkillStrategy[]?>(sp.SkillStrategy ?? "", JsonOption.DefaultOption);
+					var supportSkillNumers = JsonSerializer.Deserialize<EnumSkill[]?>(sp.SupportSkills ?? "", JsonOption.DefaultOption);
+					SupportSkills = supportSkillNumers?.Select(b => SkillDTO.New(b)).ToArray();
 				}
 				catch
 				{

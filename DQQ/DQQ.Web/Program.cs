@@ -1,11 +1,13 @@
 using DQQ.Consts;
 using DQQ.Pools;
 using DQQ.Services.ActorServices;
+using DQQ.Services.BDServices;
 using DQQ.Services.CombatServices;
 using DQQ.Services.ItemServices;
 using DQQ.Services.SkillServices;
 using DQQ.Services.StrategyServices;
 using DQQ.Web;
+using DQQ.Web.Services.BDServices;
 using DQQ.Web.Services.Characters;
 using DQQ.Web.Services.CombatServices;
 using DQQ.Web.Services.DQQAuthServices;
@@ -35,6 +37,7 @@ builder.Services.AddScoped<ISkillService, SkillService>();
 builder.Services.AddScoped<ICombatService, CombatService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IStrategyService, StrategyService>();
+builder.Services.AddScoped<IBDService, BDService>();
 
 builder.Services.AddBootstrapBlazor();
 await builder.Build().RunAsync();

@@ -2,7 +2,7 @@
 @inherits SkillSelectorPage
 <Card>
 	<HeaderTemplate>
-		@CardTitle
+		@CardTitle <span>&nbsp;</span> <Button Color="Color.Danger" Size="Size.ExtraSmall" OnClick="SkillUnselect">取消选择</Button>
 	</HeaderTemplate>
 	<BodyTemplate>
 		<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">

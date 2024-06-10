@@ -24,6 +24,11 @@ namespace DQQ.Web.Services.ItemServices
 			return await client.Request<bool>(HttpMethod.Post, $"Items/Equip/{actorId}/{itemId}/{slot}");
 		}
 
+		public Task<ContentResponse<bool>> EquipItems(Guid? actorId, params (EnumEquipSlot Slot, Guid? Id)[] items)
+		{
+			throw new NotImplementedException();
+		}
+
 		public async Task<IEnumerable<ItemEntity>?> PickableItems(Guid? actorId)
 		{
 			return (await client.Request<IEnumerable<ItemEntity>?>(HttpMethod.Get, $"Items/Pick/{actorId}")).Content;

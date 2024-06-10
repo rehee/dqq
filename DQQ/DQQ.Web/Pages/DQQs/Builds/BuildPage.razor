@@ -3,11 +3,14 @@
 
 <Card>
 	<HeaderTemplate>
-		构筑(bd) [bd 列表]
+		构筑(bd) <span>&nbsp; </span> <Button Color="Color.Success" Size="Size.ExtraSmall" Text="bd 管理" OnClick="ShowManagement" />
 	</HeaderTemplate>
 	<BodyTemplate>
 		<h6>
-			当前bd
+			主目标优先级  @((SelectedCharacter?.TargetPriority).GetString() ?? "n/a") <span>&nbsp; </span> <Button Color="Color.Primary" Size="Size.ExtraSmall" Text="更改优先级" OnClick="ChangeTarget" />
+		</h6>
+		<h6>
+			当前装备 <span>&nbsp; </span> <Button Color="Color.Primary" Size="Size.ExtraSmall" Text="装备选择" OnClick="ShowInventory" />
 		</h6>
 		<div>
 			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Head" />
@@ -20,9 +23,9 @@
 			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Belt" />
 			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.LeftRing" />
 			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.RightRing" />
-			<Button Color="Color.Primary" Text="装备选择" OnClick="ShowInventory" />
+
 		</div>
-		
+
 		<h6>
 			技能与策略
 		</h6>
@@ -31,7 +34,7 @@
 
 	</BodyTemplate>
 	<FooterTemplate>
-		bd数量 (x/y) 目前只有一个. 计划添加多个 但同一时间只能激活一个bd
+		
 	</FooterTemplate>
 </Card>
 

@@ -21,6 +21,6 @@ namespace DQQ.Api.Data
     public DbSet<SkillEntity> SkillEntities { get; set; }
     public DbSet<ItemEntity> ItemEntities { get; set; }
     public DbSet<ActorEquipmentEntity> ActorEquipmentEntities { get; set; }
-
-  }
+		public DbSet<ActorBuild> ActorBuilds { get; set; }
+	}
 }
