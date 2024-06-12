@@ -6,10 +6,11 @@ using DQQ.Helper;
 using ReheeCmf.Responses;
 using ReheeCmf.Helpers;
 using DQQ.Components.Parameters;
+using DQQ.Combats;
 
 namespace DQQ.Profiles.Skills
 {
-	public abstract class SkillProfile : DQQProfile<EnumSkillNumber>
+	public abstract class SkillProfile : DQQProfile<EnumSkillNumber>, IWithAreaLevel, IWIthAttackTypes
 	{
 		public virtual EnumSkillTag[]? OriginalTag { get; set; }
 		public virtual EnumSkillTag[]? SupportableTag { get; set; }
@@ -28,6 +29,9 @@ namespace DQQ.Profiles.Skills
 		public EnumSkillNumber SkillNumber => ProfileNumber;
 		public virtual EnumSkillType SkillType => EnumSkillType.Damage;
 		public string? SkillName => Name;
+
+		public virtual EnumAreaLevel? AreaLevel {  get; set; }
+		public virtual IEnumerable<EnumAttackType>? AttackTypes { get; set; }
 
 		public virtual bool IsAvaliableTarget(ITarget? target)
 		{

@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-	public enum EnumAttackType
+	public enum EnumAreaLevel
 	{
-		NotSpecified = 0,
-		Chain,
-		Projectile,
-		Multistrike,
-		Splash,
-		Cleave,
+		Self = 0,
+		Single = 1,
+		TargetWithRadius1 = 2,
+		TargetWithRadius2 = 3,
+		TargetWithRadiusMax = 4,
 	}
 }

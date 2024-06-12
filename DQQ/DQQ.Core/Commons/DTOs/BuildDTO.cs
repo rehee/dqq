@@ -1,10 +1,4 @@
-﻿using DQQ.Components.Stages.Actors;
-using DQQ.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DQQ.Entities;
 
 namespace DQQ.Commons.DTOs
 {
