@@ -10,5 +10,9 @@ namespace DQQ.Profiles.Skills.Supports
 	public abstract class AbSupportSkillProfile : GeneralSkill
 	{
 		public override EnumSkillBindingType BindingType => EnumSkillBindingType.Support;
+		public override decimal CastTime => 0;
+
+		public override decimal CoolDown => 0;
+		public override bool CastWithWeaponSpeed => false;
 	}
 }

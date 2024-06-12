@@ -72,6 +72,15 @@ namespace DQQ.Components.Stages.Actors
 			return result;
 		}
 
-
+		public void ResetWave()
+		{
+			if (Skills?.Any() == true)
+			{
+				foreach (var skill in Skills)
+				{
+					skill.WaveCount = 0;
+				}
+			}
+		}
 	}
 }

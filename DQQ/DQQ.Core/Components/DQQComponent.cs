@@ -7,6 +7,8 @@ using System.Text.Json.Serialization;
 using ReheeCmf.Helpers;
 using DQQ.Components.Parameters;
 using DQQ.Profiles.Skills;
+using DQQ.Combats;
+using DQQ.Components.Stages.Actors;
 
 namespace DQQ.Components
 {
@@ -55,6 +57,14 @@ namespace DQQ.Components
 			result.SetSuccess(parameter.From?.Alive == true);
 			if (result.Success)
 			{
+				if (this is IWIthCombatPanel p)
+				{
+					if (this is IActor actor)
+					{
+						p.CombatPanel.CalculateDynamicPanel(actor, parameter?.Map);
+					}
+				}
+
 				if (AfterDealingDamageCount > 0)
 				{
 					AfterDealingDamageCount--;
@@ -83,7 +93,7 @@ namespace DQQ.Components
 		protected int DamageReductionCount { get; set; }
 		protected int BeforeTakeDamageCount { get; set; }
 		protected int AfterTakeDamageCount { get; set; }
-		public void BeforeDamageReduction(BeforeDamageTakenParameter parameter)
+		public void BeforeDamageReduction(ComponentTickParameter parameter)
 		{
 			if (BeforeDamageReductionCount > 0)
 			{
@@ -92,11 +102,11 @@ namespace DQQ.Components
 			BeforeDamageReductionCount = Profile?.BeforeDamageReductionCount ?? 0;
 			SelfBeforeDamageReduction(parameter);
 		}
-		protected virtual void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
+		protected virtual void SelfBeforeDamageReduction(ComponentTickParameter parameter)
 		{
 
 		}
-		public void DamageReduction(BeforeDamageTakenParameter parameter)
+		public void DamageReduction(ComponentTickParameter parameter)
 		{
 			if (DamageReductionCount > 0)
 			{
@@ -105,11 +115,11 @@ namespace DQQ.Components
 			DamageReductionCount = Profile?.DamageReductionCount ?? 0;
 			SelfDamageReduction(parameter);
 		}
-		protected virtual void SelfDamageReduction(BeforeDamageTakenParameter parameter)
+		protected virtual void SelfDamageReduction(ComponentTickParameter parameter)
 		{
 
 		}
-		public void BeforeTakeDamage(DamageTakenParameter parameter)
+		public void BeforeTakeDamage(ComponentTickParameter parameter)
 		{
 			if (BeforeTakeDamageCount > 0)
 			{
@@ -118,11 +128,11 @@ namespace DQQ.Components
 			BeforeTakeDamageCount = Profile?.BeforeTakeDamageCount ?? 0;
 			SelfBeforeTakeDamage(parameter);
 		}
-		protected virtual void SelfBeforeTakeDamage(DamageTakenParameter parameter)
+		protected virtual void SelfBeforeTakeDamage(ComponentTickParameter parameter)
 		{
 
 		}
-		public void AfterTakeDamage(DamageTakenParameter parameter)
+		public void AfterTakeDamage(ComponentTickParameter parameter)
 		{
 			if (AfterTakeDamageCount > 0)
 			{
@@ -131,19 +141,19 @@ namespace DQQ.Components
 			AfterTakeDamageCount = Profile?.AfterTakeDamageCount ?? 0;
 			SelfAfterTakeDamage(parameter);
 		}
-		protected virtual void SelfAfterTakeDamage(DamageTakenParameter parameter)
+		protected virtual void SelfAfterTakeDamage(ComponentTickParameter parameter)
 		{
 
 		}
 
-		public virtual async Task<ContentResponse<bool>> AfterDealingDamage(AfterDealingDamageParameter parameter)
+		public virtual async Task<ContentResponse<bool>> AfterDealingDamage(ComponentTickParameter parameter)
 		{
 			var result = new ContentResponse<bool>();
 			if (AfterDealingDamageCount > 0 || Profile?.AfterDealingDamageCheck(parameter) != true)
 			{
 				return result;
 			}
-			
+
 			AfterDealingDamageCount = Profile.AfterDealingDamageCount;
 			return await Profile.ActionOnAfterDealingDamage(parameter);
 		}

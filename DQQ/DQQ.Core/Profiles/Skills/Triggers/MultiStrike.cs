@@ -31,13 +31,13 @@ namespace DQQ.Profiles.Skills.Triggers
 			return await parameter!.Trigger!.SkillProfile!.CastSkill(parameter);
 		}
 
-		public override bool AfterDealingDamageCheck(AfterDealingDamageParameter parameter)
+		public override bool AfterDealingDamageCheck(ComponentTickParameter parameter)
 		{
 			var random = RandomHelper.GetRandomInt(0, 100);
 			return random <= 25;
 		}
 
-		public override async Task<ContentResponse<bool>> ActionOnAfterDealingDamage(AfterDealingDamageParameter parameter)
+		public override async Task<ContentResponse<bool>> ActionOnAfterDealingDamage(ComponentTickParameter parameter)
 		{
 			return await CastSkill(parameter);
 		}

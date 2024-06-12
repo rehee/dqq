@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Affixes
 {
-    public abstract class SuffixProfile : AffixeProfile
-    {
-        public override bool IsPrefix => false;
-    }
+	public abstract class SuffixProfile : AffixeProfile
+	{
+		public override bool IsPrefix => false;
+	}
 }

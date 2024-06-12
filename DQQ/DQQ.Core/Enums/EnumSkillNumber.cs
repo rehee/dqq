@@ -20,7 +20,16 @@ namespace DQQ.Enums
 		PowerWordShield = 11001,
 
 		EmpowerSupport = 100001,
+		CleaveSupport = 100002,
+		ChainSupport = 100003,
+		ZealSupport = 100004,
+		PiercingSupport = 100005,
+		BlastSupport = 100006,
+
+
+
 		MultiStrike = 200001
+
 
 	}
 }

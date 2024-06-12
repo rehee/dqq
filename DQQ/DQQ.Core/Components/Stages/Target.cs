@@ -13,7 +13,9 @@ using DQQ.Profiles.Skills;
 using DQQ.TickLogs;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
+using System.Data.Common;
 using System.Numerics;
+using System.Reflection.Metadata;
 
 namespace DQQ.Components.Stages
 {
@@ -44,7 +46,7 @@ namespace DQQ.Components.Stages
 
 
 
-		protected virtual void TakingDamage(DamageTakenParameter parameter)
+		protected virtual void TakingDamage(ComponentTickParameter parameter)
 		{
 			if (parameter?.Damage == null || parameter?.Damage?.DamageTakenSuccess != true)
 			{
@@ -110,7 +112,7 @@ namespace DQQ.Components.Stages
 			return result;
 		}
 
-		protected override void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
+		protected override void SelfBeforeDamageReduction(ComponentTickParameter parameter)
 		{
 			if (this.Durations?.Any() != true)
 			{
@@ -122,7 +124,7 @@ namespace DQQ.Components.Stages
 			}
 			base.SelfBeforeDamageReduction(parameter);
 		}
-		protected override void SelfDamageReduction(BeforeDamageTakenParameter parameter)
+		protected override void SelfDamageReduction(ComponentTickParameter parameter)
 		{
 			if (this.Durations?.Any() != true)
 			{
@@ -135,7 +137,7 @@ namespace DQQ.Components.Stages
 			base.SelfDamageReduction(parameter);
 		}
 
-		protected override void SelfBeforeTakeDamage(DamageTakenParameter parameter)
+		protected override void SelfBeforeTakeDamage(ComponentTickParameter parameter)
 		{
 			if (this.Durations?.Any() != true)
 			{
@@ -147,7 +149,7 @@ namespace DQQ.Components.Stages
 			}
 			base.SelfBeforeTakeDamage(parameter);
 		}
-		protected override void SelfAfterTakeDamage(DamageTakenParameter parameter)
+		protected override void SelfAfterTakeDamage(ComponentTickParameter parameter)
 		{
 			if (this.Durations?.Any() != true)
 			{
@@ -160,7 +162,7 @@ namespace DQQ.Components.Stages
 			base.SelfAfterTakeDamage(parameter);
 		}
 
-		protected virtual EnumHitCheck HitCheck(BeforeDamageTakenParameter parameter)
+		protected virtual EnumHitCheck HitCheck(ComponentTickParameter parameter)
 		{
 			if (parameter.Source is DurationProfile)
 			{
@@ -178,7 +180,7 @@ namespace DQQ.Components.Stages
 
 			return HitCheckHelper.HitCheck(parameter, skillHitOverride);
 		}
-		public virtual DamageTaken TakeDamage(BeforeDamageTakenParameter parameter)
+		public virtual DamageTaken TakeDamage(ComponentTickParameter parameter)
 		{
 			//damage reduction
 			var hitResult = HitCheck(parameter);
@@ -194,12 +196,15 @@ namespace DQQ.Components.Stages
 
 				var result = DamageTaken.New(parameter.Damages?.ToArray() ?? [], false);
 				result.DamageTakenSuccess = this.Alive;
-				var damageTaken = DamageTakenParameter.New(parameter, result);
-				BeforeTakeDamage(damageTaken);
-				TakingDamage(damageTaken);
-				AfterTakeDamage(damageTaken);
-
-				parameter.Map.AddMapLogDamageTaken(damageTaken);
+				if (result.DamageTakenSuccess)
+				{
+					var damageTaken = ComponentTickParameter.New(parameter, result);
+					BeforeTakeDamage(damageTaken);
+					TakingDamage(damageTaken);
+					AfterTakeDamage(damageTaken);
+					parameter.Map.AddMapLogDamageTaken(damageTaken);
+				}
+				
 				return result;
 			}
 			else
@@ -240,6 +245,22 @@ namespace DQQ.Components.Stages
 			var blockRecovery = 1 + CombatPanel.DynamicPanel.BlockRecovery.DefaultValue();
 			blockingCount = (int)Math.Round(blockTick / blockRecovery, 0);
 			return result;
+		}
+
+		public void DamageHandCheck(EnumDamageHand damageHand)
+		{
+			if (damageHand == EnumDamageHand.EachHand && CombatPanel.IsDuelWield == true)
+			{
+				if (PrevioursMainHand == null)
+				{
+					PrevioursMainHand = true;
+				}
+				else
+				{
+					PrevioursMainHand = !PrevioursMainHand;
+				}
+			}
+
 		}
 	}
 }

@@ -1,14 +1,11 @@
-﻿using DQQ.Components.Stages.Maps;
-using DQQ.Components.Stages;
-using DQQ.Entities;
-using DQQ.Enums;
+﻿using DQQ.Entities;
 using DQQ.Profiles;
 using ReheeCmf.Responses;
 using DQQ.Components.Parameters;
 
 namespace DQQ.Components
 {
-  public interface IDQQComponent : IAsyncDisposable
+	public interface IDQQComponent : IAsyncDisposable
   {
     Guid? DisplayId { get; }
     string? DisplayName { get; }
@@ -19,9 +16,10 @@ namespace DQQ.Components
     void Initialize(IDQQEntity entity, DQQComponent? parent);
     Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter);
 
-    void BeforeDamageReduction(BeforeDamageTakenParameter parameter);
-    void DamageReduction(BeforeDamageTakenParameter parameter);
-    void BeforeTakeDamage(DamageTakenParameter parameter);
-    void AfterTakeDamage(DamageTakenParameter parameter);
-  }
+    void BeforeDamageReduction(ComponentTickParameter parameter);
+    void DamageReduction(ComponentTickParameter parameter);
+    void BeforeTakeDamage(ComponentTickParameter parameter);
+    void AfterTakeDamage(ComponentTickParameter parameter);
+		public Task<ContentResponse<bool>> AfterDealingDamage(ComponentTickParameter parameter);
+	}
 }

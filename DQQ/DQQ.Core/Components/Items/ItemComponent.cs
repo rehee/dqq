@@ -17,7 +17,7 @@ namespace DQQ.Components.Items
 		public int? Quanty { get; set; }
 		public int? ItemLevel { get; set; }
 		public EnumItem? ItemNumber { get; set; }
-		public ItemProfile? ItemProfile { get; set; }
+		public ItemProfile? ItemProfile => Profile is ItemProfile ? Profile as ItemProfile : null;
 		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
 		{
 			base.Initialize(entity, parent);
@@ -35,7 +35,7 @@ namespace DQQ.Components.Items
 				DisplayId = Guid.NewGuid();
 			}
 			ItemNumber = itemProfile?.ProfileNumber;
-			ItemProfile = itemProfile;
+			Profile = itemProfile;
 			DisplayName = itemProfile?.Name;
 			if (ItemProfile?.IsStack != true)
 			{

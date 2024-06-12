@@ -25,19 +25,6 @@ namespace DQQ.Profiles.Affixes
     public virtual EnumEquipType[]? EquipTypeLimites => null;
     public abstract AffixeRange[] Ranges { get; }
 
-
-
-
-
-    public virtual async Task<ContentResponse<bool>> AfterDealingDamage(AfterDealingDamageParameter? parameter)
-    {
-      await Task.CompletedTask;
-      var result = new ContentResponse<bool>();
-      result.Success = true;
-      return result;
-    }
-
-
     public virtual AffixeComponent GenerateAffixe(int level)
     {
       var result = new AffixeComponent();

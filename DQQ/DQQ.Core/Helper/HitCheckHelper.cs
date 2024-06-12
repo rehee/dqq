@@ -16,7 +16,7 @@ namespace DQQ.Helper
 {
   public static class HitCheckHelper
   {
-    public static EnumHitCheck HitCheck(BeforeDamageTakenParameter parameter, SkillHitCheck? skillCheck)
+    public static EnumHitCheck HitCheck(ComponentTickParameter parameter, SkillHitCheck? skillCheck)
     {
       if (skillCheck?.HitCheck == EnumHitCheck.Hit)
       {
@@ -42,7 +42,7 @@ namespace DQQ.Helper
       return EnumHitCheck.Hit;
     }
 
-    public static bool BlockCheck(BeforeDamageTakenParameter parameter, SkillHitCheck? skillCheck)
+    public static bool BlockCheck(ComponentTickParameter parameter, SkillHitCheck? skillCheck)
     {
       if (skillCheck?.IgnoreCheck?.Any(b => b == EnumHitCheck.Block) == true)
       {
@@ -59,7 +59,7 @@ namespace DQQ.Helper
       }
       return parameter?.To?.TryBlock().Success == true;
     }
-    public static bool DodgeCheck(BeforeDamageTakenParameter parameter, SkillHitCheck? skillCheck)
+    public static bool DodgeCheck(ComponentTickParameter parameter, SkillHitCheck? skillCheck)
     {
       if (skillCheck?.IgnoreCheck?.Any(b => b == EnumHitCheck.Dodge) == true)
       {
@@ -73,7 +73,7 @@ namespace DQQ.Helper
 
       return dogeChance >= RandomHelper.GetRandom(0);
     }
-    public static bool MissCheck(BeforeDamageTakenParameter parameter, SkillHitCheck? skillCheck)
+    public static bool MissCheck(ComponentTickParameter parameter, SkillHitCheck? skillCheck)
     {
       var levelDifferent = (parameter?.From?.Level).DefaultValue() - (parameter?.To?.Level).DefaultValue();
       var baseHitChance = DQQGeneral.SameLevelHitChance + levelDifferent * DQQGeneral.HitChanceModifyByLevel;

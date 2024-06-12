@@ -67,7 +67,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
 
       for (var i = 0; i < time * DQQGeneral.TickPerSecond; i++)
       {
-        await actor.OnTick(ComponentTickParameter.New(actor, null, null, null));
+        await actor.OnTick(ComponentTickParameter.New(actor));
       }
 
       Assert.That(hpRemain, Is.EqualTo((int)target.CurrentHP));

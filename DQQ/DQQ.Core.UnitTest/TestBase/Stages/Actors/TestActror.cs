@@ -14,24 +14,28 @@ using System.Threading.Tasks;
 
 namespace DQQ.UnitTest.TestBase.Stages.Actors
 {
-  public class TestActror : Actor
-  {
-    public int TickCount { get; set; }
+	public class TestActror : Actor
+	{
+		public int TickCount { get; set; }
 
-    public override void Initialize(IDQQEntity profile, DQQComponent? parent)
-    {
-      throw new NotImplementedException();
-    }
+		public TestActror()
+		{
+			DisplayId = Guid.NewGuid();
+		}
+		public override void Initialize(IDQQEntity profile, DQQComponent? parent)
+		{
+			throw new NotImplementedException();
+		}
 
-    public override async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
-    {
-      var parent = await base.OnTick(parameter);
+		public override async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
+		{
+			var parent = await base.OnTick(parameter);
 
-      if (parent.Success)
-      {
-        TickCount++;
-      }
-      return parent;
-    }
-  }
+			if (parent.Success)
+			{
+				TickCount++;
+			}
+			return parent;
+		}
+	}
 }

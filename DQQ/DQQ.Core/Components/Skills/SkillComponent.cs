@@ -286,8 +286,6 @@ namespace DQQ.Components.Skills
 
 		}
 
-
-
 		protected async Task<ContentResponse<bool>> CastingSkill(ComponentTickParameter parameter)
 		{
 			ContentResponse<bool> result;

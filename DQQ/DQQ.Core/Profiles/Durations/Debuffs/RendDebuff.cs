@@ -31,7 +31,7 @@ namespace DQQ.Profiles.Durations.Debuffs
       {
         return;
       }
-      var result = target!.TakeDamage(BeforeDamageTakenParameter.New(compose.Creator, target, map, this, DamageDeal.New(compose.TickPower)));
+      var result = target!.TakeDamage(ComponentTickParameter.New(compose.Creator, target, map, this, DamageDeal.New(compose.TickPower)));
 
     }
   }

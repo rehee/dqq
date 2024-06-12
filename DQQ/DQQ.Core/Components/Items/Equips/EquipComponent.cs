@@ -23,7 +23,7 @@ namespace DQQ.Components.Items.Equips
 
 		public EnumEquipSlot? EquipSlot => EquipType?.GetMainSlot();
 		public EnumEquipSlot? SecondEquipSlot => EquipType?.GetSecondSlot();
-		public EquipProfile? EquipProfile => ItemProfile as EquipProfile;
+		public EquipProfile? EquipProfile => Profile as EquipProfile;
 		public AffixeComponent[]? Affixes { get; set; }
 
 		public CombatProperty? Property { get; set; }
@@ -45,9 +45,7 @@ namespace DQQ.Components.Items.Equips
 				{
 					try
 					{
-
 						Affixes = JsonSerializer.Deserialize<AffixeComponent[]?>(item.AffixesJson, JsonOption.DefaultOption);
-						//this.AppliedAffixes();
 					}
 					catch
 					{
@@ -117,23 +115,13 @@ namespace DQQ.Components.Items.Equips
 			return result;
 		}
 
-
-
-
-		public async Task<ContentResponse<bool>> AfterDealingDamage(AfterDealingDamageParameter? parameter)
+		public override async Task<ContentResponse<bool>> AfterDealingDamage(ComponentTickParameter parameter)
 		{
-			await Task.CompletedTask;
-			var result = new ContentResponse<bool>();
-			if (AfterDealingDamageCount > 0)
+			var parent = await base.AfterDealingDamage(parameter);
+			if (!parent.Success)
 			{
-				return result;
+				return parent;
 			}
-			if (EquipProfile == null)
-			{
-				return result;
-			}
-			AfterDealingDamageCount = EquipProfile.AfterDealingDamageCount;
-			await EquipProfile.AfterDealingDamage(parameter);
 			if (Affixes?.Any() == true)
 			{
 				foreach (var aff in Affixes.ToArray())
@@ -141,11 +129,10 @@ namespace DQQ.Components.Items.Equips
 					await aff.AfterDealingDamage(parameter);
 				}
 			}
-			result.SetSuccess(true);
-			return result;
+			return parent;
 		}
 
-		protected override void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
+		protected override void SelfBeforeDamageReduction(ComponentTickParameter parameter)
 		{
 			if (Affixes?.Any() != true)
 			{
@@ -157,7 +144,7 @@ namespace DQQ.Components.Items.Equips
 			}
 		}
 
-		protected override void SelfDamageReduction(BeforeDamageTakenParameter parameter)
+		protected override void SelfDamageReduction(ComponentTickParameter parameter)
 		{
 			if (Affixes?.Any() != true)
 			{

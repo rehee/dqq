@@ -53,7 +53,7 @@ namespace DQQ.Profiles.Items.Equipments
     }
 
 
-    public virtual async Task AfterDealingDamage(AfterDealingDamageParameter? parameter)
+    public virtual async Task AfterDealingDamage(ComponentTickParameter? parameter)
     {
       await Task.CompletedTask;
     }

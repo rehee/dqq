@@ -99,7 +99,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
       return mob;
     }
 
-    protected override void SelfAfterTakeDamage(DamageTakenParameter parameter)
+    protected override void SelfAfterTakeDamage(ComponentTickParameter parameter)
     {
       base.SelfAfterTakeDamage(parameter);
       if (parameter.Damage?.DamageTakenSuccess != true)

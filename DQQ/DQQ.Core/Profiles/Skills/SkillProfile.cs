@@ -10,11 +10,10 @@ using DQQ.Combats;
 
 namespace DQQ.Profiles.Skills
 {
-	public abstract class SkillProfile : DQQProfile<EnumSkillNumber>, IWithAreaLevel, IWIthAttackTypes
+	public abstract class SkillProfile : DQQProfile<EnumSkillNumber>, IWIthAttackTypeAndArea, ISetAttackTypeAndArea
 	{
 		public virtual EnumSkillTag[]? OriginalTag { get; set; }
 		public virtual EnumSkillTag[]? SupportableTag { get; set; }
-
 		public virtual EnumSkillTag[]? ExtureTagAdded { get; set; }
 
 		public virtual EnumDamageHand DamageHand => EnumDamageHand.Any;
@@ -30,8 +29,9 @@ namespace DQQ.Profiles.Skills
 		public virtual EnumSkillType SkillType => EnumSkillType.Damage;
 		public string? SkillName => Name;
 
-		public virtual EnumAreaLevel? AreaLevel {  get; set; }
-		public virtual IEnumerable<EnumAttackType>? AttackTypes { get; set; }
+		public virtual EnumAreaLevel AreaLevel { get; set; } = EnumAreaLevel.Single;
+		public virtual EnumAttackType AttackTypes { get; set; }
+		public int ExtraAttackNumber { get; set; }
 
 		public virtual bool IsAvaliableTarget(ITarget? target)
 		{
@@ -58,17 +58,11 @@ namespace DQQ.Profiles.Skills
 
 		public virtual DamageDeal[] CalculateDamage(ComponentTickParameter? parameter)
 		{
-			var result = DamageHelper.SkillDamage(this, parameter?.From!, parameter?.Map).SkillMordifier(parameter?.From);
-			if (parameter?.SupportSkills?.Any() == true)
-			{
-				foreach (var support in parameter.SupportSkills)
-				{
-					if (support?.SkillProfile != null)
-					{
-						result = support.SkillProfile.SupportDamageCalculate(result, parameter);
-					}
-				}
-			}
+			var result = DamageHelper
+				.SkillDamage(this, parameter?.From!, parameter?.Map, parameter)
+				.SkillMordifier(parameter?.From)
+				.SupportSkillDamage(parameter?.SupportSkills?.Select(b => b.SkillProfile), parameter);
+
 			return result;
 		}
 
@@ -78,25 +72,17 @@ namespace DQQ.Profiles.Skills
 			DamageTaken? damageTaken = null;
 			if (parameter?.SelectedTarget != null)
 			{
-				damageTaken = parameter!.SelectedTarget.TakeDamage(BeforeDamageTakenParameter.New(parameter, this, damageWithDeal));
+				damageTaken = parameter!.SelectedTarget.TakeDamage(ComponentTickParameter.New(parameter, this, damageWithDeal));
 			}
-			if (DamageHand == EnumDamageHand.EachHand && parameter?.From?.CombatPanel.IsDuelWield == true)
-			{
-				if (parameter?.From.PrevioursMainHand == null)
-				{
-					parameter!.From.PrevioursMainHand = true;
-				}
-				else
-				{
-					parameter!.From.PrevioursMainHand = !parameter?.From.PrevioursMainHand;
-				}
-			}
+			parameter?.From?.DamageHandCheck(DamageHand);
+
+
 			if (damageTaken?.HitCheck == EnumHitCheck.Hit)
 			{
-				await AfterDealingDamage(AfterDealingDamageParameter.New(parameter, damageTaken));
+				await AfterDealingDamage(ComponentTickParameter.New(parameter, damageTaken));
 			}
 		}
-		protected virtual async Task AfterDealingDamage(AfterDealingDamageParameter parameter)
+		protected virtual async Task AfterDealingDamage(ComponentTickParameter parameter)
 		{
 			await parameter.AfterDealingDamage();
 
@@ -122,13 +108,28 @@ namespace DQQ.Profiles.Skills
 			{
 				return response;
 			}
+			parameter?.SetAttackAndAreaType(this, parameter?.SupportSkills?.Select(b => b.SkillProfile));
+
 			parameter?.Map!.AddMapLogSpillCast(true, parameter?.From, parameter?.SelectedTarget, this);
 			response.SetSuccess(true);
+
+
 			if (SkillType == EnumSkillType.Damage || SkillType == EnumSkillType.Hybrid)
 			{
 				var damage = CalculateDamage(parameter);
+				var targets = parameter!.SkillEffectTarget();
+				if (targets?.Any() == true)
+				{
+					foreach (var target in targets)
+					{
+						await DealingDamage(ComponentTickParameter.New(parameter, target), damage, parameter?.Map);
+					}
+				}
+				else
+				{
+					await DealingDamage(parameter, damage, parameter?.Map);
+				}
 
-				await DealingDamage(parameter, damage, parameter?.Map);
 			}
 
 			if (SkillType == EnumSkillType.Healing || SkillType == EnumSkillType.Hybrid)
@@ -139,7 +140,7 @@ namespace DQQ.Profiles.Skills
 			return response;
 		}
 
-		public virtual SkillHitCheck? CheckHit(BeforeDamageTakenParameter parameter)
+		public virtual SkillHitCheck? CheckHit(ComponentTickParameter parameter)
 		{
 			return null;
 		}
@@ -156,6 +157,9 @@ namespace DQQ.Profiles.Skills
 			}
 		}
 
+		public virtual void SetAttackTypeAndArea(IWIthAttackTypeAndArea input)
+		{
 
+		}
 	}
 }

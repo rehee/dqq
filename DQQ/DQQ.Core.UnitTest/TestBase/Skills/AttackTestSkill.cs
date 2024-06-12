@@ -23,7 +23,7 @@ namespace DQQ.UnitTest.TestBase.Skills
       {
         return false;
       }
-      parameter!.SelectedTarget!.TakeDamage(BeforeDamageTakenParameter.New(parameter.From, parameter!.SelectedTarget, null, null, DamageDeal.New(100)));
+      parameter!.SelectedTarget!.TakeDamage(ComponentTickParameter.New(parameter.From, parameter!.SelectedTarget, null, null, DamageDeal.New(100)));
       return true;
     }
     public override async Task<ContentResponse<Boolean>> OnTick(ComponentTickParameter? parameter)

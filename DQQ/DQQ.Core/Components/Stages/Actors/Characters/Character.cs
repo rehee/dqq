@@ -127,7 +127,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 			return result;
 		}
 
-		protected override void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
+		protected override void SelfBeforeDamageReduction(ComponentTickParameter parameter)
 		{
 			var equips = Equips?.Select(b => b.Value).Where(b => b != null).Select(b => b!).ToArray();
 			if (equips?.Any() == true)
@@ -139,7 +139,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 			}
 			base.SelfBeforeDamageReduction(parameter);
 		}
-		protected override void SelfDamageReduction(BeforeDamageTakenParameter parameter)
+		protected override void SelfDamageReduction(ComponentTickParameter parameter)
 		{
 
 			var equips = Equips?.Select(b => b.Value).Where(b => b != null).Select(b => b!).ToArray();
@@ -154,7 +154,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 		}
 
 
-		protected override void SelfBeforeTakeDamage(DamageTakenParameter parameter)
+		protected override void SelfBeforeTakeDamage(ComponentTickParameter parameter)
 		{
 			var equips = Equips?.Select(b => b.Value).Where(b => b != null).Select(b => b!).ToArray();
 			if (equips?.Any() == true)
@@ -166,7 +166,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 			}
 			base.SelfBeforeTakeDamage(parameter);
 		}
-		protected override void SelfAfterTakeDamage(DamageTakenParameter parameter)
+		protected override void SelfAfterTakeDamage(ComponentTickParameter parameter)
 		{
 			var equips = Equips?.Select(b => b.Value).Where(b => b != null).Select(b => b!).ToArray();
 			if (equips?.Any() == true)

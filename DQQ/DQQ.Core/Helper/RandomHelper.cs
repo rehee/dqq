@@ -8,6 +8,10 @@ namespace DQQ.Helper
 {
   public static class RandomHelper
   {
+    public static Random NewRandom()
+    {
+      return new Random(GetRandomSeed());
+		}
     public static int GetRandomSeed()
     {
       var guid = Guid.NewGuid();

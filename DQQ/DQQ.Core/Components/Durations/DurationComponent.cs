@@ -28,7 +28,7 @@ namespace DQQ.Components.Durations
     private ITarget? lastTarget { get; set; }
     private IMap? lastMap { get; set; }
 
-    public void CombatPropertyCalculate(ICombatProperty combatProperty, ICombatProperty staticProperty, IMap map)
+    public void CombatPropertyCalculate(ICombatProperty combatProperty, ICombatProperty staticProperty, IMap? map)
     {
       if (Duration != null)
       {
@@ -89,11 +89,11 @@ namespace DQQ.Components.Durations
       Creator = null;
     }
 
-    protected override void SelfBeforeDamageReduction(BeforeDamageTakenParameter parameter)
+    protected override void SelfBeforeDamageReduction(ComponentTickParameter parameter)
     {
       Duration!.BeforeDamageReduction(parameter, this);
     }
-    protected override void SelfDamageReduction(BeforeDamageTakenParameter parameter)
+    protected override void SelfDamageReduction(ComponentTickParameter parameter)
     {
       Duration!.DamageReduction(parameter, this);
     }

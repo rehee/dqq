@@ -41,7 +41,7 @@ namespace DQQ.Profiles.Skills.Attacks
     {
       await base.DealingDamage(parameter, [], map);
     }
-    protected override async Task AfterDealingDamage(AfterDealingDamageParameter? parameter)
+    protected override async Task AfterDealingDamage(ComponentTickParameter? parameter)
     {
       await base.AfterDealingDamage(parameter);
       var rendDamage = CalculateDamage(parameter);

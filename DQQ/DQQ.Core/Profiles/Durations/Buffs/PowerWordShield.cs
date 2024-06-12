@@ -28,7 +28,7 @@ namespace DQQ.Profiles.Durations.Buffs
     public override string? Discription => "周期性的回复生命, 持续5秒.";
 
 
-    public override void BeforeDamageReduction(BeforeDamageTakenParameter parameter, DurationComponent component)
+    public override void BeforeDamageReduction(ComponentTickParameter parameter, DurationComponent component)
     {
       if (parameter.Damages?.Any() != true)
       {

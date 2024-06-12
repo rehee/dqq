@@ -6,9 +6,11 @@ using System.Numerics;
 
 namespace DQQ.Components.Stages.Actors
 {
-  public interface IActor : ITarget
-  {
-    Int64 BasicDamage { get; }
-    IEnumerable<SkillComponent> Skills { get; }
-  }
+	public interface IActor : ITarget
+	{
+		Int64 BasicDamage { get; }
+		IEnumerable<SkillComponent> Skills { get; }
+
+		void ResetWave();
+	}
 }

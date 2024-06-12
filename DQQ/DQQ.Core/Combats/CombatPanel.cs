@@ -15,7 +15,7 @@ namespace DQQ.Combats
     public CombatProperty? CalculatedPanel { get; set; }
     public CombatProperty DynamicPanel => CalculatedPanel ?? StaticPanel;
 
-    public void CalculateDynamicPanel(ITarget actor, IMap map)
+    public void CalculateDynamicPanel(ITarget actor, IMap? map)
     {
       if (actor.Alive && actor.Durations?.Any() == true)
       {

@@ -109,7 +109,7 @@ namespace DQQ.Helper
       }
 
     }
-    public static void AddMapLogDamageTaken(this IMap? map, DamageTakenParameter parameter)
+    public static void AddMapLogDamageTaken(this IMap? map, ComponentTickParameter parameter)
     {
       var item = map.GetTickLogItemFromMap(parameter.Damage?.DamageTakenSuccess == true);
       item.LogType = EnumLogType.DamageTaken;

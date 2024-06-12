@@ -10,9 +10,9 @@ namespace DQQ.Enums
 	{
 		NotSpecified = 0,
 		Chain,
-		Projectile,
-		Multistrike,
-		Splash,
 		Cleave,
+		Piercing,
+		MultiAttack,
+		Area,
 	}
 }

@@ -64,7 +64,7 @@ namespace DQQ.Profiles.Durations
       return result;
     }
 
-    public virtual void CombatPropertyCalculate(ICombatProperty combatProperty, ICombatProperty staticProperty, IMap map)
+    public virtual void CombatPropertyCalculate(ICombatProperty combatProperty, ICombatProperty staticProperty, IMap? map)
     {
 
     }
@@ -94,11 +94,11 @@ namespace DQQ.Profiles.Durations
 
     }
 
-    public virtual void BeforeDamageReduction(BeforeDamageTakenParameter parameter, DurationComponent component)
+    public virtual void BeforeDamageReduction(ComponentTickParameter parameter, DurationComponent component)
     {
 
     }
-    public virtual void DamageReduction(BeforeDamageTakenParameter parameter, DurationComponent component)
+    public virtual void DamageReduction(ComponentTickParameter parameter, DurationComponent component)
     {
 
     }

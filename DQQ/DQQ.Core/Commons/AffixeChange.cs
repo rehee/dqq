@@ -1,15 +1,9 @@
 ﻿using DQQ.Components.Items.Equips;
 using DQQ.Enums;
-using DQQ.Profiles.Items.Equipments;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DQQ.Commons
 {
-  public class AffixeChange
+	public class AffixeChange
   {
     public static AffixeChange New(AffixeChange changes)
     {

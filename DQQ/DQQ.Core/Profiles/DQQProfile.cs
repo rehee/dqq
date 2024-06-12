@@ -16,25 +16,21 @@ namespace DQQ.Profiles
 		public abstract string? Discription { get; }
 
 		public virtual int AfterDealingDamageCount => 15;
+		public virtual int BeforeDamageReductionCount => 0;
+		public virtual int DamageReductionCount => 0;
+		public virtual int BeforeTakeDamageCount => 0;
+		public virtual int AfterTakeDamageCount => 0;
 
-		public int BeforeDamageReductionCount => 0;
-
-		public int DamageReductionCount => 0;
-
-		public int BeforeTakeDamageCount => 0;
-
-		public int AfterTakeDamageCount => 0;
-
-		public virtual Task<ContentResponse<bool>> ActionOnAfterDealingDamage(AfterDealingDamageParameter parameter)
+		public virtual Task<ContentResponse<bool>> ActionOnAfterDealingDamage(ComponentTickParameter parameter)
 		{
 			var result = new ContentResponse<bool>();
 			result.SetSuccess(true);
 			return Task.FromResult(result);
 		}
 
-		public virtual bool AfterDealingDamageCheck(AfterDealingDamageParameter parameter)
+		public virtual bool AfterDealingDamageCheck(ComponentTickParameter parameter)
 		{
-			return true;
+			return false;
 		}
 	}
 	public abstract class DQQProfile<T> : DQQProfile where T : Enum
