@@ -9,13 +9,14 @@
 
   <ItemGroup>
     <Compile Remove="Modifiers\**" />
+    <Compile Remove="Profiles\Items\Equipments\OffHands\**" />
     <EmbeddedResource Remove="Modifiers\**" />
+    <EmbeddedResource Remove="Profiles\Items\Equipments\OffHands\**" />
     <None Remove="Modifiers\**" />
+    <None Remove="Profiles\Items\Equipments\OffHands\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Profiles\Items\Equipments\OffHands\Shields\" />
-    <Folder Include="Profiles\Items\Equipments\OffHands\Quivers\" />
     <Folder Include="Strategies\TqrgetStrategies\" />
   </ItemGroup>
 
