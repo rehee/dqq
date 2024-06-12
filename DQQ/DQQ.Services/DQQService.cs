@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DQQ.Enums
+namespace DQQ.Services
 {
-	public enum EnumSkillType
+	public class DQQService
 	{
-		Damage,
-		Healing,
-		Hybrid
+		public static bool IsType => true;
 	}
 }

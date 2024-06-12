@@ -10,7 +10,7 @@ namespace DQQ.TickLogs
   public class TickLogSkill
   {
     public string? SkillName { get; set; }
-    public EnumSkill? SkillNumber { get; set; }
+    public EnumSkillNumber? SkillNumber { get; set; }
     public EnumDurationNumber? DurationNumber { get; set; }
   }
 }

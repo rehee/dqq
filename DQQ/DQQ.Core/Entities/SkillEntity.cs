@@ -10,7 +10,7 @@ namespace DQQ.Entities
 		[ForeignKey(nameof(ActorEntity))]
 		public Guid? ActorId { get; set; }
 		public virtual ActorEntity? Actor { get; set; }
-		public EnumSkill? SkillNumber { get; set; }
+		public EnumSkillNumber? SkillNumber { get; set; }
 		public string? SkillStrategy { get; set; }
 		public string? SupportSkills { get; set; }
 	}

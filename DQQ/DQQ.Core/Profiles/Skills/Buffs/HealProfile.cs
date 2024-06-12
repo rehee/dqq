@@ -1,5 +1,6 @@
 ﻿using DQQ.Attributes;
 using DQQ.Commons;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
@@ -13,28 +14,28 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Skills.Buffs
 {
-  [Pooled]
-  public class HealProfile : AbHealing
-  {
-    public override bool NoPlayerSkill => false;
-    protected override bool SelfTarget => true;
-    public override decimal CastTime => 0m;
+	[Pooled]
+	public class HealProfile : AbHealing
+	{
+		public override bool NoPlayerSkill => false;
+		protected override bool SelfTarget => true;
+		public override decimal CastTime => 0m;
 
-    public override decimal CoolDown => 30m;
+		public override decimal CoolDown => 30m;
 
-    public override decimal DamageRate => 0m;
+		public override decimal DamageRate => 0m;
 
-    public override bool CastWithWeaponSpeed => false;
+		public override bool CastWithWeaponSpeed => false;
 
-    public override EnumSkill ProfileNumber => EnumSkill.Healing;
+		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.Healing;
 
-    public override string? Name => "快速治疗";
+		public override string? Name => "快速治疗";
 
-    public override string? Discription => "快速治疗自身. 回复最大生命60%的生命";
-    protected override HealingDeal[] CalculateHealing(ITarget? caster, IMap? map)
-    {
-      return [HealingDeal.New((long)((caster?.CombatPanel?.DynamicPanel?.MaximunLife).DefaultValue() * 0.6m))];
-    }
+		public override string? Discription => "快速治疗自身. 回复最大生命60%的生命";
+		protected override HealingDeal[] CalculateHealing(ComponentTickParameter? parameter)
+		{
+			return [HealingDeal.New((long)((parameter?.From?.CombatPanel?.DynamicPanel?.MaximunLife).DefaultValue() * 0.6m))];
+		}
 
-  }
+	}
 }

@@ -33,7 +33,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Maps
       creator.BasicDamage = 10;
       creator.Skills = new SkillComponent[]
       {
-        SkillComponent.New(EnumSkill.NormalAttack)
+        SkillComponent.New(EnumSkillNumber.NormalAttack)
       };
       await map.Initialize(creator, 0, 0);
       await map.Play();

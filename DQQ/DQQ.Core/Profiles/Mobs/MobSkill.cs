@@ -10,7 +10,7 @@ namespace DQQ.Profiles.Mobs
 {
   public class MobSkill
   {
-    public static MobSkill New(EnumSkill skillNumber, params SkillStrategy[]? strategies)
+    public static MobSkill New(EnumSkillNumber skillNumber, params SkillStrategy[]? strategies)
     {
       var skill = new MobSkill();
       skill.SkillNumber = skillNumber;
@@ -20,7 +20,7 @@ namespace DQQ.Profiles.Mobs
       }
       return skill;
     }
-    public EnumSkill SkillNumber { get; set; }
+    public EnumSkillNumber SkillNumber { get; set; }
 
     public SkillStrategy[]? Strategies { get; set; }
   }

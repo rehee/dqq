@@ -25,7 +25,7 @@ namespace DQQ.Profiles.Skills.Shouts
     public override decimal CoolDown => 15m;
     public override decimal DamageRate => 0;
     public override bool CastWithWeaponSpeed => false;
-    public override EnumSkill ProfileNumber => EnumSkill.BattleShout;
+    public override EnumSkillNumber ProfileNumber => EnumSkillNumber.BattleShout;
     public override string? Name => "战吼";
     protected override bool SelfTarget => true;
     public override string? Discription => "发出战吼激励友方. 受此影响攻击力增加10%. 持续120秒";

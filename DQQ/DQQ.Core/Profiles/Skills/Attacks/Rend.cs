@@ -30,7 +30,7 @@ namespace DQQ.Profiles.Skills.Attacks
 
     public override bool CastWithWeaponSpeed => false;
 
-    public override EnumSkill ProfileNumber => EnumSkill.Rend;
+    public override EnumSkillNumber ProfileNumber => EnumSkillNumber.Rend;
 
     public override string? Name => "撕裂";
 
@@ -44,7 +44,7 @@ namespace DQQ.Profiles.Skills.Attacks
     protected override async Task AfterDealingDamage(AfterDealingDamageParameter? parameter)
     {
       await base.AfterDealingDamage(parameter);
-      var rendDamage = CalculateDamage(parameter?.From, parameter.Map);
+      var rendDamage = CalculateDamage(parameter);
       var durationParameter = new DurationParameter
       {
         Creator = parameter?.From,

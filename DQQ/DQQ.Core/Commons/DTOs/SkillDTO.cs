@@ -22,21 +22,21 @@ namespace DQQ.Commons.DTOs
 		{
 			return new SkillDTO
 			{
-				SkillNumber = component?.SkillProfile?.SkillNumber ?? EnumSkill.NotSpecified,
+				SkillNumber = component?.SkillProfile?.SkillNumber ?? EnumSkillNumber.NotSpecified,
 				SkillStrategies = component?.SkillStrategies?.OrderBy(b => b.Property).ToList() ?? [],
 				SupportSkills = component?.SupportSkills
 			};
 		}
-		public static SkillDTO New(EnumSkill skill)
+		public static SkillDTO New(EnumSkillNumber skill)
 		{
 			return new SkillDTO
 			{
 				SkillNumber = skill
 			};
 		}
-		public EnumSkill SkillNumber { get; set; }
+		public EnumSkillNumber SkillNumber { get; set; }
 		[JsonIgnore]
-		public SkillProfile? Profile => DQQPool.TryGet<SkillProfile, EnumSkill>(SkillNumber);
+		public SkillProfile? Profile => DQQPool.TryGet<SkillProfile, EnumSkillNumber>(SkillNumber);
 		public string? SkillName => Profile?.SkillName;
 
 		public decimal CastTime => Profile?.CastTime ?? 0;

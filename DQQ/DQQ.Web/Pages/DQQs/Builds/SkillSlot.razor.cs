@@ -42,7 +42,7 @@ namespace DQQ.Web.Pages.DQQs.Builds
 			{
 				SelectedCharacter?.SkillMap?.TryAdd(Slot.Value, new Commons.DTOs.SkillDTO
 				{
-					SkillNumber = EnumSkill.NotSpecified,
+					SkillNumber = EnumSkillNumber.NotSpecified,
 				});
 			}
 		}

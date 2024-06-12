@@ -70,7 +70,7 @@ namespace DQQ.Core.UnitTest.Helpers
 
     public IDQQEntity? Entity { get; set; }
 
-    public IDQQProfile? Profile { get; set; }
+    public DQQProfile? Profile { get; set; }
 
     public List<ItemComponent>? Drops => throw new NotImplementedException();
 
@@ -117,7 +117,7 @@ namespace DQQ.Core.UnitTest.Helpers
       throw new NotImplementedException();
     }
 
-    public void Initialize(IDQQEntity entity)
+    public void Initialize(IDQQEntity entity, DQQComponent? parent)
     {
       throw new NotImplementedException();
     }

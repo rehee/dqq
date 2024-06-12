@@ -70,7 +70,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 			await Task.CompletedTask;
 			if (SelectedSkillDTO != null)
 			{
-				SelectedSkillDTO.SkillNumber = profile?.SkillNumber ?? EnumSkill.NotSpecified;
+				SelectedSkillDTO.SkillNumber = profile?.SkillNumber ?? EnumSkillNumber.NotSpecified;
 			}
 		}
 
@@ -79,7 +79,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 			await Task.CompletedTask;
 			if (SelectedSkillDTO != null)
 			{
-				SelectedSkillDTO.SkillNumber = EnumSkill.NotSpecified;
+				SelectedSkillDTO.SkillNumber = EnumSkillNumber.NotSpecified;
 			}
 		}
 		protected override async Task OnInitializedAsync()

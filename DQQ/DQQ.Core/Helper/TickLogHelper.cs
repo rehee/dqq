@@ -95,7 +95,7 @@ namespace DQQ.Helper
       item.LogType = EnumLogType.WaveChange;
 
     }
-    public static void AddMapLogHealingTaken(this IMap? map, bool success, ITarget? from, ITarget? to, IDQQProfile? profile, TickLogHealing healing)
+    public static void AddMapLogHealingTaken(this IMap? map, bool success, ITarget? from, ITarget? to, DQQProfile? profile, TickLogHealing healing)
     {
       var item = map.GetTickLogItemFromMap(success);
       item.LogType = EnumLogType.HealingTaken;
@@ -139,7 +139,7 @@ namespace DQQ.Helper
 
     }
 
-    public static ProfileSource? GetProfileSource(this IDQQProfile? profile)
+    public static ProfileSource? GetProfileSource(this DQQProfile? profile)
     {
       if (profile == null)
       {
@@ -186,7 +186,7 @@ namespace DQQ.Helper
       }
     }
 
-    public static void SetLogProfile(this TickLogItem? item, IDQQProfile? source)
+    public static void SetLogProfile(this TickLogItem? item, DQQProfile? source)
     {
       item.SetLogProfile(source.GetProfileSource());
     }

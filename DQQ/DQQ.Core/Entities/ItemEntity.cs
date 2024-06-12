@@ -1,24 +1,15 @@
-﻿using DQQ.Attributes;
-using DQQ.Combats;
+﻿using DQQ.Combats;
 using DQQ.Components.Affixes;
 using DQQ.Components.Items;
-using DQQ.Components.Skills;
 using DQQ.Enums;
 using DQQ.Pools;
-using DQQ.Profiles.Affixes;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Items.Equipments;
 using Microsoft.Linq.Translations;
 using ReheeCmf.Commons.Jsons.Options;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Numerics;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace DQQ.Entities
 {
@@ -27,10 +18,6 @@ namespace DQQ.Entities
 		public EnumItem? ItemNumber { get; set; }
 		[NotMapped]
 		public ItemProfile? Profile => DQQPool.TryGet<ItemProfile, EnumItem?>(ItemNumber);
-
-		//[NotMapped]
-		//public EquipProfile? EquipProfile => Profile as EquipProfile;
-
 		[ForeignKey(nameof(ActorEntity))]
 		public Guid? ActorId { get; set; }
 		[JsonIgnore]

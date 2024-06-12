@@ -28,12 +28,12 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 			if (SelectedSkill != null)
 			{
 				var emptySkill = new[] {
-					SkillDTO.New(EnumSkill.NotSpecified),
-					SkillDTO.New(EnumSkill.NotSpecified),
-					SkillDTO.New(EnumSkill.NotSpecified),
-					SkillDTO.New(EnumSkill.NotSpecified),
-					SkillDTO.New(EnumSkill.NotSpecified),
-					SkillDTO.New(EnumSkill.NotSpecified) };
+					SkillDTO.New(EnumSkillNumber.NotSpecified),
+					SkillDTO.New(EnumSkillNumber.NotSpecified),
+					SkillDTO.New(EnumSkillNumber.NotSpecified),
+					SkillDTO.New(EnumSkillNumber.NotSpecified),
+					SkillDTO.New(EnumSkillNumber.NotSpecified),
+					SkillDTO.New(EnumSkillNumber.NotSpecified) };
 				if (SelectedSkill.SupportSkills == null)
 				{
 					SelectedSkill.SupportSkills = emptySkill;

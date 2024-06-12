@@ -23,13 +23,13 @@ namespace DQQ.Commons.DTOs
 				SkillNumber = skillDTO.SkillNumber,
 				Slot = slot,
 				Strategies = skillDTO?.SkillStrategies?.ToArray(),
-				SupportSkill = skillDTO?.SupportSkills?.Select(b => b.SkillNumber).Where(b => b != EnumSkill.NotSpecified).ToArray()
+				SupportSkill = skillDTO?.SupportSkills?.Select(b => b.SkillNumber).Where(b => b != EnumSkillNumber.NotSpecified).ToArray()
 			};
 		}
 		public Guid? ActorId { get; set; }
-		public EnumSkill? SkillNumber { get; set; }
+		public EnumSkillNumber? SkillNumber { get; set; }
 		public EnumSkillSlot? Slot { get; set; }
 		public SkillStrategy[]? Strategies { get; set; }
-		public EnumSkill[]? SupportSkill { get; set; }
+		public EnumSkillNumber[]? SupportSkill { get; set; }
 	}
 }

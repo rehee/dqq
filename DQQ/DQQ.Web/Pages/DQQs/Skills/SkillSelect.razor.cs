@@ -15,7 +15,7 @@ namespace DQQ.Web.Pages.DQQs.Skills
 		public ISkillService? skillServices { get; set; }
 
 		[Parameter]
-		public EnumSkill? SelectSkillNumber { get; set; }
+		public EnumSkillNumber? SelectSkillNumber { get; set; }
 		[Parameter]
 		public int? Slot { get; set; }
 		[Parameter]
@@ -30,7 +30,7 @@ namespace DQQ.Web.Pages.DQQs.Skills
 			StateHasChanged();
 		}
 
-		public async Task PickSkill(EnumSkill? skillNumber)
+		public async Task PickSkill(EnumSkillNumber? skillNumber)
 		{
 			await Task.CompletedTask;
 			SelectSkillNumber = skillNumber;

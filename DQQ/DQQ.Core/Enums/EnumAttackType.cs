@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-	public enum EnumSkillType
+	public enum EnumAttackType
 	{
-		Damage,
-		Healing,
-		Hybrid
+		NotSpecified = 0,
+		Chain,
+		Projectile,
+		Multistrike,
+		Splash,
 	}
 }

@@ -1,8 +1,8 @@
-﻿using DQQ.Commons;
-using DQQ.Commons.DTOs;
+﻿using DQQ.Commons.DTOs;
 using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
-using DQQ.Components.Stages.Maps;
+using DQQ.Components.Stages.Actors;
+using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Consts;
 using DQQ.Entities;
 using DQQ.Enums;
@@ -12,20 +12,53 @@ using DQQ.Profiles.Mobs;
 using DQQ.Profiles.Skills;
 using DQQ.Strategies;
 using DQQ.Strategies.SkillStrategies;
-using DQQ.Tags;
 using ReheeCmf.Commons.Jsons.Options;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DQQ.Components.Skills
 {
 	public class SkillComponent : DQQComponent
 	{
-		public static SkillComponent New(EnumSkill skill, EnumSkillSlot skillSlot = EnumSkillSlot.NotSpecified)
+		public static SkillComponent NewSupportSkill(SkillComponent? parent, EnumSkillNumber skill, int level = 0)
+		{
+			var result = SkillComponent.New(skill);
+			result.SetParent(parent, level);
+			parent?.AdditionalSkillTags(result?.SkillProfile);
+			return result!;
+		}
+		public static SkillComponent NewTriggerSkill(SkillComponent? parent, EnumSkillNumber skill)
+		{
+			var result = SkillComponent.New(skill);
+			result.SetParent(parent);
+			return result!;
+		}
+		public static SkillComponent NewSubActionSkill(SkillComponent? parent, EnumSkillNumber skill, IEnumerable<SkillProfile>? profiles)
+		{
+			var result = SkillComponent.New(skill);
+			result.SetParent(parent);
+			if (profiles?.Any() != true)
+			{
+				return result;
+			}
+			foreach (var profile in profiles.Select(b => (b.IsSupportAvaliable(result.SkillTags), b)).OrderByDescending(b => b.Item1).Select(b => b.b))
+			{
+				if (profile.IsSupportAvaliable(result.SkillTags) != true)
+				{
+					continue;
+				}
+				result.AddSupportSkillComponent(NewSupportSkill(result, profile.SkillNumber, 1));
+
+			}
+
+			return result!;
+		}
+		public static SkillComponent New(EnumSkillNumber skill, EnumSkillSlot skillSlot = EnumSkillSlot.NotSpecified)
 		{
 			var skillComponent = new SkillComponent();
-			var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkill?>(skill);
+			var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(skill);
 			skillComponent.InitSkillProfile(skillProfile, skillSlot);
 			return skillComponent;
 		}
@@ -33,7 +66,7 @@ namespace DQQ.Components.Skills
 		public static SkillComponent New(MobSkill skill, EnumSkillSlot skillSlot = EnumSkillSlot.NotSpecified)
 		{
 			var skillComponent = new SkillComponent();
-			var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkill?>(skill.SkillNumber);
+			var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(skill.SkillNumber);
 			skillComponent.InitSkillProfile(skillProfile, skillSlot);
 			skillComponent.SkillStrategies = skill.Strategies;
 			return skillComponent;
@@ -43,31 +76,161 @@ namespace DQQ.Components.Skills
 		public decimal Cooldown { get; set; }
 		public bool CastWithWeaponSpeed { get; set; }
 		public decimal DamageRate { get; set; }
+		public ITarget? SkillTarget { get; set; }
+		public bool IsCasting { get; protected set; }
+		public int MaxSupportSkill => SkillSlotHelper.MaxSkillNumber(Slot);
 
 		public int CastTick => Convert.ToInt32(CastTime * DQQGeneral.TickPerSecond);
 		public int CDTick => Convert.ToInt32(Cooldown * DQQGeneral.TickPerSecond);
 		public int CastTickCount { get; set; }
 		public int CDTickCount { get; set; }
-		public IEnumerable<ITag>? Tags { get; set; }
 
-		public SkillProfile? SkillProfile { get; protected set; }
+		public int CastWithWeaponSpeedTick => castWithWeaponSpeedTick <= 0 ? CastTick : castWithWeaponSpeedTick;
+
+		private int castWithWeaponSpeedTick { get; set; }
+
+
+		public SkillProfile? SkillProfile
+		{
+			get
+			{
+				if (Profile is SkillProfile sp)
+				{
+					return sp;
+				}
+				return null;
+			}
+		}
 		public SkillDTO[]? SupportSkills { get; protected set; }
+
+		[JsonIgnore]
+		public List<SkillComponent>? SupportSkillComponent { get; protected set; }
+		[JsonIgnore]
+		public List<SkillComponent>? TriggerSkillComponent { get; protected set; }
+		[JsonIgnore]
+		public List<SkillComponent>? SubActionSkillComponent { get; protected set; }
 		public int TotalCount { get; set; } = 0;
 		public int WaveCount { get; set; } = 0;
 
-		public override void Initialize(IDQQEntity entity)
+		public void AddSupportSkillComponent(SkillComponent? skillComponent)
 		{
-			base.Initialize(entity);
+			if (skillComponent == null)
+			{
+				return;
+			}
+			if (SupportSkillComponent?.Any() != true)
+			{
+				SupportSkillComponent = new List<SkillComponent>();
+			}
+			SupportSkillComponent.Add(skillComponent);
+		}
+		public override void SetParent(DQQComponent? Parent, int level = 0)
+		{
+			base.SetParent(Parent);
+			if (level == 1)
+			{
+				var pParent = Parent?.Parent;
+				if (pParent != null)
+				{
+					if (pParent is Actor actor)
+					{
+						castWithWeaponSpeedTick = GetCastWithWeaponSpeedTick(actor);
+					}
+					if (pParent is SkillComponent skillComponent)
+					{
+						if (skillComponent.Parent != null && skillComponent.Parent is Actor caster)
+							castWithWeaponSpeedTick = GetCastWithWeaponSpeedTick(caster);
+					}
+				}
+			}
+			else
+			{
+				if (Parent is Actor actor)
+				{
+					castWithWeaponSpeedTick = GetCastWithWeaponSpeedTick(actor);
+				}
+				if (Parent is SkillComponent skillComponent)
+				{
+					if (skillComponent.Parent != null && skillComponent.Parent is Actor caster)
+						castWithWeaponSpeedTick = GetCastWithWeaponSpeedTick(caster);
+				}
+			}
+
+		}
+		protected HashSet<EnumSkillTag> skillTags { get; set; } = new HashSet<EnumSkillTag>();
+		public IEnumerable<EnumSkillTag> SkillTags => skillTags.Distinct();
+
+		public void InitializeSkillTags()
+		{
+			foreach (var t in SkillProfile?.OriginalTag ?? [])
+			{
+				skillTags.Add(t);
+			}
+		}
+		public void AdditionalSkillTags(SkillProfile? profile)
+		{
+			if (profile?.BindingType != EnumSkillBindingType.Support || profile?.ExtureTagAdded?.Any() != true)
+			{
+				return;
+			}
+			foreach (var tag in profile.ExtureTagAdded)
+			{
+				skillTags.Add(tag);
+			}
+		}
+
+		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
+		{
+			base.Initialize(entity, parent);
 			if (entity is SkillEntity sp)
 			{
 				try
 				{
-					var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkill?>(sp.SkillNumber);
+					var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(sp.SkillNumber);
 					InitSkillProfile(skillProfile, sp.Slot);
 					SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
 					JsonSerializer.Deserialize<SkillStrategy[]?>(sp.SkillStrategy ?? "", JsonOption.DefaultOption);
-					var supportSkillNumers = JsonSerializer.Deserialize<EnumSkill[]?>(sp.SupportSkills ?? "", JsonOption.DefaultOption);
-					SupportSkills = supportSkillNumers?.Select(b => SkillDTO.New(b)).ToArray();
+					var supportSkillNumers = JsonSerializer.Deserialize<EnumSkillNumber[]?>(sp.SupportSkills ?? "", JsonOption.DefaultOption);
+					int? level = null;
+					if (Parent is Character character)
+					{
+						level = character.Level;
+					}
+
+					SupportSkills = supportSkillNumers?.Where(b => b.AvaliablePlayerSkill(level)).Distinct().Take(MaxSupportSkill)
+						.Select(b => SkillDTO.New(b))
+						.ToArray();
+
+					SupportSkillComponent = new List<SkillComponent>();
+
+					var supportedSkills = SupportSkills?.Where(b => b.Profile?.BindingType == EnumSkillBindingType.Support)
+						.Select(b => (b.Profile?.IsSupportAvaliable(SkillTags) == true, b)).OrderByDescending(b => b.Item1).Select(b => b.b).ToArray();
+
+					foreach (var dto in supportedSkills ?? [])
+					{
+						if (dto.Profile?.IsSupportAvaliable(SkillTags) != true)
+						{
+							continue;
+						}
+						var skillComponent = SkillComponent.NewSupportSkill(this, dto.SkillNumber);
+						SupportSkillComponent.Add(skillComponent);
+					}
+					TriggerSkillComponent = new List<SkillComponent>();
+					var triggerActive = SupportSkills?.Where(b => b.Profile?.BindingType == EnumSkillBindingType.Trigger).ToArray();
+					foreach (var trigger in triggerActive ?? [])
+					{
+						var skillComponent = SkillComponent.NewTriggerSkill(this, trigger.SkillNumber);
+						TriggerSkillComponent?.Add(skillComponent);
+					}
+					var subActive = SupportSkills?.Where(b => b.Profile?.BindingType == EnumSkillBindingType.Active).ToArray();
+					SubActionSkillComponent = new List<SkillComponent>();
+					foreach (var sub in subActive ?? [])
+					{
+						var subAction = NewSubActionSkill(this, sub.SkillNumber, supportedSkills?.Select(b => b.Profile!));
+						SubActionSkillComponent.Add(subAction);
+					}
+
+
 				}
 				catch
 				{
@@ -79,15 +242,17 @@ namespace DQQ.Components.Skills
 
 		public void InitSkillProfile(SkillProfile? profile, EnumSkillSlot skillSlot = EnumSkillSlot.NotSpecified)
 		{
-			SkillProfile = profile;
+			Profile = profile;
 			CastTime = profile?.CastTime ?? 0;
 			Cooldown = profile?.CoolDown ?? 0;
 			DamageRate = profile?.DamageRate ?? 0;
 			CastWithWeaponSpeed = profile?.CastWithWeaponSpeed ?? false;
-			this.Slot = skillSlot;
+			DisplayName = profile?.Name;
+			Slot = skillSlot;
+			InitializeSkillTags();
 		}
 
-		public int CastWithWeaponSpeedTick(ITarget? caster)
+		public int GetCastWithWeaponSpeedTick(ITarget? caster)
 		{
 			if (CastWithWeaponSpeed != true || caster?.CombatPanel?.DynamicPanel.AttackPerSecond == null || caster?.CombatPanel?.DynamicPanel.AttackPerSecond == 0)
 			{
@@ -98,6 +263,60 @@ namespace DQQ.Components.Skills
 
 		}
 
+		protected void StartCasting(ComponentTickParameter? parameter, ITarget? target = null)
+		{
+			if (castingThisTick)
+			{
+				SkillTarget = null;
+			}
+			else
+			{
+				SkillTarget = target;
+			}
+			if (parameter != null)
+			{
+				var skillParameter = ComponentTickParameter.New(parameter, SkillTarget);
+				//TODO log skill start casting;
+
+			}
+			if (castingThisTick && IsCasting)
+			{
+				IsCasting = false;
+			}
+
+		}
+
+
+
+		protected async Task<ContentResponse<bool>> CastingSkill(ComponentTickParameter parameter)
+		{
+			ContentResponse<bool> result;
+			if (SkillProfile != null)
+			{
+				parameter.SetSupportSkill(this, SupportSkillComponent, TriggerSkillComponent, SubActionSkillComponent);
+				result = await SkillProfile.CastSkill(parameter);
+			}
+			else
+			{
+				result = new ContentResponse<bool>();
+				result.SetSuccess(true);
+
+			}
+			TotalCount++;
+			WaveCount++;
+			CastTickCount = 0;
+			if (CastWithWeaponSpeedTick <= 0 && CDTick <= 0)
+			{
+				CDTickCount = (int)(DQQGeneral.MinCooldown * DQQGeneral.TickPerSecond);
+			}
+			else
+			{
+				CDTickCount = CDTick;
+			}
+			castingThisTick = true;
+			return result;
+		}
+		private bool castingThisTick { get; set; }
 		public override async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
 		{
 			var result = await base.OnTick(parameter);
@@ -106,57 +325,75 @@ namespace DQQ.Components.Skills
 				return result;
 			}
 			result.SetError();
-			var target = parameter.From?.Target;
+
+			//var target = parameter.From?.Target;
 			if (CDTickCount > 0)
 			{
 				CDTickCount--;
-				return result;
+				goto FinalSteps;
 			}
-			if (CastTickCount < CastWithWeaponSpeedTick(parameter.From))
+			if (Parent != null && Parent is not Character)
+			{
+				goto FinalSteps;
+			}
+			if (!IsCasting)
+			{
+				var matchCondition = StrategeCheckResult.New(false, null);
+				if (SkillStrategies?.Any() == true)
+				{
+					matchCondition = StrategyHelper.MatchSkillStrategy(SkillStrategies, parameter, this);
+				}
+				else
+				{
+					matchCondition = StrategeCheckResult.New(true, null);
+				}
+
+				if (!matchCondition.Matched)
+				{
+					goto FinalSteps;
+				}
+				StartCasting(parameter, matchCondition.MatchedTarget);
+			}
+
+
+
+			if (CastTickCount < CastWithWeaponSpeedTick)
 			{
 				CastTickCount++;
-				return result;
-			}
-			var matchCondition = StrategeCheckResult.New(false, null);
-			if (SkillStrategies?.Any() == true)
-			{
-				matchCondition = StrategyHelper.MatchSkillStrategy(SkillStrategies, parameter, this);
-			}
-			else
-			{
-				matchCondition = StrategeCheckResult.New(true, null);
+				goto FinalSteps;
 			}
 
-			if (!matchCondition.Matched)
-			{
-				return result;
-			}
-			var skillParameter = ComponentTickParameter.New(parameter, matchCondition.MatchedTarget);
-			if (SkillProfile != null)
-			{
-				result = await SkillProfile.CastSkill(skillParameter);
-			}
-			else
-			{
-				result.SetSuccess(true);
-			}
-			TotalCount++;
-			WaveCount++;
-			CastTickCount = 0;
-			if (CastWithWeaponSpeedTick(skillParameter.From) <= 0 && CDTick <= 0)
-			{
-				CDTickCount = (int)(DQQGeneral.MinCooldown * DQQGeneral.TickPerSecond);
-			}
-			else
-			{
-				CDTickCount = CDTick;
-			}
+			result = await CastingSkill(ComponentTickParameter.New(parameter, SkillTarget));
 
+
+
+
+
+		FinalSteps:
+			if (SupportSkillComponent?.Any() == true)
+			{
+				foreach (var s in SupportSkillComponent)
+				{
+					await s.OnTick(parameter);
+				}
+			}
+			if (TriggerSkillComponent?.Any() == true)
+			{
+				foreach (var s in TriggerSkillComponent)
+				{
+					await s.OnTick(parameter);
+				}
+			}
+			if (SubActionSkillComponent?.Any() == true)
+			{
+				foreach (var s in SubActionSkillComponent)
+				{
+					await s.OnTick(parameter);
+				}
+			}
+			StartCasting(null);
 			return result;
 		}
-
-
-
 		public virtual SkillEntity ToSkillEntity(Guid? actorId = null)
 		{
 			var result = new SkillEntity();
@@ -166,5 +403,8 @@ namespace DQQ.Components.Skills
 			result.ActorId = actorId;
 			return result;
 		}
+
+
+
 	}
 }

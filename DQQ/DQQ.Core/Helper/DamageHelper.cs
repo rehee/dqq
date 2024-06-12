@@ -50,7 +50,7 @@ namespace DQQ.Helper
     }
     public static DamageDeal[] SkillDamage(this SkillProfile skill, ITarget caster, IMap? map)
     {
-      var profile = DQQPool.TryGet<SkillProfile, EnumSkill?>(skill.SkillNumber);
+      var profile = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(skill.SkillNumber);
       if (profile == null || skill.DamageRate == 0)
       {
         return Enumerable.Empty<DamageDeal>().ToArray();

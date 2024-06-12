@@ -17,7 +17,7 @@ namespace DQQ.Profiles.Mobs
 
     public override Int64 HP => 10;
 
-    public override IEnumerable<MobSkill>? Skills => new[] { MobSkill.New(EnumSkill.NormalAttack) };
+    public override IEnumerable<MobSkill>? Skills => new[] { MobSkill.New(EnumSkillNumber.NormalAttack) };
 
     public override decimal DropRate => 1m;
 

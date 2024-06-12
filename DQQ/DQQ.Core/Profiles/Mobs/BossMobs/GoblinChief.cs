@@ -17,8 +17,8 @@ namespace DQQ.Profiles.Mobs.BossMobs
 
     public override IEnumerable<MobSkill>? Skills => new[]
     {
-      MobSkill.New(EnumSkill.NormalAttack),
-      MobSkill.New(EnumSkill.HatefulStrike,
+      MobSkill.New(EnumSkillNumber.NormalAttack),
+      MobSkill.New(EnumSkillNumber.HatefulStrike,
         new Strategies.SkillStrategies.SkillStrategy
         {
           Priority=0,

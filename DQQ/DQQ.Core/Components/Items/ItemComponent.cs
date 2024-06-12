@@ -18,9 +18,9 @@ namespace DQQ.Components.Items
 		public int? ItemLevel { get; set; }
 		public EnumItem? ItemNumber { get; set; }
 		public ItemProfile? ItemProfile { get; set; }
-		public override void Initialize(IDQQEntity entity)
+		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
 		{
-			base.Initialize(entity);
+			base.Initialize(entity, parent);
 			if (entity is ItemEntity ie)
 			{
 				ItemNumber = ie.ItemNumber;

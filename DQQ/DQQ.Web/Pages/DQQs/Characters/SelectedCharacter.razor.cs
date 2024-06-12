@@ -45,7 +45,7 @@ namespace DQQ.Web.Pages.DQQs.Characters
         ParentRefreshEvent.Event -= parentRefresh;
       }
     }
-    public async Task SelectSkill(EnumSkillSlot slot, EnumSkill? skillNumber)
+    public async Task SelectSkill(EnumSkillSlot slot, EnumSkillNumber? skillNumber)
     {
       await dialogService.ShowComponent<SkillSelect>(
        new Dictionary<string, object?>

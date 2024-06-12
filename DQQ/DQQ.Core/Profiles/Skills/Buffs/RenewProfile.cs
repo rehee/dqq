@@ -13,6 +13,7 @@ using DQQ.Helper;
 using DQQ.Pools;
 using DQQ.Profiles.Durations;
 using DQQ.Commons;
+using DQQ.Components.Parameters;
 
 namespace DQQ.Profiles.Skills.Buffs
 {
@@ -29,16 +30,16 @@ namespace DQQ.Profiles.Skills.Buffs
 
     public override bool CastWithWeaponSpeed => false;
 
-    public override EnumSkill ProfileNumber => EnumSkill.Renew;
+    public override EnumSkillNumber ProfileNumber => EnumSkillNumber.Renew;
 
     public override string? Name => "回复";
 
     public override string? Discription => "周期性的持续回复生命";
 
     
-    protected override HealingDeal[] CalculateHealing(ITarget? caster, IMap? map)
+    protected override HealingDeal[] CalculateHealing(ComponentTickParameter? parameter)
     {
-      return [HealingDeal.New(CalculateDamage(caster, map).Sum(b => b.DamagePoint), EnumHealingType.HealingOverTime)];
+      return [HealingDeal.New(CalculateDamage(parameter).Sum(b => b.DamagePoint), EnumHealingType.HealingOverTime)];
     }
     protected override void DealingHealing(ITarget? from, HealingDeal[] healings, IMap? map)
     {

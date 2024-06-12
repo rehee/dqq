@@ -15,6 +15,6 @@ namespace DQQ.Entities
   }
   public interface IDQQEntity<T> : IDQQEntity where T : IDQQComponent, new()
   {
-    T GenerateComponent();
+    T GenerateComponent(DQQComponent? parent);
   }
 }

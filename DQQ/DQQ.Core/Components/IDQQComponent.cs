@@ -15,8 +15,8 @@ namespace DQQ.Components
 
     IDQQEntity? Entity { get; }
 
-    IDQQProfile? Profile { get; }
-    void Initialize(IDQQEntity entity);
+		DQQProfile? Profile { get; }
+    void Initialize(IDQQEntity entity, DQQComponent? parent);
     Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter);
 
     void BeforeDamageReduction(BeforeDamageTakenParameter parameter);

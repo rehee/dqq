@@ -1,4 +1,5 @@
 ﻿using DQQ.Commons;
+using DQQ.Components;
 using DQQ.Components.Parameters;
 using DQQ.Components.Skills;
 using DQQ.Components.Stages;
@@ -26,7 +27,7 @@ namespace DQQ.UnitTest.TestBase.Skills
       }
       return result;
     }
-    public override void Initialize(IDQQEntity profile)
+    public override void Initialize(IDQQEntity profile, DQQComponent? parent)
     {
       throw new NotImplementedException();
     }

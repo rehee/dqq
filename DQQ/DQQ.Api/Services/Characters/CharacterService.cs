@@ -74,7 +74,7 @@ namespace DQQ.Api.Services.Characters
     public async Task<IEnumerable<Character>> GetAllCharacters()
     {
       var list = await getActor.ToArrayAsync();
-      return list.Select(b => b.GenerateTypedComponent<Character>());
+      return list.Select(b => b.GenerateTypedComponent<Character>(null));
     }
 
     public async Task<Character?> GetCharacter(Guid? charId)
@@ -84,7 +84,7 @@ namespace DQQ.Api.Services.Characters
         return null;
       }
       var entity = await getActor.Where(b => b.Id == charId).FirstOrDefaultAsync();
-      return entity?.GenerateTypedComponent<Character>();
+      return entity?.GenerateTypedComponent<Character>(null);
     }
 
     public bool SelectedCharacter(Guid? charId)

@@ -76,18 +76,18 @@ namespace DQQ.Components.Stages.Actors.Characters
 			}
 			return result;
 		}
-		public override void Initialize(IDQQEntity entity)
+		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
 		{
-			base.Initialize(entity);
+			base.Initialize(entity, parent);
 
-			var skills = Skills?.DistinctBy(b => b.Slot).OrderBy(b => b.Slot).ToDictionary(b => b.Slot, b => SkillDTO.New(b)) ?? [];
+			var skills = Skills?.ToDictionary(b => b.Slot, b => SkillDTO.New(b)) ?? [];
 
 			SkillMap = new Dictionary<EnumSkillSlot, SkillDTO>();
 
 			foreach (EnumSkillSlot slot in Enum.GetValues(typeof(EnumSkillSlot)))
 			{
 				skills.TryGetValue(slot, out var skill);
-				SkillMap.TryAdd(slot, skill ?? SkillDTO.New(EnumSkill.NotSpecified));
+				SkillMap.TryAdd(slot, skill ?? SkillDTO.New(EnumSkillNumber.NotSpecified));
 			}
 
 			if (entity is ActorEntity ae)
@@ -100,7 +100,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 					{
 						continue;
 					}
-					var equipComponent = equip.Item.GenerateTypedComponent<EquipComponent>();
+					var equipComponent = equip.Item.GenerateTypedComponent<EquipComponent>(this);
 					if (equipComponent == null)
 					{
 						continue;
@@ -122,7 +122,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 			{
 				if (selected != null) return selected;
 			}
-			var result = SkillDTO.New(EnumSkill.NotSpecified);
+			var result = SkillDTO.New(EnumSkillNumber.NotSpecified);
 			SkillMap?.TryAdd(Slot!.Value, result);
 			return result;
 		}
@@ -176,6 +176,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 					e.AfterTakeDamage(parameter);
 				}
 			}
+			var a = this;
 			base.SelfAfterTakeDamage(parameter);
 		}
 

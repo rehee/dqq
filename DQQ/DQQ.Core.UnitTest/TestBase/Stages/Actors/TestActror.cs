@@ -1,4 +1,5 @@
 ﻿using DQQ.Commons;
+using DQQ.Components;
 using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors;
@@ -17,7 +18,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
   {
     public int TickCount { get; set; }
 
-    public override void Initialize(IDQQEntity profile)
+    public override void Initialize(IDQQEntity profile, DQQComponent? parent)
     {
       throw new NotImplementedException();
     }

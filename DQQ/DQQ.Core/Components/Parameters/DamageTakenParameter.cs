@@ -27,6 +27,6 @@ namespace DQQ.Components.Parameters
     public ITarget? To { get; set; }
     public DamageTaken? Damage { get; set; }
     public IMap? Map { get; set; }
-    public IDQQProfile? Source { get; set; }
+    public DQQProfile? Source { get; set; }
   }
 }

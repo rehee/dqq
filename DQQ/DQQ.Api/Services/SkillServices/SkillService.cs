@@ -49,7 +49,7 @@ namespace DQQ.Api.Services.SkillServices
 
 			if (dto.SkillNumber != null)
 			{
-				var skillPick = DQQPool.TryGet<SkillProfile, EnumSkill?>(dto.SkillNumber);
+				var skillPick = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(dto.SkillNumber);
 				if (skillPick?.NoPlayerSkill == true)
 				{
 					return result;
@@ -122,14 +122,14 @@ namespace DQQ.Api.Services.SkillServices
 			};
 			await context.AddAsync(skillEntity);
 		}
-		public static async Task deleteSkill(IContext context, Guid? actorId, bool save, IEnumerable<EnumSkillSlot> slots, IEnumerable<EnumSkill?> skillNumbers)
+		public static async Task deleteSkill(IContext context, Guid? actorId, bool save, IEnumerable<EnumSkillSlot> slots, IEnumerable<EnumSkillNumber?> skillNumbers)
 		{
 			if (actorId == null)
 			{
 				return;
 			}
 			var existingEntity = await context.Query<SkillEntity>(false)
-				.Where(b => b.ActorId == actorId && (b.Slot == EnumSkillSlot.NotSpecified || slots.Contains(b.Slot) || b.SkillNumber == null || b.SkillNumber == EnumSkill.NotSpecified || skillNumbers.Contains(b.SkillNumber)))
+				.Where(b => b.ActorId == actorId && (b.Slot == EnumSkillSlot.NotSpecified || slots.Contains(b.Slot) || b.SkillNumber == null || b.SkillNumber == EnumSkillNumber.NotSpecified || skillNumbers.Contains(b.SkillNumber)))
 				.ToArrayAsync();
 			foreach (var e in existingEntity)
 			{

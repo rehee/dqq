@@ -14,7 +14,7 @@ namespace DQQ.Components.Parameters
   {
 
 
-    public static BeforeDamageTakenParameter New(ComponentTickParameter? parameter, IDQQProfile? source, params DamageDeal[]? damages)
+    public static BeforeDamageTakenParameter New(ComponentTickParameter? parameter, DQQProfile? source, params DamageDeal[]? damages)
     {
       return new BeforeDamageTakenParameter
       {
@@ -25,7 +25,7 @@ namespace DQQ.Components.Parameters
         Damages = damages?.ToList() ?? null
       };
     }
-    public static BeforeDamageTakenParameter New(ITarget? from, ITarget? to, IMap? map, IDQQProfile? source, params DamageDeal[]? damages)
+    public static BeforeDamageTakenParameter New(ITarget? from, ITarget? to, IMap? map, DQQProfile? source, params DamageDeal[]? damages)
     {
       return new BeforeDamageTakenParameter
       {
@@ -40,6 +40,6 @@ namespace DQQ.Components.Parameters
     public ITarget? To { get; set; }
     public List<DamageDeal>? Damages { get; set; }
     public IMap? Map { get; set; }
-    public IDQQProfile? Source { get; set; }
+    public DQQProfile? Source { get; set; }
   }
 }

@@ -22,7 +22,7 @@ namespace DQQ.Profiles.Skills.NonPlayerSkills
 
     public override bool CastWithWeaponSpeed => false;
 
-    public override EnumSkill ProfileNumber => EnumSkill.HatefulStrike;
+    public override EnumSkillNumber ProfileNumber => EnumSkillNumber.HatefulStrike;
 
     public override string? Name => "仇恨打击";
     public override string? Discription => "仇恨打击";

@@ -8,6 +8,7 @@ using DQQ.Api.Services.StrategyServices;
 using DQQ.Api.Workers;
 using DQQ.Components.Stages.Maps;
 using DQQ.Pools;
+using DQQ.Services;
 using DQQ.Services.ActorServices;
 using DQQ.Services.BDServices;
 using DQQ.Services.CombatServices;
@@ -47,8 +48,8 @@ namespace DQQ.Api
 
     public override async Task ConfigureServicesAsync(ServiceConfigurationContext context)
     {
-
-      await base.ConfigureServicesAsync(context);
+      
+			await base.ConfigureServicesAsync(context);
       DQQPool.InitPool();
       context.Services!.AddHostedService<SeedWorker>();
       context.Services!.AddHostedService<CleanTempWorker>();

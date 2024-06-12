@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-	public enum EnumSkill
+	public enum EnumSkillNumber
 	{
 		NotSpecified = -1,
 
@@ -18,6 +18,9 @@ namespace DQQ.Enums
 		BattleShout = 2001,
 		HatefulStrike = 10001,
 		PowerWordShield = 11001,
+
+		EmpowerSupport = 100001,
+		MultiStrike = 200001
 
 	}
 }

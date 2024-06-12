@@ -28,9 +28,9 @@ namespace DQQ.Components.Items.Equips
 
 		public CombatProperty? Property { get; set; }
 
-		public override void Initialize(IDQQEntity entity)
+		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
 		{
-			base.Initialize(entity);
+			base.Initialize(entity, parent);
 
 			Property = new CombatProperty();
 			if (entity is ICombatProperty cp)

@@ -38,7 +38,7 @@ namespace DQQ.Components.Stages.Maps
 
     public IDQQEntity? Entity { get; set; }
 
-    public IDQQProfile? Profile { get; set; }
+    public DQQProfile? Profile { get; set; }
 
     public async Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier)
     {
@@ -90,7 +90,7 @@ namespace DQQ.Components.Stages.Maps
 
     }
 
-    public void Initialize(IDQQEntity entity)
+    public void Initialize(IDQQEntity entity, DQQComponent? parent)
     {
 
     }
