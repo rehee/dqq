@@ -24,7 +24,9 @@
 						<BodyTemplate>
 							<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
 								<HeaderTemplate>
-									<div>技能列表</div>
+									<div>
+										可以放在主动技能槽内. 满足策略条件时自动释放
+									</div>
 								</HeaderTemplate>
 								<BodyTemplate>
 									<Popover Placement="Placement.Top" Title="@context.SkillName" Content="@context.ExtureDiscription" IsHtml="true">
@@ -47,7 +49,9 @@
 						<BodyTemplate>
 							<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync2" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
 								<HeaderTemplate>
-									<div>技能列表</div>
+									<div>
+										可以放在主动技能槽 或辅助技能槽内. 当触发条件满足时释放
+									</div>
 								</HeaderTemplate>
 								<BodyTemplate>
 									<Popover Placement="Placement.Top" Title="@context.SkillName" Content="@context.ExtureDiscription" IsHtml="true">
@@ -70,7 +74,9 @@
 						<BodyTemplate>
 							<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync3" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
 								<HeaderTemplate>
-									<div>技能列表</div>
+									<div>
+										放在辅助技能槽内. 无法直接使用. 可以影响同一个技能槽内的主动技能.
+									</div>
 								</HeaderTemplate>
 								<BodyTemplate>
 									<Popover Placement="Placement.Top" Title="@context.SkillName" Content="@context.ExtureDiscription" IsHtml="true">

@@ -4,7 +4,9 @@ using DQQ.Profiles.Items;
 using DQQ.Profiles.Items.Equipments.Armors.BodyArmor;
 using DQQ.Profiles.Items.Equipments.OneHandWeapons;
 using DQQ.Profiles.Items.Equipments.TwoHandWeapons;
+using System;
 using System.Net.NetworkInformation;
+using System.Security.Claims;
 
 namespace DQQ.Helper
 {
@@ -67,6 +69,14 @@ namespace DQQ.Helper
 			if (input is EnumSkillCategory escc)
 			{
 				return GetString(escc);
+			}
+			if (input is EnumSkillBindingType esbt)
+			{
+				return GetString(esbt);
+			}
+			if (input is EnumAttackType eact)
+			{
+				return GetString(eact);
 			}
 			return $"{input}";
 		}
@@ -284,6 +294,32 @@ namespace DQQ.Helper
 
 				default:
 					return "";
+			}
+		}
+		public static string? GetString(this EnumSkillBindingType input)
+		{
+			switch (input)
+			{
+				case EnumSkillBindingType.Active: return "主动技能";
+				case EnumSkillBindingType.Trigger: return "触发技能";
+				case EnumSkillBindingType.Support: return "辅助技能";
+
+				default:
+					return "";
+			}
+		}
+		public static string? GetString(this EnumAttackType input)
+		{
+			switch (input)
+			{
+				case EnumAttackType.Chain: return "连锁";
+				case EnumAttackType.Cleave: return "顺劈";
+				case EnumAttackType.Piercing: return "穿刺";
+				case EnumAttackType.MultiAttack: return "多重";
+				case EnumAttackType.Area: return "范围";
+
+				default:
+					return "普通";
 			}
 		}
 	}

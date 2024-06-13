@@ -12,8 +12,8 @@ namespace DQQ.Profiles.Skills
 {
 	public abstract class SkillProfile : DQQProfile<EnumSkillNumber>, IWIthAttackTypeAndArea, ISetAttackTypeAndArea
 	{
-		public virtual EnumSkillTag[]? OriginalTag { get; set; }
-		public virtual EnumSkillTag[]? SupportableTag { get; set; }
+		public virtual EnumSkillTag[]? OriginalTag => [];
+		public virtual EnumSkillTag[]? SupportableTag => [];
 		public virtual EnumSkillTag[]? ExtureTagAdded { get; set; }
 
 		public virtual EnumDamageHand DamageHand => EnumDamageHand.Any;

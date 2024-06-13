@@ -14,7 +14,7 @@ namespace DQQ.Profiles.Skills.Supports
 
 		public override string? Name => "爆裂辅助";
 
-		public override string? Discription => "攻击类型改变为AOE. 且aoe等级上升";
+		public override string? Discription => "攻击类型改变为 范围. 且范围等级上升";
 
 		public override void SetAttackTypeAndArea(IWIthAttackTypeAndArea input)
 		{

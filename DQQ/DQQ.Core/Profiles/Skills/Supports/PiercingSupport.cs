@@ -20,7 +20,7 @@ namespace DQQ.Profiles.Skills.Supports
 
 		public override string? Name => "穿刺辅助";
 
-		public override string? Discription => "穿刺辅助";
+		public override string? Discription => "被辅助的技能可以穿刺. 且将范围提升1级";
 
 		public override void SetAttackTypeAndArea(IWIthAttackTypeAndArea input)
 		{

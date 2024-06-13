@@ -44,7 +44,11 @@ namespace DQQ.Web.Pages
 
 			foreach (var profile in DQQPool.SkillPool.Select(b => b.Value))
 			{
-				profile.ExtureDiscription = await ComponentHtmlRenderer.RenderAsync<SkillDetailPage>();
+				profile.ExtureDiscription = await ComponentHtmlRenderer.RenderAsync<SkillDetailPage>(
+					new Dictionary<string, object?>
+					{
+						["Profile"] = profile
+					});
 			}
 		}
 		private void refreshEvent(object? sender, EventArgs e)

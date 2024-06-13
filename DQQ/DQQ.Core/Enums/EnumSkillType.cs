@@ -8,8 +8,10 @@ namespace DQQ.Enums
 {
 	public enum EnumSkillType
 	{
+		
 		Damage,
 		Healing,
-		Hybrid
+		Hybrid,
+
 	}
 }

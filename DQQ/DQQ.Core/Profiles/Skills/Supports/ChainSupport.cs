@@ -20,7 +20,7 @@ namespace DQQ.Profiles.Skills.Supports
 
 		public override string? Name => "连锁辅助";
 
-		public override string? Discription => "连锁辅助";
+		public override string? Discription => "将技能的攻击方式改变为连锁, 并且可以额外集中2次";
 
 		public override void SetAttackTypeAndArea(IWIthAttackTypeAndArea input)
 		{

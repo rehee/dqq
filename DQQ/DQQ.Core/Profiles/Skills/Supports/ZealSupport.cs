@@ -20,7 +20,7 @@ namespace DQQ.Profiles.Skills.Supports
 
 		public override string? Name => "狂热辅助";
 
-		public override string? Discription => "狂热辅助";
+		public override string? Discription => "将技能类型改为多重 并且可以额外攻击2次";
 
 		public override void SetAttackTypeAndArea(IWIthAttackTypeAndArea input)
 		{
