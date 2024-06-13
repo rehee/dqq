@@ -27,7 +27,7 @@ public interface ITarget : IDQQComponent, ICombatCalculate, IWIthCombatPanel
 	bool Alive { get; }
 	void SelectTarget(ITarget? target);
 	DamageTaken TakeDamage(ComponentTickParameter parameter);
-	void TakeHealing(ITarget? from, Int64 healing, IMap? map, DQQProfile? source);
+	void TakeHealing(ComponentTickParameter? parameter);
 	HashSet<DurationComponent>? Durations { get; }
 
 	void DamageHandCheck(EnumDamageHand damageHand);

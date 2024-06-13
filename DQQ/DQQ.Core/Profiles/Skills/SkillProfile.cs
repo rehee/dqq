@@ -20,7 +20,8 @@ namespace DQQ.Profiles.Skills
 		public virtual EnumSkillBindingType BindingType => EnumSkillBindingType.Active;
 		public abstract bool NoPlayerSkill { get; }
 		public virtual EnumSkillCategory Category => EnumSkillCategory.NotSpecified;
-		protected virtual bool SelfTarget { get; }
+		public virtual bool SelfTarget { get; }
+		public virtual bool SelfIfNoTarget { get; }
 		public abstract decimal CastTime { get; }
 		public abstract decimal CoolDown { get; }
 		public abstract decimal DamageRate { get; }
@@ -135,7 +136,7 @@ namespace DQQ.Profiles.Skills
 			if (SkillType == EnumSkillType.Healing || SkillType == EnumSkillType.Hybrid)
 			{
 				var healing = CalculateHealing(parameter);
-				DealingHealing(parameter?.From, healing, parameter?.Map);
+				DealingHealing(ComponentTickParameter.New(parameter, healing));
 			}
 			return response;
 		}
@@ -149,17 +150,41 @@ namespace DQQ.Profiles.Skills
 		{
 			return [];
 		}
-		protected virtual void DealingHealing(ITarget? from, HealingDeal[] healings, IMap? map)
+		protected virtual void DealingHealing(ComponentTickParameter? parameter)
 		{
-			foreach (var h in healings.Where(b => b.HealingType == EnumHealingType.DirectHeal))
-			{
-				from?.TakeHealing(from, h.Points, map, this);
-			}
+			parameter?.To?.TakeHealing(parameter);
+			//if (parameter?.Healings?.Any() != true)
+			//{
+			//	return;
+			//}
+			//parameter.To?.TakeHealing(from, h.Points, map, this);
 		}
 
 		public virtual void SetAttackTypeAndArea(IWIthAttackTypeAndArea input)
 		{
 
+		}
+
+
+		public virtual int GetDurationSeconds()
+		{
+			return 0;
+		}
+		public virtual long GetDurationPower(ComponentTickParameter? parameter = null)
+		{
+			return 0;
+		}
+		public virtual ITarget? GetTarget(ComponentTickParameter? parameter = null)
+		{
+			if (SelfTarget)
+			{
+				return parameter?.From;
+			}
+			if (SelfIfNoTarget)
+			{
+				return parameter?.SelfCastTarget;
+			}
+			return parameter?.To;
 		}
 	}
 }

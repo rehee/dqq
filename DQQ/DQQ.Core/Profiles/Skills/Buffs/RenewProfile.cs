@@ -17,41 +17,42 @@ using DQQ.Components.Parameters;
 
 namespace DQQ.Profiles.Skills.Buffs
 {
-  [Pooled]
-  public class RenewProfile : AbHealing
-  {
-    public override bool NoPlayerSkill => false;
-    protected override bool SelfTarget => true;
-    public override decimal CastTime => 0m;
+	[Pooled]
+	public class RenewProfile : AbHealing
+	{
+		public override bool NoPlayerSkill => false;
+		public override decimal CastTime => 0m;
 
-    public override decimal CoolDown => 5m;
+		public override decimal CoolDown => 5m;
 
-    public override decimal DamageRate => 3m;
+		public override decimal DamageRate => 3m;
 
-    public override bool CastWithWeaponSpeed => false;
+		public override bool CastWithWeaponSpeed => false;
 
-    public override EnumSkillNumber ProfileNumber => EnumSkillNumber.Renew;
+		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.Renew;
 
-    public override string? Name => "回复";
+		public override string? Name => "回复";
 
-    public override string? Discription => "周期性的持续回复生命";
+		public override string? Discription => $"获得一个增益效果 持续 {GetDurationSeconds()} 秒. 在持续时间内周期性回复生命";
 
-    
-    protected override HealingDeal[] CalculateHealing(ComponentTickParameter? parameter)
-    {
-      return [HealingDeal.New(CalculateDamage(parameter).Sum(b => b.DamagePoint), EnumHealingType.HealingOverTime)];
-    }
-    protected override void DealingHealing(ITarget? from, HealingDeal[] healings, IMap? map)
-    {
-      base.DealingHealing(from, healings, map);
-      var power = healings.Where(b => b.HealingType == EnumHealingType.HealingOverTime).Sum(b => b.Points);
-      var durationParameter = new DurationParameter
-      {
-        Creator = from,
-        DurationSeconds = 5,
-        Value = power
-      };
-      DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(EnumDurationNumber.Renew)?.CreateDuration(durationParameter, from, map);
-    }
-  }
+
+		protected override HealingDeal[] CalculateHealing(ComponentTickParameter? parameter)
+		{
+			return [HealingDeal.New(CalculateDamage(parameter).Sum(b => b.DamagePoint), EnumHealingType.HealingOverTime)];
+		}
+
+		public override int GetDurationSeconds()
+		{
+			return 5;
+		}
+		public override long GetDurationPower(ComponentTickParameter? parameter = null)
+		{
+			return parameter?.Healings.Where(b => b.HealingType == EnumHealingType.HealingOverTime).Sum(b => b.Points) ?? 0;
+		}
+		protected override void DealingHealing(ComponentTickParameter? parameter)
+		{
+			base.DealingHealing(parameter);
+			EnumDurationNumber.Renew.CreateDuration(parameter, this);
+		}
+	}
 }

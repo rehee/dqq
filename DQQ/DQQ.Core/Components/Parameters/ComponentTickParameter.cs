@@ -38,6 +38,13 @@ namespace DQQ.Components.Parameters
 				AttackTypes = parameter?.AttackTypes ?? EnumAttackType.NotSpecified
 			};
 		}
+		public static ComponentTickParameter New(ComponentTickParameter? parameter, HealingDeal[]? healings)
+		{
+			var result = New(parameter);
+			result.Healings = healings;
+			return result;
+		}
+
 		public static ComponentTickParameter New(ITarget? from, IEnumerable<ITarget>? friendlyTargets, IEnumerable<ITarget>? enemyTargets, IMap? map)
 		{
 			return new ComponentTickParameter
@@ -86,6 +93,7 @@ namespace DQQ.Components.Parameters
 		public IMap? Map { get; set; }
 		public ITarget? SelectedTarget => SecondaryTarget ?? From?.Target;
 		public ITarget? To => SelectedTarget;
+		public ITarget? SelfCastTarget => SecondaryTarget ?? From;
 		public virtual void SetSupportSkill(
 			SkillComponent? trigger,
 			IEnumerable<SkillComponent>? supportSkills, IEnumerable<SkillComponent>? triggerSkills, IEnumerable<SkillComponent>? subAttackSkills)
@@ -106,6 +114,7 @@ namespace DQQ.Components.Parameters
 		public EnumAreaLevel AreaLevel { get; set; }
 		public EnumAttackType AttackTypes { get; set; }
 		public int ExtraAttackNumber { get; set; }
+		public HealingDeal[]? Healings { get; set; }
 	}
 
 }

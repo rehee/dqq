@@ -81,10 +81,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 			base.Initialize(entity, parent);
 
 
-			foreach (var skil in Skills ?? [])
-			{
-				skil.CheckAndSetAvaliableForUser(this);
-			}
+			
 
 			var skills = Skills?.ToDictionary(b => b.Slot, b => SkillDTO.New(b)) ?? [];
 
@@ -114,6 +111,10 @@ namespace DQQ.Components.Stages.Actors.Characters
 					Equips.AddOrUpdate(equip.EquipSlot!.Value, equipComponent!, (a, b) => equipComponent);
 					EquipItems.AddOrUpdate(equip.EquipSlot!.Value, equip?.Item, (a, b) => equip?.Item);
 				}
+			}
+			foreach (var skil in Skills ?? [])
+			{
+				skil.CheckAndSetAvaliableForUser(this);
 			}
 			this.TotalEquipProperty();
 			this.CurrentHP = CombatPanel.DynamicPanel.MaximunLife.DefaultValue(1);

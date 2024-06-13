@@ -18,7 +18,7 @@ namespace DQQ.Profiles.Skills.Buffs
 	public class HealProfile : AbHealing
 	{
 		public override bool NoPlayerSkill => false;
-		protected override bool SelfTarget => true;
+		
 		public override decimal CastTime => 0m;
 
 		public override decimal CoolDown => 30m;

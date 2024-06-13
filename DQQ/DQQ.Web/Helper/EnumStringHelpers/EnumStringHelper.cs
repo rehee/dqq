@@ -107,6 +107,8 @@ namespace DQQ.Helper
 					return "敌人";
 				case EnumTarget.Self:
 					return "自身";
+				case EnumTarget.Friendly:
+					return "友方";
 				default:
 					return "无策略";
 			}

@@ -8,35 +8,36 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Mobs.BossMobs
 {
-  [Pooled]
-  public class GoblinChief : BossMob
-  {
-    public override long Damage => 5;
+	[Pooled]
+	public class GoblinChief : BossMob
+	{
+		public override long Damage => 5;
 
-    public override long HP => 50;
+		public override long HP => 50;
 
-    public override IEnumerable<MobSkill>? Skills => new[]
-    {
-      MobSkill.New(EnumSkillNumber.NormalAttack),
-      MobSkill.New(EnumSkillNumber.HatefulStrike,
-        new Strategies.SkillStrategies.SkillStrategy
-        {
-          Priority=0,
-          Condition = EnumStrategyCondition.Target,
-          Property= EnumPropertyCompare.HealthPercentage,
-          Compare= EnumCompare.LessThan,
-          Value = 0.55m,
-        })
-    };
+		public override IEnumerable<MobSkill>? Skills => new[]
+		{
+			MobSkill.New(EnumSkillNumber.NormalAttack),
+			MobSkill.New(EnumSkillNumber.Renew),
+			MobSkill.New(EnumSkillNumber.HatefulStrike,
+				new Strategies.SkillStrategies.SkillStrategy
+				{
+					Priority=0,
+					Condition = EnumStrategyCondition.Target,
+					Property= EnumPropertyCompare.HealthPercentage,
+					Compare= EnumCompare.LessThan,
+					Value = 0.55m,
+				})
+		};
 
-    public override decimal DropRate => 0.15m;
+		public override decimal DropRate => 0.15m;
 
-    public override long XP => 20;
+		public override long XP => 20;
 
-    public override EnumMob ProfileNumber => EnumMob.GoblinChief;
+		public override EnumMob ProfileNumber => EnumMob.GoblinChief;
 
-    public override string? Name => "哥布林酋长";
+		public override string? Name => "哥布林酋长";
 
-    public override string? Discription => "哥布林酋长";
-  }
+		public override string? Discription => "哥布林酋长";
+	}
 }

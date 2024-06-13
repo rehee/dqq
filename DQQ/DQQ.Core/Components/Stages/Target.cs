@@ -204,7 +204,7 @@ namespace DQQ.Components.Stages
 					AfterTakeDamage(damageTaken);
 					parameter.Map.AddMapLogDamageTaken(damageTaken);
 				}
-				
+
 				return result;
 			}
 			else
@@ -215,22 +215,23 @@ namespace DQQ.Components.Stages
 			}
 
 		}
-		public virtual void TakeHealing(ITarget? from, long healing, IMap? map, DQQProfile? source)
+		public virtual void TakeHealing(ComponentTickParameter? parameter)
 		{
-			if (!Alive)
+			if (!Alive || parameter?.Healings?.Any() != true)
 			{
 				return;
 			}
-			var hpOverHealing = (this?.CurrentHP ?? 0) + healing - (this?.CombatPanel.DynamicPanel.MaximunLife ?? 0);
+			var allHealingPoint = parameter.Healings.Where(b => b.HealingType == EnumHealingType.DirectHeal).Sum(b => b.Points);
+			var hpOverHealing = (this?.CurrentHP ?? 0) + allHealingPoint - (this?.CombatPanel.DynamicPanel.MaximunLife ?? 0);
 			if (hpOverHealing > 0)
 			{
 				this.CurrentHP = this?.CombatPanel.DynamicPanel.MaximunLife ?? 0;
 			}
 			else
 			{
-				this.CurrentHP = this.CurrentHP + healing;
+				this.CurrentHP = this.CurrentHP + allHealingPoint;
 			}
-			map.AddMapLogHealingTaken(true, from, this, source, new TickLogHealing(healing, hpOverHealing > 0 ? hpOverHealing : null));
+			parameter.Map?.AddMapLogHealingTaken(true, parameter?.From, this, parameter?.Source, new TickLogHealing(allHealingPoint, hpOverHealing > 0 ? hpOverHealing : null));
 		}
 
 		public virtual ContentResponse<bool> TryBlock()

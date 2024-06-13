@@ -265,20 +265,21 @@ namespace DQQ.Components.Skills
 
 		protected void StartCasting(ComponentTickParameter? parameter, ITarget? target = null)
 		{
-			if (castingThisTick)
-			{
-				SkillTarget = null;
-			}
-			else
-			{
-				SkillTarget = target;
-			}
-			if (parameter != null)
-			{
-				var skillParameter = ComponentTickParameter.New(parameter, SkillTarget);
-				//TODO log skill start casting;
+			//if (castingThisTick)
+			//{
+			//	SkillTarget = null;
+			//}
+			//else
+			//{
+			//	SkillTarget = target;
+			//}
+			//if (parameter != null)
+			//{
+			//	var skillParameter = ComponentTickParameter.New(parameter, SkillTarget);
+			//	//TODO log skill start casting;
 
-			}
+			//}
+			SkillTarget = target;
 			if (castingThisTick && IsCasting)
 			{
 				IsCasting = false;

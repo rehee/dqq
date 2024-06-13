@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-  public enum EnumTarget
-  {
-    Target = 0,
-    Self = 1
-  }
+	public enum EnumTarget
+	{
+		Target = 0,
+		Self = 1,
+		Friendly = 2
+	}
 }
