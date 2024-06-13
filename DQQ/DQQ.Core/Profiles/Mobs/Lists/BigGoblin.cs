@@ -8,7 +8,7 @@ namespace DQQ.Profiles.Mobs
   public class BigGoblin : NormalMob
   {
     public override EnumMob ProfileNumber => EnumMob.BigGoblin;
-    public override string? Name => "巨型大耳怪";
+    public override string? Name => "巨型地精";
     public override string? Discription => "";
     public override Int64 Damage => 1;
     public override Int64 HP => 15;

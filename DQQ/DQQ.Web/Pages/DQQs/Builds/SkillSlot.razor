@@ -12,11 +12,14 @@
 	<BodyTemplate>
 		@if (Avaliable)
 		{
-			<BootstrapInputGroup>
-				<Button OnClick="()=> OpenSelect()" Color="Color.Primary" Size="Size.ExtraSmall">技能与策略</Button>
-				<Button OnClick="()=> OpenSelect(true,false)" Color="Color.Success" Size="Size.ExtraSmall">仅技能</Button>
-				<Button OnClick="()=> OpenSelect(false,true)" Color="Color.Warning" Size="Size.ExtraSmall">仅策略</Button>
-			</BootstrapInputGroup>
+			<div>
+				<BootstrapInputGroup>
+					<Button Size="Size.Small" OnClick="()=>SlotSelectOpen(null)" Icon="fas fa-bars-progress"></Button>
+					<Dropdown Size="Size.Small" FixedButtonText="1" TValue="EnumSkillAndStrategy" OnSelectedItemChanged="SelectedItemChanged" Items="SelectedItemHelper.GetSelectedItem<EnumSkillAndStrategy>(false)" Value="OptionSelected" Color="Color.Success" />
+				</BootstrapInputGroup>
+			</div>
+
+
 		}
 		else
 		{

@@ -9,9 +9,9 @@ namespace DQQ.Profiles.Mobs
   {
     public override EnumMob ProfileNumber => EnumMob.Goblin;
 
-    public override string? Name => "大耳怪";
+    public override string? Name => "地精";
 
-    public override string? Discription => "大耳怪";
+    public override string? Discription => "地精";
 
     public override Int64 Damage => 1;
 

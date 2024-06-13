@@ -6,7 +6,7 @@ namespace DQQ.Helper
 {
 	public static class SelectedItemHelper
 	{
-		public static IEnumerable<SelectedItem>? GetSelectedItem<T>()
+		public static IEnumerable<SelectedItem>? GetSelectedItem<T>(bool withna = true)
 		{
 			var checkType = typeof(T);
 			if (checkType == typeof(bool))
@@ -17,7 +17,10 @@ namespace DQQ.Helper
 			{
 				var enumValues = (T[])Enum.GetValues(checkType);
 				var enumResult = new List<SelectedItem>();
-				enumResult.Add(new SelectedItem($"", $"N/A"));
+				if (withna)
+				{
+					enumResult.Add(new SelectedItem($"", $"N/A"));
+				}
 				foreach (var value in enumValues)
 				{
 					var valueString = value.GetEnumString();

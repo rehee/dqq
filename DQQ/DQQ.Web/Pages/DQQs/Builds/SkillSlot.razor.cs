@@ -2,8 +2,11 @@ using BootstrapBlazor.Components;
 using DQQ.Commons.DTOs;
 using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Enums;
+using DQQ.Web.Pages.DQQs.Builds.Components;
 using DQQ.Web.Pages.DQQs.Items;
+using DQQ.Web.Pages.DQQs.Skills;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace DQQ.Web.Pages.DQQs.Builds
 {
@@ -47,19 +50,7 @@ namespace DQQ.Web.Pages.DQQs.Builds
 			}
 		}
 
-		public async Task OpenSelect(bool skillSelect = true, bool strageySelect = true)
-		{
-			await dialogService.ShowComponent<SkillAndStrategyChange>(
-				new Dictionary<string, object?>
-				{
-					["ParentRefreshEvent"] = ParentRefreshEvent,
-					["SelectedCharacter"] = SelectedCharacter,
-					["SkillSelect"] = skillSelect,
-					["StrageySelect"] = strageySelect,
-					["Slot"] = Slot
-				}
-				, "");
-		}
+
 
 		public bool Avaliable
 		{
@@ -81,5 +72,30 @@ namespace DQQ.Web.Pages.DQQs.Builds
 
 		public Color SkillBordColor => Avaliable ? Color.None : Color.Danger;
 
+
+		public EnumSkillAndStrategy OptionSelected { get; set; }
+		public async Task SelectedItemChanged(SelectedItem item)
+		{
+			Enum.TryParse<EnumSkillAndStrategy>(item.Value, out var option);
+			await SlotSelectOpen(option);
+		}
+
+		public async Task SlotSelectOpen(EnumSkillAndStrategy? options)
+		{
+			var op = options ?? OptionSelected;
+			if (options != null)
+			{
+				OptionSelected = options.Value;
+			}
+			await dialogService.ShowComponent<SkillAndStrategyChange>(
+			new Dictionary<string, object?>
+			{
+				["ParentRefreshEvent"] = ParentRefreshEvent,
+				["SelectedCharacter"] = SelectedCharacter,
+				["Option"] = op,
+				["Slot"] = Slot
+			}
+			, "");
+		}
 	}
 }

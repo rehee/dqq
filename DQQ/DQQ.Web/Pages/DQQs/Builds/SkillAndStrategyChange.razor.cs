@@ -19,9 +19,8 @@ namespace DQQ.Web.Pages.DQQs.Builds
 		public Step? Step_1;
 
 		[Parameter]
-		public bool? SkillSelect { get; set; }
-		[Parameter]
-		public bool? StrageySelect { get; set; }
+		public EnumSkillAndStrategy? Option { get; set; }
+		
 
 		[Parameter]
 		public EnumSkillSlot? Slot { get; set; }
@@ -39,9 +38,10 @@ namespace DQQ.Web.Pages.DQQs.Builds
 		{
 			await base.OnInitializedAsync();
 			var newOptions = new List<StepOption>();
-			if (SkillSelect == true)
+			switch (Option)
 			{
-				newOptions.Add(
+				case EnumSkillAndStrategy.All:
+					newOptions.Add(
 					new StepOption()
 					{
 						Text = WebConsts.ActiveSkillChooseText,
@@ -54,24 +54,21 @@ namespace DQQ.Web.Pages.DQQs.Builds
 							}
 						).Render()
 					});
-				newOptions.Add(
-					new StepOption()
-					{
-						Text = WebConsts.SupportSkillChooseText,
+					newOptions.Add(
+						new StepOption()
+						{
+							Text = WebConsts.SupportSkillChooseText,
 
-						Template = BootstrapDynamicComponent.CreateComponent<SupportSkillSelect>
-						(
-							new Dictionary<string, object?>
-							{
-								["Slot"] = Slot,
-								["SelectedCharacter"] = SelectedCharacter,
-							}
-						).Render()
-					});
-			}
-			if (StrageySelect == true)
-			{
-				newOptions.Add(
+							Template = BootstrapDynamicComponent.CreateComponent<SupportSkillSelect>
+							(
+								new Dictionary<string, object?>
+								{
+									["Slot"] = Slot,
+									["SelectedCharacter"] = SelectedCharacter,
+								}
+							).Render()
+						});
+					newOptions.Add(
 					new StepOption()
 					{
 						Text = WebConsts.StrategySkillChooseText,
@@ -85,7 +82,88 @@ namespace DQQ.Web.Pages.DQQs.Builds
 							}
 						).Render()
 					});
+					break;
+				case EnumSkillAndStrategy.SkillAndSupport:
+					newOptions.Add(
+					new StepOption()
+					{
+						Text = WebConsts.ActiveSkillChooseText,
+						Template = BootstrapDynamicComponent.CreateComponent<ActiveSkillSelect>
+						(
+							new Dictionary<string, object?>
+							{
+								["Slot"] = Slot,
+								["SelectedCharacter"] = SelectedCharacter,
+							}
+						).Render()
+					});
+					newOptions.Add(
+						new StepOption()
+						{
+							Text = WebConsts.SupportSkillChooseText,
+
+							Template = BootstrapDynamicComponent.CreateComponent<SupportSkillSelect>
+							(
+								new Dictionary<string, object?>
+								{
+									["Slot"] = Slot,
+									["SelectedCharacter"] = SelectedCharacter,
+								}
+							).Render()
+						});
+					break;
+				case EnumSkillAndStrategy.SkillOnly:
+					newOptions.Add(
+					new StepOption()
+					{
+						Text = WebConsts.ActiveSkillChooseText,
+						Template = BootstrapDynamicComponent.CreateComponent<ActiveSkillSelect>
+						(
+							new Dictionary<string, object?>
+							{
+								["Slot"] = Slot,
+								["SelectedCharacter"] = SelectedCharacter,
+							}
+						).Render()
+					});
+					
+					break;
+				case EnumSkillAndStrategy.SupportOnly:
+					newOptions.Add(
+						new StepOption()
+						{
+							Text = WebConsts.SupportSkillChooseText,
+
+							Template = BootstrapDynamicComponent.CreateComponent<SupportSkillSelect>
+							(
+								new Dictionary<string, object?>
+								{
+									["Slot"] = Slot,
+									["SelectedCharacter"] = SelectedCharacter,
+								}
+							).Render()
+						});
+					break;
+				case EnumSkillAndStrategy.StrategyOnly:
+					newOptions.Add(
+					new StepOption()
+					{
+						Text = WebConsts.StrategySkillChooseText,
+
+						Template = BootstrapDynamicComponent.CreateComponent<StrategySelect>
+						(
+							new Dictionary<string, object?>
+							{
+								["Slot"] = Slot,
+								["SelectedCharacter"] = SelectedCharacter,
+							}
+						).Render()
+					});
+					break;
 			}
+			
+			
+			
 			Items = newOptions.ToList();
 		}
 		[NotNull]

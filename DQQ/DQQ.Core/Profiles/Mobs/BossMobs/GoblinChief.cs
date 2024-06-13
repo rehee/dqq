@@ -24,10 +24,21 @@ namespace DQQ.Profiles.Mobs.BossMobs
 				{
 					Priority=0,
 					Condition = EnumStrategyCondition.Target,
+					CheckTarget = EnumTarget.Target,
 					Property= EnumPropertyCompare.HealthPercentage,
 					Compare= EnumCompare.LessThan,
-					Value = 0.55m,
-				})
+					Value = 0.25m,
+				},
+				new Strategies.SkillStrategies.SkillStrategy
+				{
+					Priority=0,
+					Condition = EnumStrategyCondition.Players,
+					PartyStrategy = EnumStrategyParty.AliveNumber,
+					Property= EnumPropertyCompare.HealthPercentage,
+					Compare= EnumCompare.LessOrEqual,
+					Value = 1m,
+				}
+				)
 		};
 
 		public override decimal DropRate => 0.15m;
@@ -36,8 +47,8 @@ namespace DQQ.Profiles.Mobs.BossMobs
 
 		public override EnumMob ProfileNumber => EnumMob.GoblinChief;
 
-		public override string? Name => "哥布林酋长";
+		public override string? Name => "地精酋长";
 
-		public override string? Discription => "哥布林酋长";
+		public override string? Discription => "地精酋长";
 	}
 }

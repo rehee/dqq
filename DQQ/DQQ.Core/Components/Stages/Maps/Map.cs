@@ -10,6 +10,8 @@ using System.Numerics;
 using DQQ.Profiles;
 using ReheeCmf.Responses;
 using DQQ.Components.Parameters;
+using DQQ.Profiles.Mobs;
+using DQQ.Enums;
 
 namespace DQQ.Components.Stages.Maps
 {
@@ -72,10 +74,12 @@ namespace DQQ.Components.Stages.Maps
 			{
 				var wave = new List<IActor>();
 				mobList.Add(wave);
-				var mob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => new { r = RandomHelper.GetRandom(1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
+				var mob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => b.Value).GetRamdom();
 				if (i % 4 == 0)
 				{
 					wave.Add(Monster.Create(mob, MapLevel, Enums.EnumMobRarity.Champion));
+					wave.Add(Monster.Create(DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => b.Value).GetRamdom(), MapLevel, Enums.EnumMobRarity.Normal));
+					wave.Add(Monster.Create(DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => b.Value).GetRamdom(), MapLevel, Enums.EnumMobRarity.Normal));
 					continue;
 				}
 				wave.Add(Monster.Create(mob, MapLevel, Enums.EnumMobRarity.Normal));
@@ -84,8 +88,10 @@ namespace DQQ.Components.Stages.Maps
 
 			var finalWave = new List<IActor>();
 			var finalNormalMob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => new { r = RandomHelper.GetRandom(1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
+			var waver = DQQPool.TryGet<MobProfile, EnumMob>(EnumMob.BigGoblinWeaver);
 			finalWave.Add(Monster.Create(finalNormalMob, MapLevel, Enums.EnumMobRarity.Normal));
 			finalWave.Add(Monster.Create(mobWithBoss, MapLevel));
+			finalWave.Add(Monster.Create(waver, MapLevel));
 			mobList.Add(finalWave);
 
 		}

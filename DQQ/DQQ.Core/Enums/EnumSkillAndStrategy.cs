@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DQQ.Enums
 {
-	public enum EnumMob
+	public enum EnumSkillAndStrategy
 	{
-		Goblin = 1001,
-		BigGoblin = 1002,
-		BigGoblinWeaver = 1003,
-
-		GoblinChief = 100001
+		All,
+		SkillAndSupport,
+		SkillOnly,
+		SupportOnly,
+		StrategyOnly
 	}
 }

@@ -3,6 +3,7 @@ using DQQ.Pools;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Items.Equipments.Armors.BodyArmor;
 using DQQ.Profiles.Items.Equipments.OneHandWeapons;
+using DQQ.Profiles.Items.Equipments.OneHandWeapons.Claws;
 using DQQ.Profiles.Items.Equipments.TwoHandWeapons;
 using System;
 using System.Net.NetworkInformation;
@@ -77,6 +78,10 @@ namespace DQQ.Helper
 			if (input is EnumAttackType eact)
 			{
 				return GetString(eact);
+			}
+			if (input is EnumSkillAndStrategy esas)
+			{
+				return GetString(esas);
 			}
 			return $"{input}";
 		}
@@ -319,6 +324,20 @@ namespace DQQ.Helper
 				case EnumAttackType.Piercing: return "穿刺";
 				case EnumAttackType.MultiAttack: return "多重";
 				case EnumAttackType.Area: return "范围";
+
+				default:
+					return "普通";
+			}
+		}
+		public static string? GetString(this EnumSkillAndStrategy input)
+		{
+			switch (input)
+			{
+				case EnumSkillAndStrategy.All: return "技能与策略";
+				case EnumSkillAndStrategy.SkillAndSupport: return "技能与辅助";
+				case EnumSkillAndStrategy.SkillOnly: return "仅技能";
+				case EnumSkillAndStrategy.SupportOnly: return "仅辅助";
+				case EnumSkillAndStrategy.StrategyOnly: return "仅策略";
 
 				default:
 					return "普通";

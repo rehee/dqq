@@ -97,6 +97,7 @@ namespace DQQ.Profiles.Skills
 		}
 		public virtual async Task<ContentResponse<bool>> CastSkill(ComponentTickParameter? parameter)
 		{
+			TargetOverride(parameter);
 			await Task.CompletedTask;
 			var response = new ContentResponse<bool>();
 			if (BindingType == EnumSkillBindingType.Support)
@@ -185,6 +186,36 @@ namespace DQQ.Profiles.Skills
 				return parameter?.SelfCastTarget;
 			}
 			return parameter?.To;
+		}
+
+
+		public virtual EnumTarget? TargetForce => null;
+
+		public virtual void TargetOverride(ComponentTickParameter? parameter)
+		{
+			if (parameter == null || TargetForce == null)
+			{
+				return;
+			}
+			switch (TargetForce)
+			{
+				case EnumTarget.Target:
+					if (parameter?.To == null || parameter?.FriendlyTargets?.Contains(parameter?.To) == true)
+					{
+						parameter.SecondaryTarget = parameter?.From?.Target;
+					}
+					break;
+				case EnumTarget.Self:
+					parameter.SecondaryTarget = parameter.From;
+					break;
+				case EnumTarget.Friendly:
+					if (parameter?.To == null || parameter?.EnemyTargets?.Contains(parameter?.To) == true)
+					{
+						parameter.SecondaryTarget = parameter?.From;
+					}
+					break;
+			}
+
 		}
 	}
 }
