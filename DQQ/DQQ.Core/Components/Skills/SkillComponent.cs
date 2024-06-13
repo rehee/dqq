@@ -360,7 +360,7 @@ namespace DQQ.Components.Skills
 				CastTickCount++;
 				goto FinalSteps;
 			}
-
+			
 			result = await CastingSkill(ComponentTickParameter.New(parameter, SkillTarget));
 
 

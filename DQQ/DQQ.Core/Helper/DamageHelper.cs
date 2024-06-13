@@ -75,7 +75,7 @@ namespace DQQ.Helper
 			{
 				return Enumerable.Empty<DamageDeal>().ToArray();
 			}
-			var supportSpellRate = profile.DamageRate + parameter?.SupportSkills?.Sum(b => b.DamageRate) ?? 0;
+			var supportSpellRate = profile.DamageRate + (parameter?.SupportSkills?.Sum(b => b.DamageRate) ?? 0);
 			var skillDamage = basicDamage.Percentage(supportSpellRate);
 			return [DamageDeal.New(skillDamage)];
 		}
