@@ -118,7 +118,7 @@ namespace DQQ.Profiles.Skills
 			{
 				var damage = CalculateDamage(parameter);
 				var targets = parameter!.SkillEffectTarget();
-				if (targets?.Any() == true)
+				if (targets?.Count() > 1)
 				{
 					foreach (var target in targets)
 					{

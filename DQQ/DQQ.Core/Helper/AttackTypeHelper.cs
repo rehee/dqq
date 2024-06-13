@@ -1,14 +1,8 @@
 ﻿using DQQ.Combats;
 using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
+using DQQ.Consts;
 using DQQ.Enums;
-using DQQ.Profiles.Skills;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DQQ.Helper
 {
@@ -24,7 +18,7 @@ namespace DQQ.Helper
 			{
 				case EnumAttackType.Chain:
 					return GetChainTargets(parameter.To,
-						parameter?.EnemyTargets?.Where(b => b.Alive).ToArray() ?? [], parameter?.ExtraAttackNumber ?? 0)
+						parameter?.EnemyTargets?.Where(b => b.Alive).ToArray() ?? [], Math.Min(DQQGeneral.MaxDamageCount, parameter?.ExtraAttackNumber ?? 0))
 						.ToArray();
 				case EnumAttackType.Cleave:
 					return GetCleaveTargets(parameter.To,
@@ -36,7 +30,7 @@ namespace DQQ.Helper
 						.ToArray();
 				case EnumAttackType.MultiAttack:
 					return GetMultiAttackTargets(parameter.To,
-						parameter?.EnemyTargets?.Where(b => b.Alive).ToArray() ?? [], parameter?.AreaLevel ?? EnumAreaLevel.Single, parameter?.ExtraAttackNumber ?? 0)
+						parameter?.EnemyTargets?.Where(b => b.Alive).ToArray() ?? [], parameter?.AreaLevel ?? EnumAreaLevel.Single, Math.Min(DQQGeneral.MaxDamageCount, parameter?.ExtraAttackNumber ?? 0))
 						.ToArray();
 				case EnumAttackType.Area:
 					return GetAreaTargets(parameter.To,

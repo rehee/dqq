@@ -80,6 +80,12 @@ namespace DQQ.Components.Stages.Actors.Characters
 		{
 			base.Initialize(entity, parent);
 
+
+			foreach (var skil in Skills ?? [])
+			{
+				skil.CheckAndSetAvaliableForUser(this);
+			}
+
 			var skills = Skills?.ToDictionary(b => b.Slot, b => SkillDTO.New(b)) ?? [];
 
 			SkillMap = new Dictionary<EnumSkillSlot, SkillDTO>();

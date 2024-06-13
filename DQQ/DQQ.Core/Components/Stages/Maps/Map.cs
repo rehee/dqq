@@ -121,7 +121,8 @@ namespace DQQ.Components.Stages.Maps
 			Logs = new List<TickLogItem>();
 			Drops = new List<ItemComponent>();
 			WaveIndex = -1;
-			while (TickCount < this.TotalTick())
+			var totalTick = this.TotalTick();
+			while (TickCount < totalTick)
 			{
 				TickCount++;
 				WaveTickCount++;
@@ -130,6 +131,7 @@ namespace DQQ.Components.Stages.Maps
 				{
 					break;
 				}
+				var playerPack = Players.ToArray();
 				var currentPack = MobPool.FirstOrDefault(b => b != null && b.Any(m => m.Alive));
 				var currentIndex = MobPool.IndexOf(currentPack);
 				if (WaveIndex != currentIndex)
@@ -137,9 +139,9 @@ namespace DQQ.Components.Stages.Maps
 					WaveIndex = currentIndex;
 					TickLogHelper.AddMapLogNewWave(this);
 					WaveTickCount = 0;
-					if (Players?.Any() == true)
+					if (playerPack?.Any() == true)
 					{
-						foreach (var p in Players.Where(b => b.Alive).ToArray())
+						foreach (var p in playerPack.Where(b => b.Alive).ToArray())
 						{
 							p.ResetWave();
 						}
@@ -158,9 +160,9 @@ namespace DQQ.Components.Stages.Maps
 				}
 				try
 				{
-					if (Players?.Any() == true)
+					if (playerPack?.Any() == true)
 					{
-						foreach (var p in Players.ToArray())
+						foreach (var p in playerPack)
 						{
 							if (p.TargetPriority != null)
 							{
@@ -173,7 +175,7 @@ namespace DQQ.Components.Stages.Maps
 									p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).FirstOrDefault());
 								}
 							}
-							await p.OnTick(ComponentTickParameter.New(p, Players, currentPack, this));
+							await p.OnTick(ComponentTickParameter.New(p, playerPack, currentPack, this));
 						}
 					}
 
@@ -187,7 +189,7 @@ namespace DQQ.Components.Stages.Maps
 						{
 							p.SelectTarget(Players?.FirstOrDefault());
 						}
-						await p.OnTick(ComponentTickParameter.New(p, currentPack, Players, this));
+						await p.OnTick(ComponentTickParameter.New(p, currentPack, playerPack, this));
 					}
 					if (Players?.All(b => b.Alive == false) == true)
 					{

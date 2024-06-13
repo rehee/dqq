@@ -324,7 +324,7 @@ namespace DQQ.Components.Skills
 			}
 			result.SetError();
 
-			//var target = parameter.From?.Target;
+			
 			if (CDTickCount > 0)
 			{
 				CDTickCount--;
@@ -360,7 +360,7 @@ namespace DQQ.Components.Skills
 				CastTickCount++;
 				goto FinalSteps;
 			}
-			
+
 			result = await CastingSkill(ComponentTickParameter.New(parameter, SkillTarget));
 
 
@@ -401,8 +401,29 @@ namespace DQQ.Components.Skills
 			result.ActorId = actorId;
 			return result;
 		}
+		public bool AvaliableForUser { get; set; } = true;
 
-
-
+		public bool CheckAvaliableForCharacter(Character actor)
+		{
+			if (Slot == EnumSkillSlot.NotSpecified || actor == null)
+			{
+				return false;
+			}
+			var slotAvaliable = true;
+			switch (Slot)
+			{
+				case EnumSkillSlot.WeaponSlotTH: slotAvaliable = actor?.WithTwoHandWeapon == true; break;
+				case EnumSkillSlot.WeaponSlot1: slotAvaliable = actor?.WithWeapon1 == true; break;
+				case EnumSkillSlot.WeaponSlot2: slotAvaliable = actor?.WithWeapon2 == true; break;
+			}
+			return slotAvaliable;
+		}
+		public ContentResponse<bool> CheckAndSetAvaliableForUser(Character actor)
+		{
+			var result = new ContentResponse<bool>();
+			AvaliableForUser = CheckAvaliableForCharacter(actor);
+			result.SetSuccess(AvaliableForUser);
+			return result;
+		}
 	}
 }

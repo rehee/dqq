@@ -64,7 +64,7 @@ namespace DQQ.Components.Stages.Actors
 			}
 			if (Skills != null)
 			{
-				foreach (var skill in Skills.Where(b => b != null))
+				foreach (var skill in Skills.Where(b => b != null && b.AvaliableForUser == true))
 				{
 					var skillResult = await skill!.OnTick(parameter);
 				}

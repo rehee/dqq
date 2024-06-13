@@ -24,7 +24,8 @@ namespace DQQ.Commons.DTOs
 			{
 				SkillNumber = component?.SkillProfile?.SkillNumber ?? EnumSkillNumber.NotSpecified,
 				SkillStrategies = component?.SkillStrategies?.OrderBy(b => b.Property).ToList() ?? [],
-				SupportSkills = component?.SupportSkills
+				SupportSkills = component?.SupportSkills,
+				AvaliableForUser = component?.AvaliableForUser == true
 			};
 		}
 		public static SkillDTO New(EnumSkillNumber skill)
@@ -53,5 +54,6 @@ namespace DQQ.Commons.DTOs
 		public List<SkillStrategy>? SkillStrategies { get; set; }
 
 		public SkillDTO[]? SupportSkills { get; set; }
+		public bool AvaliableForUser { get; set; }
 	}
 }
