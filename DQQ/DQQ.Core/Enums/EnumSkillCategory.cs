@@ -16,5 +16,6 @@ namespace DQQ.Enums
 		Strategy,
 		Mastery,
 		Ultimate,
+		Enhancement
 	}
 }

@@ -9,7 +9,7 @@ namespace DQQ.Profiles.Skills.Supports
 	public class BlastSupport : AbSupportSkillProfile
 	{
 		public override decimal DamageRate => 0;
-
+		public override EnumSkillCategory Category => EnumSkillCategory.Strategy;
 		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.BlastSupport;
 
 		public override string? Name => "爆裂辅助";

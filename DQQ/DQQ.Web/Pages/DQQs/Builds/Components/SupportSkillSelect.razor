@@ -26,7 +26,7 @@
 
 						</div>
 						<Drawer Placement="Placement.Left" @bind-IsOpen="@IsBackdropOpens[i2]" IsBackdrop="true">
-							<SkillSelector SupportSkillIndex="i2" SelectedCharacter="SelectedCharacter" Slot="Slot" CardTitle="辅助技选择" />
+							<SkillSelector SupportSkillIndex="i2" SelectedCharacter="SelectedCharacter" Slot="Slot" BindingTypes="[ EnumSkillBindingType.Support,EnumSkillBindingType.Trigger,EnumSkillBindingType.Active ]" CardTitle="辅助技选择" />
 						</Drawer>
 					</BodyTemplate>
 				</Card>

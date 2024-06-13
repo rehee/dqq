@@ -13,6 +13,7 @@ namespace DQQ.Profiles.Skills.Supports
 	[Pooled]
 	public class ChainSupport : AbSupportSkillProfile
 	{
+		public override EnumSkillCategory Category => EnumSkillCategory.Strategy;
 		public override decimal DamageRate => 0;
 
 		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.ChainSupport;

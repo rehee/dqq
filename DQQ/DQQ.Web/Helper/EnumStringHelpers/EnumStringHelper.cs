@@ -280,6 +280,8 @@ namespace DQQ.Helper
 				case EnumSkillCategory.Strategy: return "战术";
 				case EnumSkillCategory.Mastery: return "精通";
 				case EnumSkillCategory.Ultimate: return "大招";
+				case EnumSkillCategory.Enhancement: return "强化";
+
 				default:
 					return "";
 			}

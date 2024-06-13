@@ -1,27 +1,94 @@
 ﻿@using DQQ.Profiles.Skills
 @inherits SkillSelectorPage
-<Card>
-	<HeaderTemplate>
-		@CardTitle <span>&nbsp;</span> <Button Color="Color.Danger" Size="Size.ExtraSmall" OnClick="SkillUnselect">取消选择</Button>
-	</HeaderTemplate>
-	<BodyTemplate>
-		<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
-			<HeaderTemplate>
-				<div>技能列表</div>
-			</HeaderTemplate>
-			<BodyTemplate>
-				<Card Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.None)">
-					<BodyTemplate>
-						<p>
-							@context.SkillName
-						</p>
-					</BodyTemplate>
-				</Card>
-			</BodyTemplate>
-		</ListView>
+<style>
+	#my_header .card-body {
+		display: none;
+	}
+</style>
+<Row>
+	<Card Id="my_header">
+		<HeaderTemplate>
+			<Button Color="Color.Danger" Size="Size.ExtraSmall" OnClick="SkillUnselect">取消选择</Button>
+		</HeaderTemplate>
+	</Card>
+	@if (BindingTypes?.Any() == true)
+	{
+		foreach (var type in BindingTypes)
+		{
+			switch (type)
+			{
+				case EnumSkillBindingType.Active:
 
-	</BodyTemplate>
-	<FooterTemplate>
-		汇总信息:
-	</FooterTemplate>
-</Card>
+					<Card IsCollapsible="true" HeaderText="主动技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Active">
+
+						<BodyTemplate>
+							<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
+								<HeaderTemplate>
+									<div>技能列表</div>
+								</HeaderTemplate>
+								<BodyTemplate>
+									<Popover Placement="Placement.Top" Title="@context.SkillName" Content="@context.ExtureDiscription" IsHtml="true">
+										<Tag Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.Dark)">
+											@context.SkillName
+										</Tag>
+									</Popover>
+								</BodyTemplate>
+							</ListView>
+
+						</BodyTemplate>
+						<FooterTemplate>
+							汇总信息:
+						</FooterTemplate>
+					</Card>
+					break;
+				case EnumSkillBindingType.Trigger:
+					<Card IsCollapsible="true" HeaderText="触发技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Trigger">
+
+						<BodyTemplate>
+							<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync2" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
+								<HeaderTemplate>
+									<div>技能列表</div>
+								</HeaderTemplate>
+								<BodyTemplate>
+									<Popover Placement="Placement.Top" Title="@context.SkillName" Content="@context.ExtureDiscription" IsHtml="true">
+										<Tag Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.Dark)">
+											@context.SkillName
+										</Tag>
+									</Popover>
+								</BodyTemplate>
+							</ListView>
+
+						</BodyTemplate>
+						<FooterTemplate>
+							汇总信息:
+						</FooterTemplate>
+					</Card>
+
+					break;
+				case EnumSkillBindingType.Support:
+					<Card IsCollapsible="true" HeaderText="辅助技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Support">
+						<BodyTemplate>
+							<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync3" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
+								<HeaderTemplate>
+									<div>技能列表</div>
+								</HeaderTemplate>
+								<BodyTemplate>
+									<Popover Placement="Placement.Top" Title="@context.SkillName" Content="@context.ExtureDiscription" IsHtml="true">
+										<Tag Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.Dark)">
+											@context.SkillName
+										</Tag>
+									</Popover>
+								</BodyTemplate>
+							</ListView>
+
+						</BodyTemplate>
+						<FooterTemplate>
+							汇总信息:
+						</FooterTemplate>
+					</Card>
+
+					break;
+			}
+		}
+	}
+</Row>

@@ -10,6 +10,7 @@ namespace DQQ.Profiles.Skills.Supports
 	public class EmpowerSupport : AbSupportSkillProfile
 	{
 		public override decimal DamageRate => 0m;
+		public override EnumSkillCategory Category => EnumSkillCategory.Enhancement;
 		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.EmpowerSupport;
 		public int Increase => 15;
 		public decimal IncreasePercentage => (100 + Increase) / 100m;

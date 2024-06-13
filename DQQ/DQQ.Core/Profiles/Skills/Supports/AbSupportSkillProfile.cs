@@ -11,7 +11,6 @@ namespace DQQ.Profiles.Skills.Supports
 	{
 		public override EnumSkillBindingType BindingType => EnumSkillBindingType.Support;
 		public override decimal CastTime => 0;
-
 		public override decimal CoolDown => 0;
 		public override bool CastWithWeaponSpeed => false;
 	}

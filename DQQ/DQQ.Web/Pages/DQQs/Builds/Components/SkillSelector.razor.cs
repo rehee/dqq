@@ -50,7 +50,25 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 		public List<SkillProfile>? SkillProfiles { get; set; }
 		public Task<QueryData<SkillProfile>> OnQueryAsync(QueryPageOptions options)
 		{
-			var items = SkillProfiles.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
+			var items = SkillProfiles.Where(b => b.BindingType == EnumSkillBindingType.Active).Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
+			return Task.FromResult(new QueryData<SkillProfile>()
+			{
+				Items = items,
+				TotalCount = SkillProfiles.Count()
+			});
+		}
+		public Task<QueryData<SkillProfile>> OnQueryAsync2(QueryPageOptions options)
+		{
+			var items = SkillProfiles.Where(b => b.BindingType == EnumSkillBindingType.Trigger).Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
+			return Task.FromResult(new QueryData<SkillProfile>()
+			{
+				Items = items,
+				TotalCount = SkillProfiles.Count()
+			});
+		}
+		public Task<QueryData<SkillProfile>> OnQueryAsync3(QueryPageOptions options)
+		{
+			var items = SkillProfiles.Where(b => b.BindingType == EnumSkillBindingType.Support).Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
 			return Task.FromResult(new QueryData<SkillProfile>()
 			{
 				Items = items,
@@ -72,6 +90,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 			{
 				SelectedSkillDTO.SkillNumber = profile?.SkillNumber ?? EnumSkillNumber.NotSpecified;
 			}
+			StateHasChanged();
 		}
 
 		public async Task SkillUnselect()
@@ -87,8 +106,8 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 			await base.OnInitializedAsync();
 			SkillProfiles = DQQPool.SkillPool.Select(b => b.Value)
 				.Where(b => b.NoPlayerSkill != true)
-				.Where(b => BindingTypes == null ? true : BindingTypes.Contains(b.BindingType))
 				.ToList();
+			
 		}
 	}
 }

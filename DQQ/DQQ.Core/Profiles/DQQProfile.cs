@@ -37,5 +37,7 @@ namespace DQQ.Profiles
 	{
 		public abstract T ProfileNumber { get; }
 
+
+		public string? ExtureDiscription { get; set; }
 	}
 }
