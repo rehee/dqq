@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Items
 {
-  public abstract class ItemProfile : DQQProfile<EnumItem>
-  {
-    public abstract bool IsStack { get; }
-    public abstract int DropQuantity { get; }
-    public abstract decimal Rarity { get; }
+	public abstract class ItemProfile : DQQProfile<EnumItem>
+	{
+		public abstract bool IsStack { get; }
+		public abstract int DropQuantity { get; }
+		public abstract decimal Rarity { get; }
 		public abstract EnumItemType? ItemType { get; }
-		public virtual ItemComponent GenerateComponent(int? itemLevel, int? quantity, EnumRarity rarity = EnumRarity.Normal)
-    {
-      var result = ItemComponent.New();
-      result.Initialize(this, itemLevel, quantity);
-      return result;
-    }
+		public virtual ItemComponent GenerateComponent(Random r, int? itemLevel, int? quantity, EnumRarity rarity = EnumRarity.Normal)
+		{
+			var result = ItemComponent.New();
+			result.Initialize(this, itemLevel, quantity);
+			return result;
+		}
 
-  }
+	}
 }

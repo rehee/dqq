@@ -8,19 +8,25 @@ using DQQ.Profiles;
 
 namespace DQQ.Components.Parameters
 {
-	public class ComponentTickParameter : IWIthAttackTypeAndArea
+	public class ComponentTickParameter : ComponentBaseParameter, IWIthAttackTypeAndArea
 	{
-		public static ComponentTickParameter New(ITarget? from)
+		private ComponentTickParameter()
+		{
+			// 私有构造函数
+		}
+		public static ComponentTickParameter New(int randomSeed)
 		{
 			return new ComponentTickParameter
 			{
-				From = from,
+				Random = new Random(randomSeed)
 			};
 		}
+
 		public static ComponentTickParameter New(ComponentTickParameter? parameter)
 		{
 			return new ComponentTickParameter
 			{
+				Random = parameter?.Random,
 				From = parameter?.From,
 				FriendlyTargets = parameter?.FriendlyTargets,
 				EnemyTargets = parameter?.EnemyTargets,
@@ -44,18 +50,25 @@ namespace DQQ.Components.Parameters
 			result.Healings = healings;
 			return result;
 		}
-
-		public static ComponentTickParameter New(ITarget? from, IEnumerable<ITarget>? friendlyTargets, IEnumerable<ITarget>? enemyTargets, IMap? map)
+		public static ComponentTickParameter New(ComponentTickParameter? parameter, HealingDeal[]? healings, ITarget? from, ITarget? to, IMap? map)
 		{
-			return new ComponentTickParameter
-			{
-				From = from,
-				FriendlyTargets = friendlyTargets,
-				EnemyTargets = enemyTargets,
-				Map = map
-			};
+			var result = New(parameter);
+			result.Healings = healings;
+			result.From = from;
+			result.SecondaryTarget = to;
+			result.Map = map;
+			return result;
 		}
+		public static ComponentTickParameter New(ComponentTickParameter? parameter, ITarget? from, IEnumerable<ITarget>? friendlyTargets, IEnumerable<ITarget>? enemyTargets, IMap? map)
+		{
+			var result = New(parameter);
+			result.From = from;
+			result.FriendlyTargets = friendlyTargets;
+			result.EnemyTargets = enemyTargets;
+			result.Map = map;
+			return result;
 
+		}
 		public static ComponentTickParameter New(ComponentTickParameter? parameter, ITarget? secondaryTarget)
 		{
 			var result = New(parameter);
@@ -75,16 +88,16 @@ namespace DQQ.Components.Parameters
 			result.Damages = rawDamages;
 			return result;
 		}
-		public static ComponentTickParameter New(ITarget? from, ITarget? to, IMap? map, DQQProfile? source, params DamageDeal[]? damages)
+		public static ComponentTickParameter New(ComponentTickParameter? parameter, ITarget? from, ITarget? to, IMap? map, DQQProfile? source, params DamageDeal[]? damages)
 		{
-			return new ComponentTickParameter
-			{
-				From = from,
-				SecondaryTarget = to,
-				Map = map,
-				Source = source,
-				Damages = damages?.ToArray()
-			};
+			var result = New(parameter);
+			result.From = from;
+			result.SecondaryTarget = to;
+			result.Map = map;
+			result.Source = source;
+			result.Damages = damages?.ToArray();
+			return result;
+
 		}
 		public ITarget? From { get; set; }
 		public ITarget? SecondaryTarget { get; set; }

@@ -7,6 +7,7 @@ using ReheeCmf.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@ namespace DQQ.Profiles.Skills.Triggers
 
 		public override bool AfterDealingDamageCheck(ComponentTickParameter parameter)
 		{
-			var random = RandomHelper.GetRandomInt(0, 100);
+			var random = RandomHelper.GetRandomInt(parameter.Random, 0, 100);
 			return random <= 25;
 		}
 

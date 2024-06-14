@@ -12,38 +12,38 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Items.Equipments.Armors
 {
-  public abstract class AbArmor<T> : EquipProfile where T : class, IArmorType, new()
-  {
-    public abstract decimal PowerPercentage { get; }
+	public abstract class AbArmor<T> : EquipProfile where T : class, IArmorType, new()
+	{
+		public abstract decimal PowerPercentage { get; }
 
-    public override EquipComponent GenerateEquipComponent(int? itemLevel, EnumRarity rarity = EnumRarity.Normal)
-    {
-      var result = base.GenerateEquipComponent(itemLevel, rarity);
+		public override EquipComponent GenerateEquipComponent(Random r, int? itemLevel, EnumRarity rarity = EnumRarity.Normal)
+		{
+			var result = base.GenerateEquipComponent(r, itemLevel, rarity);
 
-      var inputType = typeof(T);
-      AffixeRange[]? ranges = null;
-      if (inputType == typeof(ArmorTypeArmor))
-      {
-        ranges = ArmorTypeExtend.Armor.Ranges;
-      }
-      if (inputType == typeof(ArmorTypeDefence))
-      {
-        ranges = ArmorTypeExtend.Defence.Ranges;
-      }
-      if (inputType == typeof(ArmorTypeArmorDefence))
-      {
-        ranges = ArmorTypeExtend.ArmorDefence.Ranges;
-      }
-      if (ranges?.Any() == true)
-      {
-        foreach (var p in ranges.Select(b => b.NewPower(itemLevel.DefaultValue(1))))
-        {
-          p.Power = (int)Math.Round(p.Power.DefaultValue(0) * PowerPercentage, 0);
-          p.SetProperty(result?.Property);
-        }
-      }
+			var inputType = typeof(T);
+			AffixeRange[]? ranges = null;
+			if (inputType == typeof(ArmorTypeArmor))
+			{
+				ranges = ArmorTypeExtend.Armor.Ranges;
+			}
+			if (inputType == typeof(ArmorTypeDefence))
+			{
+				ranges = ArmorTypeExtend.Defence.Ranges;
+			}
+			if (inputType == typeof(ArmorTypeArmorDefence))
+			{
+				ranges = ArmorTypeExtend.ArmorDefence.Ranges;
+			}
+			if (ranges?.Any() == true)
+			{
+				foreach (var p in ranges.Select(b => b.NewPower(r, itemLevel.DefaultValue(1))))
+				{
+					p.Power = (int)Math.Round(p.Power.DefaultValue(0) * PowerPercentage, 0);
+					p.SetProperty(result?.Property);
+				}
+			}
 
-      return result!;
-    }
-  }
+			return result!;
+		}
+	}
 }

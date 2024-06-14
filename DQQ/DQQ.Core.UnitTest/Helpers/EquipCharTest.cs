@@ -14,7 +14,7 @@ namespace DQQ.Core.UnitTest.Helpers
     public void EquipItemTest()
     {
       var equipProfile = DQQPool.TryGet<ItemProfile, EnumItem?>(EnumItem.CorrodedBlade) as EquipProfile;
-      var equip = equipProfile!.GenerateEquipComponent(1);
+      var equip = equipProfile!.GenerateEquipComponent(RandomHelper.NewRandom(), 1);
       var player = new Character();
       player.Equip(EnumEquipSlot.MainHand, equip);
       Assert.That(player.CombatPanel?.StaticPanel.MainHand, Is.EqualTo(equip.Property!.MainHand));

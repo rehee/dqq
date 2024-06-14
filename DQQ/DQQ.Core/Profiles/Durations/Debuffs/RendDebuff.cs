@@ -14,27 +14,29 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Durations.Debuffs
 {
-  [Pooled]
-  public class RendDebuff : DurationProfile
-  {
-    public override EnumDurationType? DurationType => EnumDurationType.Damage;
+	[Pooled]
+	public class RendDebuff : DurationProfile
+	{
+		public override EnumDurationType? DurationType => EnumDurationType.Damage;
 
-    public override EnumDurationNumber ProfileNumber => EnumDurationNumber.Rend;
+		public override EnumDurationNumber ProfileNumber => EnumDurationNumber.Rend;
 
-    public override string? Name => "撕裂 (debuff)";
+		public override string? Name => "撕裂 (debuff)";
 
-    public override string? Discription => "周期性造成伤害";
+		public override string? Discription => "周期性造成伤害";
 
-    public override void Damage(DurationComponent compose, ITarget? target, IMap? map)
-    {
-      if (target == null)
-      {
-        return;
-      }
-      var tick = compose.TickPower<=0 ? 1 : compose.TickPower;
+		public override void Damage(ComponentTickParameter? parameter, DurationComponent compose, ITarget? target, IMap? map)
+		{
+			if (target == null)
+			{
+				return;
+			}
+			var tick = compose.TickPower <= 0 ? 1 : compose.TickPower;
 
-			var result = target!.TakeDamage(ComponentTickParameter.New(compose.Creator, target, map, this, DamageDeal.New(tick)));
+			var result = target!.TakeDamage(
+				ComponentTickParameter.New(parameter, compose.Creator, target, map, this, DamageDeal.New(tick))
+				);
 
-    }
-  }
+		}
+	}
 }

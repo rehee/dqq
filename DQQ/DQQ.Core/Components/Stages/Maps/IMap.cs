@@ -1,4 +1,5 @@
 ﻿using DQQ.Components.Items;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages.Actors;
 using DQQ.TickLogs;
 using System.Numerics;
@@ -30,5 +31,6 @@ namespace DQQ.Components.Stages.Maps
     List<ItemComponent>? Drops { get; }
     decimal PlayingCurrentSecond { get; }
     Int64 XP { get; set; }
-  }
+		ComponentTickParameter? TickParameter { get; set; }
+	}
 }

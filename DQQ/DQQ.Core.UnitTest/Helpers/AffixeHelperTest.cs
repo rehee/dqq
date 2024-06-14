@@ -23,7 +23,7 @@ namespace DQQ.Core.UnitTest.Helpers
         Rarity = EnumRarity.Magic,
       };
 
-      var affect = AffixeHelper.GenerateAllAffies(change);
+      var affect = AffixeHelper.GenerateAllAffies(RandomHelper.NewRandom(), change);
     }
   }
 }

@@ -42,9 +42,12 @@ namespace DQQ.Components.Stages.Maps
 
 		public DQQProfile? Profile { get; set; }
 
+		public ComponentTickParameter? TickParameter { get; set; }
 		public async Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier)
 		{
 			await Task.CompletedTask;
+			var seed = RandomHelper.GetRandomSeed();
+			TickParameter = ComponentTickParameter.New(seed);
 			Tier = mapTier;
 			SubTier = mapSubTier;
 			Playable = true;
@@ -74,20 +77,20 @@ namespace DQQ.Components.Stages.Maps
 			{
 				var wave = new List<IActor>();
 				mobList.Add(wave);
-				var mob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => b.Value).GetRamdom();
+				var mob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => b.Value).GetRamdom(TickParameter.Random);
 				if (i % 4 == 0)
 				{
 					wave.Add(Monster.Create(mob, MapLevel, Enums.EnumMobRarity.Champion));
-					wave.Add(Monster.Create(DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => b.Value).GetRamdom(), MapLevel, Enums.EnumMobRarity.Normal));
-					wave.Add(Monster.Create(DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => b.Value).GetRamdom(), MapLevel, Enums.EnumMobRarity.Normal));
+					wave.Add(Monster.Create(DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => b.Value).GetRamdom(TickParameter.Random), MapLevel, Enums.EnumMobRarity.Normal));
+					wave.Add(Monster.Create(DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => b.Value).GetRamdom(TickParameter.Random), MapLevel, Enums.EnumMobRarity.Normal));
 					continue;
 				}
 				wave.Add(Monster.Create(mob, MapLevel, Enums.EnumMobRarity.Normal));
 			}
-			var mobWithBoss = DQQPool.MobPool.Where(b => b.Value.IsBoss).Select(b => new { r = RandomHelper.GetRandom(1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
+			var mobWithBoss = DQQPool.MobPool.Where(b => b.Value.IsBoss).Select(b => new { r = RandomHelper.GetRandom(TickParameter.Random, 1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
 
 			var finalWave = new List<IActor>();
-			var finalNormalMob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => new { r = RandomHelper.GetRandom(1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
+			var finalNormalMob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => new { r = RandomHelper.GetRandom(TickParameter.Random, 1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
 			var waver = DQQPool.TryGet<MobProfile, EnumMob>(EnumMob.BigGoblinWeaver);
 			finalWave.Add(Monster.Create(finalNormalMob, MapLevel, Enums.EnumMobRarity.Normal));
 			finalWave.Add(Monster.Create(mobWithBoss, MapLevel));
@@ -181,7 +184,7 @@ namespace DQQ.Components.Stages.Maps
 									p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).FirstOrDefault());
 								}
 							}
-							await p.OnTick(ComponentTickParameter.New(p, playerPack, currentPack, this));
+							await p.OnTick(ComponentTickParameter.New(TickParameter, p, playerPack, currentPack, this));
 						}
 					}
 
@@ -195,7 +198,7 @@ namespace DQQ.Components.Stages.Maps
 						{
 							p.SelectTarget(Players?.FirstOrDefault());
 						}
-						await p.OnTick(ComponentTickParameter.New(p, currentPack, playerPack, this));
+						await p.OnTick(ComponentTickParameter.New(TickParameter, p, currentPack, playerPack, this));
 					}
 					if (Players?.All(b => b.Alive == false) == true)
 					{

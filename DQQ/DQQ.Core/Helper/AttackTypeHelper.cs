@@ -17,30 +17,30 @@ namespace DQQ.Helper
 			switch (parameter.AttackTypes)
 			{
 				case EnumAttackType.Chain:
-					return GetChainTargets(parameter.To,
+					return GetChainTargets(parameter, parameter.To,
 						parameter?.EnemyTargets?.Where(b => b.Alive).ToArray() ?? [], Math.Min(DQQGeneral.MaxDamageCount, parameter?.ExtraAttackNumber ?? 0))
 						.ToArray();
 				case EnumAttackType.Cleave:
-					return GetCleaveTargets(parameter.To,
+					return GetCleaveTargets(parameter, parameter.To,
 						parameter?.EnemyTargets?.Where(b => b.Alive).ToArray() ?? [], parameter?.AreaLevel ?? EnumAreaLevel.Single)
 						.ToArray();
 				case EnumAttackType.Piercing:
-					return GetPiercingTargets(parameter.To,
+					return GetPiercingTargets(parameter, parameter.To,
 						parameter?.EnemyTargets?.Where(b => b.Alive).ToArray() ?? [], parameter?.AreaLevel ?? EnumAreaLevel.Single)
 						.ToArray();
 				case EnumAttackType.MultiAttack:
-					return GetMultiAttackTargets(parameter.To,
+					return GetMultiAttackTargets(parameter, parameter.To,
 						parameter?.EnemyTargets?.Where(b => b.Alive).ToArray() ?? [], parameter?.AreaLevel ?? EnumAreaLevel.Single, Math.Min(DQQGeneral.MaxDamageCount, parameter?.ExtraAttackNumber ?? 0))
 						.ToArray();
 				case EnumAttackType.Area:
-					return GetAreaTargets(parameter.To,
+					return GetAreaTargets(parameter, parameter.To,
 						parameter?.EnemyTargets?.Where(b => b.Alive).ToArray() ?? [], parameter?.AreaLevel ?? EnumAreaLevel.Single)
 						.ToArray();
 
 			}
 			return [parameter.To!];
 		}
-		public static IEnumerable<ITarget> GetChainTargets(ITarget? target, ITarget[] allTargets, int remain = 0, IEnumerable<ITarget>? targetPool = null)
+		public static IEnumerable<ITarget> GetChainTargets(ComponentTickParameter parameter, ITarget? target, ITarget[] allTargets, int remain = 0, IEnumerable<ITarget>? targetPool = null)
 		{
 			if (target == null)
 			{
@@ -51,11 +51,10 @@ namespace DQQ.Helper
 			{
 				return targetPool ?? [target];
 			}
-			var randomon = RandomHelper.NewRandom();
-			var randomTarget = avaliableTargets.Select(b => (randomon.Next(), b)).OrderBy(b => b.Item1).Select(b => b.b).FirstOrDefault();
-			return GetChainTargets(randomTarget, allTargets, remain - 1, (targetPool ?? [target!]).Concat([randomTarget!]).ToArray());
+			var randomTarget = avaliableTargets.Select(b => (parameter.Random.Next(), b)).OrderBy(b => b.Item1).Select(b => b.b).FirstOrDefault();
+			return GetChainTargets(parameter, randomTarget, allTargets, remain - 1, (targetPool ?? [target!]).Concat([randomTarget!]).ToArray());
 		}
-		public static IEnumerable<ITarget> GetCleaveTargets(ITarget? target, ITarget[] allTargets, EnumAreaLevel aoeLevel)
+		public static IEnumerable<ITarget> GetCleaveTargets(ComponentTickParameter parameter, ITarget? target, ITarget[] allTargets, EnumAreaLevel aoeLevel)
 		{
 			if (target == null)
 			{
@@ -79,12 +78,9 @@ namespace DQQ.Helper
 					aoeNumber = allTargets.Length / 2;
 					break;
 			}
-			var randomon = RandomHelper.NewRandom();
-
-
-			return selfList.Concat(allTargets.Where(b => b.DisplayId != target.DisplayId).GetNumberOfRandom(aoeNumber)).ToArray();
+			return selfList.Concat(allTargets.Where(b => b.DisplayId != target.DisplayId).GetNumberOfRandom(aoeNumber, parameter.Random)).ToArray();
 		}
-		public static IEnumerable<ITarget> GetPiercingTargets(ITarget? target, ITarget[] allTargets, EnumAreaLevel aoeLevel)
+		public static IEnumerable<ITarget> GetPiercingTargets(ComponentTickParameter parameter, ITarget? target, ITarget[] allTargets, EnumAreaLevel aoeLevel)
 		{
 			if (target == null)
 			{
@@ -113,9 +109,9 @@ namespace DQQ.Helper
 			return allTargets.Where((b, i) => i >= currentIndex).Take(aoeNumber + 1).ToArray();
 
 		}
-		public static IEnumerable<ITarget> GetMultiAttackTargets(ITarget? target, ITarget[] allTargets, EnumAreaLevel aoeLevel, int attackTimes = 1)
+		public static IEnumerable<ITarget> GetMultiAttackTargets(ComponentTickParameter parameter, ITarget? target, ITarget[] allTargets, EnumAreaLevel aoeLevel, int attackTimes = 1)
 		{
-			var targetPool = GetAreaTargets(target, allTargets, aoeLevel).ToArray();
+			var targetPool = GetAreaTargets(parameter, target, allTargets, aoeLevel).ToArray();
 			if (targetPool.Length <= 0)
 			{
 				return targetPool;
@@ -123,11 +119,11 @@ namespace DQQ.Helper
 			var result = new List<ITarget>() { targetPool[0] };
 			for (var i = 1; i < attackTimes; i++)
 			{
-				result.Add(targetPool.GetRamdom());
+				result.Add(targetPool.GetRamdom(parameter.Random));
 			}
 			return result.ToArray();
 		}
-		public static IEnumerable<ITarget> GetAreaTargets(ITarget? target, ITarget[] allTargets, EnumAreaLevel aoeLevel)
+		public static IEnumerable<ITarget> GetAreaTargets(ComponentTickParameter parameter, ITarget? target, ITarget[] allTargets, EnumAreaLevel aoeLevel)
 		{
 			ITarget[] targetPool = [];
 			if (target == null)

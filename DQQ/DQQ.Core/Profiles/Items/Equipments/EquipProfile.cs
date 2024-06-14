@@ -13,49 +13,49 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Items.Equipments
 {
-  public abstract class EquipProfile : ItemProfile
-  {
-    public override bool IsStack => false;
-    public abstract EnumEquipType? EquipType { get; }
-    
-    public override int DropQuantity => 1;
+	public abstract class EquipProfile : ItemProfile
+	{
+		public override bool IsStack => false;
+		public abstract EnumEquipType? EquipType { get; }
 
-    public virtual AffixeRange[]? Range => [];
+		public override int DropQuantity => 1;
 
-    public virtual EquipComponent GenerateEquipComponent(int? itemLevel, EnumRarity rarity = EnumRarity.Normal)
-    {
-      var result = EquipComponent.New<EquipComponent>();
-      result.Initialize(this, itemLevel);
-      
-      if (Range?.Any() == true)
-      {
-        foreach (var p in Range.Select(b => b.NewPower(itemLevel.DefaultValue(1))))
-        {
-          p.SetProperty(result.Property);
-        }
-      }
+		public virtual AffixeRange[]? Range => [];
 
-      result.Rarity = rarity;
-      if (rarity != EnumRarity.Normal)
-      {
-        result.InitialAffixes(result.GenerateAllAffieComponents());
-        result.AppliedAffixes();
-      }
+		public virtual EquipComponent GenerateEquipComponent(Random r, int? itemLevel, EnumRarity rarity = EnumRarity.Normal)
+		{
+			var result = EquipComponent.New<EquipComponent>();
+			result.Initialize(this, itemLevel);
 
-      return result;
-    }
+			if (Range?.Any() == true)
+			{
+				foreach (var p in Range.Select(b => b.NewPower(r, itemLevel.DefaultValue(1))))
+				{
+					p.SetProperty(result.Property);
+				}
+			}
 
+			result.Rarity = rarity;
+			if (rarity != EnumRarity.Normal)
+			{
+				result.InitialAffixes(result.GenerateAllAffieComponents(r));
+				result.AppliedAffixes();
+			}
 
-
-    public override ItemComponent GenerateComponent(int? itemLevel, int? quantity, EnumRarity rarity = EnumRarity.Normal)
-    {
-      return GenerateEquipComponent(itemLevel, rarity);
-    }
+			return result;
+		}
 
 
-    public virtual async Task AfterDealingDamage(ComponentTickParameter? parameter)
-    {
-      await Task.CompletedTask;
-    }
-  }
+
+		public override ItemComponent GenerateComponent(Random r, int? itemLevel, int? quantity, EnumRarity rarity = EnumRarity.Normal)
+		{
+			return GenerateEquipComponent(r, itemLevel, rarity);
+		}
+
+
+		public virtual async Task AfterDealingDamage(ComponentTickParameter? parameter)
+		{
+			await Task.CompletedTask;
+		}
+	}
 }

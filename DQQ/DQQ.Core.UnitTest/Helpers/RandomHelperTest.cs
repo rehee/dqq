@@ -22,7 +22,7 @@ namespace DQQ.UnitTest.Helpers
 		[TestCase(80, 120)]
 		public void RandomPercentageTest(int min, int max)
 		{
-			var number = RandomHelper.GetRandom(min, max);
+			var number = RandomHelper.GetRandom(RandomHelper.NewRandom(), min, max);
 
 			Assert.That(number, Is.GreaterThanOrEqualTo(min / max));
 			Assert.That(number, Is.LessThanOrEqualTo(max / max));

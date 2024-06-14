@@ -81,6 +81,7 @@ namespace DQQ.Core.UnitTest.Helpers
     public int TickCount { get; set; }
 
     public int WaveTickCount { get; set; }
+    public ComponentTickParameter? TickParameter { get; set; } = ComponentTickParameter.New(111);
 
 		public Task<ContentResponse<bool>> AfterDealingDamage(ComponentTickParameter parameter)
 		{

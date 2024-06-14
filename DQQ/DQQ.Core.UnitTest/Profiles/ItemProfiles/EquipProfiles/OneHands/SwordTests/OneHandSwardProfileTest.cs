@@ -1,5 +1,6 @@
 ﻿using DQQ.Components.Items.Equips;
 using DQQ.Enums;
+using DQQ.Helper;
 using DQQ.Pools;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Items.Equipments.OneHandWeapons.OneHandSwords;
@@ -19,7 +20,7 @@ namespace DQQ.Core.UnitTest.Profiles.ItemProfiles.EquipProfiles.OneHands.SwordTe
     public void CopperSwordTest()
     {
       var profile = new CopperSword();
-      var item = profile.GenerateComponent(1, 1) as EquipComponent;
+      var item = profile.GenerateComponent(RandomHelper.NewRandom(), 1, 1) as EquipComponent;
       Assert.IsNotNull(item?.Property?.AttackRating);
 
     }
