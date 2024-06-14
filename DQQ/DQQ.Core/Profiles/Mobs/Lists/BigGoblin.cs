@@ -4,18 +4,18 @@ using System.Numerics;
 
 namespace DQQ.Profiles.Mobs
 {
-  [Pooled]
-  public class BigGoblin : NormalMob
-  {
-    public override EnumMob ProfileNumber => EnumMob.BigGoblin;
-    public override string? Name => "巨型地精";
-    public override string? Discription => "";
-    public override Int64 Damage => 1;
-    public override Int64 HP => 15;
-    public override IEnumerable<MobSkill>? Skills => new[] { MobSkill.New(EnumSkillNumber.NormalAttack) };
+	[Pooled]
+	public class BigGoblin : AbMobNormal
+	{
+		public override EnumMob ProfileNumber => EnumMob.BigGoblin;
+		public override string? Name => "大地精";
+		public override string? Discription => "更大 更强壮的地精. 皮糙肉厚";
 
-    public override decimal DropRate => 1m;
+		public override double HPPercentage => 1.25;
+		public override double DamagePercentage => 0.75;
 
-    public override Int64 XP => 3;
-  }
+		public override IEnumerable<MobSkill>? Skills => new[] { MobSkill.New(EnumSkillNumber.NormalAttack) };
+
+
+	}
 }

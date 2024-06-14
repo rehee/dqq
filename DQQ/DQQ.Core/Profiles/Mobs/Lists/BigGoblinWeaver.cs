@@ -7,13 +7,13 @@ using System.Numerics;
 namespace DQQ.Profiles.Mobs
 {
 	[Pooled]
-	public class BigGoblinWeaver : NormalMob
+	public class BigGoblinWeaver : AbMobNormal
 	{
 		public override EnumMob ProfileNumber => EnumMob.BigGoblinWeaver;
 		public override string? Name => "地精织雾者";
-		public override string? Discription => "";
-		public override Int64 Damage => 3;
-		public override Int64 HP => 25;
+		public override string? Discription => "地精中聪明的家伙, 会一些简单的法术, 皮薄馅大";
+		public override double HPPercentage => 0.75;
+		public override double DamagePercentage => 1.25;
 		public override IEnumerable<MobSkill>? Skills => [
 			MobSkill.New(EnumSkillNumber.Renew,new SkillStrategy
 			{
@@ -28,10 +28,7 @@ namespace DQQ.Profiles.Mobs
 			//MobSkill.New(EnumSkillNumber.Rend)
 		];
 
-		
 
-		public override decimal DropRate => 1m;
 
-		public override Int64 XP => 3;
 	}
 }

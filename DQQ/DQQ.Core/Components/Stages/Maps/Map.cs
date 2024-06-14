@@ -91,7 +91,7 @@ namespace DQQ.Components.Stages.Maps
 
 			var finalWave = new List<IActor>();
 			var finalNormalMob = DQQPool.MobPool.Where(b => b.Value.IsBoss != true).Select(b => new { r = RandomHelper.GetRandom(TickParameter.Random, 1), b = b }).OrderByDescending(b => b.r).Select(b => b.b.Value).FirstOrDefault();
-			var waver = DQQPool.TryGet<MobProfile, EnumMob>(EnumMob.BigGoblinWeaver);
+			var waver = DQQPool.TryGet<AbMobProfile, EnumMob>(EnumMob.BigGoblinWeaver);
 			finalWave.Add(Monster.Create(finalNormalMob, MapLevel, Enums.EnumMobRarity.Normal));
 			finalWave.Add(Monster.Create(mobWithBoss, MapLevel));
 			finalWave.Add(Monster.Create(waver, MapLevel));

@@ -5,6 +5,7 @@ using DQQ.Components.Items.Equips;
 using DQQ.Components.Parameters;
 using DQQ.Components.Skills;
 using DQQ.Components.Stages.Maps;
+using DQQ.Consts;
 using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Helper;
@@ -86,7 +87,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 			var skills = Skills?.ToDictionary(b => b.Slot, b => SkillDTO.New(b)) ?? [];
 
 			SkillMap = new Dictionary<EnumSkillSlot, SkillDTO>();
-
+			CombatPanel.StaticPanel.MaximunLife = DQQGeneral.CharacterBasicHP + (DQQGeneral.HPPerLevel * (Level - 1));
 			foreach (EnumSkillSlot slot in Enum.GetValues(typeof(EnumSkillSlot)))
 			{
 				skills.TryGetValue(slot, out var skill);

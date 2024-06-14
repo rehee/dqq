@@ -4,6 +4,7 @@ using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Maps;
+using DQQ.Consts;
 using DQQ.Enums;
 using DQQ.Pools;
 using DQQ.Profiles.Skills;
@@ -32,8 +33,18 @@ namespace DQQ.Helper
 			{
 				baseDamage = baseDamage + actor.BasicDamage;
 			}
-			var mainHandDamage = property.MainHand == null ? 0 : property.MainHand.Value + baseDamage;
-			var offHandDamage = property.OffHand == null ? 0 : property.OffHand.Value + baseDamage;
+			var attackSpeed = 1m;
+			if (property?.AttackPerSecond <= 0 || property?.AttackPerSecond == null)
+			{
+				attackSpeed = 1;
+			}
+			else
+			{
+				attackSpeed = property.AttackPerSecond.Value;
+			}
+			baseDamage = Convert.ToInt64(baseDamage / attackSpeed);
+			var mainHandDamage = (property.MainHand == null ? 0 : property.MainHand.Value) + baseDamage;
+			var offHandDamage = (property.OffHand == null ? 0 : property.OffHand.Value) + baseDamage;
 			if (hand == null)
 			{
 				return property.MainHand == null ? baseDamage : mainHandDamage;
@@ -130,6 +141,20 @@ namespace DQQ.Helper
 
 			var multiple = (int)(percentage * times);
 			return input * multiple / times;
+		}
+
+		public static void ArmorDamageReduction(this ComponentTickParameter? parameter)
+		{
+			if (parameter == null)
+			{
+				return;
+			}
+			var totalArmor = (parameter?.To?.CombatPanel?.DynamicPanel.Armor).DefaultValue() * (1 + (parameter?.To?.CombatPanel?.DynamicPanel.ArmorPercentage).DefaultValue());
+			var attackerLevel = (parameter?.From?.Level).DefaultValue(1);
+			foreach (var d in parameter.Damages?.ToArray() ?? [])
+			{
+				d.DamagePoint = (long)(d.DamagePoint * (1 - DQQGeneral.ArmorDamageReduction(attackerLevel, (long)totalArmor)));
+			}
 		}
 	}
 }

@@ -9,11 +9,16 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.Mobs.BossMobs
 {
 	[Pooled]
-	public class GoblinChief : BossMob
+	public class GoblinChief : AbBossMob
 	{
-		public override long Damage => 5;
+		public override EnumMob ProfileNumber => EnumMob.GoblinChief;
 
-		public override long HP => 50;
+		public override string? Name => "地精酋长";
+		public override string? Discription => "地精中的王者, 总是尝试处决见到的敌人. 变成光杆司令后会发狂.";
+
+		public override double HPPercentage => 5;
+
+
 
 		public override IEnumerable<MobSkill>? Skills => new[]
 		{
@@ -41,14 +46,8 @@ namespace DQQ.Profiles.Mobs.BossMobs
 				)
 		};
 
-		public override decimal DropRate => 0.15m;
 
-		public override long XP => 20;
 
-		public override EnumMob ProfileNumber => EnumMob.GoblinChief;
 
-		public override string? Name => "地精酋长";
-
-		public override string? Discription => "地精酋长";
 	}
 }

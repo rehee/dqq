@@ -9,6 +9,6 @@ namespace DQQ.XPs
 {
   public interface IXP
   {
-    Int64 XP { get; }
+   
   }
 }

@@ -12,15 +12,15 @@ namespace DQQ.Consts
 		public const double BasicDPS = 5;
 
 		public const decimal AttackPerSecond = 1;
-		public const double MonsterIncreaseRate = 1;
+		public const double MonsterIncreaseRate = 0.1;
 
-		public static double CalculateValue(int? level, double baseValue, double increasePercentage)
+		public static double CalculateValue(int? level, double baseValue, double? increasePercentage = null)
 		{
 			if (level == null || level <= 0)
 			{
 				level = 1;
 			}
-			double value = baseValue * Math.Pow(1 + increasePercentage, level.Value - 1);
+			double value = baseValue * Math.Pow(1 + (increasePercentage ?? MonsterIncreaseRate), level.Value - 1);
 			return value;
 		}
 	}

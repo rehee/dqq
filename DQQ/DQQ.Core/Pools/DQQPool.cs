@@ -37,7 +37,7 @@ namespace DQQ.Pools
 						{
 							DQQPool.SkillPool.TryAdd(sp.SkillNumber, sp);
 						}
-						if (instance is MobProfile mp)
+						if (instance is AbMobProfile mp)
 						{
 							DQQPool.MobPool.TryAdd(mp.ProfileNumber, mp);
 						}

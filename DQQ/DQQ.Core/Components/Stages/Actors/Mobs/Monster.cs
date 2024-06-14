@@ -19,11 +19,12 @@ namespace DQQ.Components.Stages.Actors.Mobs
 		public EnumMob MobNumber { get; set; }
 		public EnumMobRarity Rarity { get; set; } = EnumMobRarity.Normal;
 		public decimal DropRate { get; set; }
+		public decimal RarityRaRate { get; set; }
 		public override EnumTargetLevel PowerLevel
 		{
 			get
 			{
-				if (Profile is MobProfile mp)
+				if (Profile is AbMobProfile mp)
 				{
 					if (mp.IsBoss)
 					{
@@ -45,7 +46,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
 			}
 		}
 		public Int64 XP { get; set; }
-		public static Monster Create(MobProfile profile, int level, EnumMobRarity? rarity = null)
+		public static Monster Create(AbMobProfile profile, int level, EnumMobRarity? rarity = null)
 		{
 			var mob = new Monster();
 
@@ -77,21 +78,23 @@ namespace DQQ.Components.Stages.Actors.Mobs
 			mob.Targetable = true;
 			mob.Rarity = rarity ?? EnumMobRarity.Normal;
 			mob.DisplayName = $"{profile.Name}";
-			mob.BasicDamage = DQQGeneral.MobStatusCalculate(level, profile.Damage, rarity, profile.IsBoss);
-			mob.CombatPanel.StaticPanel.MaximunLife = DQQGeneral.MobStatusCalculate(level, profile.HP, rarity, profile.IsBoss);
+
+			profile.SetMonsterCombatPanel(level, mob.CombatPanel.StaticPanel, mob.Rarity);
+
 			mob.XP = XPHelper.GetMobKilledExp(level);
+			mob.Level = level;
 			mob.CurrentHP = mob.CombatPanel.StaticPanel.MaximunLife ?? 0;
 			mob.DropRate = profile.DropRate * dropTimes;
+			mob.RarityRaRate = profile.RarityRaRate * dropTimes;
+
 			if (profile?.Skills?.Any() == true)
 			{
 				var list = new List<SkillComponent>();
-				var skillCount = 1;
 				foreach (var skill in profile.Skills)
 				{
-					list.Add(SkillComponent.New(skill, (EnumSkillSlot)skillCount));
-					skillCount++;
+					list.Add(SkillComponent.New(skill, EnumSkillSlot.MainSlot));
 				}
-				mob.Skills = list.ToArray();
+				mob.Skills = [.. list];
 			}
 			mob.DisplayId = Guid.NewGuid();
 			return mob;
@@ -109,7 +112,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
 				return;
 			}
 			parameter.Damage.Drops = DropHelper.Drop(this, parameter.Map);
-			parameter.Damage.XP = XP;
+			parameter.Damage.XP = this.XP;
 		}
 	}
 }

@@ -27,12 +27,32 @@ namespace DQQ.Consts
 		public static EnumTargetLevel[] TrashLevel = { EnumTargetLevel.NotSpecified, EnumTargetLevel.Normal };
 		public static EnumDamageType[] ElementDamage = { EnumDamageType.Fire, EnumDamageType.Cold, EnumDamageType.Lightning };
 
+		public const long HPPerLevel = 10;
+		public const long CharacterBasicHP = 50;
 
 		public const decimal MaxHitChance = 0.95m;
 		public const decimal MinHitChance = 0.05m;
 		public const decimal SameLevelHitChance = 0.90m;
 		public const decimal HitChanceModifyByLevel = 0.05m;
 		public const decimal AttributeImpact = 0.001m;
+
+
+		public const decimal HitConstant = 1.5m;
+		public const decimal DefenceConstant = 1m;
+
+		public static decimal CheckHitRate(long attack, long defence)
+		{
+			if (attack <= 0)
+			{
+				attack = 1;
+			}
+			if (defence <= 1)
+			{
+				defence = 1;
+			}
+			return (attack * HitConstant) / (attack * HitConstant + defence * DefenceConstant);
+		}
+
 
 		public const decimal BlockRecoveryTime = 0.35m;
 		public static Int64 MobStatusCalculate(int mobLevel, Int64 basicValue, EnumMobRarity? rarity = EnumMobRarity.Normal, bool isBoss = false)

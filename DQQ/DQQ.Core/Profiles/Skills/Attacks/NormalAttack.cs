@@ -1,10 +1,12 @@
 ﻿using DQQ.Attributes;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
 using DQQ.Helper;
+using ReheeCmf.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +30,10 @@ namespace DQQ.Profiles.Skills.Attacks
 		public override string? Name => "普通攻击";
 
 		public override EnumSkillTag[]? OriginalTag => [EnumSkillTag.Attack];
+
+		public override Task<ContentResponse<bool>> CastSkill(ComponentTickParameter? parameter)
+		{
+			return base.CastSkill(parameter);
+		}
 	}
 }

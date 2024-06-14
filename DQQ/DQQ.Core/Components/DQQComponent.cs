@@ -9,6 +9,8 @@ using DQQ.Components.Parameters;
 using DQQ.Profiles.Skills;
 using DQQ.Combats;
 using DQQ.Components.Stages.Actors;
+using DQQ.Consts;
+using DQQ.Helper;
 
 namespace DQQ.Components
 {
@@ -117,7 +119,7 @@ namespace DQQ.Components
 		}
 		protected virtual void SelfDamageReduction(ComponentTickParameter parameter)
 		{
-
+			
 		}
 		public void BeforeTakeDamage(ComponentTickParameter parameter)
 		{

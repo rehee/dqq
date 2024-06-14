@@ -76,18 +76,12 @@ namespace DQQ.Helper
 		}
 		public static bool MissCheck(ComponentTickParameter parameter, SkillHitCheck? skillCheck)
 		{
-			var levelDifferent = (parameter?.From?.Level).DefaultValue() - (parameter?.To?.Level).DefaultValue();
-			var baseHitChance = DQQGeneral.SameLevelHitChance + levelDifferent * DQQGeneral.HitChanceModifyByLevel;
-
-			long attributeDifference =
-				((parameter?.From?.CombatPanel.DynamicPanel.AttackRating).DefaultValue() + (parameter?.From?.Level).DefaultValue(1)) -
-				((parameter?.To?.CombatPanel.DynamicPanel.Defence).DefaultValue() + (parameter?.To?.Level).DefaultValue(1));
-			baseHitChance = baseHitChance + DQQGeneral.AttributeImpact * attributeDifference;
-			baseHitChance = Math.Max(DQQGeneral.MinHitChance, baseHitChance);
-			baseHitChance = Math.Min(DQQGeneral.MaxHitChance, baseHitChance);
-			RandomHelper.GetRandom(parameter.Random, 0);
-
-			return baseHitChance <= RandomHelper.GetRandom(parameter.Random, 0);
+			var hit = (parameter?.From?.Level).DefaultValue(1) + (parameter?.From?.CombatPanel?.DynamicPanel?.AttackRating).DefaultValue();
+			var defence = (long)(((parameter?.To?.Level).DefaultValue(1) + (parameter?.To?.CombatPanel?.DynamicPanel?.Defence).DefaultValue())
+				* (1 + (parameter?.To?.CombatPanel?.DynamicPanel?.DefencePercentage).DefaultValue()));
+			var basicHitRate = DQQGeneral.CheckHitRate(hit, defence);
+			var random = RandomHelper.GetRandom(parameter.Random, 0);
+			return basicHitRate < random;
 		}
 	}
 }
