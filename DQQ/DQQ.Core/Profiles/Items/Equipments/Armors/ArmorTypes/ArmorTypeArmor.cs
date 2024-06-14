@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Items.Equipments.Armors.ArmorTypes
 {
-  public class ArmorTypeArmor : IArmorType
-  {
-    public AffixeRange[]? Ranges => [
-      AffixeRange.New(EnumPropertyType.Armor,10,3000, EnumAffixeRangeType.LevelBased,42m)
-      ];
-  }
+	public class ArmorTypeArmor : IArmorType
+	{
+		public AffixeRange[]? Ranges => [
+			AffixeRange.New(EnumPropertyType.Armor,1,70, EnumAffixeRangeType.LevelBased,1m)
+			];
+	}
 }

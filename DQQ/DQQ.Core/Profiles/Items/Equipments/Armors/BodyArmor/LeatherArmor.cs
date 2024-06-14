@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Items.Equipments.Armors.BodyArmor
 {
-  [Pooled]
-  public class LeatherArmor : AbBodyArmor<ArmorTypeArmor>
-  {
-    public override decimal Rarity => 1;
+	[Pooled]
+	public class LeatherArmor : AbBodyArmor<ArmorTypeDefence>
+	{
+		public override decimal Rarity => 1;
 
-    public override EnumItem ProfileNumber => EnumItem.LeatherArmor;
+		public override EnumItem ProfileNumber => EnumItem.LeatherArmor;
 
-    public override string? Name => "皮甲盔甲";
+		public override string? Name => "皮甲盔甲";
 
-    public override string? Discription => "皮甲盔甲";
-  }
+		public override string? Discription => "皮甲盔甲";
+	}
 }

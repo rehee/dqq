@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ReheeCmf.Entities;
 
 namespace DQQ.Services.Entities
 {
@@ -46,6 +47,19 @@ namespace DQQ.Services.Entities
 			if (existngs?.Count() >= 3)
 			{
 				StatusException.Throw(System.Net.HttpStatusCode.BadRequest, "already with 3 chars");
+			}
+			if (entity?.Level <= 0)
+			{
+				entity.Level = 1;
+			}
+		}
+
+		public override async Task BeforeUpdateAsync(EntityChanges[] propertyChange, CancellationToken ct = default)
+		{
+			await base.BeforeUpdateAsync(propertyChange, ct);
+			if (entity?.Level <= 0)
+			{
+				entity.Level = 1;
 			}
 		}
 	}

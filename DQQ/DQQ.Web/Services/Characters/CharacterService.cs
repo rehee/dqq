@@ -32,7 +32,12 @@ namespace DQQ.Web.Services.Characters
       throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<Character>> GetAllCharacters()
+		public Task<ContentResponse<bool>> GainExperience(Guid? charId, string? exp)
+		{
+			throw new NotImplementedException();
+		}
+
+		public async Task<IEnumerable<Character>> GetAllCharacters()
     {
       var result = await client.Request<IEnumerable<Character>>(HttpMethod.Get, "Character");
       return result.Content ?? Enumerable.Empty<Character>();

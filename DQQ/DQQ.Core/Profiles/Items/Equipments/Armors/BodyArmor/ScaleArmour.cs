@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.Items.Equipments.Armors.BodyArmor
 {
   [Pooled]
-  public class ScaleArmour : AbBodyArmor<ArmorTypeArmor>
+  public class ScaleArmour : AbBodyArmor<ArmorTypeArmorDefence>
   {
     public override decimal Rarity => 1;
 

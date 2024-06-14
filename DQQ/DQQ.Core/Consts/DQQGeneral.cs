@@ -65,5 +65,23 @@ namespace DQQ.Consts
 			return (basicValue + basicValue.Percentage(value)) * multiple;
 		}
 		public static int TotalTick(this IMap? map) => 60 * ((map?.limitMinute ?? MapMinute) * TickPerSecond);
+
+		public const int WeaponDamageRange = 95;
+		public const int MaxLevel = 70;
+		public const double InitialWeaponDPS = 6;
+		public const double MaxWeaponDPS = 200.0;
+
+		public const double ArmorReduceConst = 5.67;
+		public static double ArmorDamageReduction(int attackLevel, long armor)
+		{
+			return armor / (armor + ArmorReduceConst * attackLevel);
+		}
+
+		public const int BasicLevelUpExp = 150;
+		public const double LevelUpExpIncreased = 1.25;
+
+		public const int BasicMobExp = 8;
+		public const double LevelMobExpIncreased = 0.05;
+
 	}
 }

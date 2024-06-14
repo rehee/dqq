@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace DQQ.Services.ActorServices
 {
-  public interface ICharacterService
-  {
-    Task<ContentResponse<Guid?>> CreateCharacter(Character? character);
-    Task<IEnumerable<Character>> GetAllCharacters();
-    Task<Character?> GetCharacter(Guid? charId);
-    Task<ContentResponse<Guid?>> DeleteCharacter(Guid? charId);
+	public interface ICharacterService
+	{
+		Task<ContentResponse<Guid?>> CreateCharacter(Character? character);
+		Task<IEnumerable<Character>> GetAllCharacters();
+		Task<Character?> GetCharacter(Guid? charId);
+		Task<ContentResponse<Guid?>> DeleteCharacter(Guid? charId);
 
-    bool SelectedCharacter(Guid? charId);
-    Guid? GetSelectedCharacter();
-  }
+		bool SelectedCharacter(Guid? charId);
+		Guid? GetSelectedCharacter();
+
+		Task<ContentResponse<bool>> GainExperience(Guid? charId, string? exp);
+	}
 }

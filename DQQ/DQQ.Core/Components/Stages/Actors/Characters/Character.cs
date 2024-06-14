@@ -27,8 +27,8 @@ namespace DQQ.Components.Stages.Actors.Characters
 		}
 		public override EnumTargetLevel PowerLevel => EnumTargetLevel.Elite;
 		public string? OwnerId { get; set; }
-		public BigInteger CurrentXP { get; set; }
-		public BigInteger NextLevelXP { get; set; }
+		public string? CurrentXP { get; set; }
+		public string? NextLevelXP { get; set; }
 
 		[NotMapped]
 		[JsonIgnore]
@@ -81,7 +81,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 			base.Initialize(entity, parent);
 
 
-			
+
 
 			var skills = Skills?.ToDictionary(b => b.Slot, b => SkillDTO.New(b)) ?? [];
 
@@ -95,6 +95,9 @@ namespace DQQ.Components.Stages.Actors.Characters
 
 			if (entity is ActorEntity ae)
 			{
+				CurrentXP = ae.CurrentXP;
+				NextLevelXP = XPHelper.GetNextLevelUpExp(ae.Level).ToString();
+
 				var equips = ae.Equips!.DistinctBy(b => b.EquipSlot).ToArray();
 
 				foreach (var equip in equips)

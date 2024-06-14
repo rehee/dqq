@@ -76,6 +76,7 @@ namespace DQQ.Components.Skills
 		public decimal Cooldown { get; set; }
 		public bool CastWithWeaponSpeed { get; set; }
 		public decimal DamageRate { get; set; }
+		[JsonIgnore]
 		public ITarget? SkillTarget { get; set; }
 		public bool IsCasting { get; protected set; }
 		public int MaxSupportSkill => SkillSlotHelper.MaxSkillNumber(Slot);
@@ -89,7 +90,7 @@ namespace DQQ.Components.Skills
 
 		private int castWithWeaponSpeedTick { get; set; }
 
-
+		[JsonIgnore]
 		public SkillProfile? SkillProfile
 		{
 			get
@@ -265,20 +266,6 @@ namespace DQQ.Components.Skills
 
 		protected void StartCasting(ComponentTickParameter? parameter, ITarget? target = null)
 		{
-			//if (castingThisTick)
-			//{
-			//	SkillTarget = null;
-			//}
-			//else
-			//{
-			//	SkillTarget = target;
-			//}
-			//if (parameter != null)
-			//{
-			//	var skillParameter = ComponentTickParameter.New(parameter, SkillTarget);
-			//	//TODO log skill start casting;
-
-			//}
 			SkillTarget = target;
 			if (castingThisTick && IsCasting)
 			{
@@ -325,7 +312,7 @@ namespace DQQ.Components.Skills
 			}
 			result.SetError();
 
-			
+
 			if (CDTickCount > 0)
 			{
 				CDTickCount--;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DQQ.Consts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -9,16 +10,23 @@ namespace DQQ.Helper
 {
 	public static class IncreaseHelper
 	{
-		public static double WeaponDamagePower = 2.523d;
-		public static double GeneralWeaponDamage = 6;
-		public static long WeponDamageIncrease(this Random random, int itemLevel, decimal damageRage = 1)
+		public static long WeponDamageIncrease(this int itemLevel, Random? random, decimal damageRage = 1)
 		{
 			if (itemLevel < 1)
 			{
 				itemLevel = 1;
 			}
-			var baseDamage = (long)Math.Round(GeneralWeaponDamage * Math.Pow(itemLevel, WeaponDamagePower) * (double)damageRage, 0);
-			return baseDamage.GetRandomRange(random, 80);
+			if (itemLevel >= DQQGeneral.MaxLevel)
+			{
+				itemLevel = DQQGeneral.MaxLevel;
+			}
+			double dps = DQQGeneral.InitialWeaponDPS + (DQQGeneral.MaxWeaponDPS - DQQGeneral.InitialWeaponDPS) * (itemLevel - 1) / (DQQGeneral.MaxLevel - 1);
+			var actual = (long)Math.Round(dps, 0);
+			if (random != null)
+			{
+				return actual.GetRandomRange(random, DQQGeneral.WeaponDamageRange);
+			}
+			return actual;
 		}
 	}
 }

@@ -13,6 +13,7 @@ using ReheeCmf.Contexts;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
 using System;
+using System.Numerics;
 using System.Xml;
 
 namespace DQQ.Api.Services.Characters
@@ -66,17 +67,14 @@ namespace DQQ.Api.Services.Characters
 			throw new NotImplementedException();
 		}
 
-		private IQueryable<ActorEntity> getActor
+		private IQueryable<ActorEntity> getActor(bool asNoTracking = true)
 		{
-			get
-			{
-				var userId = context.User?.UserId;
-				return context.Query<ActorEntity>(true).Where(b => b.OwnerId == userId);
-			}
+			var userId = context.User?.UserId;
+			return context.Query<ActorEntity>(asNoTracking).Where(b => b.OwnerId == userId);
 		}
 		public async Task<IEnumerable<Character>> GetAllCharacters()
 		{
-			var list = await getActor.ToArrayAsync();
+			var list = await getActor().ToArrayAsync();
 			return list.Select(b => b.GenerateTypedComponent<Character>(null));
 		}
 
@@ -86,7 +84,7 @@ namespace DQQ.Api.Services.Characters
 			{
 				return null;
 			}
-			var entity = await getActor.Where(b => b.Id == charId).FirstOrDefaultAsync();
+			var entity = await getActor().Where(b => b.Id == charId).FirstOrDefaultAsync();
 			return entity?.GenerateTypedComponent<Character>(null);
 		}
 
@@ -98,6 +96,32 @@ namespace DQQ.Api.Services.Characters
 		public Guid? GetSelectedCharacter()
 		{
 			throw new NotImplementedException();
+		}
+
+		public async Task<ContentResponse<bool>> GainExperience(Guid? charId, string? exp)
+		{
+			var response = new ContentResponse<bool>();
+			if (!BigInteger.TryParse(exp, out var xpPoint))
+			{
+				return response;
+			}
+			if (xpPoint <= 0)
+			{
+				return response;
+			}
+			var entity = await getActor(false).Where(b => b.Id == charId).FirstOrDefaultAsync();
+			if (entity == null)
+			{
+				return response;
+			}
+			BigInteger currentXp = 0;
+			BigInteger.TryParse(entity.CurrentXP, out currentXp);
+			currentXp = xpPoint + currentXp;
+			var levelCheck = XPHelper.CheckExperienceAndLevelUP(ExperienceAndLevel.New(entity.Level, currentXp));
+			entity.Level = levelCheck.Level;
+			entity.CurrentXP = levelCheck.Experience.ToString();
+			await context.SaveChangesAsync();
+			return response;
 		}
 	}
 }

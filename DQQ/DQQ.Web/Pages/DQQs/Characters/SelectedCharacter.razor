@@ -2,27 +2,33 @@
 @page "/Character"
 @using DQQ.Enums
 <Card>
-  <HeaderTemplate>
-    当前角色
-  </HeaderTemplate>
-  <BodyTemplate>
-    <h5><Button Color="Color.Primary" Text="更换角色" OnClick="CleanSelectedChar" /></h5>
-    @if (Character != null)
-    {
-      <div>
-        角色名 @Character.DisplayName
-      </div>
-      <div>
-        最大生命 @Character.CombatPanel.DynamicPanel.MaximunLife
-      </div>
-      <div>
-        主手攻击力 @Character?.CombatPanel?.DynamicPanel.MainHand
-      </div>
-      <div>
-        副手攻击力 @Character?.CombatPanel?.DynamicPanel.OffHand
-      </div>
-    }
-  </BodyTemplate>
+	<HeaderTemplate>
+		当前角色
+	</HeaderTemplate>
+	<BodyTemplate>
+		<h5><Button Color="Color.Primary" Text="更换角色" OnClick="CleanSelectedChar" /></h5>
+		@if (Character != null)
+		{
+			<div>
+				角色 @Character.DisplayName [@Character.Level]
+			</div>
+			<div>
+				经验	@Character.CurrentXP / @Character.NextLevelXP
+			</div>
+			<ul>
+				<li>
+					最大生命 @Character.CombatPanel.DynamicPanel.MaximunLife
+				</li>
+				<li>
+					主手攻击力 @Character?.CombatPanel?.DynamicPanel.MainHand
+				</li>
+				<li>
+					副手攻击力 @Character?.CombatPanel?.DynamicPanel.OffHand
+				</li>
+			</ul>
+
+		}
+	</BodyTemplate>
 </Card>
 
 

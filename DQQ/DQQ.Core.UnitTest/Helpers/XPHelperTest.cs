@@ -23,5 +23,7 @@ namespace DQQ.Core.UnitTest.Helpers
       var level11xp2 = XPHelper.GetNextLevelXP(y + 1);
       Assert.That(level11Xp, Is.EqualTo(level11xp2));
     }
+
+   
   }
 }

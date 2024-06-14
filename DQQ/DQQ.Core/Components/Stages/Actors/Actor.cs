@@ -21,7 +21,7 @@ namespace DQQ.Components.Stages.Actors
 
 		public override EnumTargetLevel PowerLevel => EnumTargetLevel.NotSpecified;
 
-		[JsonIgnore]
+		
 		public IEnumerable<SkillComponent>? Skills { get; set; }
 
 		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
@@ -29,6 +29,14 @@ namespace DQQ.Components.Stages.Actors
 			base.Initialize(entity, parent);
 			if (entity is ActorEntity ae)
 			{
+				if (ae.Level <= 0)
+				{
+					Level = 1;
+				}
+				else
+				{
+					Level = ae.Level;
+				}
 				TargetPriority = ae.TargetPriority;
 				CombatPanel.StaticPanel.MaximunLife = ae.MaxHP ?? 0;
 				CurrentHP = CombatPanel.StaticPanel.MaximunLife ?? 0;
