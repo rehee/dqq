@@ -25,7 +25,7 @@ namespace DQQ.Profiles.Mobs
 				PartyStrategy = EnumStrategyParty.Contain,
 				Property = EnumPropertyCompare.HealthPercentage,
 			}),
-			MobSkill.New(EnumSkillNumber.Rend)
+			//MobSkill.New(EnumSkillNumber.Rend)
 		];
 
 		
