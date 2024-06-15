@@ -67,15 +67,20 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			Result = result?.Content;
 			await Task.Delay(1000);
 			StateHasChanged();
-			if (result?.Content?.Success == true)
+			if (result?.Success == true)
 			{
-				var pushRequest = await combatService.PushCombatRandom(request);
-				if (pushRequest.Success != true)
+				if (result?.Content?.Success == true)
 				{
-					Status = EnumCombatPlayStatus.Failed;
-					return;
+					var pushRequest = await combatService.PushCombatRandom(request);
+					if (pushRequest.Success != true)
+					{
+						Status = EnumCombatPlayStatus.Failed;
+						StateHasChanged();
+						return;
+					}
+					ParentRefreshEvent.InvokeEvent(this, null);
 				}
-				ParentRefreshEvent.InvokeEvent(this, null);
+				
 			}
 			else
 			{
