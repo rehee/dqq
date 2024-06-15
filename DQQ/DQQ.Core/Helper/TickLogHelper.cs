@@ -85,15 +85,14 @@ namespace DQQ.Helper
         SkillName = skill.SkillName,
         SkillNumber = skill.SkillNumber,
       };
-      map.Logs.Add(item);
+      map?.Logs?.Add(item);
     }
 
     public static void AddMapLogNewWave(this IMap map)
     {
       var item = map.GetTickLogItemFromMap(true);
-      map.Logs.Add(item);
-      item.LogType = EnumLogType.WaveChange;
-
+			item.LogType = EnumLogType.WaveChange;
+			map?.Logs?.Add(item);
     }
     public static void AddMapLogHealingTaken(this IMap? map, bool success, ITarget? from, ITarget? to, DQQProfile? profile, TickLogHealing healing)
     {

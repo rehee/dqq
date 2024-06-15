@@ -1,6 +1,7 @@
 ﻿using DQQ.Combats;
 using DQQ.Enums;
 using DQQ.Pools;
+using DQQ.Profiles;
 using DQQ.Profiles.Affixes;
 using System.Text.Json.Serialization;
 
@@ -12,6 +13,9 @@ namespace DQQ.Components.Affixes
 		[JsonIgnore]
 		public AffixeProfile? AffixeProfile => DQQPool.TryGet<AffixeProfile, EnumAffixeNumber>(AffixeNumber);
 		public AffixPower[]? Powers { get; set; }
+		[JsonIgnore]
+		public override DQQProfile? Profile => AffixeProfile;
+
 		public void SetProperty(ICombatProperty? property)
 		{
 			if (property == null || Powers?.Any() != true)

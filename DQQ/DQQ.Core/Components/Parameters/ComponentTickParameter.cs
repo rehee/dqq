@@ -116,9 +116,9 @@ namespace DQQ.Components.Parameters
 			TriggerSkills = triggerSkills?.Where(b => b.SkillProfile?.BindingType == EnumSkillBindingType.Trigger).Distinct();
 			SubAttackSkills = subAttackSkills?.Where(b => b.SkillProfile?.BindingType == EnumSkillBindingType.Active).Distinct();
 		}
-		public IEnumerable<SkillComponent>? SupportSkills { get; protected set; }
-		public IEnumerable<SkillComponent>? TriggerSkills { get; protected set; }
-		public IEnumerable<SkillComponent>? SubAttackSkills { get; protected set; }
+		public IEnumerable<SkillComponent>? SupportSkills { get; set; }
+		public IEnumerable<SkillComponent>? TriggerSkills { get; set; }
+		public IEnumerable<SkillComponent>? SubAttackSkills { get; set; }
 
 		public SkillComponent? Trigger { get; protected set; }
 		public DamageTaken? Damage { get; set; }

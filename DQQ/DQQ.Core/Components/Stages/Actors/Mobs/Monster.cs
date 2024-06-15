@@ -6,17 +6,21 @@ using DQQ.Consts;
 using DQQ.Drops;
 using DQQ.Enums;
 using DQQ.Helper;
+using DQQ.Pools;
 using DQQ.Profiles;
 using DQQ.Profiles.Mobs;
 using DQQ.TickLogs;
 using DQQ.XPs;
 using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace DQQ.Components.Stages.Actors.Mobs
 {
 	public class Monster : Actor, IDropper, IXP
 	{
 		public EnumMob MobNumber { get; set; }
+		[JsonIgnore]
+		public override DQQProfile? Profile => DQQPool.TryGet<AbMobProfile, EnumMob>(MobNumber);
 		public EnumMobRarity Rarity { get; set; } = EnumMobRarity.Normal;
 		public decimal DropRate { get; set; }
 		public decimal RarityRaRate { get; set; }
@@ -50,7 +54,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
 		{
 			var mob = new Monster();
 
-			mob.Profile = profile;
+			mob.MobNumber = profile.ProfileNumber;
 			var namePrefix = "";
 			var dropTimes = 1;
 			if (profile.IsBoss != true)

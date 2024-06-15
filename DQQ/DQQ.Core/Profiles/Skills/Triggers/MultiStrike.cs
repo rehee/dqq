@@ -29,6 +29,10 @@ namespace DQQ.Profiles.Skills.Triggers
 
 		public override async Task<ContentResponse<bool>> CastSkill(ComponentTickParameter? parameter)
 		{
+			if (parameter?.Trigger?.SkillProfile?.BindingType != EnumSkillBindingType.Active)
+			{
+				return new ContentResponse<bool> { };
+			}
 			parameter?.Map!.AddMapLogSpillCast(true, parameter?.From, parameter?.SelectedTarget, this);
 			return await parameter!.Trigger!.SkillProfile!.CastSkill(parameter);
 		}

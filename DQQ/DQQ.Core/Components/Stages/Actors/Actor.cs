@@ -2,11 +2,13 @@
 using DQQ.Components.Items;
 using DQQ.Components.Parameters;
 using DQQ.Components.Skills;
+using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Components.Stages.Maps;
 using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Profiles;
+using DQQ.Profiles.Items;
 using DQQ.TickLogs;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
@@ -18,10 +20,10 @@ namespace DQQ.Components.Stages.Actors
 	public class Actor : TargetBase, IActor
 	{
 		public Int64 BasicDamage { get; set; }
-
+		public override DQQProfile? Profile => null;
 		public override EnumTargetLevel PowerLevel => EnumTargetLevel.NotSpecified;
 
-		
+
 		public IEnumerable<SkillComponent>? Skills { get; set; }
 
 		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
@@ -72,10 +74,21 @@ namespace DQQ.Components.Stages.Actors
 			}
 			if (Skills != null)
 			{
-				foreach (var skill in Skills.Where(b => b != null && b.AvaliableForUser == true))
+				if (this is Character)
 				{
-					var skillResult = await skill!.OnTick(parameter);
+					foreach (var skill in Skills.DistinctBy(b => b.Slot).Where(b => b != null && b.AvaliableForUser == true))
+					{
+						var skillResult = await skill!.OnTick(parameter);
+					}
 				}
+				else
+				{
+					foreach (var skill in Skills.Where(b => b != null && b.AvaliableForUser == true))
+					{
+						var skillResult = await skill!.OnTick(parameter);
+					}
+				}
+
 			}
 			return result;
 		}

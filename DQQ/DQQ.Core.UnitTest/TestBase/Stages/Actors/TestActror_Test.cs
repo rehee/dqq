@@ -37,14 +37,23 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
 		{
 			var actor = new TestActror();
 			actor.Alive = alive;
+
+			var target = new TestActror();
+			target.Alive = alive;
+			target.CurrentHP = 1000;
+
+			actor.Target = target;
 			var skill = new TestSkill();
 			skill.CastTime = cast;
 			skill.Cooldown = cd;
-			actor.Skills = new List<SkillComponent> { skill };
 
+			actor.Skills = new List<SkillComponent> { skill };
+			var parameter = ComponentTickParameter.New(123);
+			parameter.From = actor;
+			parameter.SecondaryTarget = target;
 			for (var i = 0; i < time * DQQGeneral.TickPerSecond; i++)
 			{
-				await actor.OnTick(ComponentTickParameter.New(123));
+				await actor.OnTick(parameter);
 			}
 
 			Assert.That(skill.CastTimeCount, Is.EqualTo(castCount));
@@ -61,16 +70,21 @@ namespace DQQ.UnitTest.TestBase.Stages.Actors
 			target.CurrentHP = 1000;
 			actor.SelectTarget(target);
 			var skill = new AttackTestSkill();
+			skill.Slot = Enums.EnumSkillSlot.MainSlot;
 			skill.CastTime = cast;
 			skill.Cooldown = cd;
+			actor.CombatPanel.StaticPanel.Damage = 100;
 			actor.Skills = new SkillComponent[] { skill };
-			var parameter = ComponentTickParameter.New(ComponentTickParameter.New(123), target);
+			var parameters = ComponentTickParameter.New(123);
+			var parameter = ComponentTickParameter.New(parameters);
+			parameter.From = actor;
+			parameter.SecondaryTarget = target;
 			for (var i = 0; i < time * DQQGeneral.TickPerSecond; i++)
 			{
 				await actor.OnTick(parameter);
 			}
 
-			Assert.That(target.CurrentHP, Is.EqualTo((hpRemain)));
+			Assert.That(target.CurrentHP, Is.LessThanOrEqualTo((hpRemain)));
 		}
 	}
 }

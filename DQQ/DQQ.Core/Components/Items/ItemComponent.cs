@@ -2,6 +2,7 @@
 using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Pools;
+using DQQ.Profiles;
 using DQQ.Profiles.Items;
 
 namespace DQQ.Components.Items
@@ -17,7 +18,8 @@ namespace DQQ.Components.Items
 		public int? Quanty { get; set; }
 		public int? ItemLevel { get; set; }
 		public EnumItem? ItemNumber { get; set; }
-		public ItemProfile? ItemProfile => Profile is ItemProfile ? Profile as ItemProfile : null;
+		public override DQQProfile? Profile => ItemProfile;
+		public ItemProfile? ItemProfile => DQQPool.TryGet<ItemProfile, EnumItem>(ItemNumber ?? EnumItem.NotSpecified);
 		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
 		{
 			base.Initialize(entity, parent);
@@ -35,7 +37,6 @@ namespace DQQ.Components.Items
 				DisplayId = Guid.NewGuid();
 			}
 			ItemNumber = itemProfile?.ProfileNumber;
-			Profile = itemProfile;
 			DisplayName = itemProfile?.Name;
 			if (ItemProfile?.IsStack != true)
 			{

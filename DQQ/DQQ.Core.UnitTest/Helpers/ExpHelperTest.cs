@@ -37,8 +37,8 @@ namespace DQQ.Core.UnitTest.Helpers
 
 		[TestCase(1, "8")]
 		[TestCase(2, "8")]
-		[TestCase(3, "8")]
-		[TestCase(70, "231")]
+		[TestCase(3, "9")]
+		[TestCase(70, "232")]
 		public void MobExpCalculateTest(int level, long exp)
 		{
 			Assert.That(XPHelper.GetMobKilledExp(level), Is.EqualTo(exp));

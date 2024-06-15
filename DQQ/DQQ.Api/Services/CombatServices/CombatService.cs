@@ -55,5 +55,10 @@ namespace DQQ.Api.Services.CombatServices
 			result.SetSuccess(resultDto);
 			return result;
 		}
-	}
+
+    public Task<ContentResponse<CombatResultDTO>> RequestCombatRandom(CombatRequestDTO? dto)
+    {
+      throw new NotImplementedException();
+    }
+  }
 }

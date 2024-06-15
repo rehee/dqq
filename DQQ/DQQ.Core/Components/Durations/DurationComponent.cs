@@ -13,12 +13,14 @@ using DQQ.Pools;
 using DQQ.Combats;
 using DQQ.Profiles.Skills;
 using DQQ.Components.Parameters;
+using DQQ.Profiles;
 
 namespace DQQ.Components.Durations
 {
 	public class DurationComponent : DQQComponent
 	{
 		public EnumDurationNumber DurationNumber { get; set; }
+		public override DQQProfile? Profile => Duration;
 		public DurationProfile? Duration => DQQPool.TryGet<DurationProfile, EnumDurationNumber?>(DurationNumber);
 		public ITarget? Creator { get; set; }
 		public int TickRemain { get; set; }
@@ -71,6 +73,9 @@ namespace DQQ.Components.Durations
 		}
 
 		bool isDisposed { get; set; }
+
+		
+
 		public override async ValueTask DisposeAsync()
 		{
 			await base.DisposeAsync();

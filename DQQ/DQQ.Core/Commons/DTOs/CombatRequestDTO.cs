@@ -11,5 +11,6 @@ namespace DQQ.Commons.DTOs
     public Guid? ActorId { get; set; }
     public int MapLevel { get; set; }
     public int SubMapLevel { get; set; }
+    public Guid? RandomGuid { get; set; }
   }
 }

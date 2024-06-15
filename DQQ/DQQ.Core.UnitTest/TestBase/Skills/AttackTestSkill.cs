@@ -16,6 +16,10 @@ namespace DQQ.UnitTest.TestBase.Skills
 {
 	public class AttackTestSkill : SkillComponent
 	{
+		public AttackTestSkill()
+		{
+			SkillNumber = Enums.EnumSkillNumber.NormalAttack;
+		}
 		public async Task<bool> CastSkill(ComponentTickParameter? parameter)
 		{
 			await Task.CompletedTask;

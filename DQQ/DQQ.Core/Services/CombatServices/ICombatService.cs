@@ -11,5 +11,6 @@ namespace DQQ.Services.CombatServices
   public interface ICombatService
   {
     Task<ContentResponse<CombatResultDTO>> RequestCombat(CombatRequestDTO? dto);
+    Task<ContentResponse<CombatResultDTO>> RequestCombatRandom(CombatRequestDTO? dto);
   }
 }

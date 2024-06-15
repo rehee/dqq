@@ -11,6 +11,8 @@ using DQQ.Combats;
 using DQQ.Components.Stages.Actors;
 using DQQ.Consts;
 using DQQ.Helper;
+using DQQ.Pools;
+using DQQ.Enums;
 
 namespace DQQ.Components
 {
@@ -22,7 +24,8 @@ namespace DQQ.Components
 		[JsonIgnore]
 		public IDQQEntity? Entity { get; set; }
 		[JsonIgnore]
-		public DQQProfile? Profile { get; set; }
+		public abstract DQQProfile? Profile { get; }
+
 
 		[JsonIgnore]
 		public DQQComponent? Parent { get; protected set; }
@@ -42,7 +45,6 @@ namespace DQQ.Components
 			}
 			IsDisposed = true;
 			Entity = null;
-			Profile = null;
 		}
 
 		public virtual void Initialize(IDQQEntity entity, DQQComponent? parent)
@@ -119,7 +121,7 @@ namespace DQQ.Components
 		}
 		protected virtual void SelfDamageReduction(ComponentTickParameter parameter)
 		{
-			
+
 		}
 		public void BeforeTakeDamage(ComponentTickParameter parameter)
 		{

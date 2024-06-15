@@ -25,7 +25,7 @@ namespace DQQ.Components.Stages.Maps
     decimal PlayMins { get; }
     bool ReopenBlocked { get; }
     Task Play();
-    Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier);
+    Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier, Guid? randomSeed = null);
     IEnumerable<IItem>? ItemPool { get; }
     List<TickLogItem> Logs { get; }
     List<ItemComponent>? Drops { get; }

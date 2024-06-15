@@ -118,7 +118,7 @@ namespace DQQ.Core.UnitTest.Helpers
       throw new NotImplementedException();
     }
 
-    public Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier)
+    public Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier, Guid? randomSeed = null)
     {
       throw new NotImplementedException();
     }
