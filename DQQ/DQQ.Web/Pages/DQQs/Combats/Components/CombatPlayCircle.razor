@@ -1,0 +1,48 @@
+﻿@inherits ABCombatPlay
+@if (CombatLog != null)
+{
+  <div>
+    @Tick
+  </div>
+  <div class="row g-3">
+    <div class="col-12">
+      <div class="">
+        @if (Players != null)
+        {
+          foreach (var p in Players)
+          {
+            <Circle Width="150" Value="p.PercentageHPInt">
+              <div>
+                <h3>@p.DisplayName</h3>
+              </div>
+            </Circle>
+
+
+          }
+        }
+      </div>
+
+
+    </div>
+    <div class="col-12">
+      <div class="">
+
+        @if (Enemies != null)
+        {
+          foreach (var e in Enemies)
+          {
+            <Circle Color="e.GetTargetPowerLevelColor(Color.Dark)" Width="150" Value="e.PercentageHPInt">
+              <div>
+                <h3>@e.DisplayName</h3>
+              </div>
+            </Circle>
+
+          }
+        }
+      </div>
+    </div>
+    <div class="col-12">
+      <Console HeaderText="系统监控" Items="MessageItems" Height="126" ShowAutoScroll="true" />
+    </div>
+  </div>
+}

@@ -1,0 +1,19 @@
+﻿@switch (PlayType)
+{
+	case EnumCombatPlayType.Summary:
+		<CombatPlayRush2 PlayType="PlayType" AfterCombatPlay="AfterCombatCallback" CombatResult="CombatResult" CombatLog="CombatLog" />
+		break;
+	case EnumCombatPlayType.Simple:
+		<CombatPlayCircle PlayType="PlayType" AfterCombatPlay="AfterCombatCallback" CombatResult="CombatResult" CombatLog="CombatLog" />
+		break;
+	case EnumCombatPlayType.Detail:
+		<CombatPlayBox PlayType="PlayType" AfterCombatPlay="AfterCombatCallback" CombatResult="CombatResult" CombatLog="CombatLog" />
+		break;
+	case EnumCombatPlayType.Talbe:
+		<CombatPlayBox PlayType="PlayType" AfterCombatPlay="AfterCombatCallback" CombatResult="CombatResult" CombatLog="CombatLog" />
+		break;
+	case EnumCombatPlayType.Cocos:
+		<CombatPlayCocos2 PlayType="PlayType" AfterCombatPlay="AfterCombatCallback" CombatResult="CombatResult" CombatLog="CombatLog" />
+		break;
+	
+}

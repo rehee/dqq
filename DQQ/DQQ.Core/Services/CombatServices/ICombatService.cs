@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace DQQ.Services.CombatServices
 {
-  public interface ICombatService
-  {
-    Task<ContentResponse<CombatResultDTO>> RequestCombat(CombatRequestDTO? dto);
-    Task<ContentResponse<CombatResultDTO>> RequestCombatRandom(CombatRequestDTO? dto);
-  }
+	public interface ICombatService
+	{
+		Task<ContentResponse<CombatResultDTO>> RequestCombat(CombatRequestDTO? dto);
+		Task<ContentResponse<CombatResultDTO>> RequestCombatRandom(CombatRequestDTO? dto);
+		Task<ContentResponse<CombatResultDTO>> PushCombatRandom(CombatRequestDTO? dto);
+	}
 }

@@ -83,6 +83,10 @@ namespace DQQ.Helper
 			{
 				return GetString(esas);
 			}
+			if (input is EnumCombatPlayType ecpt)
+			{
+				return GetString(ecpt);
+			}
 			return $"{input}";
 		}
 
@@ -343,5 +347,19 @@ namespace DQQ.Helper
 					return "普通";
 			}
 		}
+		public static string? GetString(this EnumCombatPlayType input)
+		{
+			switch (input)
+			{
+				case EnumCombatPlayType.Summary: return "汇总";
+				case EnumCombatPlayType.Simple: return "简要";
+				case EnumCombatPlayType.Detail: return "详细";
+				case EnumCombatPlayType.Talbe: return "列表";
+				case EnumCombatPlayType.Cocos: return "灵魂";
+				default:
+					return "";
+			}
+		}
+
 	}
 }

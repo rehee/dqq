@@ -1,0 +1,22 @@
+﻿@inherits CombatCoCos2Page
+@using DQQ.Consts
+<div style="height:667px;width:375px;">
+	@if (DisplayCocos)
+	{
+		<iframe id="cocos_if" src="@WebConsts.CoCosURL" width="375" height="667"></iframe>
+	}
+	else
+	{
+		if (TotalSecond > 0)
+		{
+			<span>重新加载中:</span>
+			<span>@TotalSecond</span>
+		}
+		else
+		{
+			<span>加载中</span>
+		}
+		
+	}
+
+</div>

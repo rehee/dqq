@@ -12,5 +12,7 @@ namespace DQQ.Profiles.Skills.Buffs
 		public override EnumSkillType SkillType => EnumSkillType.Healing;
 		public override EnumSkillCategory Category => EnumSkillCategory.Defence;
 		public override bool SelfIfNoTarget => true;
+
+		public override EnumTarget? TargetForce => EnumTarget.Friendly;
 	}
 }

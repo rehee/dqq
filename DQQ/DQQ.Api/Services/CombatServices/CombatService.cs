@@ -22,7 +22,13 @@ namespace DQQ.Api.Services.CombatServices
 			this.charServices = charServices;
 			this.temporaryService = temporaryService;
 		}
-		public async Task<ContentResponse<CombatResultDTO>> RequestCombat(CombatRequestDTO dto)
+
+		public Task<ContentResponse<CombatResultDTO>> PushCombatRandom(CombatRequestDTO? dto)
+		{
+			throw new NotImplementedException();
+		}
+
+		public async Task<ContentResponse<CombatResultDTO>> RequestCombat(CombatRequestDTO? dto)
 		{
 			var result = new ContentResponse<CombatResultDTO>();
 			if (dto?.ActorId == null)
@@ -30,18 +36,27 @@ namespace DQQ.Api.Services.CombatServices
 				result.SetNotFound();
 				return result;
 			}
-			var player = await charServices.GetCharacter(dto.ActorId!.Value);
+			var player = await charServices.GetCharacter(dto?.ActorId);
 			if (player == null)
 			{
 				result.SetNotFound();
 				return result;
 			}
 			var map = new Map();
-			await map.Initialize(player, dto.MapLevel, dto.SubMapLevel);
+			await map.Initialize(player, dto?.MapLevel ?? 0, dto?.SubMapLevel ?? 0, dto?.RandomGuid);
 			await map.Play();
 			if (player.DisplayId != null && map.Drops?.Any() == true)
 			{
 				await temporaryService.AddAndIntoTemporary(player.DisplayId.Value, map.Drops.ToArray());
+			}
+			if (map?.XP >= 0)
+			{
+				await charServices.GainExperience(dto?.ActorId, $"{map?.XP}");
+			}
+			if (dto?.RandomGuid != null)
+			{
+				result.SetSuccess(new CombatResultDTO { });
+				return result;
 			}
 			var resultDto = new CombatResultDTO
 			{
@@ -51,14 +66,14 @@ namespace DQQ.Api.Services.CombatServices
 				TotalCombatminutes = map!.PlayMins,
 				Success = map!.MobPool?.All(b => b.All(c => c.Alive != true)) ?? false
 			};
-			await charServices.GainExperience(dto?.ActorId, $"{resultDto.XP}");
+			
 			result.SetSuccess(resultDto);
 			return result;
 		}
 
-    public Task<ContentResponse<CombatResultDTO>> RequestCombatRandom(CombatRequestDTO? dto)
-    {
-      throw new NotImplementedException();
-    }
-  }
+		public Task<ContentResponse<CombatResultDTO>> RequestCombatRandom(CombatRequestDTO? dto)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
