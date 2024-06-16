@@ -140,7 +140,6 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				await FinishProcess();
 			}
-			await FinishProcess();
 			await StartCombat();
 		}
 	}
