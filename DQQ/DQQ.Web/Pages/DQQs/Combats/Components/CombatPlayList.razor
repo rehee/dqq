@@ -22,6 +22,7 @@
 			<span>正在进入地图</span>
 			break;
 		case EnumCombatPlayStatus.Playing:
+		case EnumCombatPlayStatus.FinishPlay:
 			@if (Result != null)
 			{
 				<CombatPlaySwitch AfterCombatPlay="OnCombatPlayFinished" PlayType="PlayType" CombatResult="Result" CombatLog="Result.Logs" />
@@ -31,10 +32,13 @@
 			{
 				<span>准备战斗</span>
 			}
+			if (Status == EnumCombatPlayStatus.FinishPlay)
+			{
+				<span>正在结算战斗结果</span>
+			}
+
 			break;
-		case EnumCombatPlayStatus.FinishPlay:
-			<span></span>
-			break;
+
 		case EnumCombatPlayStatus.Failed:
 			<span>出错了. [@RetryTime] 秒后自动尝试</span>
 			break;

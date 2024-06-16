@@ -19,6 +19,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		[NotNull]
 		public ICombatService? combatService { get; set; }
 
+		protected CombatRequestDTO? RequestDTO { get; set; }
 		public CombatResultDTO? Result { get; set; }
 		protected override async Task OnInitializedAsync()
 		{
@@ -59,28 +60,20 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 
 			Status = EnumCombatPlayStatus.Playing;
 			await Task.Delay(1000);
-			var request = new CombatRequestDTO
+			RequestDTO = new CombatRequestDTO
 			{
 				ActorId = ActorId,
 				RandomGuid = CurrentGuid
 			};
-			var result = await combatService.RequestCombatRandom(request);
+			var result = await combatService.RequestCombatRandom(RequestDTO);
 			Result = result?.Content;
 			await Task.Delay(1000);
 			StateHasChanged();
 			if (result?.Success == true)
 			{
-				if (result?.Content?.Success == true)
+				if (PlayType == EnumCombatPlayType.Summary)
 				{
-					var pushRequest = await combatService.PushCombatRandom(request);
-					if (pushRequest.Success != true)
-					{
-						Status = EnumCombatPlayStatus.Failed;
-						StateHasChanged();
-						Retry();
-						return;
-					}
-					ParentRefreshEvent.InvokeEvent(this, null);
+					await FinishProcess();
 				}
 
 			}
@@ -90,6 +83,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 				await Task.Delay(1000);
 				Retry();
 			}
+
+
 			StateHasChanged();
 		}
 		public int RetryTime = 0;
@@ -114,14 +109,38 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			await base.OnDisposeAsync();
 		}
 
+		protected async Task FinishProcess()
+		{
+			Status = EnumCombatPlayStatus.FinishPlay;
+			StateHasChanged();
+			await Task.Delay(1000);
+			if (Result?.Success == true)
+			{
+				var pushRequest = await combatService.PushCombatRandom(RequestDTO);
+				if (pushRequest.Success != true)
+				{
+					Status = EnumCombatPlayStatus.Failed;
+					StateHasChanged();
+					Retry();
+					return;
+				}
+				ParentRefreshEvent.InvokeEvent(this, null);
+			}
+			StateHasChanged();
+			await Task.Delay(1000);
+		}
+
 		public async Task OnCombatPlayFinished()
 		{
 			if (IsDispose)
 			{
 				return;
 			}
-			Status = EnumCombatPlayStatus.FinishPlay;
-
+			if (PlayType != EnumCombatPlayType.Summary)
+			{
+				await FinishProcess();
+			}
+			await FinishProcess();
 			await StartCombat();
 		}
 	}
