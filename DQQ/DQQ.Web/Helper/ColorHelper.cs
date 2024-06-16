@@ -1,4 +1,7 @@
 ﻿using BootstrapBlazor.Components;
+using DQQ.Enums;
+using System.ComponentModel;
+using System.Reflection.PortableExecutable;
 
 namespace DQQ.Helper
 {
@@ -23,6 +26,29 @@ namespace DQQ.Helper
 
 			return Color.None;
 		}
+
+		public static Color GetColor(this EnumTargetLevel input)
+		{
+			switch (input)
+			{
+				case EnumTargetLevel.NotSpecified:
+				case EnumTargetLevel.Normal:
+					return Color.Dark;
+				case EnumTargetLevel.Magic:
+					return Color.Primary;
+				case EnumTargetLevel.Elite:
+					return Color.Info;
+				case EnumTargetLevel.Champion:
+					return Color.Warning;
+				case EnumTargetLevel.Guardian:
+					return Color.Danger;
+			}
+
+
+			return Color.Dark;
+
+		}
+
 
 		public static string UnAvliable(this Color c)
 		{

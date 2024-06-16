@@ -88,6 +88,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 
 		}
 
+		public TickLogItem? CurrentLog { get; set; }
 		public async Task KeepRefresh()
 		{
 			if (IsDispose)
@@ -117,6 +118,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 				var logs = CombatLog.Where(b => b.ActionTick == i).ToArray();
 				foreach (var log in logs)
 				{
+					CurrentLog = log;
+					StateHasChanged();
 					if (log.WaveNumber < 0)
 					{
 						continue;

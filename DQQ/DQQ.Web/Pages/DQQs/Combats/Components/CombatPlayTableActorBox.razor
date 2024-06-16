@@ -1,0 +1,45 @@
+﻿<Card class="@(IsMob?"mob_box":"")" Color="@ThisColor">
+	<HeaderTemplate>
+		@if (IsMob)
+		{
+			<Alert class="mob_title" Color="ThisColor">@Actor.DisplayName</Alert>
+		}
+		else
+		{
+			@Actor.DisplayName
+		}
+
+	</HeaderTemplate>
+	<BodyTemplate>
+		<Circle Width="24" ShowProgress="false" Value="Actor.PercentageHPInt">
+		</Circle>
+		@if (Item != null && Item?.Target?.Id == Actor.Id)
+		{
+			if (Item?.Damage != null)
+			{
+				<span class="text-danger">@Item?.Damage?.DamagePoint </span>
+			}
+			if (Item?.Healing != null)
+			{
+				<span class="text-success">@Item?.Healing?.HealingDone </span>
+			}
+		}
+		<span>
+
+		</span>
+		@* <Progress IsAnimated="true" IsStriped="true" Value="Actor.PercentageHP" Color="Color.Danger" IsShowValue="true" /> *@
+	</BodyTemplate>
+	<FooterTemplate>
+		@if (Actor?.Durations?.Any() == true)
+		{
+			<CombatPlayTableDuration Actor="Actor" />
+		}
+		else
+		{
+			<span>无</span>
+		}
+
+	</FooterTemplate>
+</Card>
+
+

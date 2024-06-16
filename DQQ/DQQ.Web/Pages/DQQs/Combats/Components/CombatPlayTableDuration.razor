@@ -1,0 +1,26 @@
+﻿@using DQQ.TickLogs
+@if (Actor?.Durations?.Any() == true)
+{
+	<div class="row">
+		@foreach (var durationGrup in Actor.Durations.GroupBy(b => b.Profile?.DurationType))
+		{
+			var icon = durationGrup.Key.GetDurationIcon();
+			var color = durationGrup.Key.GetDurationColor();
+			<div class="col-auto">
+				<div class="badge-widget">
+					<Tag Color="@color">
+						<i class="@icon" aria-hidden="true"></i>
+					</Tag>
+
+					<Badge Color="color"><span style="padding: 0 2px;">@durationGrup.Count()</span></Badge>
+				</div>
+			</div>
+		}
+	</div>
+
+}
+
+@code {
+	[Parameter]
+	public TickLogActor? Actor { get; set; }
+}

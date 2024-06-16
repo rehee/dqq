@@ -1,0 +1,91 @@
+﻿@using DQQ.TickLogs
+@inherits ABCombatPlay
+<style>
+	.dialog-table .modal-body {
+		height: calc(100vh - 400px);
+		overflow: hidden;
+	}
+</style>
+<div class="border split-demo split-demo-horizontal">
+	<Split Basis="25%">
+		<FirstPaneTemplate>
+			<Card>
+				<HeaderTemplate>
+					团队空间
+				</HeaderTemplate>
+				<BodyTemplate>
+					@if (Players?.Any() == true)
+					{
+						foreach (var player in Players)
+						{
+							<CombatPlayTableActorBox Item="CurrentLog" Actor="player" />
+						}
+					}
+				</BodyTemplate>
+			</Card>
+		</FirstPaneTemplate>
+		<SecondPaneTemplate>
+			<Card>
+				<HeaderTemplate>
+					需求
+				</HeaderTemplate>
+				<BodyTemplate>
+					@if (Enemies?.Any() == true)
+					{
+
+						<Table TItem="TickLogActor" Items="Enemies">
+							<TableColumns>
+								<TableColumn @bind-Field="@context.Id" Text="需求ID">
+									<Template Context="value">
+										@value.Row.Id?.GetShortString()
+									</Template>
+								</TableColumn>
+								<TableColumn @bind-Field="@context.Id" Text="类型">
+									<Template Context="value">
+										<CombatPlayTableTypeIcon Actor="value.Row" />
+									</Template>
+								</TableColumn>
+								<TableColumn @bind-Field="@context.Id" Text="进度">
+									<Template Context="value">
+										<Progress IsAnimated="true" IsStriped="true" Value="value.Row.PercentageHP" Color="Color.Danger" IsShowValue="true" />
+									</Template>
+								</TableColumn>
+								<TableColumn @bind-Field="@context.Id" Text="处理人">
+									<Template Context="value">
+										@if (value.Value != null && CurrentLog?.Target?.Id == value.Value)
+										{
+											<span>@(CurrentLog?.From?.DisplayName)</span>
+										}
+
+
+									</Template>
+								</TableColumn>
+								<TableColumn @bind-Field="@context.Id" Text="需求状态">
+									<Template Context="value">
+										@if (value.Value != null && CurrentLog?.Target?.Id == value.Value)
+										{
+											if (CurrentLog?.Damage != null)
+											{
+												<span class="text-danger">@CurrentLog?.Damage?.DamagePoint</span>
+											}
+											if (CurrentLog?.Healing != null)
+											{
+												<span class="text-success">@CurrentLog?.Healing?.HealingDone</span>
+											}
+										}
+									</Template>
+								</TableColumn>
+								<TableColumn @bind-Field="@context.Id" Text="优先级">
+									<Template Context="value">
+										<CombatPlayTableDuration Actor="value.Row" />
+									</Template>
+								</TableColumn>
+							</TableColumns>
+						</Table>
+					}
+
+				</BodyTemplate>
+			</Card>
+		</SecondPaneTemplate>
+	</Split>
+</div>

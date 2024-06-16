@@ -1,0 +1,14 @@
+﻿@using DQQ.TickLogs
+
+@if (Actor?.MobNumber != null)
+{
+	<Tag Color="Actor?.PowerLevel?.GetColor()?? Color.Dark">
+		<i class="fas fa-bottle-droplet"></i>
+	</Tag>
+}
+
+
+@code {
+	[Parameter]
+	public TickLogActor? Actor { get; set; }
+}
