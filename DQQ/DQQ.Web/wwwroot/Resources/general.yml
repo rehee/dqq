@@ -1,0 +1,7 @@
+﻿# general.yml
+greeting:
+  en-US: "Hello"
+  zh: "你好"
+farewell:
+  en-US: "Goodbye"
+  zh: "再见"

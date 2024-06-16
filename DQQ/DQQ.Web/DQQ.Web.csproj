@@ -4,7 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Resources\general.yml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazor.LocalStorage.WebAssembly" Version="8.0.0" />
@@ -12,7 +17,9 @@
     <PackageReference Include="BootstrapBlazor.FontAwesome" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.4" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.6" />
     <PackageReference Include="ReheeCmf.Libs" Version="8.0.2-p045" />
+    <PackageReference Include="YamlDotNet" Version="15.1.6" />
   </ItemGroup>
 
   <ItemGroup>

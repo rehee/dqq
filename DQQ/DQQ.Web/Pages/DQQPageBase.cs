@@ -2,8 +2,11 @@
 using DQQ.Services.ActorServices;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using ReheeCmf.Requests;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace DQQ.Web.Pages
 {
@@ -25,8 +28,11 @@ namespace DQQ.Web.Pages
     [Inject]
     public DialogService? dialogService { get; set; }
 
+    [Inject]
+    [NotNull]
+		public IStringLocalizer? Localizer { get; set; }
 
-    public virtual async Task CloseDynamicDialog()
+		public virtual async Task CloseDynamicDialog()
     {
       if (OnSave?.DynamicDialogOption != null)
       {
@@ -79,6 +85,9 @@ namespace DQQ.Web.Pages
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
+
+      CultureInfo.CurrentCulture = new CultureInfo("zh");
+      //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("zh");
       if (OnSave != null)
       {
         OnSave.OnSaveFunc = SaveFunction;

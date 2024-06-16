@@ -1,16 +1,17 @@
 ﻿@inherits MainLayoutPage
 <div class="page">
-  <div class="sidebar">
-    <NavMenu />
-  </div>
+	<div class="sidebar">
+		<NavMenu />
+	</div>
 
-  <main>
-    <div class="top-row px-4">
-    </div>
+	<main>
+		<div class="top-row px-4">
+			<Dropdown TValue="string" Items="LocalizationHelper.GetAvaliableLang" Value="CurrentLang" OnSelectedItemChanged="OnSelectedItemChanged" Color="Color.Secondary" />
+		</div>
 
-    <article class="content px-4">
-      @Body
-    </article>
-  </main>
+		<article class="content px-4">
+			@Body
+		</article>
+	</main>
 </div>
 <Dialog></Dialog>
