@@ -5,6 +5,7 @@ using DQQ.Enums;
 using DQQ.Services.CombatServices;
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Headers;
 
 namespace DQQ.Web.Pages.DQQs.Combats.Components
 {
@@ -76,19 +77,38 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 					{
 						Status = EnumCombatPlayStatus.Failed;
 						StateHasChanged();
+						Retry();
 						return;
 					}
 					ParentRefreshEvent.InvokeEvent(this, null);
 				}
-				
+
 			}
 			else
 			{
 				Status = EnumCombatPlayStatus.Failed;
 				await Task.Delay(1000);
+				Retry();
 			}
 			StateHasChanged();
 		}
+		public int RetryTime = 0;
+		public async Task Retry(int retryTime = 30)
+		{
+			RetryTime = retryTime;
+			while (RetryTime > 1)
+			{
+				if (IsDispose)
+				{
+					return;
+				}
+				await Task.Delay(1000);
+				RetryTime--;
+				StateHasChanged();
+			}
+			StartCombat();
+		}
+
 		protected override async Task OnDisposeAsync()
 		{
 			await base.OnDisposeAsync();
