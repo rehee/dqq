@@ -12,10 +12,14 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			var combatPlayType = LocalStorageService.GetItem<EnumCombatPlayType?>(WebConsts.CombatStyleTypeKey);
 			if (combatPlayType == null || combatPlayType == EnumCombatPlayType.NotSpecified)
 			{
-				combatPlayType = combatPlayType!.Value;
+				combatPlayType = EnumCombatPlayType.Detail;
+			}
+			else
+			{
+				PlayType = combatPlayType!.Value;
 			}
 
-			PlayType = combatPlayType!.Value;
+
 			StateHasChanged();
 		}
 	}
