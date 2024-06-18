@@ -1,60 +1,79 @@
 ﻿@inherits CombatPlayListPage
-
-<BootstrapInputGroup>
-	<BootstrapInputGroupLabel DisplayText="选择战斗模式" />
-	<Select IsDisabled="StatusSelectDisabled" Items="SelectedItemHelper.GetSelectedItem<EnumCombatPlayType>()" @bind-Value="PlayType">
-	</Select>
-	<Button IsDisabled="StartCombatDisabled" Color="Color.Success" OnClick="StartCombat">开始在线挂机</Button>
-	<Button Color="Color.Danger" OnClick="StopCombat">停止战斗</Button>
-
-</BootstrapInputGroup>
-
-<div style="min-height:300px">
-	@switch (Status)
-	{
-		case EnumCombatPlayStatus.Waiting:
-			<span>等待中</span>
-			break;
-		case EnumCombatPlayStatus.Searcing:
-			<span>搜索中</span>
-			break;
-		case EnumCombatPlayStatus.CreateMap:
-			<span>正在进入地图</span>
-			break;
-		case EnumCombatPlayStatus.Playing:
-		case EnumCombatPlayStatus.FinishPlay:
-			@if (Result != null)
+<Card>
+	<BodyTemplate>
+		<BootstrapInputGroup>
+			<Button IsDisabled="StartCombatDisabled" Color="Color.Success" OnClick="StartCombat">开始在线挂机</Button>
+			<Button Color="Color.Danger" OnClick="StopCombat">停止战斗</Button>
+		</BootstrapInputGroup>
+	</BodyTemplate>
+</Card>
+<Card>
+	<BodyTemplate>
+		@if (Result != null)
+		{
+			if (Result.Success == true)
 			{
-				<CombatPlaySwitch AfterCombatPlay="OnCombatPlayFinished" PlayType="PlayType" CombatResult="Result" CombatLog="Result.Logs" />
-
+				<p>战斗胜利</p>
 			}
 			else
 			{
-				<span>准备战斗</span>
+				<p>战斗失败</p>
 			}
-			if (Status == EnumCombatPlayStatus.FinishPlay)
+		}
+	</BodyTemplate>
+</Card>
+<Card>
+	<BodyTemplate>
+		<div style="min-height:300px">
+			@switch (Status)
 			{
-				<span>正在结算战斗结果</span>
+				case EnumCombatPlayStatus.Waiting:
+					<span>等待中</span>
+					break;
+				case EnumCombatPlayStatus.Searcing:
+					<span>搜索中</span>
+					break;
+				case EnumCombatPlayStatus.CreateMap:
+					<span>准备战斗演出</span>
+					break;
+				case EnumCombatPlayStatus.Playing:
+				case EnumCombatPlayStatus.FinishPlay:
+					@if (Result != null)
+					{
+						<CombatPlaySwitch AfterCombatPlay="OnCombatPlayFinished" PlayType="PlayType" CombatResult="Result" CombatLog="Result.Logs" />
+
+					}
+					else
+					{
+						<span>准备战斗</span>
+					}
+					if (Status == EnumCombatPlayStatus.FinishPlay)
+					{
+						<span>正在结算战斗结果</span>
+					}
+
+					break;
+
+				case EnumCombatPlayStatus.Failed:
+					<span>出错了. [@RetryTime] 秒后自动尝试</span>
+					break;
 			}
 
-			break;
+			@if (Status == EnumCombatPlayStatus.Waiting)
+			{
+				<span>正在寻找敌人</span>
+			}
+			@if (Status == EnumCombatPlayStatus.Searcing)
+			{
+				<span>准备进入战斗</span>
+			}
 
-		case EnumCombatPlayStatus.Failed:
-			<span>出错了. [@RetryTime] 秒后自动尝试</span>
-			break;
-	}
+		</div>
 
-	@if (Status == EnumCombatPlayStatus.Waiting)
-	{
-		<span>正在寻找敌人</span>
-	}
-	@if (Status == EnumCombatPlayStatus.Searcing)
-	{
-		<span>准备进入战斗</span>
-	}
 
-</div>
 
+	</BodyTemplate>
+</Card>
 
 
 

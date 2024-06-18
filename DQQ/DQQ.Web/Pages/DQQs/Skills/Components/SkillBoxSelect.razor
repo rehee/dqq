@@ -1,0 +1,47 @@
+﻿@inherits SkillBoxSelectPage
+<Card IsCollapsible="true" Collapsed="true" HeaderText="技能与策略">
+	<HeaderTemplate>
+		<div class="flex-fill">
+		</div>
+		<DQQInfo>
+			<h3>
+				选择技能 与策略
+			</h3>
+			<p>
+				您可以选择最多6个主动技能. 主动技能可以被辅助技能或者触发技能辅助. 技能也可以选择策略. 让您的战斗更有层次.
+			</p>
+			<p>
+				技能根据使用的类型可以分为下面三类
+			</p>
+			<ul>
+				<li>
+					主动技能: 可以直接由玩家释放的技能. 每个主动技能都有自己的冷却时间.
+					释放时间. 为0即为瞬发. 武器速度则释放的时间与武器攻击速度相同. 和具体的施放时间(秒).
+					在冷却为0后, 则会积累释放时间. 达到技能释放的时间要求时则会直接释放技能.
+				</li>
+				<li>
+					辅助技能: 无法主动使用.一般也没有冷却时间. 辅助技能的种类多样. 可以改变主动技能的形态, 也可以增强主动技能
+				</li>
+				<li>
+					触发技能: 无法直接使用. 但是在满足技能的触发条件时则会发动.
+				</li>
+			</ul>
+			<h3>策略</h3>
+			<p>
+				策略是指技能释放的时机. 技能在冷却为0的情况下. 会根据选择的策略从上至下的判断. 满足条件后就会自动释放主动技能.
+			</p>
+		</DQQInfo>
+
+	</HeaderTemplate>
+	<BodyTemplate>
+		<div class="row g-3">
+			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.MainSlot" />
+			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.GeneralSlot1" />
+			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.GeneralSlot2" />
+			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.GeneralSlot3" />
+			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.WeaponSlotTH" />
+			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.WeaponSlot1" />
+			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.WeaponSlot2" />
+		</div>
+	</BodyTemplate>
+</Card>

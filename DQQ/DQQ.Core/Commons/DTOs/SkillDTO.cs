@@ -3,6 +3,7 @@ using DQQ.Components.Skills;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
+using DQQ.Helper;
 using DQQ.Pools;
 using DQQ.Profiles.Skills;
 using DQQ.Strategies.SkillStrategies;
@@ -55,5 +56,12 @@ namespace DQQ.Commons.DTOs
 
 		public SkillDTO[]? SupportSkills { get; set; }
 		public bool AvaliableForUser { get; set; }
+
+		public bool AbleToAddSupport(EnumSkillSlot? slot)
+		{
+			if (Profile == null) return false;
+			var maxNumber = slot.MaxSkillNumber();
+			return maxNumber > SupportSkills?.Count(b => b.Profile != null);
+		}
 	}
 }

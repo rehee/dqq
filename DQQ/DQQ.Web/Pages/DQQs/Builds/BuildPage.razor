@@ -1,40 +1,46 @@
 ﻿@using DQQ.Web.Pages.DQQs.Items.Components
+@using DQQ.Web.Pages.DQQs.Skills.Components
 @inherits BuildPagePage
 
-<Card>
+<Card IsCollapsible="true" Collapsed="true" HeaderText="构筑(BD)">
 	<HeaderTemplate>
-		构筑(bd) <span>&nbsp; </span> <Button Color="Color.Success" Size="Size.ExtraSmall" Text="bd 管理" OnClick="ShowManagement" />
+		构筑(bd)
 	</HeaderTemplate>
 	<BodyTemplate>
-		<h6>
-			主目标优先级  @((SelectedCharacter?.TargetPriority).GetString() ?? "n/a") <span>&nbsp; </span> <Button Color="Color.Primary" Size="Size.ExtraSmall" Text="更改优先级" OnClick="ChangeTarget" />
-		</h6>
-		<h6>
-			当前装备 <span>&nbsp; </span> <Button Color="Color.Primary" Size="Size.ExtraSmall" Text="装备选择" OnClick="ShowInventory" />
-		</h6>
-		<div>
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Head" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Body" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Gloves" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Boots" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.MainHand" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.OffHand" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Amulet" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Belt" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.LeftRing" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.RightRing" />
-
-		</div>
-
-		<h6>
-			技能与策略
-		</h6>
-
-		<SkillSlotList ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" />
-
+		<Button Color="Color.Success" Size="Size.ExtraSmall" Text="bd 管理" OnClick="ShowManagement" />
 	</BodyTemplate>
-	<FooterTemplate>
-		
-	</FooterTemplate>
+</Card>
+<Card IsCollapsible="true" Collapsed="true" HeaderText="主目标优先级">
+	<HeaderTemplate>
+		主目标优先级  @((SelectedCharacter?.TargetPriority).GetString() ?? "n/a")
+	</HeaderTemplate>
+	<BodyTemplate>
+		<Button Color="Color.Primary" Size="Size.ExtraSmall" Text="更改优先级" OnClick="ChangeTarget" />
+	</BodyTemplate>
+</Card>
+<Card IsCollapsible="true" Collapsed="true" HeaderText="装备">
+	<HeaderTemplate>
+		装备
+	</HeaderTemplate>
+	<BodyTemplate>
+		<div class="row g-3">
+			<div class="col-12">
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Head" />
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Body" />
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Gloves" />
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Boots" />
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.MainHand" />
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.OffHand" />
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Amulet" />
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Belt" />
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.LeftRing" />
+				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.RightRing" />
+			</div>
+			<div class="col-12">
+				<Button Color="Color.Primary" Size="Size.ExtraSmall" Text="装备选择" OnClick="ShowInventory" />
+			</div>
+		</div>
+	</BodyTemplate>
 </Card>
 
+<SkillBoxSelect ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" />

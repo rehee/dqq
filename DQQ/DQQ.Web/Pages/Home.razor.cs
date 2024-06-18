@@ -1,6 +1,7 @@
 
 using BootstrapBlazor.Components;
 using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Enums;
 using DQQ.Pools;
 using DQQ.Profiles.Skills;
 using DQQ.Services.ActorServices;
@@ -20,6 +21,15 @@ namespace DQQ.Web.Pages
 {
 	public class HomePage : DQQPageBase
 	{
+
+		public EnumWebPage WebPage { get; set; }
+
+		public async Task ChangePage(EnumWebPage webPage)
+		{
+			await Task.CompletedTask;
+			WebPage = webPage;
+			StateHasChanged();
+		}
 
 		[Inject]
 		[NotNull]

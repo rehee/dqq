@@ -1,0 +1,55 @@
+﻿@inherits SettingPagePage
+<Card>
+	<HeaderTemplate>
+		设置
+	</HeaderTemplate>
+	<BodyTemplate>
+		<div class="row g-3">
+			<div class="col-12">
+				<p>
+					选择战斗演出的模式. 默认为详情模式.
+				</p>
+			</div>
+			<div class="col-12">
+				<Select Items="SelectedItemHelper.GetSelectedItem<EnumCombatPlayType>()" @bind-Value="CombatPlayType" OnSelectedItemChanged="SelectedChanged"></Select>
+				<p></p>
+			</div>
+			<div class="col-12">
+				@switch (CombatPlayType)
+				{
+					case EnumCombatPlayType.Summary:
+						<h4>
+							汇总模式
+						</h4>
+						<p>
+							立刻显示战斗结果. 包括战斗时间, dps, 收获的经验以及掉落物品等待. 选择汇总模式后, 每次战斗结束需要等待一定的时间才可以继续战斗. 等待的时间与战斗消耗的时间有关.
+						</p>
+						break;
+					case EnumCombatPlayType.Simple:
+						<h4>简要模式</h4>
+						<p>玩家(友方) 以及敌方以圆环表示. 战斗演出为生命环会随攻击/治疗而变动</p>
+						break;
+					case EnumCombatPlayType.Detail:
+						<h4>详细模式 默认</h4>
+						<p>玩家 友方 以及敌方 以Card的形式表现. 血条以进度条的方式表现. 首部显示名称. 脚部显示持续效果 包括增益减益.</p>
+						break;
+					case EnumCombatPlayType.Talbe:
+						<h4>列表模式</h4>
+						<p>敌方以 任务列表的方式演出. 友方在左侧演出. 敌方显示id,类型(图标) 血量以进度表示. 受伤以及治疗会显示数值. 持续效效果显示以类型分组的总数</p>
+						break;
+					case EnumCombatPlayType.Cocos:
+						<h4>灵魂模式</h4>
+						<p>cocos的演出模式. 只有灵魂一般的画风</p>
+						break;
+					default:
+						<p>没有选择任何演出类型. 默认为详细模式</p>
+						break;
+				}
+			</div>
+
+		</div>
+
+
+
+	</BodyTemplate>
+</Card>

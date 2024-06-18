@@ -6,25 +6,8 @@
   <BodyTemplate>
 
     <h5>
-      <Button IsAsync="true" class="btn" Color="Color.Primary" Text="@(Clicked==true?"稍等片刻":"开始战斗 模式1")" OnClick="CombatRequest" />
-      <Button IsAsync="true" class="btn" Color="Color.Success"  Text="@(Clicked==true?"稍等片刻":"开始战斗 模式2")" OnClick="CombatRequest2" />
-      <Button IsAsync="true" class="btn" Color="Color.Warning" Text="@(Clicked==true?"稍等片刻":"开始战斗 模式3")" OnClick="CombatRequest3" />
-      <Button IsAsync="true" class="btn" Color="Color.Dark" Text="@(Clicked==true?"稍等片刻":"开始战斗 模式4")" OnClick="CombatRequest4" />
-      <Button IsAsync="true" class="btn" Color="Color.Danger" Text="@(Clicked==true?"稍等片刻":"开始战斗 模式5")" OnClick="CombatRequest5" />
-      <Button IsAsync="true" class="btn" Text="上次战斗日志" OnClick="CombatLog" />
+      <Button IsAsync="true" class="btn" Color="Color.Danger" Text="@(Clicked==true?"稍等片刻":"开始战斗")" OnClick="CombatRequest5" />
     </h5>
-    @if (IsCombat == true)
-    {
-      <p>战斗中</p>
-    }
-    else
-    {
-      if (Result != null)
-      {
-        <p>@(Result.Success ? "胜利" : "失败")</p>
-        <p>战斗时间(分钟) @Math.Round(Result.TotalCombatminutes, 2)</p>
-        <p>获得经验 @Result.XP</p>
-      }
-    }
+    
   </BodyTemplate>
 </Card>

@@ -6,36 +6,52 @@
 @using DQQ.Web.Pages.DQQs.Items
 @using DQQ.Helper
 @using DQQ.Web.Pages.DQQs.Builds
+@using DQQ.Web.Pages.DQQs.Settings
 <PageTitle>Home</PageTitle>
 <Button Color="Color.Success" Text="ReadMe" OnClick="OpenReadMe" />
 <Button Color="Color.Primary" Text="提示" OnClick="OpenTips" />
 @Localizer["greeting"]
 @if (String.IsNullOrEmpty(UserId))
 {
-  <div>
-    <Tab IsBorderCard="true">
-      <TabItem Text="登录">
-        <Login />
-      </TabItem>
-      <TabItem Text="注册">
-        <Register />
-      </TabItem>
-    </Tab>
-  </div>
+	<div>
+		<Tab IsBorderCard="true">
+			<TabItem Text="登录">
+				<Login />
+			</TabItem>
+			<TabItem Text="注册">
+				<Register />
+			</TabItem>
+		</Tab>
+	</div>
 }
 else
 {
-  if (ActorId == null)
-  {
-    <CharacterList ParentRefreshEvent="RefreshEvent" />
-  }
-  else
-  {
-    <SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
-    <BuildPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
-    <CombatSummary ParentRefreshEvent="RefreshEvent" ActorId="ActorId" />
-    <ItemPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentGuid="ParentGuid" ParentRefreshEvent="RefreshEvent" />
-  }
+	if (ActorId == null)
+	{
+		<CharacterList ParentRefreshEvent="RefreshEvent" />
+	}
+	else
+	{
+		<Card>
+			<BodyTemplate>
+				<Button OnClick="()=> ChangePage(EnumWebPage.Home)">主页</Button>
+				<Button OnClick="()=> ChangePage(EnumWebPage.Setting)">设置</Button>
+			</BodyTemplate>
+		</Card>
+		switch (WebPage)
+		{
+			case EnumWebPage.Home:
+				<SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
+				<BuildPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
+				<CombatSummary ParentRefreshEvent="RefreshEvent" ActorId="ActorId" />
+				<ItemPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentGuid="ParentGuid" ParentRefreshEvent="RefreshEvent" />
+				break;
+			case EnumWebPage.Setting:
+				<SettingPage />
+				break;
+		}
+
+	}
 }
 
 

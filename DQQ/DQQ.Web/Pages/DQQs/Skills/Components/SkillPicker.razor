@@ -1,0 +1,56 @@
+﻿@inherits SkillPickerPage
+@if (Avaliable)
+{
+	<div class="col-lg-2 col-md-4">
+		<Card>
+			<HeaderTemplate>
+				@if (SelectedDTO?.Profile != null)
+				{
+					<Popover Content="@SelectedDTO?.Profile?.ExtureDiscription" Trigger="click" IsHtml="true">
+						<Tag>
+							@SelectedDTO?.SkillName
+						</Tag>
+					</Popover>
+
+				}
+
+
+				<div class="flex-fill">
+				</div>
+				<SkillPickerDraw ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="Slot"></SkillPickerDraw>
+
+			</HeaderTemplate>
+			<BodyTemplate>
+				@if (SelectedDTO?.SupportSkills?.Any() == true)
+				{
+					<div class="row g-3">
+						@foreach (var skill in SelectedDTO.SupportSkills)
+						{
+
+							<div class="col-auto">
+								<Popover Content="@skill?.Profile?.ExtureDiscription" Trigger="click" IsHtml="true">
+									<Tag>
+										@skill?.SkillName
+									</Tag>
+								</Popover>
+
+							</div>
+
+						}
+					</div>
+
+				}
+
+
+			</BodyTemplate>
+			<FooterTemplate>
+				<div></div>
+				策略:
+				@SelectedDTO?.SkillStrategies?.Count()
+				<div class="flex-fill">
+				</div>
+
+			</FooterTemplate>
+		</Card>
+	</div>
+}
