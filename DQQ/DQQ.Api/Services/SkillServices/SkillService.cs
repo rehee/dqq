@@ -25,7 +25,7 @@ namespace DQQ.Api.Services.SkillServices
 		public async Task<IEnumerable<SkillDTO>> GetAllSkills()
 		{
 			await Task.CompletedTask;
-			return DQQPool.SkillPool.Select(b => b.Value).Where(b => b.NoPlayerSkill != true).Select(b => new SkillDTO
+			return DQQPool.SkillPool.Select(b => b.Value).PlayerAvaliableSkill().Select(b => new SkillDTO
 			{
 				SkillNumber = b.SkillNumber,
 			}).ToArray();
@@ -50,8 +50,11 @@ namespace DQQ.Api.Services.SkillServices
 			if (dto.SkillNumber != null)
 			{
 				var skillPick = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(dto.SkillNumber);
-				if (skillPick?.NoPlayerSkill == true)
+				if (skillPick?.IsPlayerAvaliableSkill(null) != true)
 				{
+					await deleteSkill(context, dto.ActorId, false, [dto.Slot ?? EnumSkillSlot.NotSpecified], [dto.SkillNumber]);
+					await context.SaveChangesAsync();
+					result.SetSuccess(true);
 					return result;
 				}
 			}
@@ -107,7 +110,7 @@ namespace DQQ.Api.Services.SkillServices
 			}
 			var array = dto.Strategies?.OrderBy(b => b.Priority).ToArray();
 			var str = JsonSerializer.Serialize(array, JsonOption.DefaultOption);
-			var validSkillNumbers = dto?.SupportSkill?.Select(b => SkillDTO.New(b)).Where(b => b.Profile != null && !b.Profile.NoPlayerSkill)
+			var validSkillNumbers = dto?.SupportSkill?.Select(b => SkillDTO.New(b)).Where(b => b.Profile?.IsPlayerAvaliableSkill() == true)
 				.Select(b => b.SkillNumber).Distinct().Take((dto.Slot).MaxSkillNumber()).ToArray();
 			var supportSkills = JsonSerializer.Serialize(validSkillNumbers, JsonOption.DefaultOption);
 

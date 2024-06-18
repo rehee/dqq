@@ -2,10 +2,13 @@
 using DQQ.Enums;
 using DQQ.Profiles;
 using DQQ.Profiles.Affixes;
+using DQQ.Profiles.Chapters;
 using DQQ.Profiles.Durations;
 using DQQ.Profiles.Items;
+using DQQ.Profiles.Maps;
 using DQQ.Profiles.Mobs;
 using DQQ.Profiles.Skills;
+using DQQ.Profiles.ZProgress;
 using ReheeCmf.Helpers;
 using ReheeCmf.Utility.CmfRegisters;
 using System;
@@ -20,7 +23,7 @@ namespace DQQ.Pools
 {
 	public static partial class DQQPool
 	{
-		public static void InitPool()
+		public static void InitPool(params Action<Type>[]? additionalMapping)
 		{
 			AppDomain currentDomain = AppDomain.CurrentDomain;
 			Assembly[] assemblies = currentDomain.GetAssemblies();
@@ -37,7 +40,7 @@ namespace DQQ.Pools
 						{
 							DQQPool.SkillPool.TryAdd(sp.SkillNumber, sp);
 						}
-						if (instance is AbMobProfile mp)
+						if (instance is MobProfile mp)
 						{
 							DQQPool.MobPool.TryAdd(mp.ProfileNumber, mp);
 						}
@@ -53,8 +56,30 @@ namespace DQQ.Pools
 						{
 							DQQPool.AffixePool.TryAdd(ap.ProfileNumber, ap);
 						}
+						if (instance is ProgressProfile pgp)
+						{
+							DQQPool.ProgressPool.TryAdd(pgp.ProfileNumber, pgp);
+						}
+						if (instance is ChapterProfile cpf)
+						{
+							DQQPool.ChapterPools.TryAdd(cpf.ProfileNumber, cpf);
+						}
+						if (instance is MapProfile mpf)
+						{
+							DQQPool.MapPools.TryAdd(mpf.ProfileNumber, mpf);
+						}
 					}
 
+
+					#region additional mapping
+					if (additionalMapping?.Any() == true)
+					{
+						foreach (var additional in additionalMapping)
+						{
+							additional(type);
+						}
+					}
+					#endregion
 				}
 			}
 		}
@@ -91,6 +116,21 @@ namespace DQQ.Pools
 			{
 				AffixePool.TryGetValue(affixeNumber, out var affixe);
 				return affixe as T;
+			}
+			if (key is EnumProgress progressNumber)
+			{
+				ProgressPool.TryGetValue(progressNumber, out var progress);
+				return progress as T;
+			}
+			if (key is EnumChapter chapterNumber)
+			{
+				ChapterPools.TryGetValue(chapterNumber, out var cpt);
+				return cpt as T;
+			}
+			if (key is EnumMapNumber mapNumber)
+			{
+				MapPools.TryGetValue(mapNumber, out var mapc);
+				return mapc as T;
 			}
 			return default(T);
 		}

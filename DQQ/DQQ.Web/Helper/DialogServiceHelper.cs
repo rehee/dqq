@@ -1,5 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 using DQQ.Web.Pages;
+using System.Runtime.CompilerServices;
 
 namespace DQQ.Helper
 {
@@ -8,6 +9,15 @@ namespace DQQ.Helper
 		public DialogOption? DynamicDialogOption { get; set; }
 		public Func<Task<bool>>? OnSaveFunc;
 		public object? ResultValue { get; set; }
+
+		public async Task Close()
+		{
+			await Task.CompletedTask;
+			if (DynamicDialogOption != null)
+			{
+				await DynamicDialogOption.CloseDialogAsync();
+			}
+		}
 	}
 	public static class DialogServiceHelper
 	{

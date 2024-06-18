@@ -5,7 +5,7 @@ using System.Numerics;
 namespace DQQ.Profiles.Mobs
 {
 	[Pooled]
-	public class BigGoblin : AbMobNormal
+	public class BigGoblin : MobNormal
 	{
 		public override EnumMob ProfileNumber => EnumMob.BigGoblin;
 		public override string? Name => "大地精";

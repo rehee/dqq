@@ -2,6 +2,9 @@
 using BootstrapBlazor.Components;
 using DQQ.Commons.DTOs;
 using DQQ.Components.Stages.Actors;
+using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Enums;
+using DQQ.Profiles.Maps;
 using DQQ.Services.ActorServices;
 using DQQ.Services.CombatServices;
 using DQQ.Web.Pages.DQQs.Combats.Components;
@@ -29,6 +32,15 @@ namespace DQQ.Web.Pages.DQQs.Combats
 		}
 		[Parameter]
 		public Guid? ActorId { get; set; }
+
+		[Parameter]
+		public Character? SelectedCharacter { get; set; }
+
+		public MapProfile[]? UnlockedMaps => SelectedCharacter?.GetUnlockedMaps();
+		public EnumMapNumber[]? UnlockedMapNumbers => UnlockedMaps?.Select(b => b.ProfileNumber).ToArray();
+		public MapProfile? SelectedMapProfile => UnlockedMaps?.FirstOrDefault(b => b.ProfileNumber == SelectedMap);
+		public EnumMapNumber? SelectedMap { get; set; }
+
 		public async Task CombatRequest()
 		{
 			//await dialogService.ShowComponent<CombatRequest>(new Dictionary<string, object?>
@@ -258,7 +270,7 @@ namespace DQQ.Web.Pages.DQQs.Combats
 				{
 					["ActorId"] = ActorId,
 					["ParentRefreshEvent"] = ParentRefreshEvent,
-
+					["MapNumber"] = SelectedMap,
 				}
 				, null, false, size: Size.ExtraExtraLarge);
 		}

@@ -12,6 +12,7 @@ namespace DQQ.Profiles.Skills
 {
 	public abstract class SkillProfile : DQQProfile<EnumSkillNumber>, IWIthAttackTypeAndArea, ISetAttackTypeAndArea
 	{
+		public virtual int CharacterLevelRequired => 0;
 		public virtual EnumSkillTag[]? OriginalTag => [];
 		public virtual EnumSkillTag[]? SupportableTag => [];
 		public virtual EnumSkillTag[]? ExtureTagAdded { get; set; }

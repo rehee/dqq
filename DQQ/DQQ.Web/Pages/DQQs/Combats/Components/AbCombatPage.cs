@@ -1,6 +1,7 @@
 ﻿
 
 using DQQ.Commons.DTOs;
+using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Enums;
 using DQQ.Services.CombatServices;
 using Microsoft.AspNetCore.Components;
@@ -15,9 +16,16 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		[Parameter]
 		public Guid? ActorId { get; set; }
 
+		[Parameter]
+		public Character? SelectedCharacter { get; set; }
+
+
 		[Inject]
 		[NotNull]
 		public ICombatService? combatService { get; set; }
+
+		[Parameter]
+		public EnumMapNumber MapNumber { get; set; }
 
 		protected CombatRequestDTO? RequestDTO { get; set; }
 		public CombatResultDTO? Result { get; set; }
@@ -31,6 +39,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 
 		public bool StatusSelectDisabled => !(Status == EnumCombatPlayStatus.NotSpecified || Status == EnumCombatPlayStatus.FinishPlay);
 		public bool StartCombatDisabled => PlayType == EnumCombatPlayType.NotSpecified || Status != EnumCombatPlayStatus.NotSpecified;
+
+		public bool StartSingleCombatDisabled => !(Status == EnumCombatPlayStatus.NotSpecified || (Status == EnumCombatPlayStatus.FinishPlay && !KeepCombat));
 		public EnumCombatPlayType PlayType { get; set; }
 
 
@@ -41,12 +51,19 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			StateHasChanged();
 		}
 		protected Guid? CurrentGuid { get; set; }
-		public virtual async Task StartCombat()
+		protected bool KeepCombat { get; set; }
+
+		public virtual async Task StartCombat(bool keepCombate = false)
 		{
 			if (IsDispose)
 			{
 				return;
 			}
+			if (MapNumber == EnumMapNumber.None)
+			{
+				return;
+			}
+			Result = null;
 			CurrentGuid = Guid.NewGuid();
 			Status = EnumCombatPlayStatus.Waiting;
 			StateHasChanged();
@@ -63,7 +80,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			RequestDTO = new CombatRequestDTO
 			{
 				ActorId = ActorId,
-				RandomGuid = CurrentGuid
+				RandomGuid = CurrentGuid,
+				MapNumber = MapNumber,
 			};
 			var result = await combatService.RequestCombatRandom(RequestDTO);
 			Result = result?.Content;
@@ -81,7 +99,11 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				Status = EnumCombatPlayStatus.Failed;
 				await Task.Delay(1000);
-				Retry();
+				if (KeepCombat)
+				{
+					Retry();
+				}
+
 			}
 
 
@@ -101,12 +123,17 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 				RetryTime--;
 				StateHasChanged();
 			}
-			StartCombat();
+			if (KeepCombat)
+			{
+				StartCombat();
+			}
+
 		}
 
 		protected override async Task OnDisposeAsync()
 		{
 			await base.OnDisposeAsync();
+			KeepCombat = false;
 		}
 
 		protected async Task FinishProcess()
@@ -126,6 +153,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 				}
 				ParentRefreshEvent.InvokeEvent(this, null);
 			}
+
 			StateHasChanged();
 			await Task.Delay(1000);
 		}
@@ -140,7 +168,11 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				await FinishProcess();
 			}
-			await StartCombat();
+			if (KeepCombat)
+			{
+				await StartCombat();
+			}
+
 		}
 	}
 }

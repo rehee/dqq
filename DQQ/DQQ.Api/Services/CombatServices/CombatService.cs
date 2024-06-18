@@ -43,7 +43,8 @@ namespace DQQ.Api.Services.CombatServices
 				return result;
 			}
 			var map = new Map();
-			await map.Initialize(player, dto?.MapLevel ?? 0, dto?.SubMapLevel ?? 0, dto?.RandomGuid);
+			dto.Creator = player;
+			await map.Initialize(dto);
 			await map.Play();
 			if (player.DisplayId != null && map.Drops?.Any() == true)
 			{

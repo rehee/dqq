@@ -2,22 +2,30 @@
 @using DQQ.Web.Pages.DQQs.Skills.Components
 @inherits BuildPagePage
 
-<Card IsCollapsible="true" Collapsed="true" HeaderText="构筑(BD)">
-	<HeaderTemplate>
-		构筑(bd)
-	</HeaderTemplate>
-	<BodyTemplate>
-		<Button Color="Color.Success" Size="Size.ExtraSmall" Text="bd 管理" OnClick="ShowManagement" />
-	</BodyTemplate>
-</Card>
-<Card IsCollapsible="true" Collapsed="true" HeaderText="主目标优先级">
-	<HeaderTemplate>
-		主目标优先级  @((SelectedCharacter?.TargetPriority).GetString() ?? "n/a")
-	</HeaderTemplate>
-	<BodyTemplate>
-		<Button Color="Color.Primary" Size="Size.ExtraSmall" Text="更改优先级" OnClick="ChangeTarget" />
-	</BodyTemplate>
-</Card>
+@if (EnumProgress.BuildManagement.IsUnlocked(SelectedCharacter))
+{
+	<Card IsCollapsible="true" Collapsed="true" HeaderText="构筑(BD)">
+		<HeaderTemplate>
+			构筑(bd)
+		</HeaderTemplate>
+		<BodyTemplate>
+			<Button Color="Color.Success" Size="Size.ExtraSmall" Text="bd 管理" OnClick="ShowManagement" />
+		</BodyTemplate>
+	</Card>
+}
+
+@if (EnumProgress.MainTargetPriority.IsUnlocked(SelectedCharacter))
+{
+	<Card IsCollapsible="true" Collapsed="true" HeaderText="主目标优先级">
+		<HeaderTemplate>
+			主目标优先级  @((SelectedCharacter?.TargetPriority).GetString() ?? "n/a")
+		</HeaderTemplate>
+		<BodyTemplate>
+			<Button Color="Color.Primary" Size="Size.ExtraSmall" Text="更改优先级" OnClick="ChangeTarget" />
+		</BodyTemplate>
+	</Card>
+}
+
 <Card IsCollapsible="true" Collapsed="true" HeaderText="装备">
 	<HeaderTemplate>
 		装备
@@ -36,9 +44,13 @@
 				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.LeftRing" />
 				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.RightRing" />
 			</div>
-			<div class="col-12">
-				<Button Color="Color.Primary" Size="Size.ExtraSmall" Text="装备选择" OnClick="ShowInventory" />
-			</div>
+			@if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
+			{
+				<div class="col-12">
+					<Button Color="Color.Primary" Size="Size.ExtraSmall" Text="装备选择" OnClick="ShowInventory" />
+				</div>
+			}
+
 		</div>
 	</BodyTemplate>
 </Card>

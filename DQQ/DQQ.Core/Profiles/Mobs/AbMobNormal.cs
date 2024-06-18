@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Mobs
 {
-  public abstract class AbMobNormal : AbMobProfile
+  public abstract class MobNormal : MobProfile
   {
     public override bool IsBoss => false;
 		public override decimal DropRate => 1m;

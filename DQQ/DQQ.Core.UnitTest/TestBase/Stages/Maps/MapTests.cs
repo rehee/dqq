@@ -1,4 +1,5 @@
-﻿using DQQ.Components.Skills;
+﻿using DQQ.Commons.DTOs;
+using DQQ.Components.Skills;
 using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
@@ -37,7 +38,16 @@ namespace DQQ.UnitTest.TestBase.Stages.Maps
 			{
 				SkillComponent.New(EnumSkillNumber.NormalAttack, EnumSkillSlot.MainSlot)
 			};
-			await map.Initialize(creator, 0, 0);
+			var dto = new CombatRequestDTO
+			{
+				Creator = creator,
+				ActorId = creator.DisplayId,
+				SubMapLevel = 0,
+				RandomGuid = Guid.NewGuid(),
+				MapLevel = 0,
+				MapNumber = EnumMapNumber.Chapter_1_1
+			};
+			await map.Initialize(dto);
 			await map.Play();
 			var log = map.Logs;
 			Assert.That(map.PlayMins, Is.LessThan(30));

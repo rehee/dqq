@@ -9,24 +9,61 @@
 		@if (SelectedDTO?.Profile != null)
 		{
 			<div class="col-12">
-				<Button IsAsync="true" OnClick="SelectSkills">修改主动技能</Button>
+				<Button IsAsync="true" OnClick="()=>SelectSkills()">修改主动技能</Button>
 			</div>
 			@for (var i = 0; i < Slot.MaxSkillNumber(); i++)
 			{
 				var i2 = i;
 				var skillName = SelectedDTO?.SupportSkills?.Where((c, i3) => i3 == i2).FirstOrDefault()?.SkillName;
-				<div class="col-12">
-					<Button Color="@(String.IsNullOrEmpty(skillName)?Color.Warning:Color.Success)">@(skillName ?? "无")</Button>
-				</div>
+				var valid = false;
+				switch (i2)
+				{
+					case 0:
+						if (EnumProgress.SkillSupport1.IsUnlocked(SelectedCharacter))
+						{
+							valid = true;
+						}
+						break;
+					case 1:
+						if (EnumProgress.SkillSupport2.IsUnlocked(SelectedCharacter))
+						{
+							valid = true;
+						}
+						break;
+					case 2:
+						if (EnumProgress.SkillSupport3.IsUnlocked(SelectedCharacter))
+						{
+							valid = true;
+						}
+						break;
+					case 3:
+						if (EnumProgress.SkillSupport4.IsUnlocked(SelectedCharacter))
+						{
+							valid = true;
+						}
+						break;
+					case 4:
+						if (EnumProgress.SkillSupport5.IsUnlocked(SelectedCharacter))
+						{
+							valid = true;
+						}
+						break;
+
+				}
+				if (valid)
+				{
+					<div class="col-12">
+						<Button OnClick="()=>SelectSkills(i2)" Color="@(String.IsNullOrEmpty(skillName)?Color.Warning:Color.Success)">@(skillName ?? "无")</Button>
+					</div>
+				}
+				
 			}
-			<div class="col-12">
-				<Button>选择策略</Button>
-			</div>
+		
 		}
 		else
 		{
 			<div class="col-12">
-				<Button IsAsync="true" OnClick="SelectSkills">选择主动技能</Button>
+				<Button IsAsync="true" OnClick="()=>SelectSkills()">选择主动技能</Button>
 			</div>
 		}
 

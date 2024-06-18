@@ -1,0 +1,13 @@
+﻿@inherits ChapterMainPagePage
+<Card IsCollapsible="true" class="sticky-top" HeaderText="章节">
+	<HeaderTemplate>
+		@Profile?.Name
+		<DQQInfo>
+			<ChapterInfo Profile="Profile" />
+		</DQQInfo>
+	</HeaderTemplate>
+	<BodyTemplate>
+		<ChapterBody SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+	</BodyTemplate>
+
+</Card>

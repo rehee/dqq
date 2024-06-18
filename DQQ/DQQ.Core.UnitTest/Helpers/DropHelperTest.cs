@@ -1,4 +1,5 @@
-﻿using DQQ.Components;
+﻿using DQQ.Commons.DTOs;
+using DQQ.Components;
 using DQQ.Components.Items;
 using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
@@ -83,6 +84,10 @@ namespace DQQ.Core.UnitTest.Helpers
     public int WaveTickCount { get; set; }
     public ComponentTickParameter? TickParameter { get; set; } = ComponentTickParameter.New(111);
 
+		public int? limitSeconds => throw new NotImplementedException();
+
+		List<IActor>? IMap.Players => throw new NotImplementedException();
+
 		public Task<ContentResponse<bool>> AfterDealingDamage(ComponentTickParameter parameter)
 		{
 			throw new NotImplementedException();
@@ -128,7 +133,12 @@ namespace DQQ.Core.UnitTest.Helpers
       throw new NotImplementedException();
     }
 
-    public Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
+		public Task Initialize(CombatRequestDTO dto)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
     {
       throw new NotImplementedException();
     }

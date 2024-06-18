@@ -1,0 +1,13 @@
+﻿@using DQQ.Web.Pages.DQQs.Chapters.Components.Infos
+@if (Profile != null)
+{
+	switch (Profile?.ProfileNumber)
+	{
+		case EnumChapter.None:
+			<Info_Chapter_0_1 />
+			break;
+		case EnumChapter.C_1_1:
+			<Info_Chapter_1_1 />
+			break;
+	}
+}

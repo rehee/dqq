@@ -84,7 +84,7 @@ namespace DQQ.Consts
 			var value = (mobLevel - 1) * MobLevelIncreased;
 			return (basicValue + basicValue.Percentage(value)) * multiple;
 		}
-		public static int TotalTick(this IMap? map) => 60 * ((map?.limitMinute ?? MapMinute) * TickPerSecond);
+		public static int TotalTick(this IMap? map) => ((map?.limitSeconds ?? (MapMinute * 60)) * TickPerSecond);
 
 		public const int WeaponDamageRange = 95;
 		public const int MaxLevel = 70;

@@ -1,4 +1,5 @@
-﻿using DQQ.Components.Items;
+﻿using DQQ.Commons.DTOs;
+using DQQ.Components.Items;
 using DQQ.Components.Parameters;
 using DQQ.Components.Stages.Actors;
 using DQQ.TickLogs;
@@ -13,9 +14,9 @@ namespace DQQ.Components.Stages.Maps
     int SubTier { get; }
     decimal DropQuality { get; }
     decimal DropQuantity { get; }
-    int? limitMinute { get; }
-    IEnumerable<IActor>? Players { get; }
-    List<List<IActor>?>? MobPool { get; }
+    int? limitSeconds { get; }
+		List<IActor>? Players { get; }
+    List<List<IActor>>? MobPool { get; }
     int WaveIndex { get; }
     int TickCount { get; }
     int WaveTickCount { get; }
@@ -25,7 +26,7 @@ namespace DQQ.Components.Stages.Maps
     decimal PlayMins { get; }
     bool ReopenBlocked { get; }
     Task Play();
-    Task Initialize(IDQQComponent creator, int mapTier, int mapSubTier, Guid? randomSeed = null);
+    Task Initialize(CombatRequestDTO dto);
     IEnumerable<IItem>? ItemPool { get; }
     List<TickLogItem> Logs { get; }
     List<ItemComponent>? Drops { get; }

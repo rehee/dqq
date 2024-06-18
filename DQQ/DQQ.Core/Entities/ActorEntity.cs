@@ -13,11 +13,13 @@ namespace DQQ.Entities
 		public Int64? MaxHP { get; set; }
 		public Int64? BasicDamage { get; set; }
 		public EnumTargetPriority? TargetPriority { get; set; }
+		public EnumChapter Chapter { get; set; }
 
 		public virtual List<SkillEntity>? Skills { get; set; }
 		public virtual List<ItemEntity>? Items { get; set; }
 		public virtual List<ActorEquipmentEntity>? Equips { get; set; }
 
+		
 		[Timestamp]
 		public byte[]? Version { get; set; }
 	}

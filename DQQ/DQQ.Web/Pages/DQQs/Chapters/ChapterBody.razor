@@ -1,0 +1,17 @@
+﻿@using DQQ.Web.Pages.DQQs.Chapters.Components.Bodies
+@inherits ChapterBodyPage
+
+@if (Profile != null)
+{
+	switch (Profile?.ProfileNumber)
+	{
+		case EnumChapter.None:
+			<Body_Chapter_0_0 SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+			break;
+		case EnumChapter.C_1_1:
+			<Body_Chapter_1_1 SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+			break;
+	}
+}
+
+

@@ -1,15 +1,21 @@
 ﻿using DQQ.Attributes;
+using DQQ.Components.Stages.Actors;
+using DQQ.Components.Stages.Actors.Mobs;
+using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
+using DQQ.Pools;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Mobs.BossMobs
 {
 	[Pooled]
-	public class GoblinChief : AbBossMob
+	public class GoblinChief : MobBoss
 	{
 		public override EnumMob ProfileNumber => EnumMob.GoblinChief;
 
@@ -46,8 +52,13 @@ namespace DQQ.Profiles.Mobs.BossMobs
 				)
 		};
 
-
-
-
+		public override List<IActor> GenerateBossFight(IMap map)
+		{
+			var result = new List<IActor>();
+			result.Add(Monster.Create(EnumMob.BigGoblin.GetMomster()!, map.MapLevel));
+			result.Add(Monster.Create(this.ProfileNumber.GetMomster()!, map.MapLevel));
+			result.Add(Monster.Create(EnumMob.BigGoblinWeaver.GetMomster()!, map.MapLevel));
+			return result;
+		}
 	}
 }

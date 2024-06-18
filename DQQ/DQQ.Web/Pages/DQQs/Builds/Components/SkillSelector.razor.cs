@@ -4,6 +4,7 @@ using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Enums;
 using DQQ.Pools;
 using DQQ.Profiles.Skills;
+using DQQ.Services.SkillServices;
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -31,6 +32,10 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 
 		public int SelectedIndex => SupportSkillIndex == null ? 0 : SupportSkillIndex > MaxSlotIndex ? MaxSlotIndex : SupportSkillIndex < 0 ? 0 : SupportSkillIndex.Value;
 
+		[Inject]
+		[NotNull]
+		public ISkillService? SkillService { get; set; }
+
 		public SkillDTO? SelectedSkillDTO
 		{
 			get
@@ -39,7 +44,20 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 				{
 					return SelectedCharacter?.GetSelectedSkillDTO(Slot);
 				}
-				return SelectedCharacter?.GetSelectedSkillDTO(Slot)?.SupportSkills?[SelectedIndex];
+				if (SelectedCharacter?.GetSelectedSkillDTO(Slot)?.SupportSkills == null)
+				{
+					SelectedCharacter!.GetSelectedSkillDTO(Slot)!.SupportSkills = new List<SkillDTO>();
+				}
+				var length = SelectedCharacter!.GetSelectedSkillDTO(Slot)!.SupportSkills!.Count();
+				if (SelectedIndex >= length)
+				{
+					for (var i = 0; i <= (SelectedIndex - length); i++)
+					{
+						SelectedCharacter!.GetSelectedSkillDTO(Slot)!.SupportSkills!.Add(new SkillDTO { SkillNumber = EnumSkillNumber.NotSpecified });
+					}
+				}
+
+				return SelectedCharacter!.GetSelectedSkillDTO(Slot)!.SupportSkills?[SelectedIndex];
 			}
 		}
 
@@ -101,13 +119,21 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 				SelectedSkillDTO.SkillNumber = EnumSkillNumber.NotSpecified;
 			}
 		}
+		public async Task SaveSkill()
+		{
+			var dto = SelectedCharacter?.GetSelectedSkillDTO(Slot);
+
+			var result = await SkillService.PickSkill(
+				PickSkillDTO.New(dto, SelectedCharacter?.DisplayId, Slot));
+			ParentRefreshEvent?.InvokeEvent(this, new EventArgs());
+			await CloseDynamicDialog();
+		}
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
 			SkillProfiles = DQQPool.SkillPool.Select(b => b.Value)
-				.Where(b => b.NoPlayerSkill != true)
+				.PlayerAvaliableSkill(SelectedCharacter?.Level)
 				.ToList();
-			
 		}
 	}
 }

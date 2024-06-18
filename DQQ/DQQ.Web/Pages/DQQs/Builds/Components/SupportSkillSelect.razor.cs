@@ -13,7 +13,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 		public Character? SelectedCharacter { get; set; }
 		public SkillDTO? SelectedSkill => SelectedCharacter?.GetSelectedSkillDTO(Slot);
 		public int SkillLimit => Slot.MaxSkillNumber();
-		public SkillDTO[]? SupportSkills => SelectedSkill?.SupportSkills;
+		public List<SkillDTO>? SupportSkills => SelectedSkill?.SupportSkills;
 
 		public bool[] IsBackdropOpens { get; set; } = { false, false, false, false, false, false };
 
@@ -27,7 +27,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 			await base.OnParametersSetAsync();
 			if (SelectedSkill != null)
 			{
-				var emptySkill = new[] {
+				var emptySkill = new List<SkillDTO> {
 					SkillDTO.New(EnumSkillNumber.NotSpecified),
 					SkillDTO.New(EnumSkillNumber.NotSpecified),
 					SkillDTO.New(EnumSkillNumber.NotSpecified),
@@ -40,7 +40,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 				}
 				else
 				{
-					SelectedSkill.SupportSkills = SelectedSkill.SupportSkills.Concat(emptySkill).Take(5).ToArray();
+					SelectedSkill.SupportSkills = SelectedSkill.SupportSkills.Concat(emptySkill).Take(5).ToList();
 				}
 			}
 

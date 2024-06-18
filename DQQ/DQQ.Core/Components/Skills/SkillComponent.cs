@@ -194,7 +194,7 @@ namespace DQQ.Components.Skills
 						level = character.Level;
 					}
 
-					SupportSkills = supportSkillNumers?.Where(b => b.AvaliablePlayerSkill(level)).Distinct().Take(MaxSupportSkill)
+					SupportSkills = supportSkillNumers?.Where(b => b.IsPlayerAvaliableSkill(level)).Distinct().Take(MaxSupportSkill)
 						.Select(b => SkillDTO.New(b))
 						.ToArray();
 

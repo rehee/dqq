@@ -42,8 +42,9 @@ namespace DQQ.Web.Services.CombatServices
 			{
 				return result;
 			}
+			dto.Creator = player;
 			var map = new Map();
-			await map.Initialize(player, dto.MapLevel, dto.SubMapLevel, dto?.RandomGuid);
+			await map.Initialize(dto);
 			await map.Play();
 
 			var resultDto = new CombatResultDTO

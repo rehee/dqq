@@ -1,5 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 using DQQ.Enums;
+using DQQ.Profiles.Maps;
 using Newtonsoft.Json.Linq;
 
 namespace DQQ.Helper
@@ -51,6 +52,13 @@ namespace DQQ.Helper
 				new SelectedItem("true","是"),
 				new SelectedItem("false","否"),
 			};
+		}
+		public static IEnumerable<SelectedItem>? GetSelectedItemEnum(this IEnumerable<MapProfile> maps)
+		{
+
+			return [new SelectedItem("", "n/a"), .. maps.Select(b => new SelectedItem($"{b.ProfileNumber}", b.Name ?? ""))];
+
+
 		}
 	}
 }

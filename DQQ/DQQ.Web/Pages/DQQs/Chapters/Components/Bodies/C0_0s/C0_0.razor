@@ -1,0 +1,43 @@
+﻿@inherits C0_0Page
+
+<Card>
+	<BodyTemplate>
+		@switch (StepIndex)
+		{
+			case 0:
+				<h3>
+					你来了
+				</h3>
+				<p>
+					这里什么都没有 除了那个红色的按钮.
+				</p>
+				<Button IsAsync="true" OnClick="()=> Next()">四处看看</Button>
+				break;
+			case 1:
+				<h3>
+					你发现了一些东西
+				</h3>
+				<p>
+					想要活下去,就要战斗. 变强 战斗 变强. 一至战斗下去吧..
+				</p>
+				<Button IsAsync="true" OnClick="()=> Next()">检查自身</Button>
+				break;
+			case 2:
+				<h3>
+					好消息 你有点东西, 坏消息, 东西并不多.
+				</h3>
+				<p>
+					经过在三确定, 身上是只有这点东西了. 虽说简陋,却也能防身.
+				</p>
+				<h5>
+					检查技能与装备
+				</h5>
+				<p>
+					将会激活技能与装备.准备战斗吧.
+				</p>
+				<Button IsAsync="true" OnClick="()=> ToEnd()">确认</Button>
+				break;
+		}
+
+	</BodyTemplate>
+</Card>

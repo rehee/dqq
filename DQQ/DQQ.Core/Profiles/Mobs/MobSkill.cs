@@ -1,9 +1,12 @@
 ﻿using DQQ.Enums;
+using DQQ.Pools;
+using DQQ.Profiles.Skills;
 using DQQ.Strategies.SkillStrategies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Mobs
@@ -21,6 +24,9 @@ namespace DQQ.Profiles.Mobs
       return skill;
     }
     public EnumSkillNumber SkillNumber { get; set; }
+
+    [JsonIgnore]
+    public SkillProfile? Profile => DQQPool.TryGet<SkillProfile, EnumSkillNumber>(SkillNumber);
 
     public SkillStrategy[]? Strategies { get; set; }
   }

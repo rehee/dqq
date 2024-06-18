@@ -1,5 +1,6 @@
 ﻿using DQQ.Api.Data;
 using DQQ.Api.Services.BDServices;
+using DQQ.Api.Services.ChapterServices;
 using DQQ.Api.Services.Characters;
 using DQQ.Api.Services.CombatServices;
 using DQQ.Api.Services.Itemservices;
@@ -11,6 +12,7 @@ using DQQ.Pools;
 using DQQ.Services;
 using DQQ.Services.ActorServices;
 using DQQ.Services.BDServices;
+using DQQ.Services.ChapterServices;
 using DQQ.Services.CombatServices;
 using DQQ.Services.ItemServices;
 using DQQ.Services.MapServices;
@@ -61,7 +63,8 @@ namespace DQQ.Api
       context.Services!.AddScoped<ICombatService, CombatService>();
       context.Services!.AddScoped<IStrategyService, StrategyService>();
       context.Services!.AddScoped<IBDService, BDService>();
-    }
+			context.Services!.AddScoped<IChapterService, ChapterService>();
+		}
     public override async Task BeforePreApplicationInitializationAsync(ServiceConfigurationContext context)
     {
       //context.App.UseCors("AllowAnyOrigin");

@@ -24,10 +24,10 @@ namespace DQQ.Profiles.Skills.Attacks
 		public override decimal CastTime => 1.2m;
 		public override decimal CoolDown => 0m;
 		public override decimal DamageRate => 1m;
-		public override string? Discription => "使用武器进行普通攻击. 攻击速度基于武器速度. 双持的时候攻击速度增加,主副手轮流攻击";
+		public override string? Discription => "使用武器进行攻击. 攻击速度基于武器速度. 双持的时候攻击速度增加,主副手轮流攻击";
 		public override bool CastWithWeaponSpeed => true;
 		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.NormalAttack;
-		public override string? Name => "普通攻击";
+		public override string? Name => "攻击";
 
 		public override EnumSkillTag[]? OriginalTag => [EnumSkillTag.Attack];
 

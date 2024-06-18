@@ -25,7 +25,7 @@ namespace DQQ.Commons.DTOs
 			{
 				SkillNumber = component?.SkillProfile?.SkillNumber ?? EnumSkillNumber.NotSpecified,
 				SkillStrategies = component?.SkillStrategies?.OrderBy(b => b.Property).ToList() ?? [],
-				SupportSkills = component?.SupportSkills,
+				SupportSkills = component?.SupportSkills?.ToList(),
 				AvaliableForUser = component?.AvaliableForUser == true
 			};
 		}
@@ -51,10 +51,10 @@ namespace DQQ.Commons.DTOs
 
 		public string? Discription => Profile?.Discription;
 
-		public bool NoPlayerSkill => Profile?.NoPlayerSkill ?? false;
+		public bool NoPlayerSkill => Profile?.IsPlayerAvaliableSkill() != true;
 		public List<SkillStrategy>? SkillStrategies { get; set; }
 
-		public SkillDTO[]? SupportSkills { get; set; }
+		public List<SkillDTO>? SupportSkills { get; set; }
 		public bool AvaliableForUser { get; set; }
 
 		public bool AbleToAddSupport(EnumSkillSlot? slot)

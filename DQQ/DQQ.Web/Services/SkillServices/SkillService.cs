@@ -18,7 +18,7 @@ namespace DQQ.Web.Services.SkillServices
 		public async Task<IEnumerable<SkillDTO>> GetAllSkills()
 		{
 			await Task.CompletedTask;
-			return DQQPool.SkillPool.Select(b => b.Value).Where(b => b.NoPlayerSkill != true).Select(b => new SkillDTO { SkillNumber = b.SkillNumber }).ToArray();
+			return DQQPool.SkillPool.Select(b => b.Value).PlayerAvaliableSkill().Select(b => new SkillDTO { SkillNumber = b.SkillNumber }).ToArray();
 		}
 
 		public async Task<ContentResponse<bool>> PickSkill(PickSkillDTO dto)

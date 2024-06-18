@@ -5,12 +5,52 @@
 		display: none;
 	}
 </style>
-<Row>
-	<Card Id="my_header">
-		<HeaderTemplate>
-			<Button Color="Color.Danger" Size="Size.ExtraSmall" OnClick="SkillUnselect">取消选择</Button>
-		</HeaderTemplate>
-	</Card>
+
+<Card Id="my_header">
+	<HeaderTemplate>
+		<Button Color="Color.Success" Size="Size.ExtraSmall" OnClick="SaveSkill">保存修改</Button>
+		<Button Color="Color.Danger" Size="Size.ExtraSmall" OnClick="SkillUnselect">清除技能</Button>
+		<div class="flex-fill">
+		</div>
+		<DQQInfo>
+			<h3>请选择技能</h3>
+			<p>如果不点保存直接选择关闭的情况下,您的修改不会生效. 刷新后即可看到初始的技能</p>
+
+			<h3>技能派系</h3>
+			<p>技能选择界面根据技能的类别分为了[主动],[辅助] [触发],在技能类别下,又根据技能所属的派系再次分类</p>
+			<p>目前的分类如下</p>
+			<ul>
+				<li>
+					@EnumSkillCategory.NotSpecified.GetEnumString(): 一些通用和一些尚未归类的技能.
+				</li>
+				<li>
+					@EnumSkillCategory.Primary.GetEnumString(): 产生资源,或者基础能力的技能. 一般伤害不高,但是冷却也短.
+				</li>
+				<li>
+					@EnumSkillCategory.Core.GetEnumString(): 主力的输出技能. 一般有着不错的伤害.大部分都会有中等的冷却
+				</li>
+				<li>
+					@EnumSkillCategory.Defence.GetEnumString(): 保命技能. 加防御 回血,给护盾. 一般都有冷却.
+				</li>
+				<li>
+					@EnumSkillCategory.Strategy.GetEnumString(): 一般用于改变战斗的风格. 例如某些辅助可以吧单体技能转换为群体伤害. 有些战吼技能可以降低敌人伤害等等.
+				</li>
+				<li>
+					@EnumSkillCategory.Mastery.GetEnumString(): 一般有这较长的冷却以及可观的伤害. 用于某些特殊的战斗或者站偶风格
+				</li>
+				<li>
+					@EnumSkillCategory.Ultimate.GetEnumString(): 大招. 一般拥有非常长的冷却和巨量的伤害. 一发扭转战局.
+				</li>
+				<li>
+					@EnumSkillCategory.Enhancement.GetEnumString(): 一般不造成伤害. 但是可以增强自身. 让本来平凡的技能获得额外的能力
+				</li>
+			</ul>
+		</DQQInfo>
+	</HeaderTemplate>
+</Card>
+<br />
+
+<div style="overflow:auto;height: calc(100vh - 350px);">
 	@if (BindingTypes?.Any() == true)
 	{
 		foreach (var type in BindingTypes)
@@ -18,25 +58,35 @@
 			switch (type)
 			{
 				case EnumSkillBindingType.Active:
-
 					<Card IsCollapsible="true" HeaderText="主动技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Active">
-
+						<HeaderTemplate>
+							@if (SupportSkillIndex != null)
+							{
+								<div>
+									在辅助技能位放置主动技能的套娃是不会主动释放的. 但是可以被某些[触发]技能触发.
+								</div>
+							}
+						</HeaderTemplate>
 						<BodyTemplate>
 							<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
 								<HeaderTemplate>
-									<div>
-										可以放在主动技能槽内. 满足策略条件时自动释放
-									</div>
+
+									@if (SupportSkillIndex != null)
+									{
+
+									}
+									else
+									{
+										<div>
+											可以放在主动技能槽内. 满足策略条件时自动释放
+										</div>
+									}
+
 								</HeaderTemplate>
 								<BodyTemplate>
-									<Popover Placement="Placement.Top" Title="@context.SkillName" Content="@context.ExtureDiscription" IsHtml="true">
-										<Tag Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.Dark)">
-											@context.SkillName
-										</Tag>
-									</Popover>
+									<SkillDetailPage Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.Dark)" Profile="context" />
 								</BodyTemplate>
 							</ListView>
-
 						</BodyTemplate>
 						<FooterTemplate>
 							汇总信息:
@@ -44,57 +94,54 @@
 					</Card>
 					break;
 				case EnumSkillBindingType.Trigger:
-					<Card IsCollapsible="true" HeaderText="触发技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Trigger">
+					if (EnumProgress.SkillTypeTrigger.IsUnlocked(SelectedCharacter))
+					{
+						<Card IsCollapsible="true" HeaderText="触发技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Trigger">
 
-						<BodyTemplate>
-							<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync2" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
-								<HeaderTemplate>
-									<div>
-										可以放在主动技能槽 或辅助技能槽内. 当触发条件满足时释放
-									</div>
-								</HeaderTemplate>
-								<BodyTemplate>
-									<Popover Placement="Placement.Top" Title="@context.SkillName" Content="@context.ExtureDiscription" IsHtml="true">
-										<Tag Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.Dark)">
-											@context.SkillName
-										</Tag>
-									</Popover>
-								</BodyTemplate>
-							</ListView>
+							<BodyTemplate>
+								<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync2" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
+									<HeaderTemplate>
+										<div>
+											可以放在主动技能槽 或辅助技能槽内. 当触发条件满足时释放
+										</div>
+									</HeaderTemplate>
+									<BodyTemplate>
+										<SkillDetailPage Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.Dark)" Profile="context" />
+									</BodyTemplate>
+								</ListView>
+							</BodyTemplate>
+							<FooterTemplate>
+								汇总信息:
+							</FooterTemplate>
+						</Card>
 
-						</BodyTemplate>
-						<FooterTemplate>
-							汇总信息:
-						</FooterTemplate>
-					</Card>
-
+					}
 					break;
 				case EnumSkillBindingType.Support:
-					<Card IsCollapsible="true" HeaderText="辅助技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Support">
-						<BodyTemplate>
-							<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync3" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
-								<HeaderTemplate>
-									<div>
-										放在辅助技能槽内. 无法直接使用. 可以影响同一个技能槽内的主动技能.
-									</div>
-								</HeaderTemplate>
-								<BodyTemplate>
-									<Popover Placement="Placement.Top" Title="@context.SkillName" Content="@context.ExtureDiscription" IsHtml="true">
-										<Tag Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.Dark)">
-											@context.SkillName
-										</Tag>
-									</Popover>
-								</BodyTemplate>
-							</ListView>
+					if (EnumProgress.SkillTypeSupport.IsUnlocked(SelectedCharacter))
+					{
+						<Card IsCollapsible="true" HeaderText="辅助技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Support">
+							<BodyTemplate>
+								<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync3" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
+									<HeaderTemplate>
+										<div>
+											放在辅助技能槽内. 无法直接使用. 可以影响同一个技能槽内的主动技能.
+										</div>
+									</HeaderTemplate>
+									<BodyTemplate>
+										<SkillDetailPage Color="@(context.ProfileNumber == SelectedSkillDTO?.SkillNumber? Color.Danger: Color.Dark)" Profile="context" />
+									</BodyTemplate>
+								</ListView>
 
-						</BodyTemplate>
-						<FooterTemplate>
-							汇总信息:
-						</FooterTemplate>
-					</Card>
+							</BodyTemplate>
+							<FooterTemplate>
+								汇总信息:
+							</FooterTemplate>
+						</Card>
+					}
 
 					break;
 			}
 		}
 	}
-</Row>
+</div>

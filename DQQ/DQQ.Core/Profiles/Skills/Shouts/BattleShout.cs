@@ -20,6 +20,7 @@ namespace DQQ.Profiles.Skills.Shouts
 	[Pooled]
 	public class BattleShout : SkillProfile
 	{
+		public override int CharacterLevelRequired => 50;
 		public override EnumSkillCategory Category => EnumSkillCategory.Strategy;
 		public override bool NoPlayerSkill => false;
 		public override decimal CastTime => 0;

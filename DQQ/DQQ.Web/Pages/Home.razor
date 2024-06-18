@@ -7,6 +7,7 @@
 @using DQQ.Helper
 @using DQQ.Web.Pages.DQQs.Builds
 @using DQQ.Web.Pages.DQQs.Settings
+@using DQQ.Web.Pages.DQQs.Chapters
 <PageTitle>Home</PageTitle>
 <Button Color="Color.Success" Text="ReadMe" OnClick="OpenReadMe" />
 <Button Color="Color.Primary" Text="提示" OnClick="OpenTips" />
@@ -32,24 +33,51 @@ else
 	}
 	else
 	{
-		<Card>
-			<BodyTemplate>
-				<Button OnClick="()=> ChangePage(EnumWebPage.Home)">主页</Button>
-				<Button OnClick="()=> ChangePage(EnumWebPage.Setting)">设置</Button>
-			</BodyTemplate>
-		</Card>
-		switch (WebPage)
+		if (SelectedCharacter == null)
 		{
-			case EnumWebPage.Home:
-				<SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
-				<BuildPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
-				<CombatSummary ParentRefreshEvent="RefreshEvent" ActorId="ActorId" />
-				<ItemPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentGuid="ParentGuid" ParentRefreshEvent="RefreshEvent" />
-				break;
-			case EnumWebPage.Setting:
-				<SettingPage />
-				break;
+			<div>
+				数据读取中
+			</div>
 		}
+		else
+		{
+			if (SelectedCharacter.Chapter == EnumChapter.None)
+			{
+				<ChapterMainPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
+			}
+			else
+			{
+				<ChapterMainPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
+
+				<Card>
+					<BodyTemplate>
+						<Button OnClick="()=> ChangePage(EnumWebPage.Home)">主页</Button>
+						@if (EnumProgress.CombatPlaySetting.IsUnlocked(SelectedCharacter))
+						{
+							<Button OnClick="()=> ChangePage(EnumWebPage.Setting)">设置</Button>
+						}
+					</BodyTemplate>
+				</Card>
+
+				switch (WebPage)
+				{
+					case EnumWebPage.Home:
+						<SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
+						<BuildPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
+						@if (EnumProgress.CombatProgress.IsUnlocked(SelectedCharacter))
+						{
+							<CombatSummary SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" ActorId="ActorId" />
+						}
+						<ItemPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentGuid="ParentGuid" ParentRefreshEvent="RefreshEvent" />
+						break;
+					case EnumWebPage.Setting:
+						<SettingPage />
+						break;
+				}
+			}
+		}
+
+
 
 	}
 }

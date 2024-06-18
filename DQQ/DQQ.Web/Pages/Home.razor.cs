@@ -8,6 +8,7 @@ using DQQ.Services.ActorServices;
 using DQQ.TickLogs;
 using DQQ.Web.Pages.DQQs.Builds.Components;
 using DQQ.Web.Pages.DQQs.Characters;
+using DQQ.Web.Resources;
 using DQQ.Web.Services.DQQAuthServices;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
@@ -59,6 +60,19 @@ namespace DQQ.Web.Pages
 					{
 						["Profile"] = profile
 					});
+			}
+			foreach (var profile in DQQPool.MobPool.Select(b => b.Value))
+			{
+				if (ResourceMapping.MobResourceTypes.TryGetValue(profile.ProfileNumber, out var resourceType))
+				{
+					profile.ExtureDiscription = await ComponentHtmlRenderer.RenderAsync(resourceType
+					//new Dictionary<string, object?>
+					//{
+					//	["Profile"] = profile
+					//}
+					);
+				}
+				
 			}
 		}
 		private void refreshEvent(object? sender, EventArgs e)

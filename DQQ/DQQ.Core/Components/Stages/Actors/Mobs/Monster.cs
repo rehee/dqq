@@ -20,7 +20,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
 	{
 		public EnumMob MobNumber { get; set; }
 		[JsonIgnore]
-		public override DQQProfile? Profile => DQQPool.TryGet<AbMobProfile, EnumMob>(MobNumber);
+		public override DQQProfile? Profile => DQQPool.TryGet<MobProfile, EnumMob>(MobNumber);
 		public EnumMobRarity Rarity { get; set; } = EnumMobRarity.Normal;
 		public decimal DropRate { get; set; }
 		public decimal RarityRaRate { get; set; }
@@ -28,7 +28,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
 		{
 			get
 			{
-				if (Profile is AbMobProfile mp)
+				if (Profile is MobProfile mp)
 				{
 					if (mp.IsBoss)
 					{
@@ -50,7 +50,7 @@ namespace DQQ.Components.Stages.Actors.Mobs
 			}
 		}
 		public Int64 XP { get; set; }
-		public static Monster Create(AbMobProfile profile, int level, EnumMobRarity? rarity = null)
+		public static Monster Create(MobProfile profile, int level, EnumMobRarity? rarity = null)
 		{
 			var mob = new Monster();
 

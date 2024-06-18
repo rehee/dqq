@@ -28,7 +28,7 @@ namespace DQQ.Helper
 			return isBoss == true ? 5 : 1;
 		}
 
-		public static void SetMonsterCombatPanel(this AbMobProfile profile, int? level, ICombatProperty property, EnumMobRarity enumMobRarity = EnumMobRarity.Normal)
+		public static void SetMonsterCombatPanel(this MobProfile profile, int? level, ICombatProperty property, EnumMobRarity enumMobRarity = EnumMobRarity.Normal)
 		{
 
 			var rarityRate = enumMobRarity.GetMobRarityRate(profile?.IsBoss);

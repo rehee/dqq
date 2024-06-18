@@ -36,12 +36,36 @@
 	<BodyTemplate>
 		<div class="row g-3">
 			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.MainSlot" />
-			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.GeneralSlot1" />
-			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.GeneralSlot2" />
-			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.GeneralSlot3" />
-			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.WeaponSlotTH" />
-			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.WeaponSlot1" />
-			<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.WeaponSlot2" />
+			@if (EnumProgress.SkillSlotGeneral1.IsUnlocked(SelectedCharacter))
+			{
+				<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.GeneralSlot1" />
+			}
+
+			@if (EnumProgress.SkillSlotGeneral1.IsUnlocked(SelectedCharacter))
+			{
+				<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.GeneralSlot2" />
+			}
+
+			@if (EnumProgress.SkillSlotGeneral3.IsUnlocked(SelectedCharacter))
+			{
+				<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.GeneralSlot3" />
+			}
+
+			@if (EnumProgress.SkillSlotW2H.IsUnlocked(SelectedCharacter))
+			{
+				<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.WeaponSlotTH" />
+			}
+
+			@if (EnumProgress.SkillSlotW1H1.IsUnlocked(SelectedCharacter))
+			{
+				<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.WeaponSlot1" />
+			}
+
+			@if (EnumProgress.SkillSlotW1H2.IsUnlocked(SelectedCharacter))
+			{
+				<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="EnumSkillSlot.WeaponSlot2" />
+			}
+
 		</div>
 	</BodyTemplate>
 </Card>

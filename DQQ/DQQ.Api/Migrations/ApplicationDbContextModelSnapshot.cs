@@ -93,6 +93,9 @@ namespace DQQ.Api.Migrations
                     b.Property<long?>("BasicDamage")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("Chapter")
+                        .HasColumnType("int");
+
                     b.Property<string>("CurrentXP")
                         .HasColumnType("nvarchar(max)");
 

@@ -11,6 +11,7 @@ namespace DQQ.Enums
 		Goblin = 1001,
 		BigGoblin = 1002,
 		BigGoblinWeaver = 1003,
+		Crab = 2004,
 
 		GoblinChief = 100001
 	}

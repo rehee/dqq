@@ -30,7 +30,8 @@ namespace DQQ.Components.Stages.Actors.Characters
 		public string? OwnerId { get; set; }
 		public string? CurrentXP { get; set; }
 		public string? NextLevelXP { get; set; }
-
+		public EnumChapter Chapter { get; set; }
+		public EnumMapNumber Map { get; set; }
 		[NotMapped]
 		[JsonIgnore]
 		public ConcurrentDictionary<EnumEquipSlot, IEquptment?> Equips { get; set; }
@@ -96,6 +97,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 
 			if (entity is ActorEntity ae)
 			{
+				Chapter = ae.Chapter;
 				CurrentXP = ae.CurrentXP;
 				NextLevelXP = XPHelper.GetNextLevelUpExp(ae.Level).ToString();
 
