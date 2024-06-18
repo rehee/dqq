@@ -39,7 +39,7 @@ namespace DQQ.Api.Services.ChapterServices
 			}
 			else
 			{
-				actorEntity!.Chapter = actorEntity!.Chapter.NextChapter();
+				actorEntity!.Chapter = actor.NextChapter();
 			}
 			await context.SaveChangesAsync();
 			result.SetSuccess(true);

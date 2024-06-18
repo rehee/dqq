@@ -44,8 +44,6 @@ namespace DQQ.Web.Pages.DQQs.Chapters
 		{
 			await Task.CompletedTask;
 			await Task.Delay(1000);
-			StepIndex = int.MaxValue;
-			StateHasChanged();
 		}
 	}
 }

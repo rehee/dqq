@@ -14,5 +14,7 @@ namespace DQQ.Profiles.Chapters
 		public override EnumChapter ProfileNumber => EnumChapter.None;
 		public override string? Name => "初始";
 		public override string? Discription => "初始";
+
+		public override EnumChapter? NextChapter => EnumChapter.C_1_1;
 	}
 }

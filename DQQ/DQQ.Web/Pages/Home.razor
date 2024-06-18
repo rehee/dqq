@@ -68,7 +68,10 @@ else
 						{
 							<CombatSummary SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" ActorId="ActorId" />
 						}
-						<ItemPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentGuid="ParentGuid" ParentRefreshEvent="RefreshEvent" />
+						@if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
+						{
+							<ItemPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentGuid="ParentGuid" ParentRefreshEvent="RefreshEvent" />
+						}
 						break;
 					case EnumWebPage.Setting:
 						<SettingPage />

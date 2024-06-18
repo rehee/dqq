@@ -1,4 +1,7 @@
-﻿using DQQ.Enums;
+﻿using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Enums;
+using DQQ.Pools;
+using DQQ.Profiles.Chapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,20 +12,15 @@ namespace DQQ.Helper
 {
 	public static class ChapterHelper
 	{
-		public static EnumChapter NextChapter(this EnumChapter chapter)
+		public static EnumChapter NextChapter(this Character character)
 		{
-			var intChapter = (int)chapter + 1;
-
-			EnumChapter chap;
-			if (Enum.IsDefined(typeof(EnumChapter), intChapter))
+			var chapterProfile = DQQPool.TryGet<ChapterProfile, EnumChapter>(character.Chapter);
+			var nextChapter = chapterProfile?.CalculateNextChapter(character);
+			if (nextChapter == null)
 			{
-				chap = (EnumChapter)intChapter;
-				return chap;
+				return character.Chapter;
 			}
-			else
-			{
-				return chapter;
-			}
+			return nextChapter.Value;
 		}
 	}
 }
