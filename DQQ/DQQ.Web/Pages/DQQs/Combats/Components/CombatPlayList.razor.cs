@@ -14,10 +14,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				combatPlayType = EnumCombatPlayType.Detail;
 			}
-			else
-			{
-				PlayType = combatPlayType!.Value;
-			}
+			PlayType = combatPlayType!.Value;
 
 
 			StateHasChanged();
