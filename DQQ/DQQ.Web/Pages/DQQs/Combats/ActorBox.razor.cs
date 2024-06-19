@@ -29,6 +29,7 @@ namespace DQQ.Web.Pages.DQQs.Combats
 
 		public string CardClass => @$"{(IsMob ? "mob_box" : "")} {(TakenDamage ? "take_damage" : "")} {AttackClass}";
 
+		public string SlashCss => $"{(TakenDamage ? "animated-sprite" : "")} sword-animation";
 
 		public Color ThisColor => IsMob ? Actor.GetTargetPowerLevelColor() : Color.None;
 

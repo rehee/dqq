@@ -15,6 +15,7 @@
 		</HeaderTemplate>
 		<BodyTemplate>
 			<div>
+				<div class="@SlashCss"></div>
 				<div style="display: flex;align-items: center;justify-content: center;">
 					<div style="width: 0px;margin-right: 47px;position: relative;">
 						@foreach (var f in DamageNumbers)
@@ -31,6 +32,7 @@
 
 		</BodyTemplate>
 		<FooterTemplate>
+			
 			<div class="row g-3" style="min-height:50px;">
 				@if (Actor?.Durations?.Any() == true)
 				{
