@@ -22,18 +22,18 @@ namespace DQQ.Web.Pages.DQQs.Combats
       {
         if (!IsMob)
         {
-          return "col-12";
+          return "col-md-6";
         }
         switch (Actor.PowerLevel)
         {
           case Enums.EnumTargetLevel.Guardian:
-            return "col-6";
+            return "col-md-6";
           case Enums.EnumTargetLevel.Champion:
           case Enums.EnumTargetLevel.Elite:
           case Enums.EnumTargetLevel.Magic:
-            return "col-3";
+            return "col-sm-6 col-md-3";
           default:
-            return "col-2";
+            return "col-sm-3 col-md-3 col-lg-2";
         }
 
       }
