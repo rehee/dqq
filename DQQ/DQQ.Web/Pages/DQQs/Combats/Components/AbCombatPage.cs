@@ -115,14 +115,14 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 
 			}
 			StateHasChanged();
-			
-			
+
+
 		}
 		public int RetryTime = 0;
-		public async Task Retry(int retryTime = 30)
+		public async Task Retry(int retryTime = 30, bool countOnly = false)
 		{
 			RetryTime = retryTime;
-			while (RetryTime > 1)
+			while (RetryTime > 0)
 			{
 				if (IsDispose)
 				{
@@ -132,9 +132,13 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 				RetryTime--;
 				StateHasChanged();
 			}
+			if (countOnly)
+			{
+				return;
+			}
 			if (KeepCombat)
 			{
-				StartCombat();
+				StartCombat(KeepCombat);
 			}
 
 		}
@@ -145,7 +149,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			KeepCombat = false;
 		}
 
-		
+
 
 		public async Task OnCombatPlayFinished()
 		{
@@ -153,10 +157,12 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				return;
 			}
-			
+			Status = EnumCombatPlayStatus.FinishPlay;
+			StateHasChanged();
 			if (KeepCombat)
 			{
-				await StartCombat(KeepCombat);
+				await Retry(10, true);
+				StartCombat(KeepCombat);
 			}
 
 		}

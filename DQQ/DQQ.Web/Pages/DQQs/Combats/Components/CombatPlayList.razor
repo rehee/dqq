@@ -14,17 +14,30 @@
 </Card>
 <Card>
 	<BodyTemplate>
-		@if (Result != null)
-		{
-			if (Result.Success == true)
+		<div>
+			@if (Result != null)
 			{
-				<p>战斗胜利</p>
+				if (Result.Success == true)
+				{
+					<p>战斗胜利</p>
+				}
+				else
+				{
+					<p>战斗失败</p>
+				}
 			}
-			else
+		</div>
+		<div>
+			@if (Status == EnumCombatPlayStatus.FinishPlay && KeepCombat)
 			{
-				<p>战斗失败</p>
+				@if (RetryTime > 0)
+				{
+					<span>@RetryTime 秒后</span>
+				}
+				<span>准备再次进入战斗</span>
 			}
-		}
+		</div>
+
 	</BodyTemplate>
 </Card>
 <Card>
@@ -52,10 +65,7 @@
 					{
 						<span>准备战斗</span>
 					}
-					if (Status == EnumCombatPlayStatus.FinishPlay)
-					{
-						<span>正在结算战斗结果</span>
-					}
+
 
 					break;
 
