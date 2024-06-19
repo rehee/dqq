@@ -20,7 +20,8 @@ namespace DQQ.Components.Stages.Actors.Mobs
 	{
 		public EnumMob MobNumber { get; set; }
 		[JsonIgnore]
-		public override DQQProfile? Profile => DQQPool.TryGet<MobProfile, EnumMob>(MobNumber);
+		public override DQQProfile? Profile => MonstetProfile;
+		public MobProfile? MonstetProfile => DQQPool.TryGet<MobProfile, EnumMob>(MobNumber);
 		public EnumMobRarity Rarity { get; set; } = EnumMobRarity.Normal;
 		public decimal DropRate { get; set; }
 		public decimal RarityRaRate { get; set; }

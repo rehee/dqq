@@ -1,0 +1,7 @@
+﻿@inherits ChapterPageBase
+<div class="col-6 col-sm-4 col-md-3 col-lg-auto">
+	<PulseButton Icon="fa-solid fa-user" OnClick="()=> ShowComponent<Chapter_0_Component>()" Color="Color.Danger"></PulseButton>
+</div>
+@code {
+	public override EnumChapter Chapter => EnumChapter.None;
+}

@@ -1,4 +1,5 @@
 ﻿using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace DQQ.Profiles.Chapters
 	{
 		public abstract EnumChapter? NextChapter { get; }
 
-		public virtual EnumChapter? CalculateNextChapter(Character? character)
+		public virtual EnumChapter? CalculateNextChapter(Character? character, IMap? map = null)
 		{
-			return NextChapter;
+			return character?.Chapter;
 		}
 	}
 }

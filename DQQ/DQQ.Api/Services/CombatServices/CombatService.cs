@@ -1,7 +1,9 @@
 ﻿using DQQ.Api.Services.Itemservices;
 using DQQ.Commons.DTOs;
 using DQQ.Components.Stages.Maps;
+using DQQ.Helper;
 using DQQ.Services.ActorServices;
+using DQQ.Services.ChapterServices;
 using DQQ.Services.CombatServices;
 using ReheeCmf.Contexts;
 using ReheeCmf.Helpers;
@@ -15,12 +17,14 @@ namespace DQQ.Api.Services.CombatServices
 		private readonly IContext context;
 		private readonly ICharacterService charServices;
 		private readonly ITemporaryService temporaryService;
+		private readonly IChapterService chapterService;
 
-		public CombatService(IContext context, ICharacterService charServices, ITemporaryService temporaryService)
+		public CombatService(IContext context, ICharacterService charServices, ITemporaryService temporaryService, IChapterService chapterService)
 		{
 			this.context = context;
 			this.charServices = charServices;
 			this.temporaryService = temporaryService;
+			this.chapterService = chapterService;
 		}
 
 		public Task<ContentResponse<CombatResultDTO>> PushCombatRandom(CombatRequestDTO? dto)
@@ -54,6 +58,15 @@ namespace DQQ.Api.Services.CombatServices
 			{
 				await charServices.GainExperience(dto?.ActorId, $"{map?.XP}");
 			}
+			if (map?.MapClear == true)
+			{
+				var nextChapter = ChapterHelper.NextChapter(player, map);
+				if (nextChapter != player.Chapter)
+				{
+					await chapterService.ProcessChapter(player.DisplayId, nextChapter);
+				}
+			}
+
 			if (dto?.RandomGuid != null)
 			{
 				result.SetSuccess(new CombatResultDTO { });
@@ -65,9 +78,9 @@ namespace DQQ.Api.Services.CombatServices
 				XP = map!.XP,
 				DropItemNumber = map?.Drops?.Count ?? 0,
 				TotalCombatminutes = map!.PlayMins,
-				Success = map!.MobPool?.All(b => b.All(c => c.Alive != true)) ?? false
+				Success = map?.MapClear == true
 			};
-			
+
 			result.SetSuccess(resultDto);
 			return result;
 		}

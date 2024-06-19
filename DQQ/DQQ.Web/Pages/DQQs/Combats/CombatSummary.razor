@@ -56,6 +56,19 @@
 									<Display TValue="double?" Value="@momster?.DamagePercentage" />
 								</div>
 							</div>
+							<div class="row g-3">
+								<div class="col-auto col-form-label">
+									<span>站位</span>
+									<span>
+										<Popover Trigger="click" Content="怪物的展位. 小怪战中 站位越高的怪物越倾向于站在队伍的后方">
+											<i class="fas fa-circle-info"></i>
+										</Popover>
+									</span>
+								</div>
+								<div class="col-auto">
+									<Display TValue="int?" Value="@momster?.QueuePosition" />
+								</div>
+							</div>
 							<h5>技能</h5>
 							<div class="row g-3">
 								@foreach (var s in momster!.Skills)

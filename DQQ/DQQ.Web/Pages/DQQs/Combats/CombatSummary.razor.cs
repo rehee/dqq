@@ -271,6 +271,7 @@ namespace DQQ.Web.Pages.DQQs.Combats
 					["ActorId"] = ActorId,
 					["ParentRefreshEvent"] = ParentRefreshEvent,
 					["MapNumber"] = SelectedMap,
+					["SelectedCharacter"]= SelectedCharacter,
 				}
 				, null, false, size: Size.ExtraExtraLarge);
 		}

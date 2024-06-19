@@ -40,7 +40,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		public bool StatusSelectDisabled => !(Status == EnumCombatPlayStatus.NotSpecified || Status == EnumCombatPlayStatus.FinishPlay);
 		public bool StartCombatDisabled => PlayType == EnumCombatPlayType.NotSpecified || Status != EnumCombatPlayStatus.NotSpecified;
 
-		public bool StartSingleCombatDisabled => !(Status == EnumCombatPlayStatus.NotSpecified || (Status == EnumCombatPlayStatus.FinishPlay && !KeepCombat));
+		public bool StartSingleCombatDisabled => !(Status == EnumCombatPlayStatus.NotSpecified || (Status == EnumCombatPlayStatus.FinishPlay && !KeepCombat)) || KeepCombat;
 		public EnumCombatPlayType PlayType { get; set; }
 
 
@@ -48,6 +48,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		{
 			await Task.CompletedTask;
 			Status = EnumCombatPlayStatus.NotSpecified;
+			KeepCombat = false;
 			StateHasChanged();
 		}
 		protected Guid? CurrentGuid { get; set; }
@@ -63,6 +64,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				return;
 			}
+			KeepCombat = keepCombate;
 			Result = null;
 			CurrentGuid = Guid.NewGuid();
 			Status = EnumCombatPlayStatus.Waiting;
@@ -99,15 +101,16 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				Status = EnumCombatPlayStatus.Failed;
 				await Task.Delay(1000);
+
 				if (KeepCombat)
 				{
 					Retry();
 				}
 
 			}
-
-
 			StateHasChanged();
+			
+			
 		}
 		public int RetryTime = 0;
 		public async Task Retry(int retryTime = 30)
@@ -170,7 +173,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			}
 			if (KeepCombat)
 			{
-				await StartCombat();
+				await StartCombat(KeepCombat);
 			}
 
 		}

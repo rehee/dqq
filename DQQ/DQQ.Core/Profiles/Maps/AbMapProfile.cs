@@ -17,7 +17,7 @@ namespace DQQ.Profiles.Maps
 	{
 		public virtual EnumChapter? RequesChapter => null;
 		public virtual EnumMapNumber? RequestMap => null;
-		public abstract int? MaxCombatSecond {  get; }
+		public abstract int? MaxCombatSecond { get; }
 		public virtual int RequestLevel => 0;
 		public virtual int? MaxLevel => null;
 		public virtual int TrashWave => 1;
@@ -40,7 +40,7 @@ namespace DQQ.Profiles.Maps
 			var result = new List<List<IActor>>();
 			for (var i = 0; i < TrashWave; i++)
 			{
-				var wave = new List<IActor>();
+				var wave = new List<Monster>();
 				var mobCount = RandomHelper.GetRandomInt(map.TickParameter!.Random, TrashMinMob, TrashMaxMob);
 
 				for (var im = 0; im < mobCount; im++)
@@ -55,7 +55,7 @@ namespace DQQ.Profiles.Maps
 					var isElite = EliteRate >= RandomHelper.GetRandom(map.TickParameter!.Random, 0, 101);
 					wave.Add(Monster.Create(monster, map.MapLevel, isElite ? Enums.EnumMobRarity.Champion : EnumMobRarity.Normal));
 				}
-				result.Add(wave);
+				result.Add(wave.OrderBy(b => b.MonstetProfile?.QueuePosition ?? 0).Select(b => b as IActor).ToList());
 			}
 			return result;
 		}

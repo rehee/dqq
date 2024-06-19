@@ -4,12 +4,13 @@ using DQQ.Enums;
 using DQQ.Pools;
 using DQQ.Profiles.Chapters;
 using DQQ.Services.ChapterServices;
+using DQQ.Web.Pages;
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DQQ.Web.Pages.DQQs.Chapters
+namespace DQQ.Web.Resources.Chapters
 {
-	public abstract class AbChapterBasePage : DQQPageBase
+	public abstract class ChapterComponentBase : DQQPageBase
 	{
 		[Parameter]
 		public Character? SelectedCharacter { get; set; }
@@ -20,12 +21,11 @@ namespace DQQ.Web.Pages.DQQs.Chapters
 		[Inject]
 		[NotNull]
 		public IComponentHtmlRenderer? Renderer { get; set; }
-		public EnumChapter Chapter => SelectedCharacter?.Chapter ?? EnumChapter.None;
-		public ChapterProfile? Profile => DQQPool.TryGet<ChapterProfile, EnumChapter>(Chapter);
-
-		public async Task ShowComponent<T>() where T : DQQPageBase
+		
+		
+		public async Task ShowComponent<C>() where C : DQQPageBase
 		{
-			await dialogService.ShowComponent<T>(
+			await dialogService.ShowComponent<C>(
 				new Dictionary<string, object?>
 				{
 					["SelectedCharacter"] = SelectedCharacter,
@@ -44,5 +44,15 @@ namespace DQQ.Web.Pages.DQQs.Chapters
 			await Task.CompletedTask;
 			await Task.Delay(1000);
 		}
+	}
+	public abstract class ChapterPageBase : ChapterComponentBase
+	{
+		public ChapterProfile? Profile => DQQPool.TryGet<ChapterProfile, EnumChapter>(Chapter);
+		public abstract EnumChapter Chapter { get; }
+	}
+	public abstract class ChapterInfoBase : ChapterComponentBase
+	{
+		public ChapterProfile? Profile => DQQPool.TryGet<ChapterProfile, EnumChapter>(Chapter);
+		public abstract EnumChapter Chapter { get; }
 	}
 }

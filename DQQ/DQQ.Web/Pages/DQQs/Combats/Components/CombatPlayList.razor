@@ -6,7 +6,7 @@
 			<Button IsDisabled="StartSingleCombatDisabled" Color="Color.Success" OnClick="()=>StartCombat()">开始战斗</Button>
 			@if (EnumProgress.CombatContinue.IsUnlocked(SelectedCharacter))
 			{
-				<Button IsDisabled="StartCombatDisabled" Color="Color.Success" OnClick="()=>StartCombat(true)">开始在线挂机</Button>
+				<Button IsDisabled="StartCombatDisabled" Color="Color.Warning" OnClick="()=>StartCombat(true)">开始在线挂机</Button>
 			}
 			<Button Color="Color.Danger" OnClick="StopCombat">停止战斗</Button>
 		</BootstrapInputGroup>

@@ -1,6 +1,7 @@
 ﻿using DQQ.Attributes;
 using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Enums;
+using DQQ.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace DQQ.Profiles.ZProgress
 
 		public override bool AvaliableCheck(Character? character)
 		{
-			return character?.Level > 1;
+			return EnumChapter.C_1_3.IsUnlocked(character);
 		}
 	}
 }

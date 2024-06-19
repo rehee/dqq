@@ -1,5 +1,4 @@
-﻿@inherits C0_0Page
-
+﻿@inherits ChapterComponentBase
 <Card>
 	<BodyTemplate>
 		@switch (StepIndex)
@@ -41,3 +40,13 @@
 
 	</BodyTemplate>
 </Card>
+
+@code {
+	public override async Task ToEnd()
+	{
+		await base.ToEnd();
+		await ChapterService.ProcessChapter(SelectedCharacter?.DisplayId);
+		ParentRefreshEvent?.InvokeEvent(this, EventArgs.Empty);
+		await OnSave.Close();
+	}
+}

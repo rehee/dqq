@@ -11,17 +11,14 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.ZProgress
 {
 	[Pooled]
-	public class InventoryManagement : ProgressProfile
+	public class CombatContinue : ProgressProfile
 	{
-		public override EnumProgress ProfileNumber => EnumProgress.InventoryManagement;
-
-		public override string? Name => "物品管理";
-
-		public override string? Discription => "物品管理";
-
+		public override EnumProgress ProfileNumber => EnumProgress.CombatContinue;
+		public override string? Name => "自动战斗";
+		public override string? Discription => "自动战斗";
 		public override bool AvaliableCheck(Character? character)
 		{
-			return EnumChapter.C_1_2.IsUnlocked(character);
+			return EnumChapter.C_1_4.IsUnlocked(character);
 		}
 	}
 }

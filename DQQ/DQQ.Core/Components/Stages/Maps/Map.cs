@@ -42,11 +42,13 @@ namespace DQQ.Components.Stages.Maps
 
 		public IDQQEntity? Entity { get; set; }
 
-		public DQQProfile? Profile { get; set; }
+		public DQQProfile? Profile => MapProfile;
+
+		public MapProfile? MapProfile => DQQPool.TryGet<MapProfile, EnumMapNumber>(MapNumber ?? EnumMapNumber.None);
 
 		public ComponentTickParameter? TickParameter { get; set; }
 
-		
+
 		public async Task Initialize(CombatRequestDTO dto)
 		{
 			await Task.CompletedTask;
@@ -55,6 +57,7 @@ namespace DQQ.Components.Stages.Maps
 			Tier = dto.MapLevel;
 			SubTier = dto.SubMapLevel;
 			var mapProfile = DQQPool.TryGet<MapProfile, EnumMapNumber>(dto.MapNumber);
+			MapNumber = mapProfile?.ProfileNumber;
 			limitSeconds = mapProfile?.MaxCombatSecond;
 			Playable = true;
 			if (Tier > 0)
@@ -201,6 +204,11 @@ namespace DQQ.Components.Stages.Maps
 		}
 
 		public bool IsDisposed { get; protected set; }
+
+		public bool MapClear => MobPool?.All(b => b.All(c => c.Alive != true)) ?? false;
+
+		public EnumMapNumber? MapNumber { get; set; }
+
 		public async ValueTask DisposeAsync()
 		{
 			await Task.CompletedTask;

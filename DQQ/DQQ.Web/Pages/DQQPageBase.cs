@@ -1,5 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 using DQQ.Services.ActorServices;
+using DQQ.Web.Services.RenderServices;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
@@ -24,7 +25,9 @@ namespace DQQ.Web.Pages
 		[NotNull]
 		public RequestClient<DQQGetHttpClient>? client { get; set; }
 
-
+		[Inject]
+		[NotNull]
+		public IRenderService? RenderService { get; set; }
 
 		[Inject]
 		public DialogService? dialogService { get; set; }

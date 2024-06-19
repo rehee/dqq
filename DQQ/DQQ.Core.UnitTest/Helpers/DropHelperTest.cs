@@ -7,8 +7,10 @@ using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Maps;
 using DQQ.Drops;
 using DQQ.Entities;
+using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Profiles;
+using DQQ.Profiles.Maps;
 using DQQ.TickLogs;
 using DQQ.UnitTest;
 using ReheeCmf.Responses;
@@ -85,6 +87,12 @@ namespace DQQ.Core.UnitTest.Helpers
     public ComponentTickParameter? TickParameter { get; set; } = ComponentTickParameter.New(111);
 
 		public int? limitSeconds => throw new NotImplementedException();
+
+		public EnumMapNumber? MapNumber => throw new NotImplementedException();
+
+		public bool MapClear => throw new NotImplementedException();
+
+		public MapProfile? MapProfile => throw new NotImplementedException();
 
 		List<IActor>? IMap.Players => throw new NotImplementedException();
 

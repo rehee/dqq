@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.Chapters
 {
 	[Pooled]
-	public class Chapter_C_1_1 : ChapterProfile
+	public class Chapter_C_1_2 : ChapterProfile
 	{
-		public override EnumChapter ProfileNumber => EnumChapter.C_1_1;
-		public override string? Name => "序章 1";
-		public override string? Discription => "初次战斗";
+		public override EnumChapter ProfileNumber => EnumChapter.C_1_2;
+		public override string? Name => "序章 2";
+		public override string? Discription => "捡垃圾";
 
-		public override EnumChapter? NextChapter => EnumChapter.C_1_2;
+		public override EnumChapter? NextChapter => EnumChapter.C_1_3;
 
 		public override EnumChapter? CalculateNextChapter(Character? character, IMap? map = null)
 		{
@@ -25,7 +25,11 @@ namespace DQQ.Profiles.Chapters
 			{
 				return character?.Chapter;
 			}
-			return NextChapter;
+			if (character?.EquipItems.Where(b => b.Value?.EquipProfile != null).Count() > 1)
+			{
+				return NextChapter;
+			}
+			return character?.Chapter;
 		}
 	}
 }

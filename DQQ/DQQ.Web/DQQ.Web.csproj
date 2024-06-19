@@ -25,9 +25,5 @@
   <ItemGroup>
     <ProjectReference Include="..\DQQ.Core\DQQ.Core.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\DQQs\Chapters\Components\Bodies\C_1_1s\" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="false" />
 </Project>

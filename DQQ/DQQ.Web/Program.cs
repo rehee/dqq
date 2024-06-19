@@ -17,6 +17,7 @@ using DQQ.Web.Services.CombatServices;
 using DQQ.Web.Services.DQQAuthServices;
 using DQQ.Web.Services.ItemServices;
 using DQQ.Web.Services.LocalizationServices;
+using DQQ.Web.Services.RenderServices;
 using DQQ.Web.Services.Requests;
 using DQQ.Web.Services.SkillServices;
 using DQQ.Web.Services.StrategyServices;
@@ -57,6 +58,8 @@ builder.Services.AddScoped(sp =>
 	return new YamlLocalizationProvider(navigationManager);
 });
 builder.Services.AddScoped<IStringLocalizer, YamlStringLocalizer>();
+builder.Services.AddScoped<IRenderService, RenderService>();
+
 
 builder.Services.AddBootstrapBlazor();
 
