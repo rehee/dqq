@@ -1,0 +1,5 @@
+﻿@inherits DamageNumberPage
+@if (Display)
+{
+	<div class="floating-div text-danger" style="position: absolute;top:@(Top)px; @(Display!=true?"display:none;":"")">@Number</div>
+}

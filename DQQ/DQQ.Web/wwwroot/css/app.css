@@ -137,3 +137,81 @@ code {
 .compare_popup {
   max-width: 600px !important;
 }
+
+.floating-div {
+  position: absolute;
+  bottom: 0; /* 你可以根据需要调整初始位置 */
+  /*left: 50%;*/ /* 你可以根据需要调整初始位置 */
+  transform: translateX(-50%);
+  /*width: 100px;*/ /* 你可以根据需要调整大小 */
+  /*height: 100px;*/ /* 你可以根据需要调整大小 */
+  animation: float-up 1s forwards;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  20% {
+    transform: translate(-50%, -20px) scale(1.5); /* 向上移动 20px 并放大 1.5 倍 */
+  }
+
+  40% {
+    transform: translate(-50%, -10px) scale(1); /* 向下回落到接近原来位置并恢复原来大小 */
+  }
+
+  100% {
+    transform: translate(-50%, -100px); /* 继续向上移动 */
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+.take_damage {
+  animation: shake 0.5s;
+}

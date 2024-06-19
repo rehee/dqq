@@ -1,7 +1,10 @@
+
 namespace DQQ.Web.Pages.DQQs.Combats.Components
 {
-	public class CombatPlayBoxPage : ABCombatPlay
-	{
+  public class CombatPlayBoxPage : ABCombatPlay
+  {
+    
 
-	}
+    
+  }
 }

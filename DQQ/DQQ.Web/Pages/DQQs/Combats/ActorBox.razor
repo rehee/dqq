@@ -1,44 +1,60 @@
-﻿<div class="@ColumnNumber">
-  <Card class="@(IsMob?"mob_box":"")" Color="@ThisColor">
-    <HeaderTemplate>
-      @if (IsMob)
-      {
-        <Alert class="mob_title" Color="ThisColor">@Actor.DisplayName</Alert>
-      }
-      else
-      {
-        @Actor.DisplayName
-      }
+﻿@using DQQ.Web.Pages.DQQs.Combats.Parts
 
-    </HeaderTemplate>
-    <BodyTemplate>
-      <Progress IsAnimated="true" IsStriped="true" Value="Actor.PercentageHP" Color="Color.Danger" IsShowValue="true" />
-    </BodyTemplate>
-    <FooterTemplate>
-      <div class="row g-3" style="min-height:50px;">
-        @if (Actor?.Durations?.Any() == true)
-        {
-          foreach (var d in Actor.Durations)
-          {
+<div class="@ColumnNumber">
+	<Card class="@CardClass" Color="@ThisColor">
+		<HeaderTemplate>
+			@if (IsMob)
+			{
+				<Alert class="mob_title" Color="ThisColor">@Actor.DisplayName</Alert>
+			}
+			else
+			{
+				@Actor.DisplayName
+			}
+			
+		</HeaderTemplate>
+		<BodyTemplate>
+			<div>
+				<div style="display: flex;align-items: center;justify-content: center;">
+					<div style="width: 0px;margin-right: 47px;position: relative;">
+						@foreach (var f in DamageNumbers)
+						{
+							<DamageNumber Number="@f.Number" Id="@f.Id" Date="@f.CreateDate" OnRemove="RemoveComponent" />
+						}
+					</div>
+				</div>
+				<Progress IsAnimated="true" IsStriped="true" Value="Actor.PercentageHP" Color="Color.Danger" IsShowValue="true">
 
-            var icon = d.GetDurationIcon();
-            <div class="col-auto">
-              <div class="badge-widget">
-                <Tag Color="icon.IconColor">
-                  <i class="@icon.IconName" aria-hidden="true"></i>
-                </Tag>
+				</Progress>
 
-                <Badge Color="icon.IconColor"><span style="padding: 0 2px;">@d.RemainSeconds</span></Badge>
-              </div>
-            </div>
-          }
-        }
-        else
-        {
-          <span>无持续效果</span>
-        }
-      </div>
+			</div>
 
-    </FooterTemplate>
-  </Card>
+		</BodyTemplate>
+		<FooterTemplate>
+			<div class="row g-3" style="min-height:50px;">
+				@if (Actor?.Durations?.Any() == true)
+				{
+					foreach (var d in Actor.Durations)
+					{
+
+						var icon = d.GetDurationIcon();
+						<div class="col-auto">
+							<div class="badge-widget">
+								<Tag Color="icon.IconColor">
+									<i class="@icon.IconName" aria-hidden="true"></i>
+								</Tag>
+
+								<Badge Color="icon.IconColor"><span style="padding: 0 2px;">@d.RemainSeconds</span></Badge>
+							</div>
+						</div>
+					}
+				}
+				else
+				{
+					<span>无持续效果</span>
+				}
+			</div>
+
+		</FooterTemplate>
+	</Card>
 </div>
