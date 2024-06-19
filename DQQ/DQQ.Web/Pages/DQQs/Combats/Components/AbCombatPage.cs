@@ -91,10 +91,16 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			StateHasChanged();
 			if (result?.Success == true)
 			{
-				if (PlayType == EnumCombatPlayType.Summary)
+				var pushRequest = await combatService.PushCombatRandom(RequestDTO);
+				if (pushRequest.Success != true)
 				{
-					await FinishProcess();
+					Status = EnumCombatPlayStatus.Failed;
+					StateHasChanged();
+					Retry();
+					return;
 				}
+				ParentRefreshEvent.InvokeEvent(this, null);
+				StateHasChanged();
 
 			}
 			else
@@ -139,27 +145,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			KeepCombat = false;
 		}
 
-		protected async Task FinishProcess()
-		{
-			Status = EnumCombatPlayStatus.FinishPlay;
-			StateHasChanged();
-			await Task.Delay(1000);
-			if (Result?.Success == true)
-			{
-				var pushRequest = await combatService.PushCombatRandom(RequestDTO);
-				if (pushRequest.Success != true)
-				{
-					Status = EnumCombatPlayStatus.Failed;
-					StateHasChanged();
-					Retry();
-					return;
-				}
-				ParentRefreshEvent.InvokeEvent(this, null);
-			}
-
-			StateHasChanged();
-			await Task.Delay(1000);
-		}
+		
 
 		public async Task OnCombatPlayFinished()
 		{
@@ -167,10 +153,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				return;
 			}
-			if (PlayType != EnumCombatPlayType.Summary)
-			{
-				await FinishProcess();
-			}
+			
 			if (KeepCombat)
 			{
 				await StartCombat(KeepCombat);
