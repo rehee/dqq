@@ -215,3 +215,71 @@ code {
 .take_damage {
   animation: shake 0.5s;
 }
+.attack_player {
+  animation: player_attack 0.25s forwards;
+}
+
+@keyframes player_attack {
+  0% {
+    transform: translate(0%, 0);
+  }
+
+  50% {
+    transform: translate(0%, 14px);
+  }
+  /* 下砸的距离 */
+  100% {
+    transform: translate(0%, 0);
+  }
+}
+
+.attack_enemy {
+  animation: enemy_attack 0.25s forwards;
+}
+
+@keyframes enemy_attack {
+  0% {
+    transform: translate(0%, 0);
+  }
+
+  50% {
+    transform: translate(0%, -14px);
+  }
+  /* 上砸的距离 */
+  100% {
+    transform: translate(0%, 0);
+  }
+}
+.character::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  background: linear-gradient(to bottom left, transparent 50%, rgba(255, 255, 255, 0.7) 51%, transparent 52%);
+  transform-origin: bottom right;
+  transform: rotate(-45deg) scale(0);
+  opacity: 0;
+}
+.attack {
+  animation: swordSlash 0.5s forwards;
+}
+
+@keyframes swordSlash {
+  0% {
+    transform: rotate(-45deg) scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: rotate(-45deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(-45deg) scale(0);
+    opacity: 0;
+  }
+}

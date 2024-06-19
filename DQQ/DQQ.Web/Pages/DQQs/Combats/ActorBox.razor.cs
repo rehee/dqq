@@ -1,6 +1,7 @@
 using BootstrapBlazor.Components;
 using DQQ.Components;
 using DQQ.Components.Stages.Actors;
+using DQQ.Enums;
 using DQQ.TickLogs;
 using DQQ.Web.Pages.DQQs.Combats.Parts;
 using DQQ.Web.Services.RenderServices;
@@ -23,7 +24,10 @@ namespace DQQ.Web.Pages.DQQs.Combats
 		public bool IsMob => Actor?.MobNumber != null;
 		public bool TakenDamage { get; set; }
 
-		public string CardClass => @$"{(IsMob ? "mob_box" : "")} {(TakenDamage ? "take_damage" : "")}";
+		public bool Attacking { get; set; }
+		public string AttackClass => Attacking ? IsMob ? "attack_enemy" : "attack_player" : "";
+
+		public string CardClass => @$"{(IsMob ? "mob_box" : "")} {(TakenDamage ? "take_damage" : "")} {AttackClass}";
 
 
 		public Color ThisColor => IsMob ? Actor.GetTargetPowerLevelColor() : Color.None;
@@ -58,7 +62,11 @@ namespace DQQ.Web.Pages.DQQs.Combats
 			{
 				if (Actor?.Id != null && Item.Damage != null && Item?.Target?.Id == Actor?.Id)
 				{
-					await DealDamage(Item?.Damage.DamagePoint);
+					await DealDamage(Item?.Damage?.DamagePoint ?? "");
+				}
+				if (Actor?.Id != null && Item?.Skill != null && Item?.From?.Id == Actor?.Id)
+				{
+					await CastSkill(Item?.Skill);
 				}
 			}
 
@@ -72,6 +80,19 @@ namespace DQQ.Web.Pages.DQQs.Combats
 		public List<DamageParameter> DamageNumbers { get; set; } = new List<DamageParameter>();
 
 		public int Count = 0;
+
+		public Task CastSkill(TickLogSkill? skillNumber)
+		{
+			Attacking = true;
+			StateHasChanged();
+			Task.Run(async () =>
+			{
+				await Task.Delay(500);
+				Attacking = false;
+				StateHasChanged();
+			});
+			return Task.CompletedTask;
+		}
 
 		public Task DealDamage(string damage)
 		{
