@@ -49,7 +49,11 @@ namespace DQQ.Web.Pages.DQQs.Items
 			await base.OnInitializedAsync();
 			await Refresh(false);
 		}
-
+		protected override async Task OnParametersSetAsync()
+		{
+			await base.OnParametersSetAsync();
+			await Refresh(false);
+		}
 		public async Task EquipItem(Guid? id, EnumEquipSlot? slot)
 		{
 			if (id == null)

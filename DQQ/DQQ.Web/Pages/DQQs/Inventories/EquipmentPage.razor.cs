@@ -1,5 +1,8 @@
 using DQQ.Entities;
 using DQQ.Enums;
+using DQQ.Services.ItemServices;
+using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DQQ.Web.Pages.DQQs.Inventories
 {
@@ -16,6 +19,20 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 			SelectedSlot = slot;
 			StateHasChanged();
 
+		}
+
+		[Inject]
+		[NotNull]
+		public IItemService? ItemService { get; set; }
+		public async Task UnEquip()
+		{
+			if (SelectedSlot == null)
+			{
+				return;
+			}
+			await ItemService.UnEquipItem(SelectedCharacter?.DisplayId, SelectedSlot.Value);
+			ParentRefreshEvent.InvokeEvent(this, new EventArgs());
+			StateHasChanged();
 		}
 	}
 }
