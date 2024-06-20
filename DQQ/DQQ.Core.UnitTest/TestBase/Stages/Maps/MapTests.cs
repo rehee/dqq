@@ -45,7 +45,7 @@ namespace DQQ.UnitTest.TestBase.Stages.Maps
 				SubMapLevel = 0,
 				RandomGuid = Guid.NewGuid(),
 				MapLevel = 0,
-				MapNumber = EnumMapNumber.Chapter_1_1
+				MapNumber = EnumMapNumber.Map_1_1
 			};
 			await map.Initialize(dto);
 			await map.Play();
