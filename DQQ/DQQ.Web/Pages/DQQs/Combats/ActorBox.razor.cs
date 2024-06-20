@@ -110,16 +110,19 @@ namespace DQQ.Web.Pages.DQQs.Combats
 				Number = damage,
 				IsHealing = isHealing
 			});
-
-			TakenDamage = true;
-			StateHasChanged();
-
-			Task.Run(async () =>
+			if (isHealing != true)
 			{
-				await Task.Delay(500);
-				TakenDamage = false;
+				TakenDamage = true;
 				StateHasChanged();
-			});
+
+				Task.Run(async () =>
+				{
+					await Task.Delay(500);
+					TakenDamage = false;
+					StateHasChanged();
+				});
+			}
+			
 			return Task.CompletedTask;
 		}
 		protected override async Task OnInitializedAsync()
