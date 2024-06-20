@@ -11,6 +11,7 @@ namespace DQQ.Enums
 		NotSpecified,
 		CombatProgress,
 		CombatPlaySetting,
+		SkillManagement,
 		SkillSlotGeneral1,
 		SkillSlotGeneral2,
 		SkillSlotGeneral3,

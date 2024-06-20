@@ -15,6 +15,12 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		[Parameter]
 		public TickLogItem[]? CombatLog { get; set; }
 
+		public int? MaxTick => CombatResult?.CombatTimeLimitationTick;
+
+		public double CurrentPlayProgress => MaxTick.HasValue ? MaxTick > 0 ? (CurrentLog?.ActionTick??0) *100 / (double)MaxTick : 0 : 0;
+
+		public DateTime? MapLimitation => CombatResult?.MapLimitation();
+
 		[Parameter]
 		public CombatResultDTO? CombatResult { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using DQQ.TickLogs;
+﻿using DQQ.Consts;
+using DQQ.TickLogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace DQQ.Commons.DTOs
     public bool Success { get; set; }
     public long XP { get; set; }
     public decimal TotalCombatminutes { get; set; }
-    public int CombatTimeLimitationTick {  get; set; }
-		public int CombatTick { get; set; }
-		public DateTime CombatTime
+    public int CombatTimeLimitationTick { get; set; }
+    public int CombatTick { get; set; }
+    public DateTime CombatTime
     {
       get
       {
@@ -24,7 +25,15 @@ namespace DQQ.Commons.DTOs
     public int DropItemNumber { get; set; }
     public TickLogItem[]? Logs { get; set; }
 
-    public long DPS
+    public DateTime MapLimitation()
+    {
+      var time = new DateTime();
+      var second = CombatTimeLimitationTick / (double)DQQGeneral.TickPerSecond;
+		
+			return time.AddSeconds(second);
+    }
+
+		public long DPS
     {
       get
       {

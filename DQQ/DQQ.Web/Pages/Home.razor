@@ -55,21 +55,34 @@ else
 						<BodyTemplate>
 							
 							<BootstrapInputGroup>
-								<CharacterInfo SelectedCharacter="SelectedCharacter" />
+								@if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
+								{
+									<CharacterInfo SelectedCharacter="SelectedCharacter" />
+								}
+								
 								<Button Color="Color.Success" OnClick="()=> ChangePage(EnumWebPage.Home)">主页</Button>
-								<Button Color="Color.Warning" OnClick="()=> ChangePage(EnumWebPage.Skills)">技能</Button>
-								<Button Color="Color.Info" OnClick="()=> ChangePage(EnumWebPage.Strategy)">策略</Button>
-								<Button Color="Color.Danger" OnClick="()=> ChangePage(EnumWebPage.Map)">地图</Button>
-
-								@if (SelectedMap != null)
+								@if (EnumProgress.SkillManagement.IsUnlocked(SelectedCharacter))
+								{
+									<Button Color="Color.Warning" OnClick="()=> ChangePage(EnumWebPage.Skills)">技能</Button>
+								}
+								@if (EnumProgress.MainTargetPriority.IsUnlocked(SelectedCharacter))
+								{
+									<Button Color="Color.Info" OnClick="()=> ChangePage(EnumWebPage.Strategy)">策略</Button>
+								}
+								@if (EnumProgress.CombatProgress.IsUnlocked(SelectedCharacter))
+								{
+									<Button Color="Color.Danger" OnClick="()=> ChangePage(EnumWebPage.Map)">地图</Button>
+								}
+								@if (SelectedMap != null && EnumProgress.CombatProgress.IsUnlocked(SelectedCharacter))
 								{
 									<Button Color="Color.Warning" OnClick="()=> ChangePage(EnumWebPage.Combat)">战斗</Button>
 								}
-
-								<Button Color="Color.Dark" OnClick="()=> ChangePage(EnumWebPage.Inventory)">装备</Button>
-
-								<Button Color="Color.Secondary" OnClick="()=> ChangePage(EnumWebPage.Loot)">战利品</Button>
-
+								@if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
+								{
+									<Button Color="Color.Dark" OnClick="()=> ChangePage(EnumWebPage.Inventory)">装备</Button>
+									<Button Color="Color.Secondary" OnClick="()=> ChangePage(EnumWebPage.Loot)">战利品</Button>
+								}
+								
 								@if (EnumProgress.CombatPlaySetting.IsUnlocked(SelectedCharacter))
 								{
 									<Button OnClick="()=> ChangePage(EnumWebPage.Setting)">设置</Button>
@@ -86,9 +99,6 @@ else
 				{
 					case EnumWebPage.Home:
 						<SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
-						
-						break;
-					case EnumWebPage.Chapter:
 						
 						break;
 					case EnumWebPage.Skills:

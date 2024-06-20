@@ -13,8 +13,7 @@ namespace DQQ.Web.Pages.DQQs.Strategies
 
     [Parameter]
     public EnumTargetPriority? TargetPriority { get; set; }
-    [Parameter]
-    public Guid? ActorId { get; set; }
+   
 
     public async Task SelectPriority(EnumTargetPriority? targetPriority)
     {

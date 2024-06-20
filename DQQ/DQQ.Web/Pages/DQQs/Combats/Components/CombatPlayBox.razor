@@ -2,6 +2,10 @@
 @if (CombatLog != null)
 {
 	<div>
+		<p>时间限制 @MapLimitation?.ToString("mm 分 ss 秒")</p>
+		<Progress IsShowValue="false" Value="CurrentPlayProgress" />
+	</div>
+	<div>
 		波次 @Tick
 	</div>
 	<Divider />
