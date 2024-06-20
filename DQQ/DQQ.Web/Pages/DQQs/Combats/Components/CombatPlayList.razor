@@ -17,14 +17,25 @@
 		<div>
 			@if (Result != null)
 			{
-				if (Result.Success == true)
-				{
-					<p>战斗胜利</p>
-				}
-				else
-				{
-					<p>战斗失败</p>
-				}
+				<p>
+					@if (Result.Success == true)
+					{
+						<span>战斗胜利</span>
+					}
+					else
+					{
+						<span>
+							战斗失败
+
+						</span>
+						@if (Result.CombatTick >= Result.TotalCombatminutes)
+						{
+							<span>超时</span>
+						}
+					}
+					战斗时间 @Result.CombatTime.ToString("mm 分 ss 秒")
+				</p>
+
 			}
 		</div>
 		<div>

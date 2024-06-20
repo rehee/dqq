@@ -12,7 +12,9 @@ namespace DQQ.Commons.DTOs
     public bool Success { get; set; }
     public long XP { get; set; }
     public decimal TotalCombatminutes { get; set; }
-    public DateTime CombatTime
+    public int CombatTimeLimitationTick {  get; set; }
+		public int CombatTick { get; set; }
+		public DateTime CombatTime
     {
       get
       {

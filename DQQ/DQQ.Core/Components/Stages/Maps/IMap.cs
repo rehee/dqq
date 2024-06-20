@@ -38,5 +38,6 @@ namespace DQQ.Components.Stages.Maps
 		ComponentTickParameter? TickParameter { get; set; }
 		bool MapClear { get; }
 		MapProfile? MapProfile { get; }
+		int TotalTick { get; }
 	}
 }

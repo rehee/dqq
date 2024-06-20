@@ -99,7 +99,7 @@ namespace DQQ.Components.Stages.Maps
 		public Int64 XP { get; set; }
 
 		public int WaveIndex { get; set; }
-
+		public int TotalTick { get; set; }
 		public async Task Play()
 		{
 			if (!Playable)
@@ -113,8 +113,8 @@ namespace DQQ.Components.Stages.Maps
 			Logs = new List<TickLogItem>();
 			Drops = new List<ItemComponent>();
 			WaveIndex = -1;
-			var totalTick = this.TotalTick();
-			while (TickCount < totalTick)
+			TotalTick = this.TotalTick();
+			while (TickCount < TotalTick)
 			{
 				TickCount++;
 				WaveTickCount++;
@@ -195,6 +195,7 @@ namespace DQQ.Components.Stages.Maps
 
 			}
 			Playing = false;
+				
 		}
 
 		public async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)

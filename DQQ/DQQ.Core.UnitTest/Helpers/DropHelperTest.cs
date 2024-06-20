@@ -94,6 +94,8 @@ namespace DQQ.Core.UnitTest.Helpers
 
 		public MapProfile? MapProfile => throw new NotImplementedException();
 
+		public int TotalTick => throw new NotImplementedException();
+
 		List<IActor>? IMap.Players => throw new NotImplementedException();
 
 		public Task<ContentResponse<bool>> AfterDealingDamage(ComponentTickParameter parameter)

@@ -1,6 +1,7 @@
 ﻿using Blazor.Serialization.Extensions;
 using DQQ.Commons.DTOs;
 using DQQ.Components.Stages.Maps;
+using DQQ.Consts;
 using DQQ.Services.ActorServices;
 using DQQ.Services.CombatServices;
 using DQQ.Web.Services.Requests;
@@ -53,7 +54,9 @@ namespace DQQ.Web.Services.CombatServices
 				XP = map!.XP,
 				DropItemNumber = map?.Drops?.Count ?? 0,
 				TotalCombatminutes = map!.PlayMins,
-				Success = map!.MobPool?.All(b => b.All(c => c.Alive != true)) ?? false
+				Success = map!.MobPool?.All(b => b.All(c => c.Alive != true)) ?? false,
+				CombatTimeLimitationTick = map.TotalTick,
+				CombatTick = map.TotalTick,
 			};
 			result.SetSuccess(resultDto);
 			return result;
