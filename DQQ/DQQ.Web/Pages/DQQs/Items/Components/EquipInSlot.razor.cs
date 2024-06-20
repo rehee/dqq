@@ -14,12 +14,24 @@ namespace DQQ.Web.Pages.DQQs.Items.Components
 		[Parameter]
 		public ConcurrentDictionary<EnumEquipSlot, ItemEntity?>? Equips { get; set; }
 
-		
+
 
 		public Color ThisColor => Item.GetColor();
 
 		[Parameter]
+		public EventCallback<EnumEquipSlot?> OnComponentClicked { get; set; }
+
+		[Parameter]
 		public EnumEquipSlot? Slots { get; set; }
+
+		public Task ThisClicked()
+		{
+			if (OnComponentClicked.HasDelegate)
+			{
+				OnComponentClicked.InvokeAsync(Slots);
+			}
+			return Task.CompletedTask;
+		}
 
 		public bool WithEquips => (Equips == null || Slots == null) ? false : Equips?.ContainsKey(Slots.Value) == true ? Equips![Slots.Value] != null : false;
 
@@ -32,7 +44,7 @@ namespace DQQ.Web.Pages.DQQs.Items.Components
 
 		public ItemEntity? Item { get; set; }
 
-		public string? ComponentString {  get; set; }
+		public string? ComponentString { get; set; }
 		protected override async Task OnParametersSetAsync()
 		{
 			if (!WithEquips)

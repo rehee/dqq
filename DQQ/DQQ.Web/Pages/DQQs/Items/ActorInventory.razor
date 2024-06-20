@@ -4,27 +4,8 @@
 @using DQQ.Web.Pages.DQQs.Items.Components
 @using DQQ.Web.Pages.DQQs.CombatProperties
 @inherits ActorInventoryPage
-<h3>背包 <button type="button" class="btn btn-primary" @onclick="@OpenDrawer">查看属性</button></h3>
 <Layout ShowFooter="true">
 	<Header>
-		<div>
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Head)" Slots="EnumEquipSlot.Head" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Body)" Slots="EnumEquipSlot.Body" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Gloves)" Slots="EnumEquipSlot.Gloves" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Boots)" Slots="EnumEquipSlot.Boots" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.MainHand)" Slots="EnumEquipSlot.MainHand" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.OffHand)" Slots="EnumEquipSlot.OffHand" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Amulet)" Slots="EnumEquipSlot.Amulet" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.Belt)" Slots="EnumEquipSlot.Belt" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.LeftRing)" Slots="EnumEquipSlot.LeftRing" />
-			<EquipInSlot Equips="SelectedCharacter?.EquipItems" OnDismiss="()=>UnEquipSlog(EnumEquipSlot.RightRing)" Slots="EnumEquipSlot.RightRing" />
-		</div>
-		<div>
-
-			<Drawer Placement="Placement.Left" @bind-IsOpen="@IsBackdropOpen" IsBackdrop="true">
-				<CombatPropertySummary CombatProperty="SelectedCharacter?.CombatPanel?.StaticPanel" />
-			</Drawer>
-		</div>
 	</Header>
 
 	<Main>
@@ -62,10 +43,12 @@
 											break;
 									}
 								}
-								<Popover Placement="Placement.Right" Content="@value.Row.ComponentString" IsHtml="true">
+								
 									<Tag Color="color">
 										@value.Value
 									</Tag>
+								<Popover Placement="Placement.Right" Trigger="click" Content="@value.Row.ComponentString" IsHtml="true">
+									<i class="fas fa-circle-info"></i>
 								</Popover>
 
 
@@ -90,24 +73,38 @@
 												value.Row.CompareComponentString?.TryGetValue(slot, out compareString);
 												if (String.IsNullOrEmpty(compareString))
 												{
-													<Popover Placement="Placement.Top" Content="@value.Row.ComponentString" IsHtml="true">
-														<Button Color="Color.Success" Text="@($"装备 ({slot.GetEnumString()})")" OnClick="()=>EquipItem(value.Row?.Id,slot)" />
-													</Popover>
+													<Button Color="Color.Success" Text="@($"装备 ({slot.GetEnumString()})")" OnClick="()=>EquipItem(value.Row?.Id,slot)" />
+
+													<DQQInfo IsButton="true">
+														@(new MarkupString(value.Row.ComponentString))
+													</DQQInfo>
+													// <Popover Placement="Placement.Top" Content="@value.Row.ComponentString" IsHtml="true">
+														
+													// </Popover>
 												}
 												else
 												{
-													<Popover Placement="Placement.Top" CustomClass="compare_popup" Content="@compareString" IsHtml="true">
-														<Button Color="Color.Success" Text="@($"装备 ({slot.GetEnumString()})")" OnClick="()=>EquipItem(value.Row?.Id,slot)" />
-													</Popover>
+													<Button Color="Color.Success" Text="@($"装备 ({slot.GetEnumString()})")" OnClick="()=>EquipItem(value.Row?.Id,slot)" />
+
+													<DQQInfo IsButton="true">
+														@(new MarkupString(compareString))
+													</DQQInfo>
+													// <Popover Placement="Placement.Top" CustomClass="compare_popup" Content="@compareString" IsHtml="true">
+													// </Popover>
 												}
 												
 											}
 										}
 										else
 										{
-											<Popover Placement="Placement.Top" CustomClass="compare_popup" Content="@(value.Row.CompareComponentStringAll)" IsHtml="true">
-												<Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(value.Row?.Id,null)" />
-											</Popover>
+											<Button Color="Color.Success" Text="装备" OnClick="()=>EquipItem(value.Row?.Id,null)" />
+
+											<DQQInfo IsButton="true">
+												@(new MarkupString(value.Row.CompareComponentStringAll))
+											</DQQInfo>
+											// <Popover Placement="Placement.Top" CustomClass="compare_popup" Content="@(value.Row.CompareComponentStringAll)" IsHtml="true">
+												
+											// </Popover>
 										}
 									}
 								}

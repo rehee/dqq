@@ -5,9 +5,6 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 {
 	public class SkillBoxSelectPage : DQQPageBase
 	{
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
 		protected override void OnParametersSet()
 		{
 		

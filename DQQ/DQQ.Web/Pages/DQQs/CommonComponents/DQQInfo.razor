@@ -1,6 +1,13 @@
-﻿<span class="ms-1">
-	<i class="fas fa-circle-info text-primary" @onclick="()=>OpenDrawer()"></i>
-</span>
+﻿@if (IsButton)
+{
+	<Button OnClick="OpenDrawer" Icon="fas fa-circle-info" Color="Color.Primary"></Button>
+}
+else
+{
+	<span class="ms-1">
+		<i class="fas fa-circle-info text-primary" @onclick="()=>OpenDrawer()"></i>
+	</span>
+}
 
 
 <Drawer Placement="Placement.Right" @bind-IsOpen="@IsOpen" IsBackdrop="true">
@@ -13,6 +20,9 @@
 	}
 </Drawer>
 @code {
+	[Parameter]
+	public bool IsButton { get; set; }
+
 	[Parameter]
 	public RenderFragment? ChildContent { get; set; }
 	public bool IsOpen { get; set; }

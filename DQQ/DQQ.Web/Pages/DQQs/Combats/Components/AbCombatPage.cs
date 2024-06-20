@@ -13,19 +13,12 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 	public abstract class AbCombatPage : DQQPageBase
 	{
 
-		[Parameter]
-		public Guid? ActorId { get; set; }
-
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
-
 		[Inject]
 		[NotNull]
 		public ICombatService? combatService { get; set; }
 
 		[Parameter]
-		public EnumMapNumber MapNumber { get; set; }
+		public EnumMapNumber? MapNumber { get; set; }
 
 		protected CombatRequestDTO? RequestDTO { get; set; }
 		public CombatResultDTO? Result { get; set; }
@@ -83,7 +76,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				ActorId = ActorId,
 				RandomGuid = CurrentGuid,
-				MapNumber = MapNumber,
+				MapNumber = MapNumber ?? EnumMapNumber.None,
 			};
 			var result = await combatService.RequestCombatRandom(RequestDTO);
 			Result = result?.Content;

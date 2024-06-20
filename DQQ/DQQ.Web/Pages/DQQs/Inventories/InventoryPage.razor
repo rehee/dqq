@@ -1,0 +1,14 @@
+﻿@using DQQ.Web.Pages.DQQs.Items
+@using DQQ.Web.Pages.DQQs.Items.Components
+@inherits InventoryPagePage
+<Row>
+	<EquipmentPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+	<Card>
+		<HeaderTemplate>
+			背包
+		</HeaderTemplate>
+		<BodyTemplate>
+			<ActorInventory ActorId="ActorId" ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" />
+		</BodyTemplate>
+	</Card>
+</Row>

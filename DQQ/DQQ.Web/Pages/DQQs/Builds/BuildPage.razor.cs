@@ -8,9 +8,6 @@ namespace DQQ.Web.Pages.DQQs.Builds
 {
 	public class BuildPagePage : DQQPageBase
 	{
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
 		protected override async Task OnParametersSetAsync()
 		{
 			await base.OnParametersSetAsync();

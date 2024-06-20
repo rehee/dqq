@@ -17,11 +17,7 @@ namespace DQQ.Web.Pages.DQQs.Items
 		public IItemService? itemService { get; set; }
 		public IEnumerable<ItemEntity>? Items { get; set; }
 
-		[Parameter]
-		public Guid? ActorId { get; set; }
-
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
+		
 		public bool IsBackdropOpen { get; set; }
 		public void OpenDrawer()
 		{

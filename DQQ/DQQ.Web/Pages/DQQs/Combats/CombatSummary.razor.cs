@@ -30,16 +30,14 @@ namespace DQQ.Web.Pages.DQQs.Combats
 		{
 			await base.OnInitializedAsync();
 		}
-		[Parameter]
-		public Guid? ActorId { get; set; }
-
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
 		public MapProfile[]? UnlockedMaps => SelectedCharacter?.GetUnlockedMaps();
 		public EnumMapNumber[]? UnlockedMapNumbers => UnlockedMaps?.Select(b => b.ProfileNumber).ToArray();
 		public MapProfile? SelectedMapProfile => UnlockedMaps?.FirstOrDefault(b => b.ProfileNumber == SelectedMap);
+
+		
 		public EnumMapNumber? SelectedMap { get; set; }
+
+		
 
 		public async Task CombatRequest()
 		{

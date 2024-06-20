@@ -24,11 +24,6 @@ namespace DQQ.Web.Pages.DQQs.Builds
 
 		[Parameter]
 		public EnumSkillSlot? Slot { get; set; }
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
-
-
 		[NotNull]
 		public List<StepOption>? Items { get; set; }
 

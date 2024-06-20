@@ -1,4 +1,5 @@
 ﻿using BootstrapBlazor.Components;
+using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Services.ActorServices;
 using DQQ.Web.Services.RenderServices;
 using DQQ.Web.Services.Requests;
@@ -59,6 +60,11 @@ namespace DQQ.Web.Pages
 		public EventParameter? ParentRefreshEvent { get; set; }
 
 		public EventParameter? RefreshEvent { get; set; }
+		[Parameter]
+		public Guid? ActorId { get; set; }
+
+		[Parameter]
+		public Character? SelectedCharacter { get; set; }
 
 		[Parameter]
 		public Guid? ParentGuid { get; set; }

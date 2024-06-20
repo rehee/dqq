@@ -1,0 +1,174 @@
+﻿@inherits MapPagePage
+<style>
+	.selected_map .card-body {
+		background-color: khaki;
+	}
+</style>
+<div class="row g-3">
+
+	@if (UnlockedMaps?.Any() == true)
+	{
+		foreach (var map in UnlockedMaps)
+		{
+			var mapId = map.ProfileNumber;
+			var isSelected = SelectedMap != null && SelectedMap != EnumMapNumber.None && mapId == SelectedMap;
+			<div class="@($"{(isSelected?"selected_map":"")} col-md-4 col-lg-3")">
+				<Card>
+					<HeaderTemplate>
+						@if (!isSelected)
+						{
+							<Button OnClick="()=>SelectThisMap(mapId)">选择地图</Button>
+						}
+						else
+						{
+							<span>已选择</span>
+						}
+
+						<DQQInfo>
+							<h4>
+								怪物详情
+							</h4>
+							@foreach (var m in map.MobNumbers)
+							{
+								var momster = m.GetMomster();
+								<Card>
+									<HeaderTemplate>
+										@momster?.Name
+									</HeaderTemplate>
+									<BodyTemplate>
+										<div class="row g-3">
+											<div class="col-auto col-form-label">
+												<span>血量百分比</span>
+												<span>
+													<Popover Trigger="click" Content="怪物的基础血量. 百分比越高则血量越高">
+														<i class="fas fa-circle-info"></i>
+													</Popover>
+												</span>
+											</div>
+											<div class="col-auto">
+												<Display TValue="double?" Value="@momster?.HPPercentage" />
+											</div>
+										</div>
+										<div class="row g-3">
+											<div class="col-auto col-form-label">
+												<span>伤害百分比</span>
+												<span>
+													<Popover Trigger="click" Content="怪物的基础伤害. 百分比越高则造成的伤害越高">
+														<i class="fas fa-circle-info"></i>
+													</Popover>
+												</span>
+											</div>
+											<div class="col-auto">
+												<Display TValue="double?" Value="@momster?.DamagePercentage" />
+											</div>
+										</div>
+										<div class="row g-3">
+											<div class="col-auto col-form-label">
+												<span>站位</span>
+												<span>
+													<Popover Trigger="click" Content="怪物的展位. 小怪战中 站位越高的怪物越倾向于站在队伍的后方">
+														<i class="fas fa-circle-info"></i>
+													</Popover>
+												</span>
+											</div>
+											<div class="col-auto">
+												<Display TValue="int?" Value="@momster?.QueuePosition" />
+											</div>
+										</div>
+										<h5>技能</h5>
+										<div class="row g-3">
+											@foreach (var s in momster!.Skills)
+											{
+												<div class="col-auto">
+													<Tag>
+														@s.Profile?.Name
+													</Tag>
+													<Popover Trigger="click" Content="@s.Profile?.ExtureDiscription" IsHtml="true">
+														<i class="fas fa-circle-info"></i>
+													</Popover>
+												</div>
+											}
+										</div>
+										@(new MarkupString(momster?.ExtureDiscription ?? ""))
+									</BodyTemplate>
+								</Card>
+
+							}
+
+						</DQQInfo>
+					</HeaderTemplate>
+					<BodyTemplate>
+						
+						<div>
+							@map.Discription
+						</div>
+						<div class="row g-3">
+							<div class="col-auto col-form-label">
+								<span>战斗时间限制(秒)</span>
+							</div>
+							<div class="col-auto">
+								<Display TValue="int?" Value="@map?.MaxCombatSecond" />
+							</div>
+						</div>
+						<div class="row g-3">
+							<div class="col-auto col-form-label">
+								<span>小怪波次</span>
+							</div>
+							<div class="col-auto">
+								<Display TValue="int?" Value="@map?.TrashWave" />
+							</div>
+						</div>
+						<div class="row g-3">
+							<div class="col-auto col-form-label">
+								<span>首领波次</span>
+							</div>
+							<div class="col-auto">
+								<Display TValue="int?" Value="@map?.BossWave" />
+							</div>
+						</div>
+						<div class="row g-3">
+							<div class="col-auto col-form-label">
+								<span>每个波次最小敌人数目</span>
+							</div>
+							<div class="col-auto">
+								<Display TValue="int?" Value="@map?.TrashMinMob" />
+							</div>
+						</div>
+						<div class="row g-3">
+							<div class="col-auto col-form-label">
+								<span>每个波次最多敌人数目</span>
+							</div>
+							<div class="col-auto">
+								<Display TValue="int?" Value="@map?.TrashMaxMob" />
+							</div>
+						</div>
+
+						<h5>可能出现的敌人</h5>
+						<div class="row g-3">
+
+							@foreach (var m in map?.MobNumbers!)
+							{
+								<Tag class="col-auto">
+									@m.GetMomster()?.Name
+								</Tag>
+							}
+						</div>
+						<h5>可能出现的首领</h5>
+						<div class="row g-3">
+
+							@foreach (var m in map?.BossNumbers!)
+							{
+								<Tag class="col-auto">
+									@m.GetMomster()?.Name
+								</Tag>
+							}
+						</div>
+					</BodyTemplate>
+				</Card>
+			</div>
+		}
+
+	}
+
+
+</div>

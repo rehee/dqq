@@ -16,8 +16,6 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 
 		[Parameter]
 		public EnumSkillSlot? Slot { get; set; }
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();

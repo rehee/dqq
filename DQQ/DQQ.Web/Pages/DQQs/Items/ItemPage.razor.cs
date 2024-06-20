@@ -5,14 +5,7 @@ namespace DQQ.Web.Pages.DQQs.Items
 {
   public class ItemPagePage : DQQPageBase
   {
-    [Parameter]
-    public Guid? ActorId { get; set; }
-
-    [Parameter]
-    public Character? SelectedCharacter { get; set; }
-
-
-    protected override void OnParametersSet()
+     protected override void OnParametersSet()
     {
       base.OnParametersSet();
       StateHasChanged();

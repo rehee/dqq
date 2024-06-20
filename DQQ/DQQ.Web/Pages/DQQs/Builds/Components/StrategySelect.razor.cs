@@ -10,9 +10,6 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 	{
 		[Parameter]
 		public EnumSkillSlot? Slot { get; set; }
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
 		public SkillDTO? SelectedSkillDTO => SelectedCharacter?.GetSelectedSkillDTO(Slot);
 
 		public async Task Add()

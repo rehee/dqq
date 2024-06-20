@@ -121,8 +121,7 @@ namespace DQQ.Web.Pages.DQQs.Items
 			};
 		}
 		public HashSet<Guid>? ItemPicked { get; set; }
-		[Parameter]
-		public Guid? ActorId { get; set; }
+		
 		public async Task ItemPickSelected(CheckboxState state, Guid id)
 		{
 			try

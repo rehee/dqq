@@ -30,7 +30,7 @@ namespace DQQ.Profiles.Maps
 		public override EnumMob[] BossNumbers => [];
 		public override int? MaxCombatSecond => 30;
 
-
+		public override decimal EliteRate => 0.25m;
 
 		protected override List<List<IActor>> GenerateTrashMob(IMap map)
 		{

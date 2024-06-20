@@ -23,9 +23,6 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 		public EnumSkillSlot? Slot { get; set; }
 
 		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
-		[Parameter]
 		public int? SupportSkillIndex { get; set; }
 
 		public int MaxSlotIndex => Slot.MaxSkillNumber() - 1;

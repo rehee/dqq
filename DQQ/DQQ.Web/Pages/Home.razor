@@ -2,19 +2,18 @@
 @page "/"
 @using DQQ.Web.Pages.Auths
 @using DQQ.Web.Pages.DQQs.Characters
+@using DQQ.Web.Pages.DQQs.CombatProperties
 @using DQQ.Web.Pages.DQQs.Combats
+@using DQQ.Web.Pages.DQQs.Combats.Components
+@using DQQ.Web.Pages.DQQs.Inventories
 @using DQQ.Web.Pages.DQQs.Items
 @using DQQ.Helper
 @using DQQ.Web.Pages.DQQs.Builds
+@using DQQ.Web.Pages.DQQs.Maps
 @using DQQ.Web.Pages.DQQs.Settings
 @using DQQ.Web.Pages.DQQs.Chapters
+@using DQQ.Web.Pages.DQQs.Skills.Components
 <PageTitle>Home</PageTitle>
-<Button Color="Color.Success" Text="ReadMe" OnClick="OpenReadMe" />
-<Button Color="Color.Primary" Text="提示" OnClick="OpenTips" />
-@Localizer["greeting"]
-
-
-
 @if (String.IsNullOrEmpty(UserId))
 {
 	<div>
@@ -51,31 +50,66 @@ else
 			}
 			else
 			{
+				<div class="sticky-top">
+					<Card>
+						<BodyTemplate>
+							
+							<BootstrapInputGroup>
+								<CharacterInfo SelectedCharacter="SelectedCharacter" />
+								<Button Color="Color.Success" OnClick="()=> ChangePage(EnumWebPage.Home)">主页</Button>
+								<Button Color="Color.Warning" OnClick="()=> ChangePage(EnumWebPage.Skills)">技能</Button>
+								<Button Color="Color.Info" OnClick="()=> ChangePage(EnumWebPage.Strategy)">策略</Button>
+								<Button Color="Color.Danger" OnClick="()=> ChangePage(EnumWebPage.Map)">地图</Button>
+
+								@if (SelectedMap != null)
+								{
+									<Button Color="Color.Warning" OnClick="()=> ChangePage(EnumWebPage.Combat)">战斗</Button>
+								}
+
+								<Button Color="Color.Dark" OnClick="()=> ChangePage(EnumWebPage.Inventory)">装备</Button>
+
+								<Button Color="Color.Secondary" OnClick="()=> ChangePage(EnumWebPage.Loot)">战利品</Button>
+
+								@if (EnumProgress.CombatPlaySetting.IsUnlocked(SelectedCharacter))
+								{
+									<Button OnClick="()=> ChangePage(EnumWebPage.Setting)">设置</Button>
+								}
+							</BootstrapInputGroup>
+							
+						</BodyTemplate>
+					</Card>
+				</div>
 				<ChapterMainPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
 
-				<Card>
-					<BodyTemplate>
-						<Button OnClick="()=> ChangePage(EnumWebPage.Home)">主页</Button>
-						@if (EnumProgress.CombatPlaySetting.IsUnlocked(SelectedCharacter))
-						{
-							<Button OnClick="()=> ChangePage(EnumWebPage.Setting)">设置</Button>
-						}
-					</BodyTemplate>
-				</Card>
 
 				switch (WebPage)
 				{
 					case EnumWebPage.Home:
 						<SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
+						
+						break;
+					case EnumWebPage.Chapter:
+						
+						break;
+					case EnumWebPage.Skills:
+						<SkillBoxSelect SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
+						break;
+
+					case EnumWebPage.Strategy:
 						<BuildPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
-						@if (EnumProgress.CombatProgress.IsUnlocked(SelectedCharacter))
-						{
-							<CombatSummary SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" ActorId="ActorId" />
-						}
-						@if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
-						{
-							<ItemPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentGuid="ParentGuid" ParentRefreshEvent="RefreshEvent" />
-						}
+						break;
+
+					case EnumWebPage.Map:
+						<MapPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" SelectedMap="@SelectedMap" OnMapSelected="OnMapSelected" />
+						break;
+					case EnumWebPage.Combat:
+						<CombatPlayList ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" MapNumber="@SelectedMap" />
+						break;
+					case EnumWebPage.Inventory:
+						<InventoryPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
+						break;
+					case EnumWebPage.Loot:
+						<ItemPickList ActorId="ActorId" />
 						break;
 					case EnumWebPage.Setting:
 						<SettingPage />
@@ -83,9 +117,6 @@ else
 				}
 			}
 		}
-
-
-
 	}
 }
 

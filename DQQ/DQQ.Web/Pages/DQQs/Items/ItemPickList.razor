@@ -1,57 +1,71 @@
 ﻿@using DQQ.Entities
 @inherits ItemPickListPage
-<h3>拾取物品</h3>
-<style>
+<Card>
+	<HeaderTemplate>
+		拾取物品
+	</HeaderTemplate>
+	<BodyTemplate>
+		@if (Items != null)
+		{
+
+			<Table TItem="ItemEntity" IsAutoRefresh="true" AutoRefreshInterval="501" @bind-SelectedRows="SelectedItems" ShowToolbar="true" ShowRefresh="false" ShowDefaultButtons="false" IsPagination="true" OnQueryAsync="OnQueryAsync" PageItemsSource="PageItemsSource" IsMultipleSelect="true" IsFixedHeader="true" ShowTopPagination="true">
+				<TableToolbarTemplate>
+					<BootstrapInputGroup>
+						<Button Color="Color.Success" Text="全选" OnClick="()=>SelectAll()"></Button>
+						<Button Color="Color.Warning" Text="拾取" OnClick="()=>PickSelected()"></Button>
+						<BootstrapInputGroupLabel DisplayText="选择稀有度" />
+						<Select Items="SelectedItemHelper.GetSelectedItem<EnumRarity>()" @bind-Value="Rarity">
+						</Select>
+						<BootstrapInputGroupLabel DisplayText="选择物品种类" />
+						<Select Items="SelectedItemHelper.GetSelectedItem<EnumItemType>()" @bind-Value="ItemType">
+						</Select>
+					</BootstrapInputGroup>
+
+
+				</TableToolbarTemplate>
+				<TableColumns>
+					<TableColumn @bind-Field="@context.Name" Width="180">
+						<Template Context="value">
+							@{
+								var color = Color.Light;
+								switch (value.Row.Rarity)
+								{
+									case EnumRarity.Magic:
+										color = Color.Primary;
+										break;
+									case EnumRarity.Rare:
+										color = Color.Warning;
+										break;
+								}
+							}
+							<Popover Placement="Placement.Right" Content="@value.Row.ComponentString" IsHtml="true">
+								<Tag Color="color">
+									@value.Value
+								</Tag>
+							</Popover>
+
+
+						</Template>
+					</TableColumn>
+					<TableColumn @bind-Field="@context.ItemNumber" Width="180" />
+					<TableColumn @bind-Field="@context.Rarity" Width="180" />
+				</TableColumns>
+			</Table>
+		}
+		else
+		{
+			<div class="d-flex justify-content-center">
+				<Spinner></Spinner>
+			</div>
+		}
+	</BodyTemplate>
+</Card>
+
+@* <style>
 	.dialog-table .modal-body {
 		height: calc(100vh - 100px);
 		overflow: hidden;
 	}
-</style>
-@if (Items != null)
-{
+</style> *@
 
-	<Table TItem="ItemEntity" IsAutoRefresh="true" AutoRefreshInterval="501" @bind-SelectedRows="SelectedItems" ShowToolbar="true" ShowRefresh="false" ShowDefaultButtons="false" IsPagination="true" OnQueryAsync="OnQueryAsync" PageItemsSource="PageItemsSource" IsMultipleSelect="true" IsFixedHeader="true" ShowTopPagination="true">
-		<TableToolbarTemplate>
-			<BootstrapInputGroup>
-				<Button Color="Color.Success" Text="全选" OnClick="()=>SelectAll()"></Button>
-				<Button Color="Color.Warning" Text="拾取" OnClick="()=>PickSelected()"></Button>
-				<BootstrapInputGroupLabel DisplayText="选择稀有度" />
-				<Select Items="SelectedItemHelper.GetSelectedItem<EnumRarity>()" @bind-Value="Rarity">
-				</Select>
-				<BootstrapInputGroupLabel DisplayText="选择物品种类" />
-				<Select Items="SelectedItemHelper.GetSelectedItem<EnumItemType>()" @bind-Value="ItemType">
-				</Select>
-			</BootstrapInputGroup>
-
-
-		</TableToolbarTemplate>
-		<TableColumns>
-			<TableColumn @bind-Field="@context.Name" Width="180">
-				<Template Context="value">
-					@{
-						var color = Color.Light;
-						switch (value.Row.Rarity)
-						{
-							case EnumRarity.Magic:
-								color = Color.Primary;
-								break;
-							case EnumRarity.Rare:
-								color = Color.Warning;
-								break;
-						}
-					}
-					<Popover Placement="Placement.Right" Content="@value.Row.ComponentString" IsHtml="true">
-						<Tag Color="color">
-							@value.Value
-						</Tag>		
-					</Popover>
-
-
-				</Template>
-			</TableColumn>
-			<TableColumn @bind-Field="@context.ItemNumber" Width="180" />
-			<TableColumn @bind-Field="@context.Rarity" Width="180" />
-		</TableColumns>
-	</Table>
-}
 

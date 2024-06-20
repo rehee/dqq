@@ -12,8 +12,7 @@ namespace DQQ.Web.Resources.Chapters
 {
 	public abstract class ChapterComponentBase : DQQPageBase
 	{
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
+
 		[Inject]
 		[NotNull]
 		public IChapterService? ChapterService { get; set; }

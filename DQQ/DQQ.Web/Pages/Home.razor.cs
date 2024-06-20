@@ -38,8 +38,6 @@ namespace DQQ.Web.Pages
 
 		public string? UserId { get; set; }
 
-		public Guid? ActorId { get; set; }
-		public Character? SelectedCharacter { get; set; }
 
 		[Inject]
 		[NotNull]
@@ -72,7 +70,7 @@ namespace DQQ.Web.Pages
 					//}
 					);
 				}
-				
+
 			}
 		}
 		private void refreshEvent(object? sender, EventArgs e)
@@ -106,7 +104,14 @@ namespace DQQ.Web.Pages
 
 			await dialogService.ShowComponent<Tips>(null, "Tips");
 		}
+		public EnumMapNumber? SelectedMap { get; set; }
 
+		public Task OnMapSelected(EnumMapNumber? map)
+		{
+			SelectedMap = map;
+			StateHasChanged();
+			return Task.CompletedTask;
+		}
 		public override async ValueTask DisposeAsync()
 		{
 			await base.DisposeAsync();

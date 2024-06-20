@@ -1,0 +1,85 @@
+﻿@using DQQ.Web.Pages.DQQs.Items
+@using DQQ.Web.Pages.DQQs.Items.Components
+@inherits EquipmentPagePage
+<Card>
+	<HeaderTemplate>
+		装备栏
+	</HeaderTemplate>
+	<BodyTemplate>
+		<div class="row g-3">
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+				<div class="row g-3">
+					<div class="col-4">
+					</div>
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Head" />
+					</div>
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Amulet" />
+					</div>
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.MainHand" />
+					</div>
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Body" />
+					</div>
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.OffHand" />
+					</div>
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Gloves" />
+					</div>
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Boots" />
+					</div>
+
+					<div class="col-4">
+					</div>
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.LeftRing" />
+					</div>
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Belt" />
+					</div>
+
+
+					<div class="col-4">
+						<EquipInSlot OnComponentClicked="EquipSlotClicked" Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.RightRing" />
+					</div>
+				</div>
+			</div>
+			<div class="col-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="row g-3">
+					@if (SelectedItem != null)
+					{
+						<div class="col-md-9">
+							<ItemComponent Item="SelectedItem" />
+						</div>
+						<div class="col-md-3">
+							<Button Color="Color.Danger">卸下装备</Button>
+						</div>
+						
+					}
+				</div>
+				
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+	</BodyTemplate>
+</Card>

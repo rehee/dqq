@@ -4,7 +4,7 @@
 
 @if (EnumProgress.BuildManagement.IsUnlocked(SelectedCharacter))
 {
-	<Card IsCollapsible="true" Collapsed="true" HeaderText="构筑(BD)">
+	<Card IsCollapsible="true" HeaderText="构筑(BD)">
 		<HeaderTemplate>
 			构筑(bd)
 		</HeaderTemplate>
@@ -16,7 +16,7 @@
 
 @if (EnumProgress.MainTargetPriority.IsUnlocked(SelectedCharacter))
 {
-	<Card IsCollapsible="true" Collapsed="true" HeaderText="主目标优先级">
+	<Card IsCollapsible="true"  HeaderText="主目标优先级">
 		<HeaderTemplate>
 			主目标优先级  @((SelectedCharacter?.TargetPriority).GetString() ?? "n/a")
 		</HeaderTemplate>
@@ -25,34 +25,3 @@
 		</BodyTemplate>
 	</Card>
 }
-
-<Card IsCollapsible="true" Collapsed="true" HeaderText="装备">
-	<HeaderTemplate>
-		装备
-	</HeaderTemplate>
-	<BodyTemplate>
-		<div class="row g-3">
-			<div class="col-12">
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Head" />
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Body" />
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Gloves" />
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Boots" />
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.MainHand" />
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.OffHand" />
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Amulet" />
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.Belt" />
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.LeftRing" />
-				<EquipInSlot Equips="SelectedCharacter?.EquipItems" Slots="EnumEquipSlot.RightRing" />
-			</div>
-			@if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
-			{
-				<div class="col-12">
-					<Button Color="Color.Primary" Size="Size.ExtraSmall" Text="装备选择" OnClick="ShowInventory" />
-				</div>
-			}
-
-		</div>
-	</BodyTemplate>
-</Card>
-
-<SkillBoxSelect ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" />

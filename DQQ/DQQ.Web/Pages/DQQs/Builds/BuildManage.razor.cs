@@ -8,12 +8,6 @@ namespace DQQ.Web.Pages.DQQs.Builds
 {
 	public class BuildManagePage : DQQPageBase
 	{
-		[Parameter]
-		public Guid? ActorId { get; set; }
-
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
 		[Inject]
 		[NotNull]
 		public IBDService? bdService { get; set; }

@@ -49,7 +49,7 @@ namespace DQQ.Web.Pages.DQQs.Combats
 					case Enums.EnumTargetLevel.Champion:
 					case Enums.EnumTargetLevel.Elite:
 					case Enums.EnumTargetLevel.Magic:
-						return "col-6 col-md-4";
+						return "col-6 col-md-3 col-lg-4";
 					default:
 						return "col-6 col-md-3 col-lg-2";
 				}

@@ -5,9 +5,6 @@ namespace DQQ.Web.Pages.DQQs.Builds
 {
 	public class SkillSlotListPage : DQQPageBase
 	{
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
     protected override void OnParametersSet()
     {
       var d = ParentRefreshEvent;

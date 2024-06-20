@@ -11,8 +11,6 @@ namespace DQQ.Web.Pages.DQQs.Chapters
 {
 	public abstract class AbChapterBasePage : DQQPageBase
 	{
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
 		[Inject]
 		[NotNull]
 		public IChapterService? ChapterService { get; set; }

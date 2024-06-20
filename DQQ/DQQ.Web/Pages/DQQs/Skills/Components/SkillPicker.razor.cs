@@ -12,9 +12,6 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 		[Parameter]
 		public EnumSkillSlot? Slot { get; set; }
 
-		[Parameter]
-		public Character? SelectedCharacter { get; set; }
-
 		public SkillDTO? SelectedDTO
 		{
 			get

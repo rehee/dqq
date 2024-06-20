@@ -1,10 +1,7 @@
 ﻿@if (WithEquips)
 {
-	<Popover Placement="Placement.Bottom" Content="@ComponentString" IsHtml="true">
-		<Tag Color="ThisColor" ShowDismiss="ShowsDismiss" OnDismiss="ThisOnDismiss">@Slots.GetString()</Tag>
-	</Popover>
 
-
+	<Tag @onclick="()=> ThisClicked()" Color="ThisColor" ShowDismiss="ShowsDismiss" OnDismiss="ThisOnDismiss">@Slots.GetString()</Tag>
 }
 else
 {
