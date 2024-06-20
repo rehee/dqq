@@ -27,7 +27,8 @@ namespace DQQ.Web.Pages.DQQs.Combats
 		public bool Attacking { get; set; }
 		public string AttackClass => Attacking ? IsMob ? "attack_enemy" : "attack_player" : "";
 
-		public string CardClass => @$"{(IsMob ? "mob_box" : "")} {(TakenDamage ? "take_damage" : "")} {AttackClass}";
+		public string ShackClass => TakenDamage ? "take_damage" : "";
+		public string CardClass => @$"{(IsMob ? "mob_box" : "")}  {AttackClass}";
 
 		public string SlashCss => $"{(TakenDamage ? "animated-sprite" : "")} sword-animation";
 
@@ -48,9 +49,9 @@ namespace DQQ.Web.Pages.DQQs.Combats
 					case Enums.EnumTargetLevel.Champion:
 					case Enums.EnumTargetLevel.Elite:
 					case Enums.EnumTargetLevel.Magic:
-						return "col-sm-6 col-md-3";
+						return "col-6  col-sm-3 col-md-4";
 					default:
-						return "col-sm-3 col-md-3 col-lg-2";
+						return "col-6 col-md-3 col-lg-2";
 				}
 
 			}
