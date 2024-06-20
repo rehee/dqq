@@ -20,7 +20,7 @@ namespace DQQ.Profiles.Skills.Buffs
 	[Pooled]
 	public class PowerWordShield : AbHealing
 	{
-		public override int CharacterLevelRequired => 50;
+		
 		public override bool NoPlayerSkill => false;
 		public override bool SelfTarget => true;
 		public override decimal CastTime => 0m;

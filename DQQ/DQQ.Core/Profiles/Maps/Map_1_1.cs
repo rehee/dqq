@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.Maps
 {
 	[Pooled]
-	public class Chapter11 : MapProfile
+	public class Map_1_1 : MapProfile
 	{
-		public override EnumMapNumber ProfileNumber => EnumMapNumber.Chapter_1_1;
+		public override EnumMapNumber ProfileNumber => EnumMapNumber.Map_1_1;
 		public override string? Name => "黑暗的海滩";
 		public override string? Discription => "黑暗的海滩";
 		public override EnumMob[] MobNumbers => [EnumMob.Crab];

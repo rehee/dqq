@@ -14,13 +14,17 @@ using DQQ.Pools;
 using DQQ.Profiles.Durations;
 using DQQ.Commons;
 using DQQ.Components.Parameters;
+using DQQ.Components.Stages.Actors.Characters;
 
 namespace DQQ.Profiles.Skills.Buffs
 {
 	[Pooled]
 	public class RenewProfile : AbHealing
 	{
-		public override int CharacterLevelRequired => 50;
+		public override bool IsAvaliableForCharacter(Character character)
+		{
+			return EnumChapter.C_1_4.IsUnlocked(character);
+		}
 		public override bool NoPlayerSkill => false;
 		public override decimal CastTime => 0m;
 

@@ -21,7 +21,7 @@
 						<div style="width: 0px;margin-right: 47px;position: relative;">
 							@foreach (var f in DamageNumbers)
 							{
-								<DamageNumber Number="@f.Number" Id="@f.Id" Date="@f.CreateDate" OnRemove="RemoveComponent" />
+								<DamageNumber Number="@f.Number" Id="@f.Id" Date="@f.CreateDate" IsHealing="@f.IsHealing" OnRemove="RemoveComponent" />
 							}
 						</div>
 					</div>

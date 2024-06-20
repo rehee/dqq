@@ -18,12 +18,12 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.Maps
 {
 	[Pooled]
-	public class Chapter_1_3 : MapProfile
+	public class Map_1_2 : MapProfile
 	{
 		public override int TrashMinMob => 2;
 		public override int TrashMaxMob => 3;
 		public override EnumChapter? RequesChapter => EnumChapter.C_1_3;
-		public override EnumMapNumber ProfileNumber => EnumMapNumber.Chapter_1_3;
+		public override EnumMapNumber ProfileNumber => EnumMapNumber.Map_1_2;
 		public override string? Name => "黑暗的海滩 2";
 		public override string? Discription => "黑暗的海滩 2";
 		public override EnumMob[] MobNumbers => [EnumMob.Crab, EnumMob.CrabAssassin];

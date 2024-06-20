@@ -12,26 +12,26 @@ namespace DQQ.Helper
 {
 	public static class SkillProfileHelper
 	{
-		public static IEnumerable<SkillProfile> PlayerAvaliableSkill(this IEnumerable<SkillProfile> profiles, int? level = null)
+		public static IEnumerable<SkillProfile> PlayerAvaliableSkill(this IEnumerable<SkillProfile> profiles, Character? character = null)
 		{
-			return profiles.Where(b => b.IsPlayerAvaliableSkill(level));
+			return profiles.Where(b => b.IsPlayerAvaliableSkill(character));
 		}
 
-		public static bool IsPlayerAvaliableSkill(this SkillProfile profiles, int? level = null)
+		public static bool IsPlayerAvaliableSkill(this SkillProfile profiles, Character? character = null,bool onlyCheckPlayer=false)
 		{
 			if (profiles.NoPlayerSkill)
 			{
 				return false;
 			}
-			if (level == null)
+			if (onlyCheckPlayer)
 			{
 				return true;
 			}
-			return level >= profiles.CharacterLevelRequired;
+			return profiles.IsAvaliableForCharacter(character);
 		}
-		public static bool IsPlayerAvaliableSkill(this EnumSkillNumber profiles, int? level = null)
+		public static bool IsPlayerAvaliableSkill(this EnumSkillNumber profiles, Character? character = null)
 		{
-			return DQQPool.TryGet<SkillProfile, EnumSkillNumber>(profiles)?.IsPlayerAvaliableSkill(level) == true;
+			return DQQPool.TryGet<SkillProfile, EnumSkillNumber>(profiles)?.IsPlayerAvaliableSkill(character) == true;
 		}
 	}
 }

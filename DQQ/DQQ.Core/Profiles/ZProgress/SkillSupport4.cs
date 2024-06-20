@@ -21,7 +21,7 @@ namespace DQQ.Profiles.ZProgress
 
 		public override bool AvaliableCheck(Character? character)
 		{
-			return character?.Level > 20;
+			return false;
 		}
 	}
 }

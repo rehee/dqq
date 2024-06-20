@@ -189,12 +189,14 @@ namespace DQQ.Components.Skills
 					JsonSerializer.Deserialize<SkillStrategy[]?>(sp.SkillStrategy ?? "", JsonOption.DefaultOption);
 					var supportSkillNumers = JsonSerializer.Deserialize<EnumSkillNumber[]?>(sp.SupportSkills ?? "", JsonOption.DefaultOption);
 					int? level = null;
-					if (Parent is Character character)
+					Character? character  = null;
+					if (Parent is Character chh)
 					{
+						character = chh;
 						level = character.Level;
 					}
 
-					SupportSkills = supportSkillNumers?.Where(b => b.IsPlayerAvaliableSkill(level)).Distinct().Take(MaxSupportSkill)
+					SupportSkills = supportSkillNumers?.Where(b => b.IsPlayerAvaliableSkill(character)).Distinct().Take(MaxSupportSkill)
 						.Select(b => SkillDTO.New(b))
 						.ToArray();
 

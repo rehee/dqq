@@ -25,7 +25,7 @@ namespace DQQ.Services.MapServices
 				Creator = creator,
 				ActorId = creator.DisplayId,
 				MapLevel = mapTier ?? 0,
-				MapNumber = Enums.EnumMapNumber.Chapter_1_1,
+				MapNumber = Enums.EnumMapNumber.Map_1_1,
 				RandomGuid = Guid.NewGuid(),
 				SubMapLevel = mapSubTier ?? 0,
 			};

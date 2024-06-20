@@ -66,6 +66,11 @@ namespace DQQ.Web.Pages.DQQs.Combats
 				{
 					await DealDamage(Item?.Damage?.DamagePoint ?? "");
 				}
+				if (Actor?.Id != null && Item.Healing != null && Item?.Target?.Id == Actor?.Id)
+				{
+					await DealDamage($"{Item?.Healing?.HealingDone}",true);
+				}
+
 				if (Actor?.Id != null && Item?.Skill != null && Item?.From?.Id == Actor?.Id)
 				{
 					await CastSkill(Item?.Skill);
@@ -96,13 +101,14 @@ namespace DQQ.Web.Pages.DQQs.Combats
 			return Task.CompletedTask;
 		}
 
-		public Task DealDamage(string damage)
+		public Task DealDamage(string damage,bool isHealing=false)
 		{
 			DamageNumbers?.Add(new DamageParameter
 			{
 				CreateDate = DateTime.Now,
 				Id = Guid.NewGuid(),
-				Number = damage
+				Number = damage,
+				IsHealing = isHealing
 			});
 
 			TakenDamage = true;
@@ -137,6 +143,7 @@ namespace DQQ.Web.Pages.DQQs.Combats
 		public Guid Id { get; set; }
 		public string Number { get; set; }
 		public DateTime CreateDate { get; set; }
+		public bool IsHealing {  get; set; }
 	}
 }
 

@@ -58,7 +58,7 @@
 			switch (type)
 			{
 				case EnumSkillBindingType.Active:
-					<Card IsCollapsible="true" HeaderText="主动技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Active">
+					<Card IsCollapsible="true" HeaderText="主动技能" Collapsed="!(SelectedSkillDTO?.Profile==null|| SelectedSkillDTO?.Profile?.BindingType == EnumSkillBindingType.Active)">
 						<HeaderTemplate>
 							@if (SupportSkillIndex != null)
 							{
@@ -96,7 +96,7 @@
 				case EnumSkillBindingType.Trigger:
 					if (EnumProgress.SkillTypeTrigger.IsUnlocked(SelectedCharacter))
 					{
-						<Card IsCollapsible="true" HeaderText="触发技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Trigger">
+						<Card IsCollapsible="true" HeaderText="触发技能" Collapsed="!(SelectedSkillDTO?.Profile==null|| SelectedSkillDTO?.Profile?.BindingType == EnumSkillBindingType.Trigger)">
 
 							<BodyTemplate>
 								<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync2" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
@@ -120,7 +120,7 @@
 				case EnumSkillBindingType.Support:
 					if (EnumProgress.SkillTypeSupport.IsUnlocked(SelectedCharacter))
 					{
-						<Card IsCollapsible="true" HeaderText="辅助技能" Collapsed="SelectedSkillDTO?.Profile?.BindingType != EnumSkillBindingType.Support">
+						<Card IsCollapsible="true" HeaderText="辅助技能" Collapsed="!(SelectedSkillDTO?.Profile==null|| SelectedSkillDTO?.Profile?.BindingType == EnumSkillBindingType.Support)">
 							<BodyTemplate>
 								<ListView TItem="SkillProfile" GroupName="(c)=> c.SkillGroup()" OnListViewItemClick="SkillSelected" OnQueryAsync="@OnQueryAsync3" Collapsible="true" CollapsedGroupCallback="CollapsedGroupCallback">
 									<HeaderTemplate>

@@ -96,7 +96,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 			{
 				return groupKey?.ToString()?.EndsWith(SelectedSkillDTO?.Profile?.Category.GetEnumString() ?? "") != true;
 			}
-			return groupKey?.ToString()?.EndsWith(EnumSkillCategory.NotSpecified.GetEnumString() ?? "") != true;
+			return false;
 		}
 		public async Task SkillSelected(SkillProfile? profile)
 		{
@@ -129,7 +129,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 		{
 			await base.OnInitializedAsync();
 			SkillProfiles = DQQPool.SkillPool.Select(b => b.Value)
-				.PlayerAvaliableSkill(SelectedCharacter?.Level)
+				.PlayerAvaliableSkill(SelectedCharacter)
 				.ToList();
 		}
 	}

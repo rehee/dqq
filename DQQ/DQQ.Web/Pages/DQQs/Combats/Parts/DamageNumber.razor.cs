@@ -21,9 +21,14 @@ namespace DQQ.Web.Pages.DQQs.Combats.Parts
 		[Parameter]
 		public EventCallback<Guid> OnRemove { get; set; }
 
+		[Parameter]
+		public bool IsHealing { get; set; }
+
 		public bool Display { get; set; } = true;
 		int count = 0;
-		
+
+		public string CssClass => $"floating-div {(IsHealing? "text-success" : "text-danger")}";
+
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();

@@ -9,15 +9,7 @@ namespace DQQ.Enums
 	public enum EnumMapNumber
 	{
 		None = 0,
-		Chapter_1_1,
-		Chapter_1_2, 
-		Chapter_1_3, 
-		Chapter_1_4, 
-		Chapter_1_5, 
-		Chapter_1_6,
-		Chapter_1_7, 
-		Chapter_1_8, 
-		Chapter_1_9, 
-		Chapter_1_10
+		Map_1_1, Map_1_2, Map_1_3, Map_1_4, Map_1_5, Map_1_6, Map_1_7, Map_1_8, Map_1_9, Map_1_10
+
 	}
 }

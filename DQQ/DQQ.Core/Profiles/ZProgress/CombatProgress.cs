@@ -23,7 +23,7 @@ namespace DQQ.Profiles.ZProgress
 		{
 			return character?.Skills?.Any() == true && character?.Skills?.Where(b =>
 			{
-				if (b.SkillProfile?.IsPlayerAvaliableSkill(character?.Level) != true)
+				if (b.SkillProfile?.IsPlayerAvaliableSkill(character) != true)
 				{
 					return false;
 				}

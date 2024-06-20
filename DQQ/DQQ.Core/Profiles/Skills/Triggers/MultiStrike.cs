@@ -16,7 +16,7 @@ namespace DQQ.Profiles.Skills.Triggers
 	[Pooled]
 	public class MultiStrike : AbTriggerSkillProfile
 	{
-		public override int CharacterLevelRequired => 50;
+	
 		public override EnumSkillCategory Category => EnumSkillCategory.Enhancement;
 		public override decimal CastTime => 0;
 		public override decimal CoolDown => 0;

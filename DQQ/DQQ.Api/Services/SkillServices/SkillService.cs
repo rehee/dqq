@@ -4,6 +4,7 @@ using DQQ.Enums;
 using DQQ.Helper;
 using DQQ.Pools;
 using DQQ.Profiles.Skills;
+using DQQ.Services.ActorServices;
 using DQQ.Services.SkillServices;
 using Microsoft.EntityFrameworkCore;
 using ReheeCmf.Commons.Jsons.Options;
@@ -17,10 +18,12 @@ namespace DQQ.Api.Services.SkillServices
 	public class SkillService : ISkillService
 	{
 		private readonly IContext context;
+		private readonly ICharacterService characterService;
 
-		public SkillService(IContext context)
+		public SkillService(IContext context,ICharacterService characterService)
 		{
 			this.context = context;
+			this.characterService = characterService;
 		}
 		public async Task<IEnumerable<SkillDTO>> GetAllSkills()
 		{
@@ -39,18 +42,18 @@ namespace DQQ.Api.Services.SkillServices
 				return result;
 
 			}
-			var user = this.context?.User?.UserId;
-			var actor = await context!.Query<ActorEntity>(true).Where(b => b.Id == dto.ActorId && b.OwnerId == user).AnyAsync();
+		
+			var actor = await characterService.GetCharacter(dto?.ActorId);
 
-			if (!actor)
+			if (actor==null)
 			{
 				return result;
 			}
 
-			if (dto.SkillNumber != null)
+			if (dto?.SkillNumber != null)
 			{
 				var skillPick = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(dto.SkillNumber);
-				if (skillPick?.IsPlayerAvaliableSkill(null) != true)
+				if (skillPick?.IsPlayerAvaliableSkill(actor) != true)
 				{
 					await deleteSkill(context, dto.ActorId, false, [dto.Slot ?? EnumSkillSlot.NotSpecified], [dto.SkillNumber]);
 					await context.SaveChangesAsync();
@@ -58,11 +61,7 @@ namespace DQQ.Api.Services.SkillServices
 					return result;
 				}
 			}
-			if (!actor)
-			{
-				result.SetNotFound();
-				return result;
-			}
+			
 
 
 			await deleteSkill(context, dto.ActorId, false, [dto.Slot ?? EnumSkillSlot.NotSpecified], [dto.SkillNumber]);

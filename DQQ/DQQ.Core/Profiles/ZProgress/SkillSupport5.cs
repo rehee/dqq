@@ -18,7 +18,7 @@ namespace DQQ.Profiles.ZProgress
 		public override string? Discription => "辅助技能";
 		public override bool AvaliableCheck(Character? character)
 		{
-			return character?.Level > 25;
+			return false;
 		}
 	}
 }

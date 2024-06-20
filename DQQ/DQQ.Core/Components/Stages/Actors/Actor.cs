@@ -53,7 +53,7 @@ namespace DQQ.Components.Stages.Actors
 
 					var skills = ae.Skills
 						.Where(b => b.SlotCheck(withTwoHand, mainHand, offHand))
-						.Where(b => b.Profile?.IsPlayerAvaliableSkill() == true)
+						.Where(b => b.Profile?.IsPlayerAvaliableSkill(onlyCheckPlayer:true) == true)
 						.DistinctBy(b => b.Slot)
 						.ToArray();
 					foreach (var skill in skills)
@@ -74,9 +74,9 @@ namespace DQQ.Components.Stages.Actors
 			}
 			if (Skills != null)
 			{
-				if (this is Character)
+				if (this is Character character)
 				{
-					foreach (var skill in Skills.DistinctBy(b => b.Slot).Where(b => b.SkillProfile?.IsPlayerAvaliableSkill(Level) == true).Where(b => b != null && b.AvaliableForUser == true))
+					foreach (var skill in Skills.DistinctBy(b => b.Slot).Where(b => b.SkillProfile?.IsPlayerAvaliableSkill(character) == true).Where(b => b != null && b.AvaliableForUser == true))
 					{
 						var skillResult = await skill!.OnTick(parameter);
 					}

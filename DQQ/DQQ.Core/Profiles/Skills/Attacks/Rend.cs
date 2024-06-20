@@ -23,7 +23,7 @@ namespace DQQ.Profiles.Skills.Attacks
 	public class Rend : GeneralSkill
 	{
 		
-		public override int CharacterLevelRequired => 50;
+	
 		public override EnumSkillCategory Category => EnumSkillCategory.Core;
 		public override EnumDamageHand DamageHand => EnumDamageHand.MainHand;
 		public override decimal CastTime => 0;
