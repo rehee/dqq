@@ -210,6 +210,7 @@ namespace DQQ.Components.Stages
 			else
 			{
 				var result = DamageTaken.New(hitResult, false);
+				parameter.Map.AddMapLogDamageTaken(ComponentTickParameter.New(parameter, result));
 				result.DamageTakenSuccess = false;
 				return result;
 			}

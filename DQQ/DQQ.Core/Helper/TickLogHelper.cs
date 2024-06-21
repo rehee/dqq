@@ -122,8 +122,9 @@ namespace DQQ.Helper
         item.Damage = new TicklogDamage
         {
           DamagePoint = parameter.Damage.DamagePoint.ToString(),
-          IsKilled = parameter.Damage.IsKilled == true
-        };
+          IsKilled = parameter.Damage.IsKilled == true,
+          HitCheck = parameter.Damage.HitCheck
+				};
       }
 
       if (map != null)

@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace DQQ.Web.Pages.DQQs.Combats
 {
-	public partial class ActorBox
+	public class ActorBoxPage : DQQPageBase
 	{
 		[Parameter]
 		[NotNull]
@@ -64,11 +64,11 @@ namespace DQQ.Web.Pages.DQQs.Combats
 			{
 				if (Actor?.Id != null && Item.Damage != null && Item?.Target?.Id == Actor?.Id)
 				{
-					await DealDamage(Item?.Damage?.DamagePoint ?? "");
+					await DealDamage(Item?.Damage?.DisplayDamage ?? "");
 				}
 				if (Actor?.Id != null && Item.Healing != null && Item?.Target?.Id == Actor?.Id)
 				{
-					await DealDamage($"{Item?.Healing?.HealingDone}",true);
+					await DealDamage($"{Item?.Healing?.HealingDone}", true);
 				}
 
 				if (Actor?.Id != null && Item?.Skill != null && Item?.From?.Id == Actor?.Id)
@@ -79,13 +79,22 @@ namespace DQQ.Web.Pages.DQQs.Combats
 
 		}
 
+
+
 		[Inject]
 		[NotNull]
 		public IRenderService? RenderService { get; set; }
 
 
-		public List<DamageParameter> DamageNumbers { get; set; } = new List<DamageParameter>();
-
+		//public List<DamageParameter> DamageNumbers { get; set; } = new List<DamageParameter>();
+		public Dictionary<int, List<DamageParameter>> DamageNumbers { get; set; } = new Dictionary<int, List<DamageParameter>>
+		{
+			[0] = new List<DamageParameter>(),
+			[1] = new List<DamageParameter>(),
+			[2] = new List<DamageParameter>(),
+			[3] = new List<DamageParameter>(),
+			[4] = new List<DamageParameter>(),
+		};
 		public int Count = 0;
 
 		public Task CastSkill(TickLogSkill? skillNumber)
@@ -100,16 +109,51 @@ namespace DQQ.Web.Pages.DQQs.Combats
 			});
 			return Task.CompletedTask;
 		}
-
+		public int totalDamage {get;set;}
 		public Task DealDamage(string damage,bool isHealing=false)
 		{
-			DamageNumbers?.Add(new DamageParameter
+			if (Count <= 500)
 			{
-				CreateDate = DateTime.Now,
-				Id = Guid.NewGuid(),
-				Number = damage,
-				IsHealing = isHealing
-			});
+				var index = Count / 100;
+
+				DamageNumbers[0].Add(new DamageParameter
+				{
+					CreateDate = DateTime.Now,
+					Id = Guid.NewGuid(),
+					Number = damage,
+					IsHealing = isHealing
+				});
+				if (Count % 100 == 0) 
+				{
+					switch (index)
+					{
+						case 2:
+							DamageNumbers[0].Clear();
+							break;
+						case 3:
+							DamageNumbers[1].Clear();
+							break;
+						case 4:
+							DamageNumbers[2].Clear();
+							break;
+						case 0:
+							DamageNumbers[3].Clear();
+							break;
+						case 1:
+							DamageNumbers[4].Clear();
+							break;
+					}
+				}
+				
+			}
+			else
+			{
+				Count = 1;
+				DealDamage(damage, isHealing);
+				return Task.CompletedTask;
+			}
+			
+
 			if (isHealing != true)
 			{
 				TakenDamage = true;
@@ -122,25 +166,34 @@ namespace DQQ.Web.Pages.DQQs.Combats
 					StateHasChanged();
 				});
 			}
-			
 			return Task.CompletedTask;
 		}
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
-
+		
 		}
 
 		public List<Guid> IdNeedRemove { get; set; } = new List<Guid>();
 		public Task RemoveComponent(Guid id)
 		{
 
-			IdNeedRemove.Add(id);
+			Count++;
 			return Task.CompletedTask;
 
 		}
-	}
 
+		protected override async Task OnDisposeAsync()
+		{
+			await base.OnDisposeAsync();
+			foreach(var damage in DamageNumbers)
+			{
+				damage.Value.Clear();
+			};
+			DamageNumbers.Clear();
+		}
+	}
+	
 	public struct DamageParameter
 	{
 		public Guid Id { get; set; }

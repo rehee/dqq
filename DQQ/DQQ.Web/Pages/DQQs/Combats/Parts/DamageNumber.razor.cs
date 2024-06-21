@@ -9,25 +9,18 @@ namespace DQQ.Web.Pages.DQQs.Combats.Parts
 	public class DamageNumberPage : CombatPart
 	{
 		public int Top = -30;
-		[Parameter]
-		public string? Number { get; set; }
-
-		[Parameter]
-		public Guid? Id { get; set; }
-
-		[Parameter]
-		public DateTime? Date { get; set; }
+		
 
 		[Parameter]
 		public EventCallback<Guid> OnRemove { get; set; }
 
 		[Parameter]
-		public bool IsHealing { get; set; }
+		public DamageParameter? Damage { get; set; }
 
 		public bool Display { get; set; } = true;
 		int count = 0;
 
-		public string CssClass => $"floating-div {(IsHealing? "text-success" : "text-danger")}";
+		public string CssClass => $"floating-div {(Damage?.IsHealing== true ? "text-success" : "text-danger")}";
 
 		protected override async Task OnInitializedAsync()
 		{
@@ -38,7 +31,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Parts
 
 				Display = false;
 				StateHasChanged();
-				OnRemove.InvokeAsync(Id.Value);
+				OnRemove.InvokeAsync(Damage!.Value.Id);
 
 			});
 		}

@@ -25,7 +25,11 @@
         {
           foreach (var e in Enemies)
           {
-            <ActorBox Actor="e" />
+            if (e.PercentageHP > 0)
+            {
+              <ActorBox Actor="e" />
+            }
+            
 
 
           }

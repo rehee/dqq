@@ -1,28 +1,44 @@
 ﻿@using DQQ.Web.Pages.DQQs.Combats.Parts
-
+@inherits ActorBoxPage
 <div class="@ColumnNumber">
 	<div class="@ShackClass">
 		<Card class="@CardClass" Color="@ThisColor">
 			<HeaderTemplate>
 				@if (IsMob)
 				{
-					<Alert class="mob_title" Color="ThisColor">@Actor.DisplayName</Alert>
+					<Alert class="mob_title" Color="ThisColor">@Actor.DisplayName</Alert> 
 				}
 				else
 				{
 					@Actor.DisplayName
 				}
-
 			</HeaderTemplate>
 			<BodyTemplate>
 				<div>
 					<div class="@SlashCss"></div>
 					<div style="display: flex;align-items: center;justify-content: center;">
 						<div style="width: 0px;margin-right: 47px;position: relative;">
-							@foreach (var f in DamageNumbers)
+							@foreach (var f in DamageNumbers[0])
 							{
-								<DamageNumber Number="@f.Number" Id="@f.Id" Date="@f.CreateDate" IsHealing="@f.IsHealing" OnRemove="RemoveComponent" />
+								<DamageNumber Damage="f" OnRemove="RemoveComponent" />
 							}
+							@foreach (var f in DamageNumbers[1])
+							{
+								<DamageNumber Damage="f" OnRemove="RemoveComponent" />
+							}
+							@foreach (var f in DamageNumbers[2])
+							{
+								<DamageNumber Damage="f" OnRemove="RemoveComponent" />
+							}
+							@foreach (var f in DamageNumbers[3])
+							{
+								<DamageNumber Damage="f" OnRemove="RemoveComponent" />
+							}
+							@foreach (var f in DamageNumbers[4])
+							{
+								<DamageNumber Damage="f" OnRemove="RemoveComponent" />
+							}
+							
 						</div>
 					</div>
 					<Progress IsAnimated="true" IsStriped="true" Value="Actor.PercentageHP" Color="Color.Danger" IsShowValue="true">
