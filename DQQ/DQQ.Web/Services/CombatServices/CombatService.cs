@@ -1,4 +1,5 @@
 ﻿using Blazor.Serialization.Extensions;
+using BootstrapBlazor.Components;
 using DQQ.Commons.DTOs;
 using DQQ.Components.Stages.Maps;
 using DQQ.Consts;
@@ -57,6 +58,7 @@ namespace DQQ.Web.Services.CombatServices
 				Success = map!.MobPool?.All(b => b.All(c => c.Alive != true)) ?? false,
 				CombatTimeLimitationTick = map.TotalTick,
 				CombatTick = map.TotalTick,
+				Timelines = map?.TimeLines?.ToArray()
 			};
 			result.SetSuccess(resultDto);
 			return result;

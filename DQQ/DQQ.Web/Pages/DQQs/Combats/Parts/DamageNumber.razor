@@ -1,5 +1,5 @@
 ﻿@inherits DamageNumberPage
 @if (Display)
 {
-	<div class="@CssClass" style="position: absolute;top:@(Top)px; @(Display!=true?"display:none;":"")">@Damage?.Number</div>
+	<div class="@CssClass" style="white-space: nowrap;position: absolute;top:@(Top)px; @(Display!=true?"display:none;":"")">@Damage?.Text</div>
 }

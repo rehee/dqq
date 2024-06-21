@@ -2,6 +2,7 @@
 using DQQ.Components.Items;
 using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
+using DQQ.Components.Stages.Actors;
 using DQQ.Components.Stages.Actors.Mobs;
 using DQQ.Components.Stages.Maps;
 using DQQ.Consts;
@@ -185,10 +186,26 @@ namespace DQQ.Helper
         };
       }
     }
-
     public static void SetLogProfile(this TickLogItem? item, DQQProfile? source)
     {
       item.SetLogProfile(source.GetProfileSource());
+    }
+  
+    public static void AddTimeLine(this IMap? map, int tick, bool isStart, IEnumerable<IActor>? players, IEnumerable<IActor>? enemies)
+    {
+      if (map == null)
+      {
+        return;
+      }
+      var timeLine = new TickLogTimeLineItem
+      {
+        ActionTick = tick,
+        IsStart= isStart,
+        Players = players?.Where(b => b != null).Select(b => b.ToLogActor(true)!)?.ToArray(),
+        Enemies = enemies?.Where(b => b != null).Select(b => b.ToLogActor(true)!)?.ToArray(),
+      };
+
+      map?.TimeLines?.Add(timeLine);
     }
   }
 }

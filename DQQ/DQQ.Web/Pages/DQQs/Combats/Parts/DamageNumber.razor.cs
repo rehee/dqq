@@ -1,3 +1,4 @@
+using BootstrapBlazor.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using ReheeCmf.Helpers;
@@ -15,12 +16,12 @@ namespace DQQ.Web.Pages.DQQs.Combats.Parts
 		public EventCallback<Guid> OnRemove { get; set; }
 
 		[Parameter]
-		public DamageParameter? Damage { get; set; }
+		public TextFloatParameter? Damage { get; set; }
 
 		public bool Display { get; set; } = true;
 		int count = 0;
 
-		public string CssClass => $"floating-div {(Damage?.IsHealing== true ? "text-success" : "text-danger")}";
+		public string CssClass => $"{(Damage?.Color == Color.Warning? "floating-hold-div" : "floating-div")} {(Damage?.Color== Color.Warning?"text-warning": Damage?.Color == Color.Success? "text-success" : "text-danger")}";
 
 		protected override async Task OnInitializedAsync()
 		{

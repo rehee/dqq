@@ -13,6 +13,13 @@ namespace DQQ.TickLogs
 {
   public class TickLogItem
   {
+
+    public TickLogItem()
+		{
+			Id=Guid.NewGuid();
+		}
+
+		public Guid Id { get; set; }
     public static TickLogItem New() => new TickLogItem();
     public bool Success { get; set; }
     public decimal? ActionSecond { get; set; }

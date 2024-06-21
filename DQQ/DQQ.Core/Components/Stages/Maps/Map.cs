@@ -94,6 +94,7 @@ namespace DQQ.Components.Stages.Maps
 		public decimal PlayMins => TickCount / (DQQGeneral.TickPerSecond * 60m);
 		public bool ReopenBlocked => Playing || (PlayTime != null && PlayTime?.AddMinutes((double)PlayMins) <= DateTime.UtcNow);
 		public List<TickLogItem>? Logs { get; set; }
+		public List<TickLogTimeLineItem>? TimeLines { get; set; }
 		public decimal PlayingCurrentSecond { get; set; }
 		public List<ItemComponent>? Drops { get; set; }
 		public Int64 XP { get; set; }
@@ -112,8 +113,11 @@ namespace DQQ.Components.Stages.Maps
 			TickCount = 0;
 			Logs = new List<TickLogItem>();
 			Drops = new List<ItemComponent>();
+			TimeLines = new List<TickLogTimeLineItem>();
 			WaveIndex = -1;
 			TotalTick = this.TotalTick();
+			IActor[] playerPack = [];
+			IActor[]? enemyPack = [];
 			while (TickCount < TotalTick)
 			{
 				TickCount++;
@@ -123,9 +127,12 @@ namespace DQQ.Components.Stages.Maps
 				{
 					break;
 				}
-				var playerPack = Players.ToArray();
+				playerPack = Players.ToArray();
+			
 				var currentPack = MobPool.FirstOrDefault(b => b != null && b.Any(m => m.Alive));
 				var currentIndex = MobPool.IndexOf(currentPack);
+				
+				
 				if (WaveIndex != currentIndex)
 				{
 					WaveIndex = currentIndex;
@@ -152,6 +159,8 @@ namespace DQQ.Components.Stages.Maps
 				}
 				try
 				{
+					enemyPack = currentPack.ToArray();
+					this.AddTimeLine(TickCount, true, playerPack, enemyPack);
 					if (playerPack?.Any() == true)
 					{
 						foreach (var p in playerPack)
@@ -167,11 +176,11 @@ namespace DQQ.Components.Stages.Maps
 									p.SelectTarget(currentPack.Where(b => b.Targetable && b.Alive).FirstOrDefault());
 								}
 							}
-							await p.OnTick(ComponentTickParameter.New(TickParameter, p, playerPack, currentPack, this));
+							await p.OnTick(ComponentTickParameter.New(TickParameter, p, playerPack, enemyPack, this));
 						}
 					}
 
-					foreach (var p in currentPack.ToArray())
+					foreach (var p in enemyPack)
 					{
 						if (!p.Alive)
 						{
@@ -181,12 +190,13 @@ namespace DQQ.Components.Stages.Maps
 						{
 							p.SelectTarget(Players?.FirstOrDefault());
 						}
-						await p.OnTick(ComponentTickParameter.New(TickParameter, p, currentPack, playerPack, this));
+						await p.OnTick(ComponentTickParameter.New(TickParameter, p, enemyPack, playerPack, this));
 					}
 					if (Players?.All(b => b.Alive == false) == true)
 					{
 						break;
 					}
+					this.AddTimeLine(TickCount, false, playerPack, enemyPack);
 				}
 				catch
 				{
@@ -194,6 +204,11 @@ namespace DQQ.Components.Stages.Maps
 				}
 
 			}
+			if(TimeLines?.Any(b=>b.ActionTick == TickCount&& !b.IsStart) != true)
+			{
+				this.AddTimeLine(TickCount, false, playerPack, enemyPack);
+			}
+			
 			Playing = false;
 				
 		}
@@ -209,6 +224,8 @@ namespace DQQ.Components.Stages.Maps
 		public bool MapClear => MobPool?.All(b => b.All(c => c.Alive != true)) ?? false;
 
 		public EnumMapNumber? MapNumber { get; set; }
+
+		
 
 		public async ValueTask DisposeAsync()
 		{

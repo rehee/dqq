@@ -14,10 +14,7 @@
 		{
 			foreach (var p in Players)
 			{
-				if (p.PercentageHP > 0)
-				{
-					<ActorBox Item="CurrentLog" Actor="p" />
-				}
+				<ActorBox Item="CurrentLog" Actor="p" />
 			}
 		}
 	</div>
@@ -28,11 +25,7 @@
 		{
 			foreach (var e in Enemies)
 			{
-				if (e.PercentageHP > 0)
-				{
-					<ActorBox Item="CurrentLog" Actor="e" />
-				}
-			
+				<ActorBox Item="CurrentLog" Actor="e" />
 			}
 		}
 	</div>

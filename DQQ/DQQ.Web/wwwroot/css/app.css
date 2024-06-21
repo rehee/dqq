@@ -150,22 +150,65 @@ code {
 
 @keyframes float-up {
   0% {
-    transform: translate(-50%, 0) scale(1);
+    transform: translate(100%, 0) scale(1);
+  }
+
+  0% {
+    transform: translate(100%, -10px) scale(1);
   }
 
   20% {
-    transform: translate(-50%, -20px) scale(1.5); /* 向上移动 20px 并放大 1.5 倍 */
+    transform: translate(100%, 0px) scale(2.5); /* 向上移动 20px 并放大 1.5 倍 */
+  }
+
+  30% {
+    transform: translate(100%, 0px) scale(1); /* 向上移动 20px 并放大 1.5 倍 */
   }
 
   40% {
-    transform: translate(-50%, -10px) scale(1); /* 向下回落到接近原来位置并恢复原来大小 */
+    transform: translate(100%, -10px); /* 向下回落到接近原来位置并恢复原来大小 */
   }
 
   100% {
-    transform: translate(-50%, -100px); /* 继续向上移动 */
+    transform: translate(100%, -100px); /* 继续向上移动 */
   }
 }
 
+
+.floating-hold-div {
+  position: absolute;
+  bottom: 0; /* 你可以根据需要调整初始位置 */
+  /*left: 50%;*/ /* 你可以根据需要调整初始位置 */
+  transform: translateX(-50%);
+  /*width: 100px;*/ /* 你可以根据需要调整大小 */
+  /*height: 100px;*/ /* 你可以根据需要调整大小 */
+  animation: float-up-hold 1s forwards;
+}
+@keyframes float-up-hold {
+  0% {
+    transform: translateX(-100%) scale(1.5);
+  }
+
+  0% {
+    transform: translateX(-100%) scale(1.5);
+  }
+
+  20% {
+    transform: translateX(-100%) scale(2.5); /* 向上移动 20px 并放大 1.5 倍 */
+  }
+
+  30% {
+    transform: translateX(-100%) scale(2.5); /* 向上移动 20px 并放大 1.5 倍 */
+  }
+
+  40% {
+    transform: translateX(-100%) scale(2); /* 向下回落到接近原来位置并恢复原来大小 */
+  }
+
+  100% {
+    transform: translateX(-100%) scale(1.5); /* 继续向上移动 */
+  }
+}
 @keyframes shake {
   0% {
     transform: translate(1px, 1px) rotate(0deg);

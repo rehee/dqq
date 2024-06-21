@@ -96,6 +96,8 @@ namespace DQQ.Core.UnitTest.Helpers
 
 		public int TotalTick => throw new NotImplementedException();
 
+		public List<TickLogTimeLineItem>? TimeLines => throw new NotImplementedException();
+
 		List<IActor>? IMap.Players => throw new NotImplementedException();
 
 		public Task<ContentResponse<bool>> AfterDealingDamage(ComponentTickParameter parameter)

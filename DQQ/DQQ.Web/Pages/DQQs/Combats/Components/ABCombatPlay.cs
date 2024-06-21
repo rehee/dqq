@@ -1,5 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 using DQQ.Commons.DTOs;
+using DQQ.Consts;
 using DQQ.Enums;
 using DQQ.TickLogs;
 using Microsoft.AspNetCore.Components;
@@ -16,8 +17,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		public TickLogItem[]? CombatLog { get; set; }
 
 		public int? MaxTick => CombatResult?.CombatTimeLimitationTick;
-
-		public double CurrentPlayProgress => MaxTick.HasValue ? MaxTick > 0 ? (CurrentLog?.ActionTick??0) *100 / (double)MaxTick : 0 : 0;
+		public int CurrentActionTick {  get; set; }
+		public double CurrentPlayProgress => MaxTick.HasValue ? MaxTick > 0 ? (CurrentActionTick) *100 / (double)MaxTick : 0 : 0;
 
 		public DateTime? MapLimitation => CombatResult?.MapLimitation();
 
@@ -107,59 +108,100 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 				KeepRefresh();
 				return;
 			}
-			var lastTick = CombatLog.OrderByDescending(b => b.ActionTick).Select(b => b.ActionTick).FirstOrDefault();
+			var lastTick = CombatResult?.Timelines?.OrderByDescending(b=>b.ActionTick).Select(b=>b.ActionTick).FirstOrDefault() ??
+				CombatLog.OrderByDescending(b => b.ActionTick).Select(b => b.ActionTick).FirstOrDefault();
 			if (lastTick == null)
 			{
 				return;
 			}
 			MessageItems.Clear();
+			var basicDelayTime = 1000 / DQQGeneral.TickPerSecond;
 			for (var i = 0; i <= lastTick; i++)
 			{
+				CurrentActionTick = i;
 				if (IsDispose)
 				{
 					return;
 				}
-				await Task.Delay(1000 / 30);
-
 				var logs = CombatLog.Where(b => b.ActionTick == i).ToArray();
-				foreach (var log in logs)
+				var timeLineStart = CombatResult?.Timelines?.Where(b => b.ActionTick == i && b.IsStart).FirstOrDefault();
+				var timeLineEnd = CombatResult?.Timelines?.Where(b => b.ActionTick == i && !b.IsStart).FirstOrDefault();
+				
+				var totaDisplayPerTick = (logs?.Count() ?? 0) + (timeLineStart!=null?1:0) + (timeLineEnd != null ? 1 : 0);
+				var thisTickDelay = totaDisplayPerTick<=0 ? basicDelayTime : basicDelayTime / totaDisplayPerTick;
+				await Task.Delay(thisTickDelay);
+
+
+				if (timeLineStart != null)
 				{
-					CurrentLog = log;
+					Players = timeLineStart?.Players;
+					Enemies = timeLineStart?.Enemies;
 					StateHasChanged();
-					if (log.WaveNumber < 0)
+					
+				}
+				if (logs?.Any() == true)
+				{
+					foreach (var log in logs)
 					{
-						continue;
-					}
-					Tick = log.WaveNumber;
-					MessageItems.Add(log.GetConsoleMessage());
-					if (log.LogType == Enums.EnumLogType.WaveChange)
-					{
-
-						Players = log.Players?.ToArray();
-						Enemies = log.Enemies?.ToArray();
-						StateHasChanged();
-						await Task.Delay(1000);
-
-					}
-					else
-					{
-						Players = log.Players?.ToArray();
-						Enemies = log.Enemies?.ToArray();
-						StateHasChanged();
-						if (Enemies?.All(b => b.PercentageHP <= 0) == true || Players?.All(b => b.PercentageHP <= 0) == true)
+						await Task.Delay(thisTickDelay);
+						if (!log.Success)
 						{
-							await Task.Delay(3000);
+							CurrentLog = null;
+							StateHasChanged();
+						}
+						CurrentLog = log;
+						StateHasChanged();
+						await Task.Delay(1000 / DQQGeneral.TickPerSecond / 2);
+						StateHasChanged();
+						if (log.WaveNumber < 0)
+						{
+							continue;
+						}
+						Tick = log.WaveNumber;
+						MessageItems.Add(log.GetConsoleMessage());
+
+						if (log.LogType == Enums.EnumLogType.WaveChange)
+						{
+							if (timeLineStart == null)
+							{
+								Players = log.Players?.ToArray();
+								Enemies = log.Enemies?.ToArray();
+								StateHasChanged();
+							}
+
+							await Task.Delay(1000);
 						}
 						else
 						{
-							await Task.Delay(1000 / 30);
+							if (Enemies?.All(b => b.PercentageHP <= 0) == true || Players?.All(b => b.PercentageHP <= 0) == true)
+							{
+								await Task.Delay(3000);
+							}
+							else
+							{
+								//await Task.Delay(1000 / 30);
+							}
+
 						}
 
+
 					}
-
-
 				}
-
+				
+			
+				if (timeLineEnd != null)
+				{
+					await Task.Delay(thisTickDelay);
+					Players = timeLineEnd?.Players;
+					Enemies = timeLineEnd?.Enemies;
+					StateHasChanged();
+					
+				}
+				if (Enemies?.All(b => b.PercentageHP <= 0) == true || Players?.All(b => b.PercentageHP <= 0) == true)
+				{
+					await Task.Delay(3000);
+				}
+				continue;
 			}
 			if (AfterCombatPlay != null)
 			{

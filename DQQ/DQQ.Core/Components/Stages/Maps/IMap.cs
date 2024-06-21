@@ -32,6 +32,7 @@ namespace DQQ.Components.Stages.Maps
 		Task Initialize(CombatRequestDTO dto);
 		IEnumerable<IItem>? ItemPool { get; }
 		List<TickLogItem> Logs { get; }
+		List<TickLogTimeLineItem>? TimeLines { get; }
 		List<ItemComponent>? Drops { get; }
 		decimal PlayingCurrentSecond { get; }
 		Int64 XP { get; set; }

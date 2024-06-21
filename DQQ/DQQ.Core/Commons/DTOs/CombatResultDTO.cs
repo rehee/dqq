@@ -24,8 +24,8 @@ namespace DQQ.Commons.DTOs
     }
     public int DropItemNumber { get; set; }
     public TickLogItem[]? Logs { get; set; }
-
-    public DateTime MapLimitation()
+		public TickLogTimeLineItem[]? Timelines { get; set; }
+		public DateTime MapLimitation()
     {
       var time = new DateTime();
       var second = CombatTimeLimitationTick / (double)DQQGeneral.TickPerSecond;
