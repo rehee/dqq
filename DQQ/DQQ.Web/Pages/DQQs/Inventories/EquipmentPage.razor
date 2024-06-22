@@ -64,6 +64,10 @@
 			</div>
 			<div class="col-6 col-sm-8">
 				<Tag @onclick="()=>EquipSlotClicked(null)">重置</Tag>
+				@if (ShowSider)
+				{
+					<Tag @onclick="()=>ShowDraw()">查看</Tag>
+				}
 			</div>
 		</div>
 		

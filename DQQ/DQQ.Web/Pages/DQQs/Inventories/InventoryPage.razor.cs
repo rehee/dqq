@@ -1,6 +1,8 @@
+using BootstrapBlazor.Components;
 using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Services.ItemServices;
+using DQQ.Web.Pages.DQQs.Characters;
 using DQQ.Web.Services.ItemServices;
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
@@ -11,7 +13,14 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 	{
 		public EnumEquipSlot? SelectedSlot { get; set; }
 		public ItemEntity? ItemSelected { get; set; }
+		public bool IsMultiSelect { get; set; }
 
+		public Task IsMultiSelectChange(bool isMultiSelect)
+		{
+			IsMultiSelect=isMultiSelect;
+			StateHasChanged();
+			return Task.CompletedTask;
+		}
 
 		public Task OnItemClicked(ItemEntity item)
 		{
@@ -22,7 +31,13 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 		public Task OnSelectedSlotChange(EnumEquipSlot? selectedSlot)
 		{
 			SelectedSlot = selectedSlot;
-			ItemSelected = null;
+			if (ItemSelected != null)
+			{
+				if (ItemSelected?.GetAvaliableSlots()?.Any(b => b == selectedSlot) != true)
+				{
+					ItemSelected = null;
+				}
+			}
 			return Task.CompletedTask;
 		}
 
@@ -30,18 +45,62 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 		[NotNull]
 		public IItemService? ItemService { get; set; }
 
+		[Parameter]
 		public ItemEntity[]? Items {  get; set; }
+		
+		public ItemEntity[]? PickupItems { get; set; }
+
+
+		[Parameter]
+
+		public EventCallback InventoryQueryRequest {  get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
-			await RefreshInventory();
+			await RefreshInventory(false);
+			PickupItems = (await ItemService.PickableItems(SelectedCharacter?.DisplayId))?.ToArray();
 		}
-		public async Task RefreshInventory()
+		public async Task RefreshInventory(bool forceRefresh)
 		{
-			Items = (await ItemService.ActorInventory(SelectedCharacter?.DisplayId))?.ToArray();
+			if (Items == null|| forceRefresh==true)
+			{
+				if (InventoryQueryRequest.HasDelegate)
+				{
+					InventoryQueryRequest.InvokeAsync();
+				}
+			}
+			PickupItems = (await ItemService.PickableItems(SelectedCharacter?.DisplayId))?.ToArray();
+			ItemSelected = null;
+		}
+		
+		public BreakPoint BreakPoint { get; set; }
+		public bool IsOpen { get; set; }
+		public bool ShowDrawer => BreakPoint == BreakPoint.ExtraExtraSmall || BreakPoint == BreakPoint.ExtraSmall || BreakPoint == BreakPoint.Small;
+		
+		public async Task OpenOrClose(bool isOpen)
+		{
+			await Task.CompletedTask;
+			if (ShowDrawer)
+			{
+				IsOpen = isOpen;
+			}
+			else
+			{
+				IsOpen = false;
+			}
+			
+			StateHasChanged();
 		}
 
+		public async Task BreakPointChanged(BreakPoint bK)
+		{
+			await Task.CompletedTask;
+			BreakPoint = bK;
+			StateHasChanged();
+		}
 		
+
+
 	}
 }

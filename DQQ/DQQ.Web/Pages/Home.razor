@@ -73,14 +73,9 @@ else
 								{
 									<Button Color="Color.Danger" OnClick="()=> ChangePage(EnumWebPage.Map)">地图</Button>
 								}
-								@if (SelectedMap != null && EnumProgress.CombatProgress.IsUnlocked(SelectedCharacter))
-								{
-									<Button Color="Color.Warning" OnClick="()=> ChangePage(EnumWebPage.Combat)">战斗</Button>
-								}
 								@if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
 								{
 									<Button Color="Color.Dark" OnClick="()=> ChangePage(EnumWebPage.Inventory)">装备</Button>
-									<Button Color="Color.Secondary" OnClick="()=> ChangePage(EnumWebPage.Loot)">战利品</Button>
 								}
 								
 								@if (EnumProgress.CombatPlaySetting.IsUnlocked(SelectedCharacter))
@@ -93,8 +88,6 @@ else
 					</Card>
 				</div>
 			
-
-
 				switch (WebPage)
 				{
 					case EnumWebPage.Home:
@@ -110,16 +103,13 @@ else
 						break;
 
 					case EnumWebPage.Map:
-						<MapPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" SelectedMap="@SelectedMap" OnMapSelected="OnMapSelected" />
+						<MapPage OnJoinMap="()=> ChangePage(EnumWebPage.Combat)" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" SelectedMap="@SelectedMap" OnMapSelected="OnMapSelected" />
 						break;
 					case EnumWebPage.Combat:
 						<CombatPlayList ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" MapNumber="@SelectedMap" />
 						break;
 					case EnumWebPage.Inventory:
-						<InventoryPage ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
-						break;
-					case EnumWebPage.Loot:
-						<ItemPickList ActorId="ActorId" />
+						<InventoryPage InventoryQueryRequest="QueryInventory" Items="CharacterInventory" ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
 						break;
 					case EnumWebPage.Setting:
 						<SettingPage />

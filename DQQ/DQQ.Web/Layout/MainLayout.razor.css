@@ -1,11 +1,15 @@
 .page {
-    position: relative;
-    display: flex;
-    flex-direction: column;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
 }
 
 main {
-    flex: 1;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .sidebar {
@@ -36,9 +40,10 @@ main {
         text-overflow: ellipsis;
     }
 
-@media (max-width: 1119.98px) {
+@media (max-width: 1199.98px) {
     .top-row {
         justify-content: space-between;
+        display:none;
     }
 
     .top-row ::deep a, .top-row ::deep .btn-link {

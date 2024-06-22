@@ -15,6 +15,11 @@ namespace DQQ.Entities
 {
 	public class ItemEntity : DQQEntityBase<ItemComponent>, ICombatProperty, IWithRarity
 	{
+		[NotMapped]
+		public bool IsTempItem { get; set; }
+		[NotMapped]
+		public bool IsSelected { get; set; }
+
 		public EnumItem? ItemNumber { get; set; }
 		[NotMapped]
 		public ItemProfile? Profile => DQQPool.TryGet<ItemProfile, EnumItem?>(ItemNumber);

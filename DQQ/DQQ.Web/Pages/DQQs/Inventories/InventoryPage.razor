@@ -1,14 +1,40 @@
 ﻿@using DQQ.Web.Pages.DQQs.Items
 @using DQQ.Web.Pages.DQQs.Items.Components
 @inherits InventoryPagePage
+<style>
+	.inventory_tab .tabs .tabs-body{
+		padding-left: 0;
+		padding-right: 0;
+	}
+</style>
+
+<Responsive OnBreakPointChanged="BreakPointChanged" />
 <section class="section">
+	<Drawer Width="75%" Placement="Placement.Left" @bind-IsOpen="@IsOpen" IsBackdrop="true">
+		<ItemDetailPage EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="PickupItems" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+	</Drawer>
+
 	<div class="row g-3">
 		<div class="col-12 col-sm-12 col-md-4 d-none d-md-block">
-			<ItemDetailPage EquipChange="RefreshInventory" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+			@if (!ShowDrawer)
+			{
+				<ItemDetailPage EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="PickupItems" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+			}
 		</div>
 		<div class="col-12 col-sm-12 col-md-8">
-			<EquipmentPage SelectedSlotClicked="OnSelectedSlotChange" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
-			<BackpackPage Source="Items" OnItemClicked="OnItemClicked" ItemSelected="ItemSelected" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+			<EquipmentPage ShowSider="ShowDrawer"  OpenOrClose="OpenOrClose" SelectedSlotClicked="OnSelectedSlotChange" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+			<div class="inventory_tab">
+				<Tab>
+					<TabItem Text="装备">
+						<BackpackPage IsMultiSelect="IsMultiSelect" IsMultiSelectCallback="IsMultiSelectChange" OpenOrClose="OpenOrClose" Source="Items" OnItemClicked="OnItemClicked" ItemSelected="ItemSelected" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+					</TabItem>
+					<TabItem Text="战利品">
+						<PickupPage IsMultiSelect="IsMultiSelect" IsMultiSelectCallback="IsMultiSelectChange" OpenOrClose="OpenOrClose" Source="PickupItems" OnItemClicked="OnItemClicked" ItemSelected="ItemSelected" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+					</TabItem>
+				</Tab>
+			</div>
+			
+			
 		</div>
 	</div>
 

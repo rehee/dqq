@@ -3,9 +3,25 @@
 	.selected_map .card-body {
 		background-color: khaki;
 	}
-</style>
-<div class="row g-3">
 
+	.map_container{
+		height: calc(75vh - 3.5rem);
+		overflow-y: auto;
+		margin-top: 0;
+	}
+</style>
+<div>
+	<Card>
+		<BodyTemplate>
+			<p>
+			  当前选择地图: @SelectedMapProfile?.Name
+			</p>
+			<Button OnClick="JoinMap" IsDisabled="SelectedMapProfile==null">进入地图</Button>
+		</BodyTemplate>
+	</Card>
+</div>
+<div class="row g-3 map_container">
+	
 	@if (UnlockedMaps?.Any() == true)
 	{
 		foreach (var map in UnlockedMaps)

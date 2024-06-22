@@ -1,5 +1,6 @@
 ﻿@using DQQ.Web.Pages.DQQs.Items
 @inherits ItemDetailPagePage
+
 <Card>
 <HeaderTemplate>
 详情
@@ -19,21 +20,24 @@
 			}
 			@if (ItemSelected != null)
 			{
-				if (SelectedSlot != null && ItemSelected?.Id != SelectedItem?.Id)
+				if (SelectedSlot != null && ItemSelected.IsTempItem != true && ItemSelected?.Id != SelectedItem?.Id)
 				{
 					<Button IsBlock="true" IsAsync="true" Color="Color.Success" OnClick="Equip">装备</Button>
+				}
+				if (ItemSelected?.Id != SelectedItem?.Id)
+				{
 					<div class="col-md-12">
 						<ItemComponent Item="ItemSelected" />
 					</div>
-
-
 				}
-
-				
-				@* <div class="col-md-12">
-					<Button IsBlock="true" IsAsync="true" Color="Color.Danger">变卖</Button>
-				</div> *@
-
+				if (ItemSelected?.IsTempItem == true)
+				{
+					<Button IsBlock="true" IsAsync="true" Color="Color.Success" OnClick="Pick">拾取</Button>
+				}
+				if (IsMultiSelect)
+				{
+					<Button IsBlock="true" IsAsync="true" Color="Color.Warning" OnClick="PickAll">全部拾取</Button>
+				}
 			}
 		</div>
 </BodyTemplate>

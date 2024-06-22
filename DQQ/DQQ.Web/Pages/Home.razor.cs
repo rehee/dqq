@@ -1,15 +1,19 @@
 
 using BootstrapBlazor.Components;
+using DQQ.Components.Items;
 using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Pools;
 using DQQ.Profiles.Skills;
 using DQQ.Services.ActorServices;
+using DQQ.Services.ItemServices;
 using DQQ.TickLogs;
 using DQQ.Web.Pages.DQQs.Builds.Components;
 using DQQ.Web.Pages.DQQs.Characters;
 using DQQ.Web.Resources;
 using DQQ.Web.Services.DQQAuthServices;
+using DQQ.Web.Services.ItemServices;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -116,6 +120,17 @@ namespace DQQ.Web.Pages
 		{
 			await base.DisposeAsync();
 			RefreshEvent.Event -= refreshEvent;
+		}
+
+		public ItemEntity[]? CharacterInventory { get; set; }
+
+
+		[Inject]
+		[NotNull]
+		public IItemService? ItemService { get; set; }
+		public async Task QueryInventory()
+		{
+			CharacterInventory = (await ItemService.ActorInventory(SelectedCharacter?.DisplayId))?.ToArray();
 		}
 	}
 }

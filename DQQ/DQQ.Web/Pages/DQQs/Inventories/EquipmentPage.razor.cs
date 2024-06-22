@@ -11,7 +11,11 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 	{
 		[Parameter]
 		public EnumEquipSlot? SelectedSlot { get; set; }
-		
+		[Parameter]
+		public EventCallback<bool> OpenOrClose { get; set; }
+
+		[Parameter]
+		public bool ShowSider { get; set; }
 
 		[Parameter]
 		public EventCallback<EnumEquipSlot?> SelectedSlotClicked { get; set; }
@@ -27,12 +31,22 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 
 		public string SlotActiveClass(EnumEquipSlot? slot)
 		{
-			if (slot ==null||slot!= SelectedSlot)
+			if (slot == null || slot != SelectedSlot)
 			{
 				return "col-4";
 			}
 			return "col-4 select_slot";
 		}
 
+		public async Task ShowDraw()
+		{
+			if (OpenOrClose.HasDelegate)
+			{
+				{
+					await OpenOrClose.InvokeAsync(true);
+				}
+			}
+
+		}
 	}
 }

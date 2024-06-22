@@ -19,7 +19,7 @@ namespace DQQ.Api.Services.Itemservices
       }
       if (TemporaryItemPool.TryGetValue(actorId.Value, out var items))
       {
-        return items.Select(b => b.ToEntity());
+        return items.Select(b => { var result = b.ToEntity(); result.IsTempItem = true; return result; });
       }
       var set = new HashSet<ItemComponent>();
       TemporaryItemPool.AddOrUpdate(actorId.Value, set, (b, c) => set);

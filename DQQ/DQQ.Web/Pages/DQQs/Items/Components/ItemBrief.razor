@@ -1,10 +1,15 @@
 ﻿@inherits ItemBriefPage
 <div class="square">
 	
-		<div class="@ContentClass" @onclick="()=> OnItemSelected(Item)">
+		<div class="@ContentClass" >
 			<div class="sub_full">
-			<Tooltip Placement="Placement.Top" Title="@Item?.Name">
-				<Tag Color="@(Item?.GetColor()?? Color.Dark)" class="full_square">
+			@if (IsMultiSelect == true && Item != null)
+			{
+				<div class="multi_select">
+					<Checkbox TValue="bool" ShowLabel="false" @bind-Value="@Item.IsSelected" />
+				</div>
+			}
+			<Tag @onclick="()=> OnItemSelected(Item)" Color="@(Item?.GetColor()?? Color.Dark)" class="full_square">
 					@Item?.Profile?.Name
 					@if (Item?.Profile?.IsStack != true)
 					{
@@ -13,7 +18,6 @@
 						</span>
 					}
 				</Tag>
-			</Tooltip>
 			</div>
 
 		<div class="footer_full">

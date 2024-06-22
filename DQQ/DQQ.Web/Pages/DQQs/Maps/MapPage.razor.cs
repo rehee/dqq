@@ -2,6 +2,7 @@ using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
 using DQQ.Profiles.Maps;
 using Microsoft.AspNetCore.Components;
+using ReheeCmf.Helpers;
 
 namespace DQQ.Web.Pages.DQQs.Maps
 {
@@ -13,9 +14,17 @@ namespace DQQ.Web.Pages.DQQs.Maps
 		[Parameter]
 		public EventCallback<EnumMapNumber?> OnMapSelected { get; set; }
 		public MapProfile? SelectedMapProfile => UnlockedMaps?.FirstOrDefault(b => b.ProfileNumber == SelectedMap);
-
-		
-
+		[Parameter]
+		public EventCallback OnJoinMap { get; set; }
+		public Task JoinMap()
+		{
+			if (SelectedMap == null||!OnJoinMap.HasDelegate)
+			{
+				return Task.CompletedTask;
+			}
+			OnJoinMap.InvokeAsync();
+			return Task.CompletedTask;
+		}
 		public Task SelectThisMap(EnumMapNumber? mapId)
 		{
 			if (OnMapSelected.HasDelegate)

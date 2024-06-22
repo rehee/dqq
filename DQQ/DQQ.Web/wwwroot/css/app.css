@@ -180,6 +180,12 @@ code {
   display: flex;
   justify-content: center;
 }
+.multi_select {
+  position: absolute;
+  top: -20px;
+  left: -9px;
+}
+
 
   .floating-div {
     position: absolute;
