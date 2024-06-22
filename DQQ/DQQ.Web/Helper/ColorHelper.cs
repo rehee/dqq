@@ -17,7 +17,7 @@ namespace DQQ.Helper
 			{
 
 				case Enums.EnumRarity.Normal:
-					return Color.Dark;
+					return Color.None;
 				case Enums.EnumRarity.Magic:
 					return Color.Primary;
 				case Enums.EnumRarity.Rare:

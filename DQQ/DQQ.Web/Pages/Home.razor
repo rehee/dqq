@@ -92,14 +92,14 @@ else
 						</BodyTemplate>
 					</Card>
 				</div>
-				<ChapterMainPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
+			
 
 
 				switch (WebPage)
 				{
 					case EnumWebPage.Home:
 						<SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
-						
+						<ChapterMainPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
 						break;
 					case EnumWebPage.Skills:
 						<SkillBoxSelect SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />

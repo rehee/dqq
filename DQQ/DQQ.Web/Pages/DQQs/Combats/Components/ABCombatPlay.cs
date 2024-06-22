@@ -18,9 +18,10 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 
 		public int? MaxTick => CombatResult?.CombatTimeLimitationTick;
 		public int CurrentActionTick {  get; set; }
-		public double CurrentPlayProgress => MaxTick.HasValue ? MaxTick > 0 ? (CurrentActionTick) *100 / (double)MaxTick : 0 : 0;
+		public double CurrentPlayProgress => CombatResult?.CombatTick > 0 ? (CurrentActionTick) * 100 / (double)CombatResult.CombatTick : 0;
 
 		public DateTime? MapLimitation => CombatResult?.MapLimitation();
+
 
 		[Parameter]
 		public CombatResultDTO? CombatResult { get; set; }

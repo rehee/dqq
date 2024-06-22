@@ -57,7 +57,7 @@ namespace DQQ.Web.Services.CombatServices
 				TotalCombatminutes = map!.PlayMins,
 				Success = map!.MobPool?.All(b => b.All(c => c.Alive != true)) ?? false,
 				CombatTimeLimitationTick = map.TotalTick,
-				CombatTick = map.TotalTick,
+				CombatTick = map.TickCount,
 				Timelines = map?.TimeLines?.ToArray()
 			};
 			result.SetSuccess(resultDto);

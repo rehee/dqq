@@ -1,0 +1,31 @@
+﻿@inherits ItemBriefPage
+<div class="square">
+	
+		<div class="@ContentClass" @onclick="()=> OnItemSelected(Item)">
+			<div class="sub_full">
+			<Tooltip Placement="Placement.Top" Title="@Item?.Name">
+				<Tag Color="@(Item?.GetColor()?? Color.Dark)" class="full_square">
+					@Item?.Profile?.Name
+					@if (Item?.Profile?.IsStack != true)
+					{
+						<span>
+							[@Item?.ItemLevel]
+						</span>
+					}
+				</Tag>
+			</Tooltip>
+			</div>
+
+		<div class="footer_full">
+			<div class="footer_middle">
+				@if (Item?.Profile?.IsStack == true)
+				{
+					<Badge class="bottom_badge" Color="Color.Primary">@Item.Quantity</Badge>
+				}
+
+			</div>
+			</div>
+		
+		</div>
+	
+</div>
