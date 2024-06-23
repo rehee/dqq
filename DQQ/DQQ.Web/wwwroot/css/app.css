@@ -186,16 +186,25 @@ code {
   left: -9px;
 }
 
+.equip_select_slot .tag {
+  border: 1px solid red;
+}
+.empty_equip_slot {
+  border: 1px solid gray;
+}
+.equip_select_slot .empty_equip_slot {
+  border: 1px solid red;
+}
 
-  .floating-div {
-    position: absolute;
-    bottom: 0; /* 你可以根据需要调整初始位置 */
-    /*left: 50%;*/ /* 你可以根据需要调整初始位置 */
-    transform: translateX(-50%);
-    /*width: 100px;*/ /* 你可以根据需要调整大小 */
-    /*height: 100px;*/ /* 你可以根据需要调整大小 */
-    animation: float-up 1s forwards;
-  }
+.floating-div {
+  position: absolute;
+  bottom: 0; /* 你可以根据需要调整初始位置 */
+  /*left: 50%;*/ /* 你可以根据需要调整初始位置 */
+  transform: translateX(-50%);
+  /*width: 100px;*/ /* 你可以根据需要调整大小 */
+  /*height: 100px;*/ /* 你可以根据需要调整大小 */
+  animation: float-up 1s forwards;
+}
 
 @keyframes float-up {
   0% {

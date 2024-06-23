@@ -14,7 +14,7 @@ namespace DQQ.Web.Pages.DQQs.Items.Components
 		[Parameter]
 		public ConcurrentDictionary<EnumEquipSlot, ItemEntity?>? Equips { get; set; }
 
-
+		public string? TagAdditionalClass => SelectedSlots == Slots ? "equip_select_slot" : "";
 
 		public Color ThisColor => Item.GetColor();
 
@@ -23,6 +23,9 @@ namespace DQQ.Web.Pages.DQQs.Items.Components
 
 		[Parameter]
 		public EnumEquipSlot? Slots { get; set; }
+
+		[Parameter]
+		public EnumEquipSlot? SelectedSlots { get; set; }
 
 		public Task ThisClicked()
 		{

@@ -38,6 +38,7 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 					ItemSelected = null;
 				}
 			}
+			StateHasChanged();
 			return Task.CompletedTask;
 		}
 

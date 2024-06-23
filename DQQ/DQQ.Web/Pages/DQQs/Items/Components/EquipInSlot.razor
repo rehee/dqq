@@ -1,12 +1,17 @@
-﻿@if (WithEquips)
-{
+﻿
+<div class="@TagAdditionalClass">
+	@if (WithEquips)
+	{
 
-	<Tag @onclick="()=> ThisClicked()" Color="ThisColor" ShowDismiss="ShowsDismiss" OnDismiss="ThisOnDismiss">@Slots.GetString()</Tag>
-}
-else
-{
-	<span @onclick="()=> ThisClicked()">@Slots.GetString()</span>
-}
+		<Tag @onclick="()=> ThisClicked()" Color="ThisColor" ShowDismiss="ShowsDismiss" OnDismiss="ThisOnDismiss">@Slots.GetString()</Tag>
+	}
+	else
+	{
+		<Tag class="empty_equip_slot" Color="Color.Secondary" @onclick="()=> ThisClicked()">@Slots.GetString()</Tag>
+	}
+
+</div>
+
 
 
 
