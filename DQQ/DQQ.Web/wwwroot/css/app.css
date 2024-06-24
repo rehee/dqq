@@ -194,7 +194,7 @@
     scrollbar-width: thin;
   }
 }
-#app {
+/*#app {
   height: 100vh;
 }
 section .has-sidebar {
@@ -204,7 +204,7 @@ section .has-sidebar {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-}
+}*/
 
 
 .mob_box .card-header {
