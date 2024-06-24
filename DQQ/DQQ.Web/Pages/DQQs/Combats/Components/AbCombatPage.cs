@@ -20,12 +20,27 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		[Parameter]
 		public EnumMapNumber? MapNumber { get; set; }
 
+		[Parameter]
+		public bool StartCombatWhenInit {  get; set; }
+		[Parameter]
+		public bool ContinueCombat { get; set; }
+
 		protected CombatRequestDTO? RequestDTO { get; set; }
 		public CombatResultDTO? Result { get; set; }
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
-
+			if (StartCombatWhenInit)
+			{
+				if (ContinueCombat)
+				{
+					StartCombat(true);
+				}
+				else
+				{
+					StartCombat(false);
+				}
+			}
 		}
 
 		public EnumCombatPlayStatus Status { get; set; }
@@ -159,5 +174,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			}
 
 		}
+
+		
 	}
 }

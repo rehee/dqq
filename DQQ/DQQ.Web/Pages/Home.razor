@@ -103,10 +103,10 @@ else
 						break;
 
 					case EnumWebPage.Map:
-						<MapPage OnJoinMap="()=> ChangePage(EnumWebPage.Combat)" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" SelectedMap="@SelectedMap" OnMapSelected="OnMapSelected" />
+						<MapPage OnJoinMap="OnJoinMap" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" SelectedMap="@SelectedMap" OnMapSelected="OnMapSelected" />
 						break;
 					case EnumWebPage.Combat:
-						<CombatPlayList ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" MapNumber="@SelectedMap" />
+						<CombatPlayList ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" StartCombatWhenInit="@StartCombat" ContinueCombat="@KeepCombat" MapNumber="@SelectedMap" />
 						break;
 					case EnumWebPage.Inventory:
 						<InventoryPage InventoryQueryRequest="QueryInventory" Items="CharacterInventory" ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />

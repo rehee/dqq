@@ -29,6 +29,15 @@ namespace DQQ.Web.Pages
 
 		public EnumWebPage WebPage { get; set; }
 
+		public bool StartCombat { get; set; }
+		public bool KeepCombat {  get; set; }
+		public async Task OnJoinMap((bool, bool) joinCombat)
+		{
+			StartCombat = joinCombat.Item1;
+			KeepCombat= joinCombat.Item2;
+			await ChangePage(EnumWebPage.Combat);
+		}
+
 		public async Task ChangePage(EnumWebPage webPage)
 		{
 			await Task.CompletedTask;
