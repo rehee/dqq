@@ -1,6 +1,6 @@
 ﻿@using DQQ.Web.Pages.DQQs.CombatProperties
 @inherits CharacterInfoPage
-<Button type="button" class="btn btn-primary" Icon="fas fa-circle-info" OnClick="OpenDrawer"></Button>
+<Button type="button" class="btn btn-primary" Icon="fas fa-circle-info" OnClick="OpenDrawer">角色详情</Button>
 <Drawer Placement="Placement.Left" @bind-IsOpen="@IsBackdropOpen" IsBackdrop="true">
 	<Button type="button" OnClick="OpenDrawer">关闭</Button>
 	<CombatPropertySummary CombatProperty="SelectedCharacter?.CombatPanel?.StaticPanel" />

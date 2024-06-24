@@ -30,6 +30,27 @@ namespace DQQ.Components.Stages.Actors.Characters
 		public string? OwnerId { get; set; }
 		public string? CurrentXP { get; set; }
 		public string? NextLevelXP { get; set; }
+
+		public decimal? PercentageXP
+		{
+			get
+			{
+				if (String.IsNullOrEmpty(NextLevelXP))
+				{
+					return null;
+				}
+				if (String.IsNullOrEmpty(CurrentXP))
+				{
+					return 0;
+				}
+				var current = BigInteger.Parse(CurrentXP) * 10000;
+				var next = BigInteger.Parse(NextLevelXP);
+				var percent = (int)(current / next);
+				return percent/100m;
+			}
+
+		}
+
 		public EnumChapter Chapter { get; set; }
 		public EnumMapNumber Map { get; set; }
 		[NotMapped]

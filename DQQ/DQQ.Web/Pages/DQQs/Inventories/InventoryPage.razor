@@ -6,6 +6,45 @@
 		padding-left: 0;
 		padding-right: 0;
 	}
+
+	.section{
+		height:100%;
+	}
+
+	.inventory_main, .inventory_detail {
+		height: 100%;
+		overflow: hidden;
+	}
+	.inventory_items{
+		overflow: auto;
+		height: 100%;
+	}
+
+	/* .inventory_tab, .inventory_tab .tabs.tabs-top {
+		height:100%;
+	}
+
+		.inventory_tab .tabs-body .tabs-body-content {
+			height: 64%;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+
+	.inventory_list_card{
+		height: 75%;
+		overflow: hidden;
+	}
+
+	.inventory_list_card_body{
+		height: 35%;
+		overflow: scroll;
+	}
+
+	.inventory_list_card_body_container{
+		/* height: 100%;
+		overflow-x: hidden;
+		overflow-y: auto; */
+	} */
 </style>
 
 <Responsive OnBreakPointChanged="BreakPointChanged" />
@@ -14,14 +53,14 @@
 		<ItemDetailPage EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="PickupItems" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
 	</Drawer>
 
-	<div class="row g-3">
-		<div class="col-12 col-sm-12 col-md-4 d-none d-md-block">
+	<div class="row g-3 inventory_main">
+		<div class="col-12 col-sm-12 col-md-4 d-none d-md-block inventory_detail">
 			@if (!ShowDrawer)
 			{
 				<ItemDetailPage EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="PickupItems" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
 			}
 		</div>
-		<div class="col-12 col-sm-12 col-md-8">
+		<div class="col-12 col-sm-12 col-md-8 inventory_items">
 			<EquipmentPage ShowSider="ShowDrawer"  OpenOrClose="OpenOrClose" SelectedSlotClicked="OnSelectedSlotChange" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
 			<div class="inventory_tab">
 				<Tab>

@@ -101,7 +101,6 @@ namespace DQQ.Web.Pages
 			await base.OnInitializedAsync();
 
 			CultureInfo.CurrentCulture = new CultureInfo("zh");
-			//CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("zh");
 			if (OnSave != null)
 			{
 				OnSave.OnSaveFunc = SaveFunction;

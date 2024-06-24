@@ -1,6 +1,6 @@
 ﻿@using DQQ.Web.Pages.DQQs.Items.Components
 @inherits PickupPagePage
-<Card>
+<Card class="inventory_list_card">
 	<HeaderTemplate>
 		战利品
 	</HeaderTemplate>
@@ -28,7 +28,7 @@
 				<Pagination PageCount="@PageCount" PageIndex="PageSelected" OnPageLinkClick="PageSelect" />
 			</BodyTemplate>
 		</Card>
-		<Card>
+		<Card class="inventory_list_card_body inventory_list_card_body_container">
 			<BodyTemplate>
 				<div class="row g-3">
 					@if (PagedItems?.Any() == true)

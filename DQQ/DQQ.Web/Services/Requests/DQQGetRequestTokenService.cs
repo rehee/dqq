@@ -69,7 +69,7 @@ namespace DQQ.Web.Services.Requests
         return (null, null);
       }
       auth.SetAuth(newTokenDTO);
-      return (null, newTokenDTO.TokenString);
+      return (newTokenDTO.UserName, newTokenDTO.TokenString);
     }
   }
 }

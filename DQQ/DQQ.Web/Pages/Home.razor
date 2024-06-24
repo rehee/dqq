@@ -26,17 +26,16 @@
 			</TabItem>
 		</Tab>
 	</div>
-
 }
 else
 {
-	if (ActorId == null)
+	if (ThisActorId == null)
 	{
 		<CharacterList ParentRefreshEvent="RefreshEvent" />
 	}
 	else
 	{
-		if (SelectedCharacter == null)
+		if (ThisSelectedCharacter == null)
 		{
 			<div class="d-flex justify-content-center">
 				<Spinner></Spinner>
@@ -44,69 +43,34 @@ else
 		}
 		else
 		{
-			if (SelectedCharacter.Chapter == EnumChapter.None)
+			if (ThisSelectedCharacter.Chapter == EnumChapter.None)
 			{
-				<ChapterMainPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
+				<ChapterMainPage SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
 			}
 			else
 			{
-				<div class="sticky-top">
-					<Card>
-						<BodyTemplate>
-							
-							<BootstrapInputGroup>
-							
-								
-								<Button Color="Color.Success" OnClick="()=> ChangePage(EnumWebPage.Home)">主页</Button>
-								@if (EnumProgress.SkillManagement.IsUnlocked(SelectedCharacter))
-								{
-									<Button Color="Color.Warning" OnClick="()=> ChangePage(EnumWebPage.Skills)">技能</Button>
-								}
-								@if (EnumProgress.MainTargetPriority.IsUnlocked(SelectedCharacter))
-								{
-									<Button Color="Color.Info" OnClick="()=> ChangePage(EnumWebPage.Strategy)">策略</Button>
-								}
-								@if (EnumProgress.CombatProgress.IsUnlocked(SelectedCharacter))
-								{
-									<Button Color="Color.Danger" OnClick="()=> ChangePage(EnumWebPage.Map)">地图</Button>
-								}
-								@if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
-								{
-									<Button Color="Color.Dark" OnClick="()=> ChangePage(EnumWebPage.Inventory)">装备</Button>
-								}
-								
-								@if (EnumProgress.CombatPlaySetting.IsUnlocked(SelectedCharacter))
-								{
-									<Button OnClick="()=> ChangePage(EnumWebPage.Setting)">设置</Button>
-								}
-							</BootstrapInputGroup>
-							
-						</BodyTemplate>
-					</Card>
-				</div>
-			
 				switch (WebPage)
 				{
 					case EnumWebPage.Home:
-						<SelectedCharacter CharacterId="ActorId" Character="SelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
-						<ChapterMainPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
+						<SelectedCharacter CharacterId="ThisActorId" Character="ThisSelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
+						<ChapterMainPage SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
 						break;
 					case EnumWebPage.Skills:
-						<SkillBoxSelect SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
+						<SkillBoxSelect SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" />
 						break;
 
 					case EnumWebPage.Strategy:
-						<BuildPage SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
+						<BuildPage SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" />
 						break;
 
 					case EnumWebPage.Map:
-						<MapPage OnJoinMap="OnJoinMap" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" SelectedMap="@SelectedMap" OnMapSelected="OnMapSelected" />
+						<MapPage OnJoinMap="OnJoinMap" SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" SelectedMap="@SelectedMap" OnMapSelected="OnMapSelected" />
 						break;
 					case EnumWebPage.Combat:
-						<CombatPlayList ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" StartCombatWhenInit="@StartCombat" ContinueCombat="@KeepCombat" MapNumber="@SelectedMap" />
+						<CombatPlayList ActorId="ThisActorId" SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" StartCombatWhenInit="@StartCombat" ContinueCombat="@KeepCombat" MapNumber="@SelectedMap" />
 						break;
 					case EnumWebPage.Inventory:
-						<InventoryPage InventoryQueryRequest="QueryInventory" Items="CharacterInventory" ActorId="ActorId" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="RefreshEvent" />
+						<InventoryPage InventoryQueryRequest="QueryInventory" Items="CharacterInventory" ActorId="ThisActorId" SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" />
 						break;
 					case EnumWebPage.Setting:
 						<SettingPage />
@@ -122,7 +86,3 @@ else
 
 
 
-@if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
-{
-	<CharacterInfo SelectedCharacter="SelectedCharacter" />
-}

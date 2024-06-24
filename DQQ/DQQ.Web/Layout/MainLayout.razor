@@ -1,17 +1,84 @@
-﻿@inherits MainLayoutPage
-<div class="page">
-	<div class="sidebar">
-		<NavMenu />
-	</div>
+﻿@using DQQ.Web.Pages.DQQs.Chapters
+@using DQQ.Web.Pages.DQQs.CombatProperties
+@inherits MainLayoutPage
+<BootstrapBlazorRoot>
+    <Layout ShowGotoTop="true" ShowCollapseBar="true" ShowFooter="@ShowFooter" SideWidth="0"
+            IsPage="true" IsFullSide="@IsFullSide" IsFixedHeader="@IsFixedHeader" IsFixedFooter="@IsFixedFooter"
+            TabDefaultUrl="/" UseTabSet="@UseTabSet" AdditionalAssemblies="new[] { GetType().Assembly }"
+          class="@Theme" Menus="MenuItems">
+        <Header>
+            @* <span class="ms-3 flex-sm-fill d-none d-sm-block">Bootstrap of Blazor</span> *@
+            
+            <span class="ms-3 flex-sm-fill d-none d-sm-block"></span>
+            <div class="flex-fill d-sm-none">
+            </div>
+            <Widget></Widget>
+            @if (IsAuth)
+            {
+              <Logout ImageUrl="@MainLayoutPage.GetIconSvg("fas fa-user")" DisplayName="@SelectedCharacter?.DisplayName" UserName="@AccountName">
+                <LinkTemplate>
+                  <div style="color:black;">
+                    <span>等级: @SelectedCharacter?.Level </span>
+                    <span>经验:</span>
+                    @if (SelectedCharacter?.PercentageXP != null)
+                    {
+                      <span> @SelectedCharacter?.PercentageXP?.ToString("#.##") % </span>
+                    }
+                    @if (EnumProgress.InventoryManagement.IsUnlocked(SelectedCharacter))
+                    {
+                      <p href="@nav.Uri" @onclick="()=>{IsCharacterDetailOpen=true;}"><i class="fas fa-circle-info"></i>角色详情</p>
+                    }
+                  </div>
+                  
 
-	<main>
-		<div class="top-row px-4">
-			<Dropdown TValue="string" Items="LocalizationHelper.GetAvaliableLang" Value="CurrentLang" OnSelectedItemChanged="OnSelectedItemChanged" Color="Color.Secondary" />
-		</div>
-
-		<article class="content px-4">
-			@Body
-		</article>
-	</main>
-</div>
-<Dialog></Dialog>
+                  
+                  @* <a href="@nav.Uri"><i class="fa-solid fa-cog"></i>设置</a>
+                  <a href="@nav.Uri"><i class="fa-solid fa-bell"></i>通知<span class="badge badge-pill badge-success"></span></a> *@
+                  <NavLink class="nav-link" href="logout">
+                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> 注销
+                  </NavLink>
+                </LinkTemplate>
+              </Logout>
+            }
+      
+            
+        </Header>
+        <Side>
+            <div class="layout-banner">
+              @* subtitle   *@
+              @* <img class="layout-logo" src="favicon.png" />
+                <div class="layout-title">
+                    <span>后台管理</span>
+                </div> *@
+            </div>
+					@* <Nav IsVertical="true">
+						<a class="nav-link active" href="#" @onclick:preventDefault>Active</a>
+						<NavLink class="nav-link" href="#" @onclick:preventDefault>Link</NavLink>
+						<a class="nav-link" href="#" @onclick:preventDefault>Link</a>
+						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" @onclick:preventDefault>Disabled</a>
+					</Nav> *@
+        </Side>
+        <Main>
+			    <div class="main_body">
+				    <CascadingValue Value="this" IsFixed="true">
+					    @Body
+				    </CascadingValue>
+			    </div>
+            
+        </Main>
+        <Footer>
+            <div class="text-center flex-fill">
+                <a class="page-layout-demo-footer-link" href="https://gitee.com/LongbowEnterprise/BootstrapAdmin" target="_blank">Bootstrap Admin</a>
+            </div>
+        </Footer>
+        <NotFound>
+            <p>Sorry, there's nothing at this address.</p>
+        </NotFound>
+    </Layout>
+</BootstrapBlazorRoot>
+<Drawer Placement="Placement.Left" @bind-IsOpen="@IsCharacterDetailOpen" IsBackdrop="true">
+  <Button type="button" OnClick="()=> { IsCharacterDetailOpen=false; }">关闭</Button>
+	<CombatPropertySummary CombatProperty="SelectedCharacter?.CombatPanel?.StaticPanel" />
+</Drawer>
+@* <Dialog></Dialog>
+<Dropdown TValue="string" Items="LocalizationHelper.GetAvaliableLang" Value="CurrentLang" OnSelectedItemChanged="OnSelectedItemChanged" Color="Color.Secondary" /> *@

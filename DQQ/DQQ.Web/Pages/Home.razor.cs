@@ -9,6 +9,7 @@ using DQQ.Profiles.Skills;
 using DQQ.Services.ActorServices;
 using DQQ.Services.ItemServices;
 using DQQ.TickLogs;
+using DQQ.Web.Layout;
 using DQQ.Web.Pages.DQQs.Builds.Components;
 using DQQ.Web.Pages.DQQs.Characters;
 using DQQ.Web.Resources;
@@ -16,6 +17,7 @@ using DQQ.Web.Services.DQQAuthServices;
 using DQQ.Web.Services.ItemServices;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 using ReheeCmf.Commons.DTOs;
 using ReheeCmf.Requests;
@@ -26,10 +28,12 @@ namespace DQQ.Web.Pages
 {
 	public class HomePage : DQQPageBase
 	{
+		
+		public EnumWebPage? WebPage { get; set; }
 
-		public EnumWebPage WebPage { get; set; }
+   
 
-		public bool StartCombat { get; set; }
+    public bool StartCombat { get; set; }
 		public bool KeepCombat {  get; set; }
 		public async Task OnJoinMap((bool, bool) joinCombat)
 		{
@@ -50,16 +54,31 @@ namespace DQQ.Web.Pages
 		public IDQQAuth? auth { get; set; }
 
 		public string? UserId { get; set; }
+    void GetQueryStringValues()
+    {
+      nav.TryGetQueryString<EnumWebPage>("WebPage", out var currentCount);
+			WebPage = currentCount;
+			StateHasChanged();
+    }
+    void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+      GetQueryStringValues();
+      StateHasChanged();
+    }
 
-
-		[Inject]
+    [Inject]
 		[NotNull]
 		public IComponentHtmlRenderer? ComponentHtmlRenderer { get; set; }
-		protected override async Task OnInitializedAsync()
+    [CascadingParameter]
+    public MainLayoutPage? Layout { get; set; }
+
+    protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
+			nav.LocationChanged += HandleLocationChanged;
+			GetQueryStringValues();
 			UserId = auth.GetAuth()?.UserId;
-			await RefreshPage();
+			
 
 			RefreshEvent = new EventParameter();
 			RefreshEvent.Event += refreshEvent;
@@ -85,25 +104,32 @@ namespace DQQ.Web.Pages
 				}
 
 			}
-		}
+			await RefreshPage();
+
+    }
 		private void refreshEvent(object? sender, EventArgs e)
 		{
 			RefreshPage();
 		}
 		public async Task RefreshPage()
 		{
-			ActorId = characterService.GetSelectedCharacter();
-			SelectedCharacter = await characterService.GetCharacter(ActorId);
-			ParentGuid = Guid.NewGuid();
-			StateHasChanged();
-			await Task.CompletedTask;
+			if(Layout== null)
+			{
+				return;
+			}
+			await Layout.RefreshPage();
 
-		}
+
+			StateHasChanged();
+    }
+    public Character? ThisSelectedCharacter => Layout?.SelectedCharacter;
+		public Guid?	ThisActorId=> Layout?.ActorId;
 		public async Task SelectCharacter()
 		{
 			await Task.CompletedTask;
-			ActorId = null;
-			characterService.SelectedCharacter(null);
+      Layout!.ActorId = null;
+      Layout!.SelectedCharacter = null;
+      characterService.SelectedCharacter(null);
 			StateHasChanged();
 		}
 
@@ -125,13 +151,15 @@ namespace DQQ.Web.Pages
 			StateHasChanged();
 			return Task.CompletedTask;
 		}
-		public override async ValueTask DisposeAsync()
-		{
-			await base.DisposeAsync();
-			RefreshEvent.Event -= refreshEvent;
-		}
 
-		public ItemEntity[]? CharacterInventory { get; set; }
+    protected override async Task OnDisposeAsync()
+    {
+      await base.OnDisposeAsync();
+      RefreshEvent.Event -= refreshEvent;
+      nav.LocationChanged -= HandleLocationChanged;
+    }
+
+    public ItemEntity[]? CharacterInventory { get; set; }
 
 
 		[Inject]
@@ -139,7 +167,7 @@ namespace DQQ.Web.Pages
 		public IItemService? ItemService { get; set; }
 		public async Task QueryInventory()
 		{
-			CharacterInventory = (await ItemService.ActorInventory(SelectedCharacter?.DisplayId))?.ToArray();
+			CharacterInventory = (await ItemService.ActorInventory(ThisSelectedCharacter?.DisplayId))?.ToArray();
 		}
 	}
 }
