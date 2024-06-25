@@ -25,7 +25,7 @@ namespace DQQ.Web.Layout
 
     public bool IsFullSide { get; set; } = false;
 
-    public bool ShowFooter { get; set; } = false;
+    public bool ShowFooter { get; set; } = true;
 		[Inject]
 		[NotNull]
 		public IGetRequestTokenService? tokenService { get; set; }

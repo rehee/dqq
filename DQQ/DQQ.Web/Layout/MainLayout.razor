@@ -68,7 +68,27 @@
         </Main>
         <Footer>
             <div class="text-center flex-fill">
-                <a class="page-layout-demo-footer-link" href="https://gitee.com/LongbowEnterprise/BootstrapAdmin" target="_blank">Bootstrap Admin</a>
+        @{
+          var items = SelectedCharacter?.GenerateMenuItem(
+          EnumWebPage.Home,
+          EnumWebPage.Skills,
+          EnumWebPage.Strategy,
+          EnumWebPage.Map,
+          EnumWebPage.Inventory,
+          EnumWebPage.Setting
+          );
+          if (items?.Any() == true)
+          {
+            <Nav IsVertical="false" IsPills="true" IsFill="true">
+              @foreach(var item in items)
+              {
+                <NavLink class="nav-link" href="@item.Url" >@item.Text</NavLink>
+              }
+
+
+						</Nav>
+					}
+                }
             </div>
         </Footer>
         <NotFound>

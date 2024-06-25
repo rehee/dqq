@@ -62,6 +62,13 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		protected Guid? CurrentGuid { get; set; }
 		protected bool KeepCombat { get; set; }
 
+		public virtual Task BackToMap()
+		{
+			nav.NavigateTo($"?{nameof(Home.WebPage)}={EnumWebPage.Map}");
+			return Task.CompletedTask;
+
+		}
+
 		public virtual async Task StartCombat(bool keepCombate = false)
 		{
 			if (IsDispose)

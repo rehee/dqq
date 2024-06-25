@@ -130,11 +130,9 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 				
 				var totaDisplayPerTick = (logs?.Count() ?? 0) + (timeLineStart!=null?1:0) + (timeLineEnd != null ? 1 : 0);
 				var thisTickDelay = totaDisplayPerTick<=0 ? basicDelayTime : basicDelayTime / totaDisplayPerTick;
-				await Task.Delay(thisTickDelay);
-
-
 				if (timeLineStart != null)
 				{
+					await Task.Delay(thisTickDelay);
 					Players = timeLineStart?.Players;
 					Enemies = timeLineStart?.Enemies;
 					StateHasChanged();
@@ -148,12 +146,16 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 						if (!log.Success)
 						{
 							CurrentLog = null;
-							StateHasChanged();
+
 						}
-						CurrentLog = log;
-						StateHasChanged();
-						await Task.Delay(1000 / DQQGeneral.TickPerSecond / 2);
-						StateHasChanged();
+						else
+						{
+							CurrentLog = log;
+						}
+						
+
+						//await Task.Delay(1000 / DQQGeneral.TickPerSecond / 2);
+						
 						if (log.WaveNumber < 0)
 						{
 							continue;
@@ -176,10 +178,12 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 						{
 							if (Enemies?.All(b => b.PercentageHP <= 0) == true || Players?.All(b => b.PercentageHP <= 0) == true)
 							{
-								await Task.Delay(3000);
+								await Task.Delay(1500);
+								StateHasChanged();
 							}
 							else
 							{
+								StateHasChanged();
 								//await Task.Delay(1000 / 30);
 							}
 

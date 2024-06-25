@@ -2,8 +2,8 @@
 @if (CombatLog != null)
 {
 	<div>
-		<span>战斗进度</span>
-		<Progress IsShowValue="false" Value="CurrentPlayProgress" />
+		<span>战斗进度 @Math.Round(CurrentPlayProgress, 2) %</span>
+		@* <Progress IsShowValue="false" Value="" /> *@
 	</div>
 	<div>
 		波次 @Tick
