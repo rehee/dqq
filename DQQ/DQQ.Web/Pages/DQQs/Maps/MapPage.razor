@@ -5,16 +5,22 @@
 	}
 
 	.map_container{
-		height: calc(75vh - 3.5rem);
-		overflow-y: auto;
-		margin-top: 0;
+		margin-top:4rem;
+	}
+
+	.map_wrap{
+		position: fixed;
+		width: 100%;
+		height: 6rem;
+		z-index: 1000;
+		top: 3rem;
 	}
 </style>
-<div>
-	<Card>
+<div class="">
+	<Card class="map_wrap">
 		<BodyTemplate>
 			<p>
-			  当前选择地图: @SelectedMapProfile?.Name
+				当前选择地图: @SelectedMapProfile?.Name
 			</p>
 			<BootstrapInputGroup>
 				<Button OnClick="()=>JoinMap(true,false)" Color="Color.Success" IsDisabled="SelectedMapProfile==null">开始战斗</Button>
@@ -23,12 +29,14 @@
 					<Button OnClick="()=>JoinMap(true,true)" Color="Color.Warning" IsDisabled="SelectedMapProfile==null">在线挂机</Button>
 				}
 			</BootstrapInputGroup>
-			
+
 		</BodyTemplate>
 	</Card>
+	
+
 </div>
 <div class="row g-3 map_container">
-	
+
 	@if (UnlockedMaps?.Any() == true)
 	{
 		foreach (var map in UnlockedMaps)
@@ -121,7 +129,7 @@
 						</DQQInfo>
 					</HeaderTemplate>
 					<BodyTemplate>
-						
+
 						<div>
 							@map.Discription
 						</div>

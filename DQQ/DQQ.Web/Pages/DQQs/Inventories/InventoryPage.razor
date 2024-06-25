@@ -19,15 +19,21 @@
 		overflow: hidden;
 	}
 	.inventory_items{
-		overflow: auto;
+		overflow: hidden;
 		height: 100%;
 	}
 
-	/* .inventory_tab, .inventory_tab .tabs.tabs-top {
-		height:100%;
+	.inventory_tab {
+		height: 65%;
+		overflow-x:hidden;
+		overflow-y: auto;
 	}
 
-		.inventory_tab .tabs-body .tabs-body-content {
+	.inventory_detail{
+		overflow-y: auto;
+	}
+
+		/* .inventory_tab .tabs-body .tabs-body-content {
 			height: 64%;
 			overflow-x: hidden;
 			overflow-y: auto;
@@ -41,13 +47,13 @@
 	.inventory_list_card_body{
 		height: 35%;
 		overflow: scroll;
-	}
+	} */
 
 	.inventory_list_card_body_container{
 		/* height: 100%;
 		overflow-x: hidden;
 		overflow-y: auto; */
-	} */
+	}
 </style>
 
 <Responsive OnBreakPointChanged="BreakPointChanged" />
