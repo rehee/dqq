@@ -6,13 +6,13 @@ using DQQ.Enums;
 namespace DQQ.Profiles.Chapters
 {
 	[Pooled]
-	public class Chapter_C_1_5 : ChapterProfile
+	public class Chapter_C_1_6 : ChapterProfile
 	{
-		public override EnumChapter ProfileNumber => EnumChapter.C_1_5;
-		public override string? Name => "序章 5";
-		public override string? Discription => "治疗 以及更多波次";
+		public override EnumChapter ProfileNumber => EnumChapter.C_1_6;
+		public override string? Name => "序章 6";
+		public override string? Discription => "辅助技能. 改变能力";
 
-		public override EnumChapter? NextChapter => EnumChapter.C_1_6;
+		public override EnumChapter? NextChapter => null;
 
 		public override EnumChapter? CalculateNextChapter(Character? character, IMap? map = null)
 		{

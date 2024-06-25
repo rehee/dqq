@@ -39,6 +39,10 @@ namespace DQQ.Components.Stages.Actors
 				{
 					Level = ae.Level;
 				}
+				if(this is Character chars)
+				{
+					chars.Chapter = ae.Chapter;
+				}
 				TargetPriority = ae.TargetPriority;
 				CombatPanel.StaticPanel.MaximunLife = ae.MaxHP ?? 0;
 				CurrentHP = CombatPanel.StaticPanel.MaximunLife ?? 0;

@@ -113,7 +113,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 			foreach (EnumSkillSlot slot in Enum.GetValues(typeof(EnumSkillSlot)))
 			{
 				skills.TryGetValue(slot, out var skill);
-				SkillMap.TryAdd(slot, skill ?? SkillDTO.New(EnumSkillNumber.NotSpecified));
+				SkillMap.TryAdd(slot, skill ?? SkillDTO.New(EnumSkillNumber.NotSpecified, slot));
 			}
 
 			if (entity is ActorEntity ae)

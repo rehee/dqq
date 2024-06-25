@@ -1,5 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 using DQQ.Enums;
+using System;
 using System.ComponentModel;
 using System.Reflection.PortableExecutable;
 
@@ -47,6 +48,18 @@ namespace DQQ.Helper
 
 			return Color.Dark;
 
+		}
+
+		public static Color GetColor(this EnumSkillBindingType input)
+		{
+			switch (input)
+			{
+				case EnumSkillBindingType.Active: return Color.Primary;
+				case EnumSkillBindingType.Trigger: return Color.Success;
+				case EnumSkillBindingType.Support: return Color.Warning;
+			}
+			
+			return Color.Primary;
 		}
 
 

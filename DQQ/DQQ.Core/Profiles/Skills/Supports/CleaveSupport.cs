@@ -1,5 +1,6 @@
 ﻿using DQQ.Attributes;
 using DQQ.Combats;
+using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Enums;
 using DQQ.Helper;
 using System;
@@ -13,6 +14,10 @@ namespace DQQ.Profiles.Skills.Supports
 	[Pooled]
 	public class CleaveSupport : AbSupportSkillProfile
 	{
+		public override bool IsAvaliableForCharacter(Character? character)
+		{
+			return EnumChapter.C_1_6.IsUnlocked(character);
+		}
 		public override EnumSkillCategory Category => EnumSkillCategory.Strategy;
 		public override decimal DamageRate => 0;
 
@@ -25,7 +30,7 @@ namespace DQQ.Profiles.Skills.Supports
 		public override void SetAttackTypeAndArea(IWIthAttackTypeAndArea input)
 		{
 			input.AttackTypes = EnumAttackType.Cleave;
-			input.AreaLevelChange(1);
+			input.AreaLevelChange(2);
 		}
 	}
 }

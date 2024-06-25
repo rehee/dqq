@@ -1,4 +1,5 @@
 ﻿using DQQ.Commons.DTOs;
+using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Helper;
@@ -65,7 +66,7 @@ namespace DQQ.Api.Services.SkillServices
 
 
 			await deleteSkill(context, dto.ActorId, false, [dto.Slot ?? EnumSkillSlot.NotSpecified], [dto.SkillNumber]);
-			await createSkill(context, dto, dto.ActorId);
+			await createSkill(context, dto, actor);
 			await context.SaveChangesAsync();
 			result.SetSuccess(true);
 			return result;
@@ -81,8 +82,8 @@ namespace DQQ.Api.Services.SkillServices
 
 			}
 			var user = this.context?.User?.UserId;
-			var actor = await context!.Query<ActorEntity>(true).Where(b => b.Id == actorId && b.OwnerId == user).AnyAsync();
-			if (!actor)
+			var actor = await characterService.GetCharacter(actorId);
+			if (actor==null)
 			{
 				return result;
 			}
@@ -94,28 +95,28 @@ namespace DQQ.Api.Services.SkillServices
 			{
 				foreach (var dto in dtos)
 				{
-					await createSkill(context, dto, actorId);
+					await createSkill(context, dto, actor);
 				}
 			}
 			await context.SaveChangesAsync();
 			result.SetSuccess(true);
 			return result;
 		}
-		public static async Task createSkill(IContext context, PickSkillDTO? dto, Guid? actorId)
+		public static async Task createSkill(IContext context, PickSkillDTO? dto, Character? actor)
 		{
-			if (dto == null || actorId == null || dto?.Slot == null || dto?.Slot == EnumSkillSlot.NotSpecified)
+			if (dto == null || actor?.DisplayId == null || dto?.Slot == null || dto?.Slot == EnumSkillSlot.NotSpecified)
 			{
 				return;
 			}
 			var array = dto.Strategies?.OrderBy(b => b.Priority).ToArray();
 			var str = JsonSerializer.Serialize(array, JsonOption.DefaultOption);
-			var validSkillNumbers = dto?.SupportSkill?.Select(b => SkillDTO.New(b)).Where(b => b.Profile?.IsPlayerAvaliableSkill() == true)
+			var validSkillNumbers = dto?.SupportSkill?.Select(b => SkillDTO.New(b)).Where(b => b.Profile?.IsPlayerAvaliableSkill(actor) == true)
 				.Select(b => b.SkillNumber).Distinct().Take((dto.Slot).MaxSkillNumber()).ToArray();
 			var supportSkills = JsonSerializer.Serialize(validSkillNumbers, JsonOption.DefaultOption);
 
 			var skillEntity = new SkillEntity()
 			{
-				ActorId = actorId,
+				ActorId = actor?.DisplayId,
 				Slot = dto?.Slot ?? EnumSkillSlot.MainSlot,
 				SkillNumber = dto?.SkillNumber,
 				SkillStrategy = str,

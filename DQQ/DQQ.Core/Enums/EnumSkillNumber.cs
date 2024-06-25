@@ -8,27 +8,27 @@ namespace DQQ.Enums
 {
 	public enum EnumSkillNumber
 	{
-		NotSpecified = -1,
+		NotSpecified = 0,
 
-		NormalAttack = 0,
-		SwingAttack = 1,
-		Rend = 2,
-		Healing = 1001,
-		Renew = 1002,
-		BattleShout = 2001,
-		HatefulStrike = 10001,
-		PowerWordShield = 11001,
+		NormalAttack,
+		SwingAttack,
+		Rend,
+		Healing,
+		Renew,
+		BattleShout,
+		HatefulStrike,
+		PowerWordShield,
 
-		EmpowerSupport = 100001,
-		CleaveSupport = 100002,
-		ChainSupport = 100003,
-		ZealSupport = 100004,
-		PiercingSupport = 100005,
-		BlastSupport = 100006,
+		EmpowerSupport,
+		CleaveSupport,
+		ChainSupport,
+		ZealSupport,
+		PiercingSupport,
+		BlastSupport,
 
 
 
-		MultiStrike = 200001
+		MultiStrike,
 
 
 	}

@@ -21,6 +21,7 @@ namespace DQQ.Commons.DTOs
 	{
 		public static SkillDTO New(SkillComponent component)
 		{
+			
 			return new SkillDTO
 			{
 				SkillNumber = component?.SkillProfile?.SkillNumber ?? EnumSkillNumber.NotSpecified,
@@ -29,11 +30,21 @@ namespace DQQ.Commons.DTOs
 				AvaliableForUser = component?.AvaliableForUser == true
 			};
 		}
-		public static SkillDTO New(EnumSkillNumber skill)
+		public static SkillDTO New(EnumSkillNumber skill, EnumSkillSlot? slot = null)
 		{
+			var supportSkills = new List<SkillDTO>();
+			if (slot != null)
+			{
+				var maxSkills = slot.MaxSkillNumber();
+				for (var i = 0; i < maxSkills; i++)
+				{
+					supportSkills.Add(SkillDTO.New(EnumSkillNumber.NotSpecified));
+				}
+			}
 			return new SkillDTO
 			{
-				SkillNumber = skill
+				SkillNumber = skill,
+				SupportSkills = supportSkills
 			};
 		}
 		public EnumSkillNumber SkillNumber { get; set; }

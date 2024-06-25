@@ -37,6 +37,7 @@ namespace DQQ.Helper
 			property.MaximunLife = Convert.ToInt64(hp);
 			property.Damage = Convert.ToInt64(damage);
 			property.AttackPerSecond = MonsterBasicProfile.AttackPerSecond * (1 + (profile?.AttackSpeedModify ?? 0));
+			property.AttackRating = (level ?? 1) * 90;
 		}
 	}
 }

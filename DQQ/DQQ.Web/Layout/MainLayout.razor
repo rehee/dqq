@@ -71,11 +71,9 @@
         @{
           var items = SelectedCharacter?.GenerateMenuItem(
           EnumWebPage.Home,
-          EnumWebPage.Skills,
-          EnumWebPage.Strategy,
           EnumWebPage.Map,
-          EnumWebPage.Inventory,
-          EnumWebPage.Setting
+          EnumWebPage.Inventory
+          
           );
           if (items?.Any() == true)
           {

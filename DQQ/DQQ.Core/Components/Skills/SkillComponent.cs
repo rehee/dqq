@@ -182,7 +182,9 @@ namespace DQQ.Components.Skills
 			{
 				try
 				{
+					
 					SkillNumber = sp.SkillNumber;
+					
 					var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(sp.SkillNumber);
 					InitSkillProfile(skillProfile, sp.Slot);
 					SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
@@ -195,10 +197,15 @@ namespace DQQ.Components.Skills
 						character = chh;
 						level = character.Level;
 					}
+					var array = supportSkillNumers?.Where(b => b.IsPlayerAvaliableSkill(character)).Distinct().Take(MaxSupportSkill).ToArray();
+					var skillList = new List<SkillDTO>();
+					for(var i =0;i< MaxSupportSkill; i++)
+					{
+						var skills = array?.Where((b, index) => index == i).FirstOrDefault();
+						skillList.Add(SkillDTO.New(skills ?? EnumSkillNumber.NotSpecified));
 
-					SupportSkills = supportSkillNumers?.Where(b => b.IsPlayerAvaliableSkill(character)).Distinct().Take(MaxSupportSkill)
-						.Select(b => SkillDTO.New(b))
-						.ToArray();
+					}
+					SupportSkills = skillList.ToArray();
 
 					SupportSkillComponent = new List<SkillComponent>();
 

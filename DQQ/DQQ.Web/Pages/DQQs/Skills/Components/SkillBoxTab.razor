@@ -1,0 +1,6 @@
+﻿@inherits SkillBoxTabPage
+<TabItem AlwaysLoad="true" Text="@(SelectedDTO?.Profile?.Name??"未选择")">
+	<SkillPicker ParentRefreshEvent="ParentRefreshEvent" Id="@Id" SelectedCharacter="SelectedCharacter" Slot="Slot" />
+</TabItem>
+
+

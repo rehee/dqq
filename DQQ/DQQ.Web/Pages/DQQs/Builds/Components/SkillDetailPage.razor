@@ -1,49 +1,52 @@
-﻿<div style="width:240px;">
-	<Card Color="Color">
-		<HeaderTemplate>
-			@Profile?.SkillName [@Profile?.BindingType.GetEnumString()]
-		</HeaderTemplate>
-		<BodyTemplate>
-			<p>
-				@Profile?.Discription
-			</p>
-			<ul>
-				@if (Profile?.BindingType == EnumSkillBindingType.Active)
+﻿@if (Profile != null && Profile?.SkillNumber!= EnumSkillNumber.NotSpecified)
+{
+	<div>
+		<Card Color="Color">
+			<HeaderTemplate>
+				@Profile?.SkillName [@Profile?.BindingType.GetEnumString()]
+			</HeaderTemplate>
+			<BodyTemplate>
+				<p>
+					@Profile?.Discription
+				</p>
+				<ul>
+					@if (Profile?.BindingType == EnumSkillBindingType.Active)
+					{
+						@if (Profile?.DamageRate > 0)
+						{
+							<li>
+								技能倍率: @(Math.Round(Profile?.DamageRate * 100 ?? 0, 2)) %
+							</li>
+						}
+						@if (Profile?.SkillType == EnumSkillType.Damage || Profile?.SkillType == EnumSkillType.Hybrid)
+						{
+							<li>
+								攻击方式: @Profile?.AttackTypes.GetEnumString()
+							</li>
+						}
+						<li>
+							施放时间: @(Profile?.CastWithWeaponSpeed == true ? "武器速度" : $"{Math.Round(Profile?.CastTime ?? 0, 2)} 秒")
+						</li>
+						<li>
+							冷却时间: @(Math.Round(Profile?.CoolDown ?? 0, 2)) 秒
+						</li>
+					}
+
+
+				</ul>
+
+			</BodyTemplate>
+			<FooterTemplate>
+				标签:
+				@foreach (var tag in Profile?.OriginalTag ?? [])
 				{
-					@if (Profile?.DamageRate > 0)
-					{
-						<li>
-							技能倍率: @(Math.Round(Profile?.DamageRate * 100 ?? 0, 2)) %
-						</li>
-					}
-					@if (Profile?.SkillType == EnumSkillType.Damage || Profile?.SkillType == EnumSkillType.Hybrid)
-					{
-						<li>
-							攻击方式: @Profile?.AttackTypes.GetEnumString()
-						</li>
-					}
-					<li>
-						施放时间: @(Profile?.CastWithWeaponSpeed == true ? "武器速度" : $"{Math.Round(Profile?.CastTime ?? 0, 2)} 秒")
-					</li>
-					<li>
-						冷却时间: @(Math.Round(Profile?.CoolDown ?? 0, 2)) 秒
-					</li>
+					<Tag>
+						tag
+					</Tag>
 				}
+			</FooterTemplate>
 
 
-			</ul>
-
-		</BodyTemplate>
-		<FooterTemplate>
-			标签:
-			@foreach (var tag in Profile?.OriginalTag ?? [])
-			{
-				<Tag>
-					tag
-				</Tag>
-			}
-		</FooterTemplate>
-
-
-	</Card>
-</div>
+		</Card>
+	</div>
+}
