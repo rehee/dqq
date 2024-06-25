@@ -1,5 +1,5 @@
 ﻿@inherits MapPagePage
-<style>
+@* <style>
 	.selected_map .card-body {
 		background-color: khaki;
 	}
@@ -15,26 +15,22 @@
 		z-index: 1000;
 		top: 3rem;
 	}
-</style>
-<div class="">
-	<Card class="map_wrap">
-		<BodyTemplate>
-			<p>
-				当前选择地图: @SelectedMapProfile?.Name
-			</p>
-			<BootstrapInputGroup>
-				<Button OnClick="()=>JoinMap(true,false)" Color="Color.Success" IsDisabled="SelectedMapProfile==null">开始战斗</Button>
-				@if (EnumProgress.CombatContinue.IsUnlocked(SelectedCharacter))
-				{
-					<Button OnClick="()=>JoinMap(true,true)" Color="Color.Warning" IsDisabled="SelectedMapProfile==null">在线挂机</Button>
-				}
-			</BootstrapInputGroup>
+</style> *@
+<Card class="map_wrap sitcky-top">
+	<BodyTemplate>
+		<p>
+			当前选择地图: @SelectedMapProfile?.Name
+		</p>
+		<BootstrapInputGroup>
+			<Button OnClick="()=>JoinMap(true,false)" Color="Color.Success" IsDisabled="SelectedMapProfile==null">开始战斗</Button>
+			@if (EnumProgress.CombatContinue.IsUnlocked(SelectedCharacter))
+			{
+				<Button OnClick="()=>JoinMap(true,true)" Color="Color.Warning" IsDisabled="SelectedMapProfile==null">在线挂机</Button>
+			}
+		</BootstrapInputGroup>
 
-		</BodyTemplate>
-	</Card>
-	
-
-</div>
+	</BodyTemplate>
+</Card>
 <div class="row g-3 map_container">
 
 	@if (UnlockedMaps?.Any() == true)
