@@ -54,6 +54,11 @@
 		overflow-x: hidden;
 		overflow-y: auto; */
 	}
+
+	.inventory_detail{
+		height: calc(100vh - 100px);
+		overflow: auto;
+	}
 </style>
 
 <Responsive OnBreakPointChanged="BreakPointChanged" />
@@ -63,7 +68,7 @@
 	</Drawer>
 
 	<div class="row g-3 inventory_main">
-		<div class="col-12 col-sm-12 col-md-4 d-none d-md-block inventory_detail">
+		<div class="col-12 col-sm-12 col-md-4 d-none d-md-block inventory_detail sticky-top">
 			@if (!ShowDrawer)
 			{
 				<ItemDetailPage EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="PickupItems" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
