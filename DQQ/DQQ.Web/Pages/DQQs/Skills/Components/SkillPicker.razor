@@ -17,7 +17,9 @@
 
 				<div class="flex-fill">
 				</div>
-				<SkillPickerDraw ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="Slot"></SkillPickerDraw>
+				<Button Size="Size.ExtraSmall" Color="Color.Warning" Icon="fas fa-gear" OnClick="PickSkill">
+				</Button>
+				@* <SkillPickerDraw ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="Slot"></SkillPickerDraw> *@
 
 			</HeaderTemplate>
 			<BodyTemplate>
@@ -28,12 +30,12 @@
 						{
 
 							<div class="col-auto">
-								<Popover Content="@skill?.Profile?.ExtureDiscription" Trigger="click" IsHtml="true">
-									<Tag>
-										@skill?.SkillName
-									</Tag>
-								</Popover>
-
+								@* <Popover Content="@skill?.Profile?.ExtureDiscription" Trigger="click" IsHtml="true">
+									
+								</Popover> *@
+								<Tag>
+									@skill?.SkillName
+								</Tag>
 							</div>
 
 						}

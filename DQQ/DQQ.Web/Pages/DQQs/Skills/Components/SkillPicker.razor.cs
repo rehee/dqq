@@ -3,7 +3,10 @@ using DQQ.Commons.DTOs;
 using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Enums;
 using DQQ.Web.Pages.DQQs.Builds;
+using DQQ.Web.Pages.DQQs.Builds.Components;
 using Microsoft.AspNetCore.Components;
+using ReheeCmf.Services;
+using System;
 
 namespace DQQ.Web.Pages.DQQs.Skills.Components
 {
@@ -72,6 +75,21 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 		{
 			Enum.TryParse<EnumSkillAndStrategy>(item.Value, out var option);
 			await SlotSelectOpen(option);
+		}
+
+		public async Task PickSkill()
+		{
+			await this.dialogService.ShowComponent<SkillSelector>(
+					new Dictionary<string, object?>
+					{
+						["ParentRefreshEvent"] = ParentRefreshEvent,
+						["SelectedCharacter"] = SelectedCharacter,
+						["Slot"] = Slot,
+						["CardTitle"] = "主动技能选择",
+						["SupportSkillIndex"] = null,
+						["BindingTypes"] =  new EnumSkillBindingType[] { EnumSkillBindingType.Active, EnumSkillBindingType.Trigger } 
+					}
+					);
 		}
 
 		public async Task SlotSelectOpen(EnumSkillAndStrategy? options)
