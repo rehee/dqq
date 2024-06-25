@@ -205,7 +205,10 @@ section .has-sidebar {
   overflow-x: hidden;
   overflow-y: auto;
 }*/
-
+.sticky-top {
+  z-index: 1000 !important;
+  top: 50px;
+}
 
 .mob_box .card-header {
   padding: 0;

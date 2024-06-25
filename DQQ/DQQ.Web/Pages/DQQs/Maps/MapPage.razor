@@ -16,21 +16,24 @@
 		top: 3rem;
 	}
 </style> *@
-<Card class="map_wrap sitcky-top">
-	<BodyTemplate>
-		<p>
-			当前选择地图: @SelectedMapProfile?.Name
-		</p>
-		<BootstrapInputGroup>
-			<Button OnClick="()=>JoinMap(true,false)" Color="Color.Success" IsDisabled="SelectedMapProfile==null">开始战斗</Button>
-			@if (EnumProgress.CombatContinue.IsUnlocked(SelectedCharacter))
-			{
-				<Button OnClick="()=>JoinMap(true,true)" Color="Color.Warning" IsDisabled="SelectedMapProfile==null">在线挂机</Button>
-			}
-		</BootstrapInputGroup>
+<div class="sticky-top">
+	<Card>
+		<BodyTemplate>
+			<p>
+				当前选择地图: @SelectedMapProfile?.Name
+			</p>
+			<BootstrapInputGroup>
+				<Button OnClick="()=>JoinMap(true,false)" Color="Color.Success" IsDisabled="SelectedMapProfile==null">开始战斗</Button>
+				@if (EnumProgress.CombatContinue.IsUnlocked(SelectedCharacter))
+				{
+					<Button OnClick="()=>JoinMap(true,true)" Color="Color.Warning" IsDisabled="SelectedMapProfile==null">在线挂机</Button>
+				}
+			</BootstrapInputGroup>
 
-	</BodyTemplate>
-</Card>
+		</BodyTemplate>
+	</Card>
+</div>
+
 <div class="row g-3 map_container">
 
 	@if (UnlockedMaps?.Any() == true)
