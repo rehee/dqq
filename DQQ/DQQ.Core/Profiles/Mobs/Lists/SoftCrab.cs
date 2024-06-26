@@ -16,7 +16,7 @@ namespace DQQ.Profiles.Mobs.Lists
 		public override string? Name => "软壳蟹";
 
 		public override string? Discription => "壳是软的. 但是力气却是大的";
-		public override double DamagePercentage => 0.7;
-		public override double HPPercentage => 0.15;
+		public override double DamagePercentage => 0.6;
+		public override double HPPercentage => 0.10;
 	}
 }
