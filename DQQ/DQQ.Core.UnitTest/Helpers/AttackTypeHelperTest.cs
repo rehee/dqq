@@ -118,31 +118,31 @@ namespace DQQ.Core.UnitTest.Helpers
 		public void GetPiercingTargetsTest()
 		{
 			var chainTarget = AttackTypeHelper.GetPiercingTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.Self);
+							Targets, 0);
 			Assert.That(chainTarget.Count(), Is.EqualTo(1));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetPiercingTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.Single);
+							Targets, 0);
 			Assert.That(chainTarget.Count(), Is.EqualTo(1));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetPiercingTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.TargetWithRadius1);
+							Targets, 3);
 			Assert.That(chainTarget.Count(), Is.EqualTo(3));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetPiercingTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.TargetWithRadius2);
-			Assert.That(chainTarget.Count(), Is.EqualTo(5));
+							Targets, 3);
+			Assert.That(chainTarget.Count(), Is.EqualTo(3));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetPiercingTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.TargetWithRadiusMax);
+							Targets,10);
 			Assert.That(chainTarget.Count(), Is.EqualTo(5));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 			chainTarget = AttackTypeHelper.GetPiercingTargets(parameter, Targets[0],
-							Targets, Enums.EnumAreaLevel.TargetWithRadiusMax);
+							Targets, 10);
 			Assert.That(chainTarget.Count(), Is.EqualTo(10));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 		}
@@ -150,31 +150,31 @@ namespace DQQ.Core.UnitTest.Helpers
 		public void GetGetCleaveTargetsTest()
 		{
 			var chainTarget = AttackTypeHelper.GetCleaveTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.Self);
+							Targets, 0);
 			Assert.That(chainTarget.Count(), Is.EqualTo(1));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetCleaveTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.Single);
+							Targets, 0);
 			Assert.That(chainTarget.Count(), Is.EqualTo(1));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetCleaveTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.TargetWithRadius1);
+							Targets, 1);
 			Assert.That(chainTarget.Count(), Is.EqualTo(2));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetCleaveTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.TargetWithRadius2);
+							Targets, 2);
 			Assert.That(chainTarget.Count(), Is.EqualTo(3));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetCleaveTargets(parameter, Targets[5],
-							Targets, Enums.EnumAreaLevel.TargetWithRadiusMax);
+							Targets, 5);
 			Assert.That(chainTarget.Count(), Is.EqualTo(6));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 			chainTarget = AttackTypeHelper.GetCleaveTargets(parameter, Targets[0],
-							Targets, Enums.EnumAreaLevel.TargetWithRadiusMax);
+							Targets, 5);
 			Assert.That(chainTarget.Count(), Is.EqualTo(6));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[0].DisplayId), Is.EqualTo(1));
 		}

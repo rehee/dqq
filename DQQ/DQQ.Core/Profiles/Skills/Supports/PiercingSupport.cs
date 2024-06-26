@@ -25,12 +25,12 @@ namespace DQQ.Profiles.Skills.Supports
 
 		public override string? Name => "穿刺";
 
-		public override string? Discription => "被辅助的技能可以穿刺. 且将范围提升2级";
+		public override string? Discription => "被辅助的技能可以穿刺. 攻击当前目标并穿透. 继续攻击后排目标. 穿透数目由额外攻击决定. 最多额外穿透10个目标";
 
 		public override void SetAttackTypeAndArea(IWIthAttackTypeAndArea input)
 		{
 			input.AttackTypes = EnumAttackType.Piercing;
-			input.AreaLevelChange(2);
+			input.ExtraAttackNumber = input.ExtraAttackNumber + 4;
 		}
 	}
 }

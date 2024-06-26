@@ -25,12 +25,12 @@ namespace DQQ.Profiles.Skills.Supports
 
 		public override string? Name => "顺劈";
 
-		public override string? Discription => "攻击类型改变为顺劈. 且aoe等级上升";
+		public override string? Discription => "攻击类型改变为顺劈. 攻击当前目标以及额外 随机目标. 数量由外公及属性提升 最多可以额外攻击10个目标";
 
 		public override void SetAttackTypeAndArea(IWIthAttackTypeAndArea input)
 		{
 			input.AttackTypes = EnumAttackType.Cleave;
-			input.AreaLevelChange(2);
+			input.ExtraAttackNumber = input.ExtraAttackNumber+4;
 		}
 	}
 }

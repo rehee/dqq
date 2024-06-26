@@ -11,7 +11,7 @@ namespace DQQ.Consts
 		public const int MapMinute = 15;
 		public const int DelayTime = 10;
 		public const decimal MinCooldown = 0.15m;
-		public const int MaxDamageCount = 5;
+		public const int MaxDamageCount = 10;
 		public const int MinimunMapLevel = 50;
 		public const int LevelPerTier = 3;
 		public const int LevelPerSubTier = 1;

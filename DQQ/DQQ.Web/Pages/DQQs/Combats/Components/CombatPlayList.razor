@@ -3,13 +3,13 @@
 	<BodyTemplate>
 		<BootstrapInputGroup>
 
-			<Button IsDisabled="StartSingleCombatDisabled" Color="Color.Success" OnClick="()=>StartCombat()">开始战斗</Button>
+			<Button IsDisabled="!SingleCombatEnabled" Color="Color.Success" OnClick="()=>StartCombat()">开始战斗</Button>
 			@if (EnumProgress.CombatContinue.IsUnlocked(SelectedCharacter))
 			{
-				<Button IsDisabled="StartCombatDisabled" Color="Color.Warning" OnClick="()=>StartCombat(true)">开始在线挂机</Button>
+				<Button IsDisabled="!SingleCombatEnabled" Color="Color.Warning" OnClick="()=>StartCombat(true)">开始在线挂机</Button>
 			}
 			<Button Color="Color.Danger" OnClick="StopCombat">停止战斗</Button>
-			<Button IsDisabled="StartSingleCombatDisabled" Color="Color.Primary" OnClick="BackToMap">选择地图</Button>
+			<Button IsDisabled="!SingleCombatEnabled" Color="Color.Primary" OnClick="BackToMap">选择地图</Button>
 		</BootstrapInputGroup>
 	</BodyTemplate>
 </Card>

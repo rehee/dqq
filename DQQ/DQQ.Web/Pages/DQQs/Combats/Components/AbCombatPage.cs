@@ -47,8 +47,11 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 
 		public bool StatusSelectDisabled => !(Status == EnumCombatPlayStatus.NotSpecified || Status == EnumCombatPlayStatus.FinishPlay);
 		public bool StartCombatDisabled => PlayType == EnumCombatPlayType.NotSpecified || Status != EnumCombatPlayStatus.NotSpecified;
-
 		public bool StartSingleCombatDisabled => !(Status == EnumCombatPlayStatus.NotSpecified || (Status == EnumCombatPlayStatus.FinishPlay && !KeepCombat)) || KeepCombat;
+
+		public bool SingleCombatEnabled => (Status == EnumCombatPlayStatus.NotSpecified || Status == EnumCombatPlayStatus.FinishPlay) && !KeepCombat;
+
+
 		public EnumCombatPlayType PlayType { get; set; }
 
 
