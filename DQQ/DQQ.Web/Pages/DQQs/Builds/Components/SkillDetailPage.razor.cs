@@ -10,6 +10,7 @@ namespace DQQ.Web.Pages.DQQs.Builds.Components
 		[Parameter]
 		public SkillProfile? Profile { get; set; }
 
+		
 		[Parameter]
 		public Color Color { get; set; } = Color.Dark;
 	}

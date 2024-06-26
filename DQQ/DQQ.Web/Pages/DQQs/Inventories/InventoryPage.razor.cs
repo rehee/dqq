@@ -75,7 +75,7 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 			ItemSelected = null;
 		}
 		
-		public BreakPoint BreakPoint { get; set; }
+	
 		public bool IsOpen { get; set; }
 		public bool ShowDrawer => BreakPoint == BreakPoint.ExtraExtraSmall || BreakPoint == BreakPoint.ExtraSmall || BreakPoint == BreakPoint.Small;
 		
@@ -93,13 +93,8 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 			
 			StateHasChanged();
 		}
-
-		public async Task BreakPointChanged(BreakPoint bK)
-		{
-			await Task.CompletedTask;
-			BreakPoint = bK;
-			StateHasChanged();
-		}
+		
+		
 		
 
 

@@ -1,0 +1,53 @@
+﻿@using DQQ.Web.Pages.DQQs.Builds.Components
+@inherits SkillComparePage
+	<Card>
+		<BodyTemplate>
+						<div class="row g-3">
+							<div class="col-12">
+								<div>
+									@if (SelectedIndex != null && PickedSkill != null)
+									{
+										<Button IsAsync="true" IsBlock="true" OnClick="OnChangeSKillClick">更改技能</Button>
+									}
+								</div>
+								@if (SelectedIndex != null)
+							{
+									<div>
+										您选择了:
+										@if (SelectedIndex == 0)
+										{
+											<span>主动技能</span>
+											<DQQInfo>
+												<p>
+													主动技能槽位可以放置主动技能. 在冷却结束并满足策略的释放条件后就会自动选择目标释放. 无法放置辅助技能. 有些触发技能. 如受伤害后释放也可以放在此处. 详见技能描述.
+												</p>
+											</DQQInfo>
+										}
+										else
+										{
+											<span>辅助技能</span>
+											<DQQInfo>
+												<p>
+													辅助技能槽位可以放置辅助技能. 辅助技能无法单独释放. 但是可以增强主动技能. 某些触发技能也可以放在辅助技栏位. 比如技能造成伤害后释放. 详见技能说明.
+												</p>
+											</DQQInfo>
+										}
+									</div>
+					<SkillDetailPage Profile="CurrentSkill" />
+								}
+							</div>
+
+							<div class="col-12">
+								@if (PickedSkill != null)
+								{
+									<SkillDetailPage Profile="PickedSkill" />
+								}
+							</div>
+
+						</div>
+
+
+
+					</BodyTemplate>
+	</Card>
+

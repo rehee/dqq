@@ -60,8 +60,7 @@
 		overflow: auto;
 	}
 </style>
-
-<Responsive OnBreakPointChanged="BreakPointChanged" />
+<DQQResponsive OnBreakPointChanged="BreakPointChanged" />
 <section class="section">
 	<Drawer Width="75%" Placement="Placement.Left" @bind-IsOpen="@IsOpen" IsBackdrop="true">
 		<ItemDetailPage EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="PickupItems" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />

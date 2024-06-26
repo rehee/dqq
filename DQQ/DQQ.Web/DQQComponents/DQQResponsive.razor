@@ -1,0 +1,16 @@
+﻿<Responsive OnBreakPointChanged="BreakPointChanged" />
+
+@code {
+
+	[Parameter]
+	public EventCallback<BreakPoint> OnBreakPointChanged { get; set; }
+
+	public Task BreakPointChanged(BreakPoint bK)
+	{
+		if (OnBreakPointChanged.HasDelegate)
+		{
+			OnBreakPointChanged.InvokeAsync(bK);
+		}
+		return Task.CompletedTask;
+	}
+}

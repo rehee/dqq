@@ -19,62 +19,23 @@
 
 @if (Avaliable)
 {
+	<DQQResponsive OnBreakPointChanged="BreakPointChanged" />
+
 	<div class="row g-3">
-		<div class="col-6">
-			<Card>
-				<BodyTemplate>
-					<div class="row g-3">
-						<div class="col-12">
-							<div>
-								@if (SelectedIndex != null && PickedSkill != null)
-								{
-									<Button IsAsync="true" IsBlock="true" OnClick="SaveChange">更改技能</Button>
-								}
-							</div>
-							@if (SelectedIndex != null)
-							{
-								<div>
-									您选择了:
-									@if (SelectedIndex == 0)
-									{
-										<span>主动技能</span>
-										<DQQInfo>
-											<p>
-												主动技能槽位可以放置主动技能. 在冷却结束并满足策略的释放条件后就会自动选择目标释放. 无法放置辅助技能. 有些触发技能. 如受伤害后释放也可以放在此处. 详见技能描述.
-											</p>
-										</DQQInfo>
-									}
-									else
-									{
-										<span>辅助技能</span>
-										<DQQInfo>
-											<p>
-												辅助技能槽位可以放置辅助技能. 辅助技能无法单独释放. 但是可以增强主动技能. 某些触发技能也可以放在辅助技栏位. 比如技能造成伤害后释放. 详见技能说明.
-											</p>
-										</DQQInfo>
-									}
-								</div>
-								<SkillDetailPage Profile="ClickedSkillProfile" />
-							}
-						</div>
-
-						<div class="col-12">
-							@if (PickedSkill != null)
-							{
-								<SkillDetailPage Profile="PickedSkill" />
-							}
-						</div>
-
-					</div>
-					
-					
-					
-				</BodyTemplate>
-			</Card>
+		@if (!IsSmall)
+		{
+			<div class="col-6">
+				<SkillCompare SelectedIndex="SelectedIndex" PickedSkill="PickedSkill" CurrentSkill="ClickedSkillProfile" ChangeSkill="()=>SaveChange()" />
+			</div>
+		}
+		else
+		{
+			<Drawer Width="75%" Placement="Placement.Left" @bind-IsOpen="@IsOpen" IsBackdrop="true">
+				<SkillCompare SelectedIndex="SelectedIndex" PickedSkill="PickedSkill" CurrentSkill="ClickedSkillProfile" ChangeSkill="()=>SaveChange()" />
+			</Drawer>
+		}
 		
-
-		</div>
-		<div class="col-6">
+		<div class="col-12 col-sm-12 col-md-6">
 			<div class="row g-3">
 				<div class="col-12">
 					<div class="row g-3">
@@ -129,7 +90,7 @@
 								@foreach(var skill in AvaliableSkills)
 								{
 									<div class="col-6 col-sm-6 col-md-6 col-lg-4">
-										<Card @onclick="()=> SkillPicked(skill)">
+										<Card class="@(PickedSkill==skill?"border-danger":"")" @onclick="()=> SkillPicked(skill)">
 											<BodyTemplate>
 												@skill.Name
 											</BodyTemplate>

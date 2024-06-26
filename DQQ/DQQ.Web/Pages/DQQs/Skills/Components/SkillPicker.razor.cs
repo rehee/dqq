@@ -60,7 +60,7 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 			return $"{(selected? "skill_index_selected border-danger" : "")} position_relative";
 		}
 		public int? SelectedIndex = null;
-
+		public bool IsOpen { get; set; }
 
 		public EnumSkillNumber? ClickedSkill {  get; set; }
 		public SkillProfile? ClickedSkillProfile => DQQPool.TryGet<SkillProfile, EnumSkillNumber>(ClickedSkill ?? EnumSkillNumber.NotSpecified);
@@ -75,12 +75,20 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 			SelectedIndex = index;
 			ClickedSkill = GetClickedSkill(index);
 			StateHasChanged();
+			if (IsSmall)
+			{
+				IsOpen = true;
+			}
 			return Task.CompletedTask;
 		}
 		public SkillProfile? PickedSkill { get; set; }
 		public Task SkillPicked(SkillProfile? skill)
 		{
 			PickedSkill = skill;
+			if (IsSmall)
+			{
+				IsOpen = true;
+			}
 			StateHasChanged();
 			return Task.CompletedTask;
 		}

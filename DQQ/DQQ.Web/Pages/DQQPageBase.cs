@@ -107,6 +107,13 @@ namespace DQQ.Web.Pages
 			}
 
 		}
-
+		public BreakPoint BreakPoint { get; set; }
+		public bool IsSmall => BreakPoint == BreakPoint.Small || BreakPoint == BreakPoint.ExtraSmall;
+		public async Task BreakPointChanged(BreakPoint bK)
+		{
+			await Task.CompletedTask;
+			BreakPoint = bK;
+			StateHasChanged();
+		}
 	}
 }
