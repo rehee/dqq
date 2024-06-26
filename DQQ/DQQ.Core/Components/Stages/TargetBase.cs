@@ -196,12 +196,14 @@ namespace DQQ.Components.Stages
 				parameter.ArmorDamageReduction();
 				var result = DamageTaken.New(parameter.Damages?.ToArray() ?? [], false);
 				result.DamageTakenSuccess = this.Alive;
+				
 				if (result.DamageTakenSuccess)
 				{
 					var damageTaken = ComponentTickParameter.New(parameter, result);
 					BeforeTakeDamage(damageTaken);
 					TakingDamage(damageTaken);
 					AfterTakeDamage(damageTaken);
+
 					parameter.Map.AddMapLogDamageTaken(damageTaken);
 				}
 

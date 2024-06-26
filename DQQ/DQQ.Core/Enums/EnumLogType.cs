@@ -15,5 +15,6 @@ namespace DQQ.Enums
     DamageTaken = 4,
     HealingTaken = 5,
     CastSkill = 6,
-  }
+    Killed=9,
+	}
 }

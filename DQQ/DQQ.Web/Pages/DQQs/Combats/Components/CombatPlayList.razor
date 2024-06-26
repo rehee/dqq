@@ -38,9 +38,15 @@
 							战斗失败
 
 						</span>
-						@if (Result.CombatTick >= Result.TotalCombatminutes)
+						@if (Result.CombatTick >= Result.CombatTimeLimitationTick)
 						{
 							<span>超时</span>
+						}
+
+						var lastTick = Result?.Logs?.Where(b => b.Damage?.IsKilled == true && b.Target?.Id == SelectedCharacter?.DisplayId).FirstOrDefault();
+						if (lastTick != null)
+						{
+							<span>被 @lastTick?.From?.DisplayName 击杀 伤害 @lastTick?.Damage?.DamagePoint</span>
 						}
 					}
 					战斗时间 @Result.CombatTime.ToString("mm 分 ss 秒")

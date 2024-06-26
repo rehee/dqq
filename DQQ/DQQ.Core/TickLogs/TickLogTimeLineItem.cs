@@ -8,7 +8,6 @@ namespace DQQ.TickLogs
 {
 	public class TickLogTimeLineItem
 	{
-
 		public int? ActionTick { get; set; }
 		public bool IsStart {  get; set; }
 		public TickLogActor[]? Players { get; set; }

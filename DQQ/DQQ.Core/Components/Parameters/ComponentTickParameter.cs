@@ -128,6 +128,7 @@ namespace DQQ.Components.Parameters
 		public EnumAttackType AttackTypes { get; set; }
 		public int ExtraAttackNumber { get; set; }
 		public HealingDeal[]? Healings { get; set; }
+
 	}
 
 }
