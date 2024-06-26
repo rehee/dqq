@@ -129,12 +129,12 @@ namespace DQQ.Core.UnitTest.Helpers
 
 			chainTarget = AttackTypeHelper.GetPiercingTargets(parameter, Targets[5],
 							Targets, 3);
-			Assert.That(chainTarget.Count(), Is.EqualTo(3));
+			Assert.That(chainTarget.Count(), Is.EqualTo(4));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetPiercingTargets(parameter, Targets[5],
 							Targets, 3);
-			Assert.That(chainTarget.Count(), Is.EqualTo(3));
+			Assert.That(chainTarget.Count(), Is.EqualTo(4));
 			Assert.That(chainTarget.Count(b => b.DisplayId == Targets[5].DisplayId), Is.EqualTo(1));
 
 			chainTarget = AttackTypeHelper.GetPiercingTargets(parameter, Targets[5],

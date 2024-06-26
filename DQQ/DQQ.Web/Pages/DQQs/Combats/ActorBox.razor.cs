@@ -66,19 +66,14 @@ namespace DQQ.Web.Pages.DQQs.Combats
 			await base.OnParametersSetAsync();
 			if (Item != null)
 			{
-				if (LastDamageId == null)
+				
+				if (LastDamageId == null|| LastDamageId != Item.Id)
 				{
 					LastDamageId = Item.Id;
+					var textPass = TextFlootCheck.New(Item, Actor?.Id);
+					DealDamage(textPass);
 				}
-				else
-				{
-					if (LastDamageId != Item.Id)
-					{
-						LastDamageId= Item.Id;
-						var textPass = TextFlootCheck.New(Item, Actor?.Id);
-						DealDamage(textPass);
-					}
-				}
+				
 				
 			}
 
@@ -154,6 +149,7 @@ namespace DQQ.Web.Pages.DQQs.Combats
 
 			if (check.Damage != null)
 			{
+				
 				if(check?.Damage?.HitCheck== EnumHitCheck.Hit)
 				{
 					TakenDamage = true;

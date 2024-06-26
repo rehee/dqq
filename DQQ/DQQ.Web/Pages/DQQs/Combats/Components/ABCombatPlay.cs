@@ -143,19 +143,10 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 					foreach (var log in logs)
 					{
 						await Task.Delay(thisTickDelay);
-						if (!log.Success)
-						{
-							CurrentLog = null;
-
-						}
-						else
-						{
-							CurrentLog = log;
-						}
-						
+						CurrentLog = log;
 
 						//await Task.Delay(1000 / DQQGeneral.TickPerSecond / 2);
-						
+
 						if (log.WaveNumber < 0)
 						{
 							continue;

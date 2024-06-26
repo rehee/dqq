@@ -93,10 +93,6 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			await Task.Delay(1000);
 			Status = EnumCombatPlayStatus.CreateMap;
 			StateHasChanged();
-			await Task.Delay(1000);
-
-			Status = EnumCombatPlayStatus.Playing;
-			await Task.Delay(1000);
 			RequestDTO = new CombatRequestDTO
 			{
 				ActorId = ActorId,
@@ -105,7 +101,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			};
 			var result = await combatService.RequestCombatRandom(RequestDTO);
 			Result = result?.Content;
-			await Task.Delay(1000);
+			Status = EnumCombatPlayStatus.Playing;
 			StateHasChanged();
 			if (result?.Success == true)
 			{

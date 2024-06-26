@@ -18,9 +18,13 @@ namespace DQQ.TickLogs
     {
       get
       {
+        if(HitCheck == EnumHitCheck.Miss)
+        {
+          var a = 1;
+        }
         switch (HitCheck)
         {
-          case EnumHitCheck.Hit: return DamagePoint ?? "";
+          case EnumHitCheck.Hit: return DamagePoint ?? "0";
           case EnumHitCheck.Miss: return "Miss";
           case EnumHitCheck.Block: return "Block";
           case EnumHitCheck.Dodge: return "Dodge";

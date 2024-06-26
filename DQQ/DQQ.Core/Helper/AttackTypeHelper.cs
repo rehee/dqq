@@ -81,10 +81,8 @@ namespace DQQ.Helper
 			{
 				return selfList;
 			}
-			var aoeNumber = 1;
-			
 			var currentIndex = Array.IndexOf(allTargets.Select(b => b.DisplayId).ToArray(), target.DisplayId);
-			return allTargets.Where((b, i) => i >= currentIndex).Take(extureNumber).ToArray();
+			return allTargets.Where((b, i) => i >= currentIndex).Take(extureNumber+1).ToArray();
 
 		}
 		public static IEnumerable<ITarget> GetMultiAttackTargets(ComponentTickParameter parameter, ITarget? target, ITarget[] allTargets, EnumAreaLevel aoeLevel, int attackTimes = 1)
