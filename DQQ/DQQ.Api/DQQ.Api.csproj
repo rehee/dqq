@@ -43,4 +43,8 @@
     <ProjectReference Include="..\DQQ.Core\DQQ.Core.csproj" />
     <ProjectReference Include="..\DQQ.Services\DQQ.Services.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
 </Project>
