@@ -21,7 +21,18 @@ namespace DQQ.Web.Pages.DQQs.Combats.Parts
 		public bool Display { get; set; } = true;
 		int count = 0;
 
-		public string CssClass => $"{(Damage?.Color == Color.Warning? "floating-hold-div" : "floating-div")} {(Damage?.Color== Color.Warning?"text-warning": Damage?.Color == Color.Success? "text-success" : "text-danger")}";
+		public string CssClass
+		{
+			get
+			{
+				switch (Damage?.AnimationType)
+				{
+					case Enums.EnumAnimationType.Slash:
+						return "animation_base animated-slash";
+				}
+				return $"{(Damage?.Color == Color.Warning ? "floating-hold-div" : "floating-div")} {(Damage?.Color == Color.Warning ? "text-warning" : Damage?.Color == Color.Success ? "text-success" : "text-danger")}";
+			}
+		}
 
 		protected override async Task OnInitializedAsync()
 		{

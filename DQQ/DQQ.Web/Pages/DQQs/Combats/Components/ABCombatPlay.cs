@@ -30,8 +30,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		public Func<Task>? AfterCombatPlay { get; set; }
 
 		public int Tick { get; set; }
-		public IEnumerable<TickLogActor>? Players { get; set; }
-		public IEnumerable<TickLogActor>? Enemies { get; set; }
+		public List<TickLogActor>? Players { get; set; }
+		public List<TickLogActor>? Enemies { get; set; }
 
 		protected bool boolPageIsLoad { get; set; }
 
@@ -133,8 +133,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 				if (timeLineStart != null)
 				{
 					await Task.Delay(thisTickDelay);
-					Players = timeLineStart?.Players;
-					Enemies = timeLineStart?.Enemies;
+					Players = timeLineStart?.Players?.ToList();
+					Enemies = timeLineStart?.Enemies?.ToList();
 					StateHasChanged();
 					
 				}
@@ -158,8 +158,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 						{
 							if (timeLineStart == null)
 							{
-								Players = log.Players?.ToArray();
-								Enemies = log.Enemies?.ToArray();
+								//Players = log.Players?.ToList();
+								//Enemies = log.Enemies?.ToList();
 								StateHasChanged();
 							}
 
@@ -188,8 +188,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 				if (timeLineEnd != null)
 				{
 					await Task.Delay(thisTickDelay);
-					Players = timeLineEnd?.Players;
-					Enemies = timeLineEnd?.Enemies;
+					Players = timeLineEnd?.Players?.ToList();
+					Enemies = timeLineEnd?.Enemies?.ToList();
 					StateHasChanged();
 					
 				}

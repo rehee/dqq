@@ -1,5 +1,13 @@
 ﻿@inherits DamageNumberPage
 @if (Display)
 {
-	<div class="@CssClass" style="white-space: nowrap;position: absolute;top:@(Top)px; @(Display!=true?"display:none;":"")">@Damage?.Text</div>
+	if (Damage?.AnimationType == EnumAnimationType.None)
+	{
+		<div class="@CssClass" style="white-space: nowrap;position: absolute;top:@(Top)px; @(Display!=true?"display:none;":"")">@Damage?.Text</div>
+	}
+	else
+	{
+		<div class="@CssClass" style="white-space: nowrap;position: absolute;"></div>
+		@* <div class="@CssClass" style="white-space: nowrap;position: absolute;top:@(Top)px; @(Display!=true?"display:none;":"")">@Damage?.Text</div> *@
+	}
 }

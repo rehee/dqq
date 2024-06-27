@@ -466,6 +466,20 @@ section .has-sidebar {
   height: 100%;
   top: 0;
 }
+
+.animation_base {
+  width: 150px;
+  height: 150px;
+  top: -75px;
+  left: -75px;
+}
+.animated-slash {
+  /*width: 200px;*/ /* 根据你的图像尺寸调整 */
+  /*height: 200px;*/ /* 根据你的图像尺寸调整 */
+  /*background: url('../images/slash01/skash_00001.png') no-repeat;*/
+  background-position: 53% 48%;
+  animation: slash1 1s steps(12);
+}
 .animated-sprite {
   /*width: 200px;*/ /* 根据你的图像尺寸调整 */
   /*height: 200px;*/ /* 根据你的图像尺寸调整 */
@@ -477,67 +491,54 @@ section .has-sidebar {
 @keyframes slash1 {
   0% {
     background-image: url('../images/slash01/skash_00001.png');
-    background-position: center;
   }
 
   8.33% {
     background-image: url('../images/slash01/skash_00002.png');
-    background-position: center;
   }
 
   16.66% {
     background-image: url('../images/slash01/skash_00003.png');
-    background-position: center;
   }
 
   25% {
     background-image: url('../images/slash01/skash_00004.png');
-    background-position: center;
   }
 
   33.33% {
     background-image: url('../images/slash01/skash_00005.png');
-    background-position: center;
   }
 
   41.66% {
     background-image: url('../images/slash01/skash_00006.png');
-    background-position: center;
   }
 
   50% {
     background-image: url('../images/slash01/skash_00007.png');
-    background-position: center;
   }
 
   58.33% {
     background-image: url('../images/slash01/skash_00008.png');
-    background-position: center;
   }
 
   66.66% {
     background-image: url('../images/slash01/skash_00009.png');
-    background-position: center;
   }
 
   75% {
     background-image: url('../images/slash01/skash_00010.png');
-    background-position: center;
   }
 
   83.33% {
     background-image: url('../images/slash01/skash_00011.png');
-    background-position: center;
   }
 
   91.66% {
     background-image: url('../images/slash01/skash_00012.png');
-    background-position: center;
   }
 
   100% {
-    background-image: url('../images/slash01/skash_00001.png');
-    background-position: center;
+    background-image: url('../images/slash01/skash_00012.png');
   }
   /* 可以循环回到第一帧 */
 }
