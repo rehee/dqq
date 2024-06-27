@@ -44,9 +44,6 @@
     <ProjectReference Include="..\DQQ.Services\DQQ.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="wwwroot\_content\**\*" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Content Remove="wwwroot\**\*" />
   </ItemGroup>
 </Project>
