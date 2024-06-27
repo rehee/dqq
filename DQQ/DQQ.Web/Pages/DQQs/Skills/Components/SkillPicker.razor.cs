@@ -13,6 +13,7 @@ using ReheeCmf.Services;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
+using System.Reflection;
 
 namespace DQQ.Web.Pages.DQQs.Skills.Components
 {
@@ -59,10 +60,10 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 			var selected = SelectedIndex == index;
 			return $"{(selected? "skill_index_selected border-danger" : "")} position_relative";
 		}
-		public int? SelectedIndex = null;
+		public int? SelectedIndex { get; set; } = 0;
 		public bool IsOpen { get; set; }
 
-		public EnumSkillNumber? ClickedSkill {  get; set; }
+		public EnumSkillNumber? ClickedSkill => GetClickedSkill(SelectedIndex);
 		public SkillProfile? ClickedSkillProfile => DQQPool.TryGet<SkillProfile, EnumSkillNumber>(ClickedSkill ?? EnumSkillNumber.NotSpecified);
 		public SkillBindingTypeFilter[] BindingTypeFilters { get; set; } = [];
 
@@ -73,7 +74,6 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 		public Task SkillClick(int? index = null)
 		{
 			SelectedIndex = index;
-			ClickedSkill = GetClickedSkill(index);
 			StateHasChanged();
 			if (IsSmall)
 			{
@@ -160,7 +160,7 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
-			SelectedIndex = null;
+			SelectedIndex = 0;
 			BindingTypeFilters = [
 				SkillBindingTypeFilter.New<SkillBindingTypeFilter>(EnumSkillBindingType.Active,true),
 				SkillBindingTypeFilter.New<SkillBindingTypeFilter>(EnumSkillBindingType.Trigger,true),
