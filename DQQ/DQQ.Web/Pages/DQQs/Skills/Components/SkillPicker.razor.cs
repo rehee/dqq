@@ -71,6 +71,22 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 		 BindingTypeFilters?.Any()==true && BindingTypeFilters.Any(bt => bt.Selected == true && b.BindingType == bt.Value)).ToArray();
 		public SkillProfile[] AllAvaliableSkills { get; set; } = [];
 
+		public string PickedSkillClass(SkillProfile? profile)
+		{
+			var isSelect = PickedSkill == profile ? "border-danger" : "";
+			var isPicked = ClickedSkillProfile?.ProfileNumber == profile?.ProfileNumber? "border-warning" : "";
+			var unableSelect = "";
+			if (SelectedIndex == 0)
+			{
+				if(profile?.BindingType== EnumSkillBindingType.Support)
+				{
+					unableSelect = "unpicked_skill";
+				}
+			}
+
+			return $"{isSelect} {isPicked} {unableSelect} {unableSelect}";
+		}
+
 		public Task SkillClick(int? index = null)
 		{
 			SelectedIndex = index;
