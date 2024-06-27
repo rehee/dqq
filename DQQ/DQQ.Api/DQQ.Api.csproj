@@ -16,7 +16,7 @@
     <_WebToolingArtifacts Remove="Properties\serviceDependencies.json" />
     <_WebToolingArtifacts Remove="Properties\serviceDependencies.local.json" />
   </ItemGroup>
-
+ 
   <ItemGroup>
     <None Include="Properties\serviceDependencies.local.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -43,5 +43,10 @@
     <ProjectReference Include="..\DQQ.Core\DQQ.Core.csproj" />
     <ProjectReference Include="..\DQQ.Services\DQQ.Services.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Content Remove="wwwroot\_content\**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
 </Project>
