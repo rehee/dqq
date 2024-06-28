@@ -18,7 +18,7 @@ namespace DQQ.Profiles.Items.Equipments
 			}
 			var equip = base.GenerateEquipComponent(r, itemLevel, rarity);
 			equip.Property!.AttackPerSecond = AttackPerSecond;
-			var baseDamage = itemLevel.DefaultValue(1).WeponDamageIncrease(r, DamageMultiple);
+			var baseDamage = itemLevel.DefaultValue(1).WeponDamageIncrease(r, 0.85m)* DamageMultiple;
 			var attackPerHit = (int)Math.Round(baseDamage / AttackPerSecond, 0);
 			if (attackPerHit <= 0)
 			{

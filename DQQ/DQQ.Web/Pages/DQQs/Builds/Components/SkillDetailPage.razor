@@ -37,11 +37,11 @@
 
 			</BodyTemplate>
 			<FooterTemplate>
-				标签:
+				
 				@foreach (var tag in Profile?.OriginalTag ?? [])
 				{
 					<Tag>
-						tag
+						@tag
 					</Tag>
 				}
 			</FooterTemplate>

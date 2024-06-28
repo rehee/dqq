@@ -47,7 +47,9 @@ namespace DQQ.Components.Durations
 			}
 			TickRemain--;
 
-
+			lastTarget = parameter.From;
+			lastMap = parameter.Map;
+			lastParameter = parameter;
 
 			if (Duration?.DurationType == EnumDurationType.Buff)
 			{
@@ -103,6 +105,11 @@ namespace DQQ.Components.Durations
 		protected override void SelfDamageReduction(ComponentTickParameter parameter)
 		{
 			Duration!.DamageReduction(parameter, this);
+		}
+
+		protected override void SelfBeforeTakeDamage(ComponentTickParameter parameter)
+		{
+			Duration!.BeforeDamageTaken(parameter, this);
 		}
 	}
 }

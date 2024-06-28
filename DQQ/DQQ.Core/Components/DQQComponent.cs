@@ -134,7 +134,7 @@ namespace DQQ.Components
 		}
 		protected virtual void SelfBeforeTakeDamage(ComponentTickParameter parameter)
 		{
-
+			
 		}
 		public void AfterTakeDamage(ComponentTickParameter parameter)
 		{

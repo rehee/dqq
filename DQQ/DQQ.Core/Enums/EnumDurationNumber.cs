@@ -3,9 +3,10 @@
   public enum EnumDurationNumber
   {
     None = 0,
-    Rend = 1,
-    Renew = 1001,
-    BattleShout = 2001,
-    PowerWordShield = 10001,
-  }
+    Rend,
+    Renew,
+    BattleShout,
+    PowerWordShield,
+		SacrificialGuard,
+	}
 }

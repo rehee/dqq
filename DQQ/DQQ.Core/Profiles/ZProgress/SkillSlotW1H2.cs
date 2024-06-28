@@ -18,7 +18,7 @@ namespace DQQ.Profiles.ZProgress
 		public override string? Discription => "技能栏";
 		public override bool AvaliableCheck(Character? character)
 		{
-			return false;
+			return EnumChapter.C_1_7.IsUnlocked(character);
 		}
 	}
 }

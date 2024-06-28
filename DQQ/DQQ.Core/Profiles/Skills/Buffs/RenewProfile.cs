@@ -52,7 +52,7 @@ namespace DQQ.Profiles.Skills.Buffs
 		}
 		public override long GetDurationPower(ComponentTickParameter? parameter = null)
 		{
-			return parameter?.Healings.Where(b => b.HealingType == EnumHealingType.HealingOverTime).Sum(b => b.Points) ?? 0;
+			return parameter?.Healings?.Where(b => b.HealingType == EnumHealingType.HealingOverTime).Sum(b => b.Points) ?? 0;
 		}
 		protected override void DealingHealing(ComponentTickParameter? parameter)
 		{

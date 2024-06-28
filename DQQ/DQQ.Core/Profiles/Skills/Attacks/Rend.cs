@@ -2,6 +2,7 @@
 using DQQ.Commons;
 using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
+using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Components.Stages.Maps;
 using DQQ.Durations;
 using DQQ.Enums;
@@ -22,13 +23,17 @@ namespace DQQ.Profiles.Skills.Attacks
 	[Pooled]
 	public class Rend : GeneralSkill
 	{
-		
-	
+
+		public override bool IsAvaliableForCharacter(Character? character)
+		{
+			return EnumChapter.C_1_7.IsUnlocked(character);
+		}
+
 		public override EnumSkillCategory Category => EnumSkillCategory.Core;
 		public override EnumDamageHand DamageHand => EnumDamageHand.MainHand;
 		public override decimal CastTime => 0;
-		public override decimal CoolDown => 1.5m;
-		public override decimal DamageRate => 3m;
+		public override decimal CoolDown => 2.5m;
+		public override decimal DamageRate => 6m;
 
 		public override bool CastWithWeaponSpeed => false;
 
@@ -36,7 +41,7 @@ namespace DQQ.Profiles.Skills.Attacks
 
 		public override string? Name => "撕裂";
 
-		public override string? Discription => $"使用武器撕裂敌人. 在 {GetDurationSeconds()} 秒内造成住手武器伤害300%的流血伤害";
+		public override string? Discription => $"使用武器撕裂敌人. 在 {GetDurationSeconds()} 秒 内造成主手武器伤害 600% 的流血伤害";
 
 		public override long GetDurationPower(ComponentTickParameter? parameter = null)
 		{

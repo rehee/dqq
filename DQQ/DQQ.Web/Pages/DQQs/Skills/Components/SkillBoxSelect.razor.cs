@@ -20,11 +20,11 @@ namespace DQQ.Web.Pages.DQQs.Skills.Components
 			switch (slot)
 			{
 				case EnumSkillSlot.MainSlot: return true;
-				case EnumSkillSlot.WeaponSlotTH: return EnumProgress.SkillSlotW2H.IsUnlocked(SelectedCharacter);
-				case EnumSkillSlot.WeaponSlot1: return EnumProgress.SkillSlotW1H1.IsUnlocked(SelectedCharacter);
-				case EnumSkillSlot.WeaponSlot2: return EnumProgress.SkillSlotW1H2.IsUnlocked(SelectedCharacter);
+				case EnumSkillSlot.WeaponSlotTH: return SelectedCharacter.WithTwoHandWeapon && EnumProgress.SkillSlotW2H.IsUnlocked(SelectedCharacter);
+				case EnumSkillSlot.WeaponSlot1: return SelectedCharacter.WithWeapon1 && EnumProgress.SkillSlotW1H1.IsUnlocked(SelectedCharacter);
+				case EnumSkillSlot.WeaponSlot2: return SelectedCharacter.WithWeapon2 && EnumProgress.SkillSlotW1H2.IsUnlocked(SelectedCharacter);
 				case EnumSkillSlot.GeneralSlot1: return EnumProgress.SkillSlotGeneral1.IsUnlocked(SelectedCharacter);
-				case EnumSkillSlot.GeneralSlot2: return EnumProgress.SkillSlotGeneral2.IsUnlocked(SelectedCharacter);
+				case EnumSkillSlot.GeneralSlot2: return  EnumProgress.SkillSlotGeneral2.IsUnlocked(SelectedCharacter);
 				case EnumSkillSlot.GeneralSlot3: return EnumProgress.SkillSlotGeneral3.IsUnlocked(SelectedCharacter);
 			}
 

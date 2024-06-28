@@ -1,23 +1,18 @@
 ﻿using DQQ.Attributes;
 using DQQ.Commons;
 using DQQ.Components.Parameters;
-using DQQ.Components.Stages;
-using DQQ.Components.Stages.Maps;
+using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Enums;
-using DQQ.Helper;
-using ReheeCmf.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Skills.Buffs
 {
 	[Pooled]
 	public class HealProfile : AbHealing
 	{
-		
+		public override bool IsAvaliableForCharacter(Character? character)
+		{
+			return EnumChapter.C_1_7.IsUnlocked(character);
+		}
 		public override bool NoPlayerSkill => false;
 		
 		public override decimal CastTime => 0m;

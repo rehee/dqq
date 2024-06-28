@@ -13,7 +13,7 @@ namespace DQQ.Profiles.Mobs
 {
 	public abstract class MobProfile : DQQProfile<EnumMob>, IDropper, IXP
 	{
-		public virtual decimal AttackSpeedModify => 0;
+		public virtual decimal AttackPerSecond => 1;
 		public abstract bool IsBoss { get; }
 		public virtual double DamagePercentage => 1;
 		public virtual double HPPercentage => 1;

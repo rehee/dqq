@@ -14,7 +14,8 @@ namespace DQQ.Enums
 		Crab = 2004,
 		CrabAssassin = 2005,
 		SoftCrab = 2006,
-
+		ShieldCrab = 2007,
+		MagicCrab = 2008,
 		GoblinChief = 100001
 	}
 }

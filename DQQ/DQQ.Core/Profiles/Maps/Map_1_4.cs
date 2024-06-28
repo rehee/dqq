@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.Maps
 {
 	[Pooled]
-	public class Chapter_1_4 : MapProfile
+	public class Map_1_4 : MapProfile
 	{
 		public override int TrashMinMob => 8;
 		public override int TrashMaxMob => 10;

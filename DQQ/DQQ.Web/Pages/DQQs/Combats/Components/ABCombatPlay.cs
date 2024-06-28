@@ -119,23 +119,27 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			var basicDelayTime = 1000 / DQQGeneral.TickPerSecond;
 			for (var i = 0; i <= lastTick; i++)
 			{
-				CurrentActionTick = i;
 				if (IsDispose)
 				{
 					return;
 				}
+				CurrentActionTick = i;
+				
+				
+				
+				
 				var logs = CombatLog.Where(b => b.ActionTick == i).ToArray();
 				var timeLineStart = CombatResult?.Timelines?.Where(b => b.ActionTick == i && b.IsStart).FirstOrDefault();
 				var timeLineEnd = CombatResult?.Timelines?.Where(b => b.ActionTick == i && !b.IsStart).FirstOrDefault();
 				
-				var totaDisplayPerTick = (logs?.Count() ?? 0) + (timeLineStart!=null?1:0) + (timeLineEnd != null ? 1 : 0);
+				var totaDisplayPerTick = Math.Max(1, (logs?.Count() ?? 0) + (timeLineStart!=null?1:0) + (timeLineEnd != null ? 1 : 0));
 				var thisTickDelay = totaDisplayPerTick<=0 ? basicDelayTime : basicDelayTime / totaDisplayPerTick;
 				if (timeLineStart != null)
 				{
 					await Task.Delay(thisTickDelay);
 					Players = timeLineStart?.Players?.ToList();
 					Enemies = timeLineStart?.Enemies?.ToList();
-					StateHasChanged();
+					//StateHasChanged();
 					
 				}
 				if (logs?.Any() == true)
@@ -156,20 +160,21 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 
 						if (log.LogType == Enums.EnumLogType.WaveChange)
 						{
-							if (timeLineStart == null)
-							{
-								//Players = log.Players?.ToList();
-								//Enemies = log.Enemies?.ToList();
-								StateHasChanged();
-							}
-
-							await Task.Delay(1000);
+							//if (timeLineStart == null)
+							//{
+							//	//Players = log.Players?.ToList();
+							//	//Enemies = log.Enemies?.ToList();
+							//	StateHasChanged();
+							//}
+							await Task.Delay(3000);
+							StateHasChanged();
+							
 						}
 						else
 						{
 							if (Enemies?.All(b => b.PercentageHP <= 0) == true || Players?.All(b => b.PercentageHP <= 0) == true)
 							{
-								await Task.Delay(1500);
+								await Task.Delay(3000);
 								StateHasChanged();
 							}
 							else
@@ -193,10 +198,10 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 					StateHasChanged();
 					
 				}
-				if (Enemies?.All(b => b.PercentageHP <= 0) == true || Players?.All(b => b.PercentageHP <= 0) == true)
-				{
-					await Task.Delay(3000);
-				}
+				//if (Enemies?.All(b => b.PercentageHP <= 0) == true || Players?.All(b => b.PercentageHP <= 0) == true)
+				//{
+				//	await Task.Delay(1500);
+				//}
 				continue;
 			}
 			if (AfterCombatPlay != null)

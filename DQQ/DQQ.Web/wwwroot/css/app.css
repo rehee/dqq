@@ -230,12 +230,16 @@ section .has-sidebar {
   position: relative;
   transition: all .25s linear;
   cursor: pointer;
+  margin-right: 10px;
 }
-
+  .badge-widget .tag {
+    --bb-tag-padding-y: 5px;
+    --bb-tag-line-height: 24px;
+  }
   .badge-widget .badge {
     position: absolute;
     top: -10px;
-    right: -20px;
+    right: -10px;
     opacity: 0.8;
   }
 .item_popup {
@@ -295,13 +299,14 @@ section .has-sidebar {
 }
 
 .equip_select_slot .tag {
-  border: 1px solid red;
+  border: 1px solid red !important;
 }
 .empty_equip_slot {
   border: 1px solid gray;
+  background-color: lightgray;
 }
 .equip_select_slot .empty_equip_slot {
-  border: 1px solid red;
+  border: 1px solid red ;
 }
 
 .floating-div {

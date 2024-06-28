@@ -3,11 +3,11 @@
 	@if (WithEquips)
 	{
 
-		<Tag @onclick="()=> ThisClicked()" Color="ThisColor" ShowDismiss="ShowsDismiss" OnDismiss="ThisOnDismiss">@Slots.GetString()</Tag>
+		<Tag @onclick="()=> ThisClicked()" Color="ThisColor" class="border border-dark" ShowDismiss="ShowsDismiss" OnDismiss="ThisOnDismiss">@Slots.GetString()</Tag>
 	}
 	else
 	{
-		<Tag class="empty_equip_slot" Color="Color.Secondary" @onclick="()=> ThisClicked()">@Slots.GetString()</Tag>
+		<Tag class="empty_equip_slot" Color="Color.Dark" @onclick="()=> ThisClicked()">@Slots.GetString()</Tag>
 	}
 
 </div>

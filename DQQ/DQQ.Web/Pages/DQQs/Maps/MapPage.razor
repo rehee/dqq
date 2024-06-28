@@ -70,7 +70,7 @@
 											<div class="col-auto col-form-label">
 												<span>血量百分比</span>
 												<span>
-													<Popover Trigger="click" Content="怪物的基础血量. 百分比越高则血量越高">
+													<Popover  Content="怪物的基础血量. 百分比越高则血量越高">
 														<i class="fas fa-circle-info"></i>
 													</Popover>
 												</span>
@@ -83,7 +83,7 @@
 											<div class="col-auto col-form-label">
 												<span>伤害百分比</span>
 												<span>
-													<Popover Trigger="click" Content="怪物的基础伤害. 百分比越高则造成的伤害越高">
+													<Popover  Content="怪物的基础伤害. 百分比越高则造成的伤害越高">
 														<i class="fas fa-circle-info"></i>
 													</Popover>
 												</span>
@@ -94,9 +94,22 @@
 										</div>
 										<div class="row g-3">
 											<div class="col-auto col-form-label">
+												<span>每秒攻击次数</span>
+												<span>
+													<Popover Content="每秒怪物攻击的次数. 数字越高 攻击频率越高单次伤害越小.反之攻击频率低 单次伤害高">
+														<i class="fas fa-circle-info"></i>
+													</Popover>
+												</span>
+											</div>
+											<div class="col-auto">
+												<Display TValue="Decimal?" Value="@momster?.AttackPerSecond" />
+											</div>
+										</div>
+										<div class="row g-3">
+											<div class="col-auto col-form-label">
 												<span>站位</span>
 												<span>
-													<Popover Trigger="click" Content="怪物的展位. 小怪战中 站位越高的怪物越倾向于站在队伍的后方">
+													<Popover  Content="怪物的站位. 小怪战中 站位越高的怪物越倾向于站在队伍的后方">
 														<i class="fas fa-circle-info"></i>
 													</Popover>
 												</span>
@@ -113,7 +126,7 @@
 													<Tag>
 														@s.Profile?.Name
 													</Tag>
-													<Popover Trigger="click" Content="@s.Profile?.ExtureDiscription" IsHtml="true">
+													<Popover Content="@s.Profile?.ExtureDiscription" IsHtml="true">
 														<i class="fas fa-circle-info"></i>
 													</Popover>
 												</div>

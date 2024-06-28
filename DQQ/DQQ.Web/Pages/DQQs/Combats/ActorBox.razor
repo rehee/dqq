@@ -51,21 +51,22 @@
 			</BodyTemplate>
 			<FooterTemplate>
 
-				<div class="row g-3" style="min-height:50px;">
+				<div class="g-3" style="">
 					@if (Actor?.Durations?.Any() == true)
 					{
 						foreach (var d in Actor.Durations)
 						{
 
 							var icon = d.GetDurationIcon();
-							<div class="col-auto">
-								<div class="badge-widget">
-									<Tag Color="icon.IconColor">
-										<i class="@icon.IconName" aria-hidden="true"></i>
-									</Tag>
+						@* 	<div class="col-auto">
+								
+							</div> *@
+							<div class="badge-widget">
+								<Tag Color="icon.IconColor">
+									<i class="@icon.IconName" aria-hidden="true"></i>
+								</Tag>
 
-									<Badge Color="icon.IconColor"><span style="padding: 0 2px;">@d.RemainSeconds</span></Badge>
-								</div>
+								<Badge Color="icon.IconColor"><span style="padding: 0 2px;">@d.RemainSeconds</span></Badge>
 							</div>
 						}
 					}

@@ -191,6 +191,10 @@ namespace DQQ.Components.Stages.Maps
 							p.SelectTarget(Players?.FirstOrDefault());
 						}
 						await p.OnTick(ComponentTickParameter.New(TickParameter, p, enemyPack, playerPack, this));
+						if (Players?.All(b => b.Alive == false) == true)
+						{
+							break;
+						}
 					}
 					if (Players?.All(b => b.Alive == false) == true)
 					{

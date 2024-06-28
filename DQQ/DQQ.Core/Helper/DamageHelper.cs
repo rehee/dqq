@@ -69,25 +69,32 @@ namespace DQQ.Helper
 			{
 				return Enumerable.Empty<DamageDeal>().ToArray();
 			}
-			var damageHand = profile.DamageHand;
-			if (profile.DamageHand == EnumDamageHand.EachHand)
+			var skillBaseDamage = profile.GetBaseDamage(parameter);
+			
+			if (skillBaseDamage == null)
 			{
-				if (caster.PrevioursMainHand == false || caster.PrevioursMainHand == null)
+				var damageHand = profile.DamageHand;
+				if (profile.DamageHand == EnumDamageHand.EachHand)
 				{
-					damageHand = EnumDamageHand.MainHand;
+					if (caster.PrevioursMainHand == false || caster.PrevioursMainHand == null)
+					{
+						damageHand = EnumDamageHand.MainHand;
+					}
+					else
+					{
+						damageHand = EnumDamageHand.OffHand;
+					}
 				}
-				else
+				var basicDamage = DamageHelper.BasicDamage(damageHand, caster, map);
+				if (basicDamage == 0)
 				{
-					damageHand = EnumDamageHand.OffHand;
+					return Enumerable.Empty<DamageDeal>().ToArray();
 				}
-			}
-			var basicDamage = DamageHelper.BasicDamage(damageHand, caster, map);
-			if (basicDamage == 0)
-			{
-				return Enumerable.Empty<DamageDeal>().ToArray();
+				skillBaseDamage = basicDamage;
+				
 			}
 			var supportSpellRate = profile.DamageRate + (parameter?.SupportSkills?.Sum(b => b.DamageRate) ?? 0);
-			var skillDamage = basicDamage.Percentage(supportSpellRate);
+			var skillDamage = skillBaseDamage.Percentage(supportSpellRate);
 			return [DamageDeal.New(skillDamage)];
 		}
 

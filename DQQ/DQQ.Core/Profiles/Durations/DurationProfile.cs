@@ -102,5 +102,10 @@ namespace DQQ.Profiles.Durations
 		{
 
 		}
+
+		public virtual void BeforeDamageTaken(ComponentTickParameter parameter, DurationComponent component)
+		{
+
+		}
 	}
 }

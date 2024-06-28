@@ -18,6 +18,6 @@ namespace DQQ.Profiles.Mobs.Lists
 		public override string? Discription => "功高防低的螃蟹,一棒子就可以打碎. 但千万别被他夹到. 很疼. 倾向呆在队伍的后方偷袭你";
 		public override double DamagePercentage => 0.7;
 		public override double HPPercentage => 0.05;
-		public override decimal AttackSpeedModify => -0.90m;
+		public override decimal AttackPerSecond => base.AttackPerSecond;
 	}
 }

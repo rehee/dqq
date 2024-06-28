@@ -61,7 +61,10 @@ namespace DQQ.Profiles.Skills
 		{
 			return damage;
 		}
-
+		public virtual long? GetBaseDamage(ComponentTickParameter? parameter)
+		{
+			return null;
+		}
 		public virtual DamageDeal[] CalculateDamage(ComponentTickParameter? parameter)
 		{
 			var result = DamageHelper

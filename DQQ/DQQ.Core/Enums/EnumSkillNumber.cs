@@ -14,10 +14,13 @@ namespace DQQ.Enums
 		SwingAttack,
 		Rend,
 		Healing,
+		
 		Renew,
 		BattleShout,
-		HatefulStrike,
+		
 		PowerWordShield,
+		
+
 
 		EmpowerSupport,
 		CleaveSupport,
@@ -25,11 +28,14 @@ namespace DQQ.Enums
 		ZealSupport,
 		PiercingSupport,
 		BlastSupport,
-
-
-
+		
+		
 		MultiStrike,
-
-
+		
+		
+		SacrificialGuard,
+		HatefulStrike,
+		DarkHeal,
+		DarkGreaterHeal,
 	}
 }

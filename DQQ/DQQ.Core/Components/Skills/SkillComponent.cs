@@ -75,7 +75,7 @@ namespace DQQ.Components.Skills
 		public EnumSkillSlot Slot { get; set; }
 		public decimal CastTime { get; set; }
 		public decimal Cooldown { get; set; }
-		public bool CastWithWeaponSpeed { get; set; }
+		public bool CastWithWeaponSpeed => SkillProfile?.CastWithWeaponSpeed ?? false;
 		public decimal DamageRate { get; set; }
 		[JsonIgnore]
 		public ITarget? SkillTarget { get; set; }
@@ -87,9 +87,22 @@ namespace DQQ.Components.Skills
 		public int CastTickCount { get; set; }
 		public int CDTickCount { get; set; }
 
-		public int CastWithWeaponSpeedTick => castWithWeaponSpeedTick <= 0 ? CastTick : castWithWeaponSpeedTick;
+		public int CastWithWeaponSpeedTick(IActor? from)
+		{
+			if (SkillProfile?.CastWithWeaponSpeed == true)
+			{
+				return WeaponSpeedTick(from);
+			}
+			return CastTick;
+		}
 
-		private int castWithWeaponSpeedTick { get; set; }
+		public int WeaponSpeedTick(IActor? from)
+		{
+			var attackPersecond = from?.CombatPanel?.DynamicPanel?.AttackPerSecond ?? 1;
+			var attackTime = 1 / attackPersecond;
+			var tick = attackTime * DQQGeneral.TickPerSecond;
+			return (int)Math.Round(tick, 0);
+		}
 
 
 		[JsonIgnore]
@@ -118,39 +131,7 @@ namespace DQQ.Components.Skills
 			}
 			SupportSkillComponent.Add(skillComponent);
 		}
-		public override void SetParent(DQQComponent? Parent, int level = 0)
-		{
-			base.SetParent(Parent);
-			if (level == 1)
-			{
-				var pParent = Parent?.Parent;
-				if (pParent != null)
-				{
-					if (pParent is Actor actor)
-					{
-						castWithWeaponSpeedTick = GetCastWithWeaponSpeedTick(actor);
-					}
-					if (pParent is SkillComponent skillComponent)
-					{
-						if (skillComponent.Parent != null && skillComponent.Parent is Actor caster)
-							castWithWeaponSpeedTick = GetCastWithWeaponSpeedTick(caster);
-					}
-				}
-			}
-			else
-			{
-				if (Parent is Actor actor)
-				{
-					castWithWeaponSpeedTick = GetCastWithWeaponSpeedTick(actor);
-				}
-				if (Parent is SkillComponent skillComponent)
-				{
-					if (skillComponent.Parent != null && skillComponent.Parent is Actor caster)
-						castWithWeaponSpeedTick = GetCastWithWeaponSpeedTick(caster);
-				}
-			}
-
-		}
+		
 		protected HashSet<EnumSkillTag> skillTags { get; set; } = new HashSet<EnumSkillTag>();
 		public IEnumerable<EnumSkillTag> SkillTags => skillTags.Distinct();
 
@@ -177,14 +158,14 @@ namespace DQQ.Components.Skills
 
 		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
 		{
-			base.Initialize(entity, parent);
+			
 			if (entity is SkillEntity sp)
 			{
 				try
 				{
 					
 					SkillNumber = sp.SkillNumber;
-					
+					base.Initialize(entity, parent);
 					var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(sp.SkillNumber);
 					InitSkillProfile(skillProfile, sp.Slot);
 					SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
@@ -253,7 +234,6 @@ namespace DQQ.Components.Skills
 			CastTime = profile?.CastTime ?? 0;
 			Cooldown = profile?.CoolDown ?? 0;
 			DamageRate = profile?.DamageRate ?? 0;
-			CastWithWeaponSpeed = profile?.CastWithWeaponSpeed ?? false;
 			DisplayName = profile?.Name;
 			Slot = skillSlot;
 			InitializeSkillTags();
@@ -261,6 +241,7 @@ namespace DQQ.Components.Skills
 
 		public int GetCastWithWeaponSpeedTick(ITarget? caster)
 		{
+			var profile = this.SkillProfile;
 			if (CastWithWeaponSpeed != true || caster?.CombatPanel?.DynamicPanel.AttackPerSecond == null || caster?.CombatPanel?.DynamicPanel.AttackPerSecond == 0)
 			{
 				return CastTick;
@@ -298,7 +279,7 @@ namespace DQQ.Components.Skills
 			TotalCount++;
 			WaveCount++;
 			CastTickCount = 0;
-			if (CastWithWeaponSpeedTick <= 0 && CDTick <= 0)
+			if (CastWithWeaponSpeedTick(parameter?.From as IActor) <= 0 && CDTick <= 0)
 			{
 				CDTickCount = (int)(DQQGeneral.MinCooldown * DQQGeneral.TickPerSecond);
 			}
@@ -357,7 +338,7 @@ namespace DQQ.Components.Skills
 
 
 
-			if (CastTickCount < CastWithWeaponSpeedTick)
+			if (CastTickCount < CastWithWeaponSpeedTick(parameter?.From as IActor))
 			{
 				result.SetError();
 				CastTickCount++;

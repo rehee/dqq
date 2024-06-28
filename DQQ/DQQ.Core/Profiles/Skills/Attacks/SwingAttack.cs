@@ -13,37 +13,39 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DQQ.Profiles.Skills.Attacks
 {
 	[Pooled]
 	public class SwingAttack : GeneralSkill
 	{
-		
+		public override bool IsAvaliableForCharacter(Character? character)
+		{
+			return EnumChapter.C_1_7.IsUnlocked(character);
+		}
 		public override EnumSkillCategory Category => EnumSkillCategory.Core;
 		public override EnumDamageHand DamageHand => EnumDamageHand.BothHand;
 		public override decimal CastTime => 0m;
 		public override decimal CoolDown => 6m;
-		public override decimal DamageRate => 1.5m;
-		public override string? Discription => "迅捷的一击.造成武器伤害150%的伤害. 双持时候同时造成主副手伤害并且有额外加成.";
+		public override decimal DamageRate => 1m;
+		public override string? Discription => "迅捷的一击. 同时使用主副手的武器对敌人发动攻击. 造成 100% 主手的伤害 与 副手150%的伤害";
 		public override string? Name => "迅猛攻击";
-		public override bool CastWithWeaponSpeed => false;
+		public override bool CastWithWeaponSpeed => true;
 
 		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.SwingAttack;
 
 
-
-		public override DamageDeal[] CalculateDamage(ComponentTickParameter? parameter)
+		public override long? GetBaseDamage(ComponentTickParameter? parameter)
 		{
-			var damage = base.CalculateDamage(parameter);
-
 			if (parameter?.From?.CombatPanel.IsDuelWield == true)
 			{
-				return damage.Select(b => DamageDeal.New(b.DamagePoint.Percentage(1.5m), b.DamageType)).ToArray();
+				return parameter?.From?.CombatPanel.DynamicPanel.MainHand + (long)((parameter?.From?.CombatPanel.DynamicPanel.OffHand??0) *1.5);
 			}
-
-			return damage;
+			return parameter?.From?.CombatPanel.DynamicPanel.MainHand;
 		}
+
+		
 
 
 	}

@@ -25,5 +25,14 @@
   <ItemGroup>
     <ProjectReference Include="..\DQQ.Core\DQQ.Core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Resources\Chapters\C_1s\C_1_7s\Chapter_C_1_7_Body.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Resources\Chapters\C_1s\C_1_7s\Chapter_C_1_7_Info.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="false" />
 </Project>

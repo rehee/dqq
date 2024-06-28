@@ -16,7 +16,7 @@
 
 @if (EnumProgress.MainTargetPriority.IsUnlocked(SelectedCharacter))
 {
-	<Card IsCollapsible="true"  HeaderText="主目标优先级">
+	<Card>
 		<HeaderTemplate>
 			主目标优先级  @((SelectedCharacter?.TargetPriority).GetString() ?? "n/a")
 		</HeaderTemplate>
