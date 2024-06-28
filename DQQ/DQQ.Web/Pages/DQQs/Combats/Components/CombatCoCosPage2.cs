@@ -1,12 +1,11 @@
 ﻿using Blazor.Serialization.Extensions;
-using DQQ.Commons.DTOs;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DQQ.Web.Pages.DQQs.Combats.Components
 {
-	public class CombatCoCos2Page : ABCombatPlay
+	public class CombatCoCos2Page : CombatPlay
 	{
 
 		protected override async Task OnInitializedAsync()

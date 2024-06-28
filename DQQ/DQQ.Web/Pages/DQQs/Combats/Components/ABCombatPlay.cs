@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace DQQ.Web.Pages.DQQs.Combats.Components
 {
-	public class ABCombatPlay : DQQPageBase
+	public class CombatPlay : DQQPageBase
 	{
 
 		[Parameter]

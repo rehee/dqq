@@ -10,7 +10,7 @@ using System.Net.Http.Headers;
 
 namespace DQQ.Web.Pages.DQQs.Combats.Components
 {
-	public abstract class AbCombatPage : DQQPageBase
+	public abstract class CombatPage : DQQPageBase
 	{
 
 		[Inject]

@@ -4,7 +4,7 @@ using DQQ.Enums;
 
 namespace DQQ.Web.Pages.DQQs.Combats.Components
 {
-	public class CombatPlayListPage : AbCombatPage
+	public class CombatPlayListPage : CombatPage
 	{
 		protected override async Task OnInitializedAsync()
 		{
