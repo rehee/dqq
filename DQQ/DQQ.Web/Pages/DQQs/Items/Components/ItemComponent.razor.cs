@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace DQQ.Web.Pages.DQQs.Items
 {
-	public partial class ItemComponent
+	public class ItemComponentPage: DQQPageBase
 	{
 
 		public Color ThisColor =>
@@ -52,13 +52,17 @@ namespace DQQ.Web.Pages.DQQs.Items
 					if (Item?.Affixes.Any() == true)
 					{
 						var ag = Item?.Affixes.GroupBy(b => b.AffixeProfile?.IsPrefix == true).OrderByDescending(b => b.Key);
-						foreach (var aa in ag)
+						if(ag?.Any() == true)
 						{
-							foreach (var aaa in aa)
+							foreach (var aa in ag)
 							{
-								componentFooter.Add((aaa?.AffixeProfile?.Name, aaa?.AffixeProfile?.TierLevel));
+								foreach (var aaa in aa)
+								{
+									componentFooter.Add((aaa?.AffixeProfile?.Name, aaa?.AffixeProfile?.TierLevel));
+								}
 							}
 						}
+						
 						Footer = componentFooter?.ToArray();
 						componentFooter = null;
 					}
