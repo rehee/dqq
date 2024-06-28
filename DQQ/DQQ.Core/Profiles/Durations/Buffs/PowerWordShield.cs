@@ -13,46 +13,47 @@ using System.Threading.Tasks;
 
 namespace DQQ.Profiles.Durations.Buffs
 {
-  [Pooled]
-  public class PowerWordShield : DurationProfile
-  {
-    public override EnumDurationType? DurationType => EnumDurationType.Buff;
+	[Pooled]
+	public class PowerWordShield : DurationProfile
+	{
+		public override EnumDurationType? DurationType => EnumDurationType.Buff;
 
-    public override EnumDurationNumber ProfileNumber => EnumDurationNumber.PowerWordShield;
+		public override EnumDurationNumber ProfileNumber => EnumDurationNumber.PowerWordShield;
 
-    public override int StackLimitation => 1;
-    public override bool ExtendIfFull => false;
+		public override int StackLimitation => 1;
+		public override bool ExtendIfFull => false;
 
-    public override string? Name => "回复 (buff)";
+		public override string? Name => "盾 (buff)";
 
-    public override string? Discription => "周期性的回复生命, 持续5秒.";
+		public override string? Discription => "吸收伤害";
 
 
-    public override void BeforeDamageReduction(ComponentTickParameter parameter, DurationComponent component)
-    {
-      if (parameter.Damages?.Any() != true)
-      {
-        return;
-      }
-      foreach (var damage in parameter.Damages!.ToArray())
-      {
-        if (component.Power >= damage.DamagePoint)
-        {
-          component.Power = component.Power - damage.DamagePoint;
-          damage.DamagePoint = 0;
-          if (component.Power == 0)
-          {
-            component.TickRemain = 0;
-          }
-        }
-        else
-        {
-          damage.DamagePoint = damage.DamagePoint - component.Power;
-          damage.DamagePoint = 0;
-          component.TickRemain = 0;
-        }
-      }
-      base.BeforeDamageReduction(parameter, component);
-    }
-  }
+
+
+		public override void BeforeDamageTaken(ComponentTickParameter parameter, DurationComponent component)
+		{
+			var damage = parameter.Damage?.DamagePoint ?? 0;
+			if (damage <= 0)
+			{
+				return;
+			}
+			if (component.Power >= damage)
+			{
+				component.Power = component.Power - damage;
+				parameter.Damage.DamagePoint = 0;
+				parameter.Map?.AddMapLogHealingTaken(true, parameter?.From, parameter?.To, this, new TickLogs.TickLogHealing { Absorbe = damage });
+			}
+			else
+			{
+				parameter.Damage.DamagePoint = parameter.Damage.DamagePoint - component.Power;
+				component.Power = 0;
+				component.TickRemain = 0;
+				parameter.Map?.AddMapLogHealingTaken(true, parameter?.From, parameter?.To, this, new TickLogs.TickLogHealing { Absorbe = component.Power });
+			}
+			if (component.Power == 0)
+			{
+				component.TickRemain = 0;
+			}
+		}
+	}
 }

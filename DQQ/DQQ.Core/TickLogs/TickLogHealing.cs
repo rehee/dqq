@@ -19,5 +19,6 @@ namespace DQQ.TickLogs
     }
     public long? HealingDone { get; set; }
     public long? OverHeal { get; set; }
-  }
+		public long? Absorbe { get; set; }
+	}
 }

@@ -33,7 +33,7 @@ namespace DQQ.Profiles.Skills.Buffs
 
 		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.PowerWordShield;
 
-		public override string? Name => "真言术 盾";
+		public override string? Name => "盾";
 
 		public override string? Discription => $"释放一个护盾暂时保护自身 吸收一定的伤害 持续 {GetDurationSeconds()} 秒";
 

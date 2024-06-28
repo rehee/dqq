@@ -269,7 +269,7 @@ namespace DQQ.Web.Pages.DQQs.Combats
 				Id = Guid.NewGuid(),
 				CreateDate = DateTime.Now,
 				Color = Skill != null ? Color.Warning : Healing != null ? Color.Success : Color.Danger,
-				Text = Skill != null ? Skill?.SkillName : Healing != null ? $"{Healing?.HealingDone}" : Damage?.DisplayDamage ,
+				Text = Skill != null ? Skill?.SkillName : Healing != null ? $"{Healing?.HealingDone} {(Healing?.Absorbe>0?$"ÎüÊÕ({Healing?.Absorbe})":"")} {(Healing?.OverHeal>0?$"¹ýÁ¿({Healing?.OverHeal})":"")}" : Damage?.DisplayDamage ,
 			};
 		}
 		public TextFloatParameter? GetAnimation()
