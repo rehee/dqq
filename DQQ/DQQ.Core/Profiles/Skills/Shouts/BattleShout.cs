@@ -21,10 +21,7 @@ namespace DQQ.Profiles.Skills.Shouts
 	[Pooled]
 	public class BattleShout : SkillProfile
 	{
-		public override bool IsAvaliableForCharacter(Character? character)
-		{
-			return EnumChapter.C_1_7.IsUnlocked(character);
-		}
+		public override EnumChapter? UnLockedChapter => EnumChapter.C_1_7;
 		public override EnumSkillCategory Category => EnumSkillCategory.Strategy;
 		public override bool NoPlayerSkill => false;
 		public override decimal CastTime => 0;

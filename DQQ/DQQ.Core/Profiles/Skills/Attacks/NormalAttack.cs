@@ -19,11 +19,6 @@ namespace DQQ.Profiles.Skills.Attacks
 	[Pooled]
 	public class NormalAttack : GeneralSkill
 	{
-
-		public override bool IsAvaliableForCharacter(Character character)
-		{
-			return true;
-		}
 		public override EnumDamageHand DamageHand => EnumDamageHand.EachHand;
 		public override decimal CastTime => 1.2m;
 		public override decimal CoolDown => 0m;

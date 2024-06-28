@@ -9,10 +9,7 @@ namespace DQQ.Profiles.Skills.Buffs
 	[Pooled]
 	public class HealProfile : AbHealing
 	{
-		public override bool IsAvaliableForCharacter(Character? character)
-		{
-			return EnumChapter.C_1_7.IsUnlocked(character);
-		}
+		public override EnumChapter? UnLockedChapter => EnumChapter.C_1_7;
 		public override bool NoPlayerSkill => false;
 		
 		public override decimal CastTime => 0m;

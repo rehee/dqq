@@ -24,11 +24,7 @@ namespace DQQ.Profiles.Skills.Attacks
 	public class Rend : GeneralSkill
 	{
 
-		public override bool IsAvaliableForCharacter(Character? character)
-		{
-			return EnumChapter.C_1_7.IsUnlocked(character);
-		}
-
+		public override EnumChapter? UnLockedChapter => EnumChapter.C_1_7;
 		public override EnumSkillCategory Category => EnumSkillCategory.Core;
 		public override EnumDamageHand DamageHand => EnumDamageHand.MainHand;
 		public override decimal CastTime => 0;

@@ -9,6 +9,13 @@ namespace DQQ.Enums
 	public enum EnumChapter
 	{
 		None = 0,
-		C_1_1, C_1_2, C_1_3, C_1_4, C_1_5, C_1_6, C_1_7, C_1_8, C_1_9, C_1_10
+		C_1_1, C_1_2, C_1_3, C_1_4, C_1_5, C_1_6, C_1_7, C_1_8, C_1_9, C_1_10,
+
+
+
+		C_Non_Open
+
+
+
 	}
 }

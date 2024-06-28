@@ -14,10 +14,7 @@ namespace DQQ.Profiles.Skills.Supports
 	[Pooled]
 	public class ChainSupport : AbSupportSkillProfile
 	{
-		public override bool IsAvaliableForCharacter(Character? character)
-		{
-			return EnumChapter.C_1_6.IsUnlocked(character);
-		}
+		public override EnumChapter? UnLockedChapter => EnumChapter.C_1_6;
 		public override EnumSkillCategory Category => EnumSkillCategory.Strategy;
 		public override decimal DamageRate => 0;
 

@@ -21,10 +21,7 @@ namespace DQQ.Profiles.Skills.Buffs
 	[Pooled]
 	public class RenewProfile : AbHealing
 	{
-		public override bool IsAvaliableForCharacter(Character character)
-		{
-			return EnumChapter.C_1_4.IsUnlocked(character);
-		}
+		public override EnumChapter? UnLockedChapter => EnumChapter.C_1_4;
 		public override bool NoPlayerSkill => false;
 		public override decimal CastTime => 0m;
 

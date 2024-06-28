@@ -20,10 +20,7 @@ namespace DQQ.Profiles.Skills.Attacks
 	[Pooled]
 	public class SwingAttack : GeneralSkill
 	{
-		public override bool IsAvaliableForCharacter(Character? character)
-		{
-			return EnumChapter.C_1_7.IsUnlocked(character);
-		}
+		public override EnumChapter? UnLockedChapter => EnumChapter.C_1_7;
 		public override EnumSkillCategory Category => EnumSkillCategory.Core;
 		public override EnumDamageHand DamageHand => EnumDamageHand.BothHand;
 		public override decimal CastTime => 0m;

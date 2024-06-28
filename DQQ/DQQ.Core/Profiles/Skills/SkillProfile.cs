@@ -13,9 +13,17 @@ namespace DQQ.Profiles.Skills
 {
 	public abstract class SkillProfile : DQQProfile<EnumSkillNumber>, IWIthAttackTypeAndArea, ISetAttackTypeAndArea
 	{
-		public virtual bool IsAvaliableForCharacter(Character? character)
+		public bool IsAvaliableForCharacter(Character? character)
 		{
-			return false;
+			return !NoPlayerSkill && SelfIsAvaliableForCharacter(character);
+		}
+		public virtual EnumChapter? UnLockedChapter => null;
+		public virtual int? UnLockedLevel=> null;
+		protected virtual bool SelfIsAvaliableForCharacter(Character? character)
+		{
+			var isUnlockedChapter = UnLockedChapter == null || UnLockedChapter?.IsUnlocked(character) == true;
+			var isUnlockedLevel = UnLockedLevel == null || character?.Level >= UnLockedLevel;
+			return isUnlockedChapter && isUnlockedLevel;
 		}
 		public virtual EnumSkillTag[]? OriginalTag => [];
 		public virtual EnumSkillTag[]? SupportableTag => [];

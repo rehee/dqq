@@ -9,10 +9,7 @@ namespace DQQ.Profiles.Skills.Supports
 	[Pooled]
 	public class BlastSupport : AbSupportSkillProfile
 	{
-		public override bool IsAvaliableForCharacter(Character? character)
-		{
-			return EnumChapter.C_1_6.IsUnlocked(character);
-		}
+		public override EnumChapter? UnLockedChapter => EnumChapter.C_1_6;
 		public override decimal DamageRate => 0;
 		public override EnumSkillCategory Category => EnumSkillCategory.Strategy;
 		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.BlastSupport;
