@@ -1,4 +1,5 @@
 ﻿using DQQ.Attributes;
+using DQQ.Consts;
 using DQQ.Enums;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,6 @@ namespace DQQ.Profiles.Maps
 		public override EnumMob[] MobNumbers => [EnumMob.Crab];
 		public override EnumMob[] BossNumbers => [];
 		public override int? MaxCombatSecond => 30;
+		public override int? MaxLevel => 50;
 	}
 }

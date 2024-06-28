@@ -20,6 +20,7 @@ namespace DQQ.Profiles.Maps
 	[Pooled]
 	public class Map_1_4 : MapProfile
 	{
+		public override int? MaxLevel => 50;
 		public override int TrashMinMob => 8;
 		public override int TrashMaxMob => 10;
 		public override EnumChapter? RequesChapter => EnumChapter.C_1_6;

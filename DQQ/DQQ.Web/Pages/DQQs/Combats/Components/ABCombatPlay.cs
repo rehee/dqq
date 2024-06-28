@@ -103,7 +103,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 			{
 				return;
 			}
-			if (CombatLog?.Any() != true || boolPageIsLoad != true)
+			if (CombatResult== null || boolPageIsLoad != true)
 			{
 				await Task.Delay(30);
 				KeepRefresh();

@@ -14,17 +14,6 @@ namespace DQQ.Profiles.Chapters
 
 		public override EnumChapter? NextChapter => EnumChapter.C_1_7;
 
-		public override EnumChapter? CalculateNextChapter(Character? character, IMap? map = null)
-		{
-			if (!ProfileNumber.IsUnlocked(character))
-			{
-				return character?.Chapter;
-			}
-			if(map?.MapNumber == EnumMapNumber.Map_1_4 && map?.MapClear == true)
-			{
-				return NextChapter;
-			}
-			return character?.Chapter;
-		}
+		public override EnumMapNumber? UnlockNumber => EnumMapNumber.Map_1_4;
 	}
 }

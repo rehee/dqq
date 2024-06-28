@@ -15,7 +15,31 @@ namespace DQQ.Profiles.Chapters
 
 		public virtual EnumChapter? CalculateNextChapter(Character? character, IMap? map = null)
 		{
+			if (AvaliableToUnlock(character, map))
+			{
+				return NextChapter;
+			}
 			return character?.Chapter;
+		}
+
+		public virtual int? UnlockLevel => null;
+		public virtual EnumMapNumber? UnlockNumber => null;
+		public virtual EnumChapter? UnlockChapter => ProfileNumber;
+
+		public virtual bool AvaliableToUnlock(Character? character, IMap? map = null)
+		{
+			if (character == null)
+			{
+				return false;
+			}
+			var levelUnlock = UnlockLevel == null || character?.Level >= UnlockLevel;
+			var chapterUnlock = UnlockChapter == null || UnlockChapter?.IsUnlocked(character)==true;
+			var mapClearRequired = UnlockNumber == null || (
+				map?.MapNumber== UnlockNumber &&
+				map?.MapClear== true
+			);
+			return levelUnlock && chapterUnlock && mapClearRequired;
+
 		}
 	}
 }

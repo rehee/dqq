@@ -23,5 +23,6 @@ namespace DQQ.Profiles.Mobs.Lists
 		public override double DamagePercentage => 0.7;
 		public override double HPPercentage => 5;
 		public override decimal AttackPerSecond =>0.5m;
+		public override bool NotInInfinity => true;
 	}
 }

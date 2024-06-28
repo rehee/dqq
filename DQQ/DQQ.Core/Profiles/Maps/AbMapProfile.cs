@@ -33,7 +33,8 @@ namespace DQQ.Profiles.Maps
 		}
 		protected virtual List<List<IActor>> GenerateTrashMob(IMap map)
 		{
-			if (MobNumbers.Length <= 0)
+			var mob = MobNumbers.Length <= 0 ? DQQPool.MobPool.Select(b=>b.Value).Where(b=>b.IsBoss!=true && b.NotInInfinity!=true).Select(b=>b.ProfileNumber).ToArray() : MobNumbers;
+			if (mob.Length <= 0)
 			{
 				return [];
 			}
@@ -46,7 +47,7 @@ namespace DQQ.Profiles.Maps
 				for (var im = 0; im < mobCount; im++)
 				{
 
-					var monsterNumber = MobNumbers.GetRamdom(map.TickParameter!.Random);
+					var monsterNumber = mob.GetRamdom(map.TickParameter!.Random);
 					var monster = DQQPool.TryGet<MobProfile, EnumMob>(monsterNumber);
 					if (monster == null)
 					{

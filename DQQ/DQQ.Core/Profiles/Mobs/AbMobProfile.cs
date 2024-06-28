@@ -25,5 +25,7 @@ namespace DQQ.Profiles.Mobs
 		public virtual int QueuePosition => 0;
 		public virtual string? ExtureDiscription2 { get; set; }
 		public virtual string? ExtureDiscription3 { get; set; }
+
+		public virtual bool NotInInfinity => false;
 	}
 }

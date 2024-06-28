@@ -72,5 +72,6 @@ namespace DQQ.Profiles.Mobs.Lists
 		public override string? Discription => "闷头加血的家伙";
 		public override double DamagePercentage => 3;
 		public override double HPPercentage => 1;
+		public override bool NotInInfinity => true;
 	}
 }

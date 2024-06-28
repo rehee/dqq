@@ -12,16 +12,8 @@ namespace DQQ.Profiles.Chapters
 		public override string? Name => "序章 8";
 		public override string? Discription => "通往外界的道路";
 
-		public override EnumChapter? NextChapter => null;
+		public override EnumChapter? NextChapter => EnumChapter.C_Non_Open;
 
-		public override EnumChapter? CalculateNextChapter(Character? character, IMap? map = null)
-		{
-			if (!ProfileNumber.IsUnlocked(character))
-			{
-				return character?.Chapter;
-			}
-
-			return NextChapter;
-		}
+		public override EnumMapNumber? UnlockNumber => EnumMapNumber.Map_1_6;
 	}
 }
