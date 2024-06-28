@@ -225,6 +225,10 @@ namespace DQQ.Components.Stages
 				return;
 			}
 			var allHealingPoint = parameter.Healings.Where(b => b.HealingType == EnumHealingType.DirectHeal).Sum(b => b.Points);
+			if (allHealingPoint == 0)
+			{
+				return;
+			}
 			var hpOverHealing = (this?.CurrentHP ?? 0) + allHealingPoint - (this?.CombatPanel.DynamicPanel.MaximunLife ?? 0);
 			if (hpOverHealing > 0)
 			{
@@ -234,6 +238,7 @@ namespace DQQ.Components.Stages
 			{
 				this.CurrentHP = this.CurrentHP + allHealingPoint;
 			}
+			
 			parameter.Map?.AddMapLogHealingTaken(true, parameter?.From, this, parameter?.Source, new TickLogHealing(allHealingPoint, hpOverHealing > 0 ? hpOverHealing : null));
 		}
 

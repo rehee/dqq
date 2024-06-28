@@ -44,19 +44,21 @@ namespace DQQ.Components.Parameters
 				AttackTypes = parameter?.AttackTypes ?? EnumAttackType.NotSpecified
 			};
 		}
-		public static ComponentTickParameter New(ComponentTickParameter? parameter, HealingDeal[]? healings)
+		public static ComponentTickParameter New(ComponentTickParameter? parameter, HealingDeal[]? healings,DQQProfile? source)
 		{
 			var result = New(parameter);
 			result.Healings = healings;
+			result.Source= source;
 			return result;
 		}
-		public static ComponentTickParameter New(ComponentTickParameter? parameter, HealingDeal[]? healings, ITarget? from, ITarget? to, IMap? map)
+		public static ComponentTickParameter New(ComponentTickParameter? parameter, HealingDeal[]? healings, DQQProfile? source, ITarget? from, ITarget? to, IMap? map)
 		{
 			var result = New(parameter);
 			result.Healings = healings;
 			result.From = from;
 			result.SecondaryTarget = to;
 			result.Map = map;
+			result.Source = source;
 			return result;
 		}
 		public static ComponentTickParameter New(ComponentTickParameter? parameter, ITarget? from, IEnumerable<ITarget>? friendlyTargets, IEnumerable<ITarget>? enemyTargets, IMap? map)

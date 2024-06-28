@@ -32,13 +32,14 @@ namespace DQQ.Profiles.Durations.Buffs
 			{
 				casterHealHp = 1;
 			}
-			target.TakeHealing(ComponentTickParameter.New(
+			var healing = ComponentTickParameter.New(
 				parameter,
 				[new HealingDeal { HealingType = EnumHealingType.DirectHeal, Points = casterHealHp }],
+				this,
 				compose.Creator,
 				target,
-				map));
-
+				map);
+			target.TakeHealing(healing);
 		}
 	}
 }

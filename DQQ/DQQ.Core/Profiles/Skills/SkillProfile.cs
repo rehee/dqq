@@ -153,7 +153,7 @@ namespace DQQ.Profiles.Skills
 			if (SkillType == EnumSkillType.Healing || SkillType == EnumSkillType.Hybrid)
 			{
 				var healing = CalculateHealing(parameter);
-				DealingHealing(ComponentTickParameter.New(parameter, healing));
+				DealingHealing(ComponentTickParameter.New(parameter, healing,this));
 			}
 			return response;
 		}
