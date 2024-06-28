@@ -21,7 +21,7 @@ namespace DQQ.Profiles.ZProgress
 
 		public override bool AvaliableCheck(Character? character)
 		{
-			return false;
+			return EnumChapter.C_1_8.IsUnlocked(character);
 		}
 	}
 }

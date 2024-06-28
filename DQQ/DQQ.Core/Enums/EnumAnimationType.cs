@@ -9,6 +9,7 @@ namespace DQQ.Enums
 	public enum EnumAnimationType
 	{
 		None = 0,
-		Slash
+		Slash,
+		Slash2
 	}
 }

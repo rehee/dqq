@@ -54,19 +54,23 @@
 				<div class="g-3" style="">
 					@if (Actor?.Durations?.Any() == true)
 					{
-						foreach (var d in Actor.Durations)
+						foreach (var d in Actor.Durations.GroupBy(b => b.DurationNumber).Select(b => (b.OrderByDescending(b => b.RemainSeconds).FirstOrDefault(), b.Count())))
 						{
 
-							var icon = d.GetDurationIcon();
+							var icon = d.Item1?.GetDurationIcon();
 						@* 	<div class="col-auto">
 								
 							</div> *@
 							<div class="badge-widget">
-								<Tag Color="icon.IconColor">
-									<i class="@icon.IconName" aria-hidden="true"></i>
+								<Tag Color="(icon?.IconColor ?? Color.None) ">
+									<i class="@icon?.IconName" aria-hidden="true"></i>
 								</Tag>
 
-								<Badge Color="icon.IconColor"><span style="padding: 0 2px;">@d.RemainSeconds</span></Badge>
+								<Badge Color="(icon?.IconColor ?? Color.None)"><span style="padding: 0 2px;">@d.Item1?.RemainSeconds</span></Badge>
+								@if (d.Item2 > 1)
+								{
+									<Badge class="inside_badge_bottom_right" Color="Color.Primary"><span style="padding: 0 2px;">@d.Item2</span></Badge>
+								}
 							</div>
 						}
 					}

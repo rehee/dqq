@@ -210,7 +210,6 @@ namespace DQQ.Components.Stages.Actors.Characters
 					e.AfterTakeDamage(parameter);
 				}
 			}
-			var a = this;
 			base.SelfAfterTakeDamage(parameter);
 		}
 

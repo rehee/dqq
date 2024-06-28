@@ -268,10 +268,6 @@ namespace DQQ.Helper
 			{
 				return null;
 			}
-			if (targets.Count() > 1)
-			{
-				var a = 1;
-			}
 			var liveTargets = targets.Where(b => b.Alive);
 			switch (priority)
 			{

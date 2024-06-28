@@ -25,7 +25,7 @@ namespace DQQ.Profiles.Durations.Buffs
 		public override string? Name => "牺牲守护 (buff)";
 
 		public override string? Discription => "伤害转移";
-		public decimal DamageTransfer => 0.90m;
+		public decimal DamageTransfer => 0.99m;
 
 		public override void BeforeDamageTaken(ComponentTickParameter parameter, DurationComponent component)
 		{
@@ -36,7 +36,7 @@ namespace DQQ.Profiles.Durations.Buffs
 			var damage = parameter.Damage.DamagePoint * DamageTransfer;
 
 			parameter.Damage.DamagePoint = parameter.Damage.DamagePoint - (long)damage;
-			var secondParameter = ComponentTickParameter.New(parameter, this, DamageDeal.New((long)damage));
+			var secondParameter = ComponentTickParameter.New(parameter, this, DamageDeal.New((long)(damage/2)));
 			secondParameter.SecondaryTarget = component.Creator;
 			component.Creator?.TakeDamage(secondParameter);
 		}

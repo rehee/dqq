@@ -242,6 +242,12 @@ section .has-sidebar {
     right: -10px;
     opacity: 0.8;
   }
+    .badge-widget .badge.inside_badge_bottom_right {
+      bottom: -5px;
+      top: unset;
+      right: -10px;
+      padding: 2px;
+    }
 .item_popup {
   max-width: 276px;
   min-width: 276px;
@@ -485,6 +491,13 @@ section .has-sidebar {
   background-position: 53% 48%;
   animation: slash1 1s steps(12);
 }
+.animated-slash2 {
+  /*width: 200px;*/ /* 根据你的图像尺寸调整 */
+  /*height: 200px;*/ /* 根据你的图像尺寸调整 */
+  /*background: url('../images/slash01/skash_00001.png') no-repeat;*/
+  background-position: 53% 48%;
+  animation: slash2 1s steps(12);
+}
 .animated-sprite {
   /*width: 200px;*/ /* 根据你的图像尺寸调整 */
   /*height: 200px;*/ /* 根据你的图像尺寸调整 */
@@ -544,6 +557,60 @@ section .has-sidebar {
 
   100% {
     background-image: url('../images/slash01/skash_00012.png');
+  }
+  /* 可以循环回到第一帧 */
+}
+@keyframes slash2 {
+  0% {
+    background-image: url('../images/slash02/slash2_00001.png');
+  }
+
+  8.33% {
+    background-image: url('../images/slash02/slash2_00002.png');
+  }
+
+  16.66% {
+    background-image: url('../images/slash02/slash2_00003.png');
+  }
+
+  25% {
+    background-image: url('../images/slash02/slash2_00004.png');
+  }
+
+  33.33% {
+    background-image: url('../images/slash02/slash2_00005.png');
+  }
+
+  41.66% {
+    background-image: url('../images/slash02/slash2_00006.png');
+  }
+
+  50% {
+    background-image: url('../images/slash02/slash2_00007.png');
+  }
+
+  58.33% {
+    background-image: url('../images/slash02/slash2_00008.png');
+  }
+
+  66.66% {
+    background-image: url('../images/slash02/slash2_00009.png');
+  }
+
+  75% {
+    background-image: url('../images/slash02/slash2_00009.png');
+  }
+
+  83.33% {
+    background-image: url('../images/slash02/slash2_00009.png');
+  }
+
+  91.66% {
+    background-image: url('../images/slash02/slash2_00009.png');
+  }
+
+  100% {
+    background-image: url('../images/slash02/slash2_00009.png');
   }
   /* 可以循环回到第一帧 */
 }

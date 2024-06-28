@@ -15,49 +15,38 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.Mobs.BossMobs
 {
 	[Pooled]
-	public class GoblinChief : MobBoss
+	public class CrabKing : MobBoss
 	{
-		public override EnumMob ProfileNumber => EnumMob.GoblinChief;
+		public override EnumMob ProfileNumber => EnumMob.CrabKing;
 
-		public override string? Name => "地精酋长";
-		public override string? Discription => "地精中的王者, 总是尝试处决见到的敌人. 变成光杆司令后会发狂.";
+		public override string? Name => "螃蟹王";
+		public override string? Discription => "又大又肥的螃蟹";
 
-		public override double HPPercentage => 5;
+		public override double HPPercentage => 40;
+		public override double DamagePercentage => 1;
+		public override decimal AttackPerSecond => 0.5m;
 
 
-
-		public override IEnumerable<MobSkill> Skills => new[]
-		{
+		public override IEnumerable<MobSkill> Skills =>
+		[
 			MobSkill.New(EnumSkillNumber.NormalAttack),
-			MobSkill.New(EnumSkillNumber.Renew),
 			MobSkill.New(EnumSkillNumber.MightySmash,
 				new Strategies.SkillStrategies.SkillStrategy
 				{
 					Priority=0,
 					Condition = EnumStrategyCondition.Target,
 					CheckTarget = EnumTarget.Target,
+					SkillTarget = EnumTargetPriority.Strongest,
 					Property= EnumPropertyCompare.HealthPercentage,
 					Compare= EnumCompare.LessThan,
-					Value = 0.25m,
-				},
-				new Strategies.SkillStrategies.SkillStrategy
-				{
-					Priority=0,
-					Condition = EnumStrategyCondition.Players,
-					PartyStrategy = EnumStrategyParty.AliveNumber,
-					Property= EnumPropertyCompare.HealthPercentage,
-					Compare= EnumCompare.LessOrEqual,
-					Value = 1m,
-				}
-				)
-		};
+					Value = 0.3m,
+				})
+		];
 
 		public override List<IActor> GenerateBossFight(IMap map)
 		{
 			var result = new List<IActor>();
-			result.Add(Monster.Create(EnumMob.BigGoblin.GetMomster()!, map.MapLevel));
 			result.Add(Monster.Create(this.ProfileNumber.GetMomster()!, map.MapLevel));
-			result.Add(Monster.Create(EnumMob.BigGoblinWeaver.GetMomster()!, map.MapLevel));
 			return result;
 		}
 	}

@@ -282,10 +282,17 @@ namespace DQQ.Web.Pages.DQQs.Combats
 
 			if (Damage != null)
 			{
-				//var skill = SkillNumber;
-				//var duration = DurationNumber;
-				//result.Text = "slash";
+				if (DurationNumber != null)
+				{
+					return null;
+				}
 				result.AnimationType = EnumAnimationType.Slash;
+				if (SkillNumber == EnumSkillNumber.MightySmash)
+				{
+					result.AnimationType = EnumAnimationType.Slash2;
+				}
+
+				
 				result.Color = Color.Warning;
 				return result;
 			}

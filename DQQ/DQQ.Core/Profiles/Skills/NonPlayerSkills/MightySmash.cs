@@ -1,4 +1,6 @@
 ﻿using DQQ.Attributes;
+using DQQ.Commons;
+using DQQ.Components.Parameters;
 using DQQ.Components.Stages;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
@@ -12,20 +14,24 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.Skills.NonPlayerSkills
 {
 	[Pooled]
-	public class HatefulStrike : NonPlayerSKill
+	public class MightySmash : NonPlayerSKill
 	{
-		public override decimal CastTime => 0m;
+		public override decimal CastTime => 3.5m;
 
 		public override decimal CoolDown => 15m;
 
 		public override decimal DamageRate => 10m;
 
+		public override SkillHitCheck? CheckHit(ComponentTickParameter parameter)
+		{
+			return new SkillHitCheck { HitCheck = EnumHitCheck.Hit };
+		}
 		public override bool CastWithWeaponSpeed => false;
 
-		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.HatefulStrike;
+		public override EnumSkillNumber ProfileNumber => EnumSkillNumber.MightySmash;
 
-		public override string? Name => "仇恨打击";
-		public override string? Discription => "仇恨打击";
+		public override string? Name => "巨力重击";
+		public override string? Discription => "巨力重击";
 
 		public override EnumTarget? TargetForce => EnumTarget.Target;
 	}

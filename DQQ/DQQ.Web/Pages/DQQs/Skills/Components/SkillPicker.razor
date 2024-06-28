@@ -49,7 +49,31 @@
 							<DQQInfo>
 								每个技能栏下会有多个技能槽. 第一个技能槽为主动技能. 当满足条件后会自动释放. 后续技能槽为辅助技能. 无法直接释放. 增强或改变主动技能的效果.
 							</DQQInfo>
-				</HeaderTemplate>
+							@if(Slot == EnumSkillSlot.WeaponSlot1)
+							{
+								<span>
+									[主手]
+								</span>
+							}
+							@if (Slot == EnumSkillSlot.WeaponSlot2)
+							{
+								<span>
+									[副手]
+								</span>
+							}
+							@if (Slot == EnumSkillSlot.WeaponSlotTH)
+							{
+								<span>
+									[双手]
+								</span>
+							}
+							@if (Slot == EnumSkillSlot.WeaponSlot1 || Slot == EnumSkillSlot.WeaponSlot2 || Slot == EnumSkillSlot.WeaponSlotTH)
+							{
+								<DQQInfo>
+									次技能槽由武器提供. 更换不同类型武器后, 如由双手更换至双持, 或卸下武器. 技能槽会根据武器类型改变
+								</DQQInfo>
+							}
+						</HeaderTemplate>
 				<BodyTemplate>
 							<div class="row g-3">
 

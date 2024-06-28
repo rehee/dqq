@@ -34,7 +34,7 @@ namespace DQQ.Enums
 		
 		
 		SacrificialGuard,
-		HatefulStrike,
+		MightySmash,
 		DarkHeal,
 		DarkGreaterHeal,
 	}

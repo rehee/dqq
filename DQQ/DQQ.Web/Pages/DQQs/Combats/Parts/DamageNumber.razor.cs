@@ -29,6 +29,8 @@ namespace DQQ.Web.Pages.DQQs.Combats.Parts
 				{
 					case Enums.EnumAnimationType.Slash:
 						return "animation_base animated-slash";
+					case Enums.EnumAnimationType.Slash2:
+						return "animation_base animated-slash2";
 				}
 				return $"{(Damage?.Color == Color.Warning ? "floating-hold-div" : "floating-div")} {(Damage?.Color == Color.Warning ? "text-warning" : Damage?.Color == Color.Success ? "text-success" : "text-danger")}";
 			}

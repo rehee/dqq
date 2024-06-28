@@ -23,6 +23,8 @@ namespace DQQ.Profiles.Skills.Shouts
 	{
 		public override EnumChapter? UnLockedChapter => EnumChapter.C_1_7;
 		public override EnumSkillCategory Category => EnumSkillCategory.Strategy;
+		public override bool SelfIfNoTarget => true;
+		public override EnumTarget? TargetForce => EnumTarget.Self;
 		public override bool NoPlayerSkill => false;
 		public override decimal CastTime => 0;
 		public override decimal CoolDown => 15m;

@@ -251,13 +251,10 @@ namespace DQQ.Components.Skills
 
 		}
 
-		protected void StartCasting(ComponentTickParameter? parameter, ITarget? target = null)
+		protected void StartCasting(ComponentTickParameter? parameter, ITarget? target = null,bool isCasting=false)
 		{
 			SkillTarget = target;
-			if (castingThisTick && IsCasting)
-			{
-				IsCasting = false;
-			}
+			IsCasting = isCasting;
 
 		}
 
@@ -294,6 +291,7 @@ namespace DQQ.Components.Skills
 		public override async Task<ContentResponse<bool>> OnTick(ComponentTickParameter parameter)
 		{
 			var result = await base.OnTick(parameter);
+			
 			if (CDTickCount > 0)
 			{
 				result.SetError();
@@ -317,8 +315,10 @@ namespace DQQ.Components.Skills
 			{
 				goto FinalSteps;
 			}
+			
 			if (!IsCasting)
 			{
+				
 				var matchCondition = StrategeCheckResult.New(false, null);
 				if (SkillStrategies?.Any() == true)
 				{
@@ -333,7 +333,8 @@ namespace DQQ.Components.Skills
 				{
 					goto FinalSteps;
 				}
-				StartCasting(parameter, matchCondition.MatchedTarget);
+				
+				StartCasting(parameter, matchCondition.MatchedTarget,true);
 			}
 
 
@@ -341,11 +342,12 @@ namespace DQQ.Components.Skills
 			if (CastTickCount < CastWithWeaponSpeedTick(parameter?.From as IActor))
 			{
 				result.SetError();
+				
 				CastTickCount++;
 				goto FinalSteps;
 			}
 			result = await CastingSkill(ComponentTickParameter.New(parameter, SkillTarget));
-
+			StartCasting(null);
 
 
 
@@ -373,7 +375,7 @@ namespace DQQ.Components.Skills
 					await s.OnTick(parameter);
 				}
 			}
-			StartCasting(null);
+			
 			
 			return result;
 		}
