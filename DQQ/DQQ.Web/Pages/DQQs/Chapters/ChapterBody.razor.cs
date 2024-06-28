@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace DQQ.Web.Pages.DQQs.Chapters
 {
-	public class ChapterBodyPage : AbChapterBasePage
+	public class ChapterBodyPage : ChapterBasePage
 	{
 		public string? BodyComponent { get; set; }
 		public RenderFragment? BodyFragement { get; set; }

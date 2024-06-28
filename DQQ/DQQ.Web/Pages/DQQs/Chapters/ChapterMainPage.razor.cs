@@ -1,6 +1,6 @@
 namespace DQQ.Web.Pages.DQQs.Chapters
 {
-	public class ChapterMainPagePage : AbChapterBasePage
+	public class ChapterMainPagePage : ChapterBasePage
 	{
 		
 

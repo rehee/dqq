@@ -41,17 +41,5 @@ namespace DQQ.Web.Pages.DQQs.Builds
 				 });
 		}
 
-		public async Task ShowInventory()
-		{
-			await dialogService.ShowComponent<ActorInventory>(
-				new Dictionary<string, object?>
-				{
-					["ActorId"] = SelectedCharacter?.DisplayId,
-					["ParentRefreshEvent"] = ParentRefreshEvent,
-					["SelectedCharacter"] = SelectedCharacter,
-					["ParentGuid"] = ParentGuid,
-
-				}, "");
-		}
 	}
 }

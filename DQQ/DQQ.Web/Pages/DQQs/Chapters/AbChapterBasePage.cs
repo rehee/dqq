@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace DQQ.Web.Pages.DQQs.Chapters
 {
-	public abstract class AbChapterBasePage : DQQPageBase
+	public abstract class ChapterBasePage : DQQPageBase
 	{
 		[Inject]
 		[NotNull]

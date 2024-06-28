@@ -45,27 +45,8 @@ namespace DQQ.Web.Pages.DQQs.Characters
         ParentRefreshEvent.Event -= parentRefresh;
       }
     }
-    public async Task SelectSkill(EnumSkillSlot slot, EnumSkillNumber? skillNumber)
-    {
-      await dialogService.ShowComponent<SkillSelect>(
-       new Dictionary<string, object?>
-       {
-         ["Slot"] = slot,
-         ["ActorId"] = CharacterId,
-         ["SelectSkillNumber"] = skillNumber,
-       }, "", true, async save => await Refresh2());
-    }
-    public async Task SelectStrategy(EnumSkillSlot slot)
-    {
-      var skillDTO = Character?.SkillMap?.ContainsKey((EnumSkillSlot)slot) == true ? Character.SkillMap[(EnumSkillSlot)slot] : null;
-      await dialogService.ShowComponent<SkillStrategy>(
-       new Dictionary<string, object?>
-       {
-         ["Slot"] = slot,
-         ["ActorId"] = CharacterId,
-         ["DTO"] = skillDTO,
-       }, "", true, async save => await Refresh2());
-    }
+    
+  
     
 
     protected override async Task OnParametersSetAsync()
