@@ -118,7 +118,18 @@ namespace DQQ.Helper
 			{
 				character?.SelectedCharacter?.EquipItems.TryAdd(result.Content, item);
 			}
-			
+			var itemIndex = character?.Backpack?.FirstOrDefault(b => b.Id == item.Id);
+			if (itemIndex != null)
+			{
+				try
+				{
+					character?.Backpack?.Remove(itemIndex);
+				}
+				catch
+				{
+
+				}
+			}
 		}
 		public static Task UnEquip(this OfflineCharacter character, params EnumEquipSlot[] slots)
 		{
