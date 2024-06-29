@@ -1,4 +1,5 @@
 using BootstrapBlazor.Components;
+using DQQ.Enums;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using ReheeCmf.Helpers;
@@ -27,9 +28,9 @@ namespace DQQ.Web.Pages.DQQs.Combats.Parts
 			{
 				switch (Damage?.AnimationType)
 				{
-					case Enums.EnumAnimationType.Slash:
+					case EnumAnimationType.Slash:
 						return "animation_base animated-slash";
-					case Enums.EnumAnimationType.Slash2:
+					case EnumAnimationType.Slash2:
 						return "animation_base animated-slash2";
 				}
 				return $"{(Damage?.Color == Color.Warning ? "floating-hold-div" : "floating-div")} {(Damage?.Color == Color.Warning ? "text-warning" : Damage?.Color == Color.Success ? "text-success" : "text-danger")}";

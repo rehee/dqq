@@ -9,8 +9,8 @@ namespace DQQ.Web.Pages.DQQs.Items
 	{
 
 		public Color ThisColor =>
-			Item?.Rarity == Enums.EnumRarity.Rare ? Color.Warning :
-			Item?.Rarity == Enums.EnumRarity.Magic ? Color.Primary :
+			Item?.Rarity == EnumRarity.Rare ? Color.Warning :
+			Item?.Rarity == EnumRarity.Magic ? Color.Primary :
 			Color.None;
 
 		[Parameter]

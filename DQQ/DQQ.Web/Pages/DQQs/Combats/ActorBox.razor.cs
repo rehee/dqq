@@ -39,11 +39,11 @@ namespace DQQ.Web.Pages.DQQs.Combats
 				}
 				switch (Actor.PowerLevel)
 				{
-					case Enums.EnumTargetLevel.Guardian:
+					case EnumTargetLevel.Guardian:
 						return "col-md-6";
-					case Enums.EnumTargetLevel.Champion:
-					case Enums.EnumTargetLevel.Elite:
-					case Enums.EnumTargetLevel.Magic:
+					case EnumTargetLevel.Champion:
+					case EnumTargetLevel.Elite:
+					case EnumTargetLevel.Magic:
 						return "col-6 col-md-3 col-lg-4";
 					default:
 						return "col-6 col-md-3 col-lg-2";

@@ -1,6 +1,7 @@
 ﻿using BootstrapBlazor.Components;
 using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Services.ActorServices;
+using DQQ.Web.Enums;
 using DQQ.Web.Services.RenderServices;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
@@ -15,6 +16,15 @@ namespace DQQ.Web.Pages
 {
 	public class DQQPageBase : ComponentBase, IAsyncDisposable
 	{
+		public EnumPlayMode PlayMode { get; set; }
+		public Task OnPlayModeChange(EnumPlayMode playMode)
+		{
+			PlayMode= playMode;
+			StateHasChanged();
+			return Task.CompletedTask;
+		}
+
+
 		[Inject]
 		[NotNull]
 		public ICharacterService? characterService { get; set; }
