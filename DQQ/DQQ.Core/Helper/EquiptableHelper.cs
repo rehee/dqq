@@ -1,9 +1,12 @@
 ﻿using DQQ.Combats;
 using DQQ.Components.Items.Equips;
+using DQQ.Components.Stages.Actors;
 using DQQ.Entities;
 using DQQ.Enums;
+using DQQ.Profiles.Items.Equipments;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace DQQ.Helper
 {
@@ -171,5 +174,73 @@ namespace DQQ.Helper
 			};
 			return result.Where(b => b != null).Select(b => b!.Value).ToArray();
 		}
+		public static async Task<ContentResponse<EnumEquipSlot>> UnequipBasedItem(
+			ItemEntity? item, Guid? actorId, EnumEquipSlot? slot,Func<Guid?, EnumEquipSlot?, Task<EquipProfile?>> queryItemType, Func<Guid?, EnumEquipSlot[], Task<ContentResponse<bool>>> unequipFunction)
+		{
+			var result = new ContentResponse<EnumEquipSlot>();
+			if (item == null || item.EquipType == null)
+			{
+				result.SetError(System.Net.HttpStatusCode.NotFound);
+				return result;
+			}
+			var avaliableSlots = item?.EquipType.GetAvaliableSlots();
+			if (avaliableSlots == null)
+			{
+				result.SetError(System.Net.HttpStatusCode.NotFound);
+				return result;
+			}
+			EnumEquipSlot equipSlot;
+			if (slot == null)
+			{
+				equipSlot = avaliableSlots.FirstOrDefault();
+			}
+			else
+			{
+				if (avaliableSlots?.Contains(slot.Value) != true)
+				{
+					result.SetError(System.Net.HttpStatusCode.NotFound);
+					return result;
+				}
+				equipSlot = slot.Value;
+			}
+
+			if (item?.EquipType == EnumEquipType.TwoHandWeapon)
+			{
+				if (item?.EquipProfile?.ItemType == EnumItemType.Bows)
+				{
+					var offhandItemType = await queryItemType(actorId, equipSlot);
+					if (offhandItemType?.ItemType == EnumItemType.Quiver)
+					{
+						await unequipFunction(actorId, [EnumEquipSlot.MainHand]);
+					}
+					else
+					{
+						await unequipFunction(actorId, [EnumEquipSlot.MainHand, EnumEquipSlot.OffHand]);
+					}
+				}
+				else
+				{
+					await unequipFunction(actorId, [EnumEquipSlot.MainHand, EnumEquipSlot.OffHand]);
+				}
+			}
+			else
+			{
+				if (equipSlot == EnumEquipSlot.OffHand)
+				{
+					var mainHandType = await queryItemType(actorId, equipSlot);
+					if (mainHandType?.EquipType == EnumEquipType.TwoHandWeapon)
+					{
+						if (!(item?.EquipProfile?.ItemType == EnumItemType.Quiver && mainHandType?.ItemType == EnumItemType.Bows))
+						{
+							await unequipFunction(actorId, [EnumEquipSlot.MainHand]);
+						}
+					}
+				}
+				await unequipFunction(actorId, [equipSlot]);
+			}
+			result.SetSuccess(equipSlot);
+			return result;
+		}
+
 	}
 }

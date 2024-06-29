@@ -1,4 +1,4 @@
-﻿using DQQ.Web.Datas.Entities;
+﻿using DQQ.Entities;
 using ReheeCmf.Entities;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
@@ -23,7 +23,11 @@ namespace DQQ.Web.Datas
 				return result;
 			}
 			var entity = IndexEntity<T>.New(item);
-			item!.Id=Guid.NewGuid();
+			if (item?.Id == null|| item?.Id == Guid.Empty)
+			{
+				item!.Id = Guid.NewGuid();
+			}
+			
 			var record = new StoreRecord<IndexEntity<T>>()
 			{
 				Data = entity,
@@ -37,7 +41,7 @@ namespace DQQ.Web.Datas
 		public async Task<ContentResponse<bool>> Delete<T>(T? item) where T : EntityBase<Guid>
 		{
 			var result = new ContentResponse<bool>();
-			var entity = (await Query<T>()).Where(b=>b.Entity?.Id == item?.Id).FirstOrDefault();
+			var entity = (await Query<T>())?.Where(b=>b.Entity?.Id == item?.Id)?.FirstOrDefault();
 			if (entity == null) 
 			{
 				return result;
@@ -55,13 +59,13 @@ namespace DQQ.Web.Datas
 		public async Task<IEnumerable<T>> Read<T>() where T : EntityBase<Guid>
 		{
 			var result = await Query<T>();
-			return result.Select(b => b.Entity).Where(b=>b!=null).Select(b=> b!);
+			return result?.Select(b => b.Entity)?.Where(b=>b!=null)?.Select(b=> b!) ?? [];
 		}
 
 		public async Task<ContentResponse<bool>> Update<T>(T? item) where T : EntityBase<Guid>
 		{
 			var result = new ContentResponse<bool>();
-			var entity = (await Query<T>()).Where(b => b.Entity?.Id == item?.Id).FirstOrDefault();
+			var entity = (await Query<T>())?.Where(b => b.Entity?.Id == item?.Id)?.FirstOrDefault();
 			if (entity == null)
 			{
 				return result;

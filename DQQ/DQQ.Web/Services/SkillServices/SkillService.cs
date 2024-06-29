@@ -1,6 +1,8 @@
 ﻿using DQQ.Commons.DTOs;
 using DQQ.Pools;
+using DQQ.Services;
 using DQQ.Services.SkillServices;
+using DQQ.Web.Datas;
 using DQQ.Web.Services.Requests;
 using ReheeCmf.Requests;
 using ReheeCmf.Responses;
@@ -9,7 +11,7 @@ namespace DQQ.Web.Services.SkillServices
 {
 	public class SkillService : ClientServiceBase, ISkillService
 	{
-		public SkillService(RequestClient<DQQGetHttpClient> client) : base(client)
+		public SkillService(RequestClient<DQQGetHttpClient> client, IIndexRepostory repostory, IGameStatusService statusService) : base(client, repostory, statusService)
 		{
 		}
 

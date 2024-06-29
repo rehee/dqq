@@ -1,6 +1,5 @@
 ﻿using DQQ.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System.Globalization;
 
 namespace DQQ.Web.Services.LocalizationServices
@@ -20,27 +19,29 @@ namespace DQQ.Web.Services.LocalizationServices
 		{
 			var current = await gameStatusService.GetOrCreateGameStatus();
 			var culture = current?.Content?.Culture;
-			if (String.IsNullOrEmpty(culture))
-			{
-				culture = LocalizationHelper.GetAvaliableLang.Select(b => b.Value).FirstOrDefault();
-			}
+			//if (String.IsNullOrEmpty(culture))
+			//{
+			//	culture = LocalizationHelper.GetAvaliableLang.Select(b => b.Value).FirstOrDefault();
+			//}
 			if (CultureInfo.CurrentCulture.Name != culture)
 			{
-				await SetDefaulCulture(culture!);
+				await SetDefaulCulture(culture?? "zh");
 			}
 
-			return culture?? "";
+			//return culture?? "";
+			return "zh";
 		}
 
 		public async Task SetDefaulCulture(string culture, bool reLoad = false)
 		{
+			await Task.CompletedTask;
 			var c = CultureInfo.GetCultureInfo(culture);
-			var current = await gameStatusService.GetOrCreateGameStatus();
-			if (current.Success)
-			{
-				current!.Content!.Culture = culture;
-				await gameStatusService.UpdateGameStatus(current?.Content);
-			}
+			//var current = await gameStatusService.GetOrCreateGameStatus();
+			//if (current.Success)
+			//{
+			//	current!.Content!.Culture = culture;
+			//	await gameStatusService.UpdateGameStatus(current?.Content);
+			//}
 			CultureInfo.CurrentCulture = c;
 			CultureInfo.DefaultThreadCurrentCulture = c;
 			CultureInfo.DefaultThreadCurrentUICulture = c;

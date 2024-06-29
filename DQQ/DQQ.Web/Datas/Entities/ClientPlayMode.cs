@@ -1,7 +1,7 @@
 ﻿using DQQ.Web.Enums;
 using ReheeCmf.Entities;
 
-namespace DQQ.Web.Datas.Entities
+namespace DQQ.Entities
 {
 	public class ClientPlayMode : EntityBase<Guid>
 	{

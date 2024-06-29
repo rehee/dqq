@@ -7,10 +7,6 @@ namespace DQQ.Web.Pages.DQQs.Characters
 {
   public class CharacterListPage : DQQPageBase
   {
-    [Inject]
-    [NotNull]
-    public ICharacterService? characterService { get; set; }
-
     public IEnumerable<Character>? Characters { get; set; }
     public Guid? SelectedCharId { get; set; }
     protected override async Task OnInitializedAsync()
@@ -33,7 +29,7 @@ namespace DQQ.Web.Pages.DQQs.Characters
     public async Task SelectCharacter(Guid? Id)
     {
       await Task.CompletedTask;
-      characterService.SelectedCharacter(Id);
+      await characterService.SelectedCharacter(Id);
       ParentRefreshEvent?.InvokeEvent(this, new EventArgs());
     }
   }

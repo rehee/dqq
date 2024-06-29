@@ -13,9 +13,9 @@
             <div class="flex-fill d-sm-none">
             </div>
             <Widget></Widget>
-            @if (IsAuth)
+            @if (IsAuth || IsOffline)
             {
-              <Logout ImageUrl="@MainLayoutPage.GetIconSvg("fas fa-user")" DisplayName="@SelectedCharacter?.DisplayName" UserName="@AccountName">
+				      <Logout ImageUrl="@MainLayoutPage.GetIconSvg("fas fa-user")" DisplayName="@SelectedCharacter?.DisplayName" UserName="@(IsOffline?"离线":AccountName)">
                 <LinkTemplate>
                   <div style="color:black;">
                     <span>等级: @SelectedCharacter?.Level </span>

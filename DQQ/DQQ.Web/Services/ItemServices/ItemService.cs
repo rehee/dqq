@@ -1,6 +1,8 @@
 ﻿using DQQ.Entities;
 using DQQ.Enums;
+using DQQ.Services;
 using DQQ.Services.ItemServices;
+using DQQ.Web.Datas;
 using DQQ.Web.Services.Requests;
 using ReheeCmf.Requests;
 using ReheeCmf.Responses;
@@ -9,7 +11,7 @@ namespace DQQ.Web.Services.ItemServices
 {
 	public class ItemService : ClientServiceBase, IItemService
 	{
-		public ItemService(RequestClient<DQQGetHttpClient> client) : base(client)
+		public ItemService(RequestClient<DQQGetHttpClient> client, IIndexRepostory repostory, IGameStatusService statusService) : base(client, repostory, statusService)
 		{
 		}
 

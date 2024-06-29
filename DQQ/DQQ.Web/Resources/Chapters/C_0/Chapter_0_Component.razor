@@ -45,7 +45,7 @@
 	public override async Task ToEnd()
 	{
 		await base.ToEnd();
-		await ChapterService.ProcessChapter(SelectedCharacter?.DisplayId);
+		await ChapterService.ProcessChapter(SelectedCharacter?.DisplayId, EnumChapter.C_1_1);
 		ParentRefreshEvent?.InvokeEvent(this, EventArgs.Empty);
 		await OnSave.Close();
 	}

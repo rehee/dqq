@@ -1,7 +1,9 @@
 ﻿using DQQ.Commons.DTOs;
 using DQQ.Components.Stages.Maps;
+using DQQ.Services;
 using DQQ.Services.ActorServices;
 using DQQ.Services.CombatServices;
+using DQQ.Web.Datas;
 using DQQ.Web.Services.Requests;
 using ReheeCmf.Helpers;
 using ReheeCmf.Requests;
@@ -13,7 +15,7 @@ namespace DQQ.Web.Services.CombatServices
 	{
 		private readonly ICharacterService characterService;
 
-		public CombatService(RequestClient<DQQGetHttpClient> client, ICharacterService characterService) : base(client)
+		public CombatService(ICharacterService characterService, RequestClient<DQQGetHttpClient> client, IIndexRepostory repostory, IGameStatusService statusService) : base(client, repostory, statusService)
 		{
 			this.characterService = characterService;
 		}

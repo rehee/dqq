@@ -1,20 +1,28 @@
-﻿using DQQ.Components.Stages.Actors.Characters;
+﻿using DQQ.Combats;
+using DQQ.Components.Items;
+using DQQ.Components.Items.Equips;
+using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Entities;
+using DQQ.Enums;
+using DQQ.Pools;
 using DQQ.Services;
 using DQQ.Services.ActorServices;
+using DQQ.Web.Datas;
 using DQQ.Web.Services.Requests;
+using ReheeCmf.Helpers;
 using ReheeCmf.Requests;
 using ReheeCmf.Responses;
+using System.Collections.Generic;
 using System.Text.Json;
 
 namespace DQQ.Web.Services.Characters
 {
 	public class CharacterService : ClientServiceBase, ICharacterService
   {
-    private readonly IGameStatusService gameStatusService;
-
-    public CharacterService(RequestClient<DQQGetHttpClient>? client, IGameStatusService gameStatusService) : base(client)
-    {
-      this.gameStatusService = gameStatusService;
+   
+    public CharacterService(RequestClient<DQQGetHttpClient> client, IIndexRepostory repostory, IGameStatusService statusService) : base(client, repostory, statusService)
+		{
+      
     }
 
     public async Task<ContentResponse<Guid?>> CreateCharacter(Character? character)
@@ -23,10 +31,38 @@ namespace DQQ.Web.Services.Characters
       {
         return new ContentResponse<Guid?>();
       }
-      
-      var result = await client.Request<Guid?>(HttpMethod.Post, "Character", JsonSerializer.Serialize(character));
-      return result;
-    }
+      if(await IsOnleService())
+      {
+				var response = await client.Request<Guid?>(HttpMethod.Post, "Character", JsonSerializer.Serialize(character));
+				return response;
+			}
+      else
+      {
+        var offlineCharacter = new OfflineCharacter();
+        offlineCharacter.SelectedCharacter = character;
+				offlineCharacter.Id=Guid.NewGuid();
+
+        var actor = new ActorEntity();
+        actor.Id = offlineCharacter.Id;
+        actor.MaxHP = 50;
+        actor.Name = character?.DisplayName;
+        offlineCharacter.SelectedCharacter = actor.GenerateTypedComponent<Character>(null);
+        
+        var sword = EnumItem.CopperSword.GenerateItemComponent(new Random(), 1, 1);
+        var swordEnttity = sword.ToEntity();
+        
+        var component = swordEnttity.GenerateTypedComponent<EquipComponent>(null);
+
+        offlineCharacter?.Equip(sword?.ToEntity(), EnumEquipSlot.MainHand);
+				offlineCharacter?.TotalEquipProperty();
+
+				await Repostory.Create(offlineCharacter);
+			}
+      var result = new ContentResponse<Guid?>();
+      result.SetSuccess(character?.DisplayId);
+			return result;
+
+		}
 
     public Task<ContentResponse<Guid?>> DeleteCharacter(Guid? charId)
     {
@@ -40,8 +76,17 @@ namespace DQQ.Web.Services.Characters
 
 		public async Task<IEnumerable<Character>> GetAllCharacters()
     {
-      var result = await client.Request<IEnumerable<Character>>(HttpMethod.Get, "Character");
-      return result.Content ?? Enumerable.Empty<Character>();
+      if(await IsOnleService())
+      {
+				var result = await client.Request<IEnumerable<Character>>(HttpMethod.Get, "Character");
+				return result.Content ?? Enumerable.Empty<Character>();
+			}
+      else
+      {
+        var result = (await Repostory.Read<OfflineCharacter>()).Select(b=>b.SelectedCharacter).Where(b=>b!= null).Select(b=>b!);
+        return result;
+			}
+      
     }
 
     public async Task<Character?> GetCharacter(Guid? charId)
@@ -50,22 +95,30 @@ namespace DQQ.Web.Services.Characters
       {
         return null;
       }
-      return (await client.Request<Character?>(HttpMethod.Get, $"Character/{charId}")).Content;
+      if (await IsOnleService())
+      {
+				return (await client.Request<Character?>(HttpMethod.Get, $"Character/{charId}")).Content;
+			}
+			else
+      {
+				return (await GetAllCharacters())?.Where(b=>b.DisplayId==charId)?.FirstOrDefault();
+			}
+			
     }
 
     public async Task<Guid?> GetSelectedCharacter()
     {
-      var status = await gameStatusService.GetOrCreateGameStatus();
+      var status = await StatusService.GetOrCreateGameStatus();
       return status?.Content?.CurrentCharId;
     }
 
     public async Task<bool> SelectedCharacter(Guid? charId)
     {
-			var status = await gameStatusService.GetOrCreateGameStatus();
+			var status = await StatusService.GetOrCreateGameStatus();
       if (status.Success)
       {
         status!.Content!.CurrentCharId= charId;
-				await gameStatusService.UpdateGameStatus(status?.Content);
+				await StatusService.UpdateGameStatus(status?.Content);
 			}
 			return true;
     }

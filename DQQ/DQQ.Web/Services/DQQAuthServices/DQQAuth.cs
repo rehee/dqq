@@ -39,7 +39,7 @@ namespace DQQ.Web.Services.DQQAuthServices
       {
         try
         {
-          status!.Content = null;
+          status!.Content=null;
 					
         }
         catch

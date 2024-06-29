@@ -122,22 +122,25 @@ namespace DQQ.Components.Stages.Actors.Characters
 				CurrentXP = ae.CurrentXP;
 				NextLevelXP = XPHelper.GetNextLevelUpExp(ae.Level).ToString();
 
-				var equips = ae.Equips!.DistinctBy(b => b.EquipSlot).ToArray();
-
-				foreach (var equip in equips)
+				var equips = ae.Equips?.DistinctBy(b => b.EquipSlot).ToArray();
+				if (equips?.Any() == true)
 				{
-					if (equip?.Item == null)
+					foreach (var equip in equips)
 					{
-						continue;
+						if (equip?.Item == null)
+						{
+							continue;
+						}
+						var equipComponent = equip.Item.GenerateTypedComponent<EquipComponent>(this);
+						if (equipComponent == null)
+						{
+							continue;
+						}
+						Equips.AddOrUpdate(equip.EquipSlot!.Value, equipComponent!, (a, b) => equipComponent);
+						EquipItems.AddOrUpdate(equip.EquipSlot!.Value, equip?.Item, (a, b) => equip?.Item);
 					}
-					var equipComponent = equip.Item.GenerateTypedComponent<EquipComponent>(this);
-					if (equipComponent == null)
-					{
-						continue;
-					}
-					Equips.AddOrUpdate(equip.EquipSlot!.Value, equipComponent!, (a, b) => equipComponent);
-					EquipItems.AddOrUpdate(equip.EquipSlot!.Value, equip?.Item, (a, b) => equip?.Item);
 				}
+				
 			}
 			foreach (var skil in Skills ?? [])
 			{

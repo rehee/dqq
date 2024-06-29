@@ -1,6 +1,6 @@
 ﻿using ReheeCmf.Entities;
 
-namespace DQQ.Web.Datas.Entities
+namespace DQQ.Entities
 {
 	public class IndexEntity<T> where T : EntityBase<Guid>
 	{

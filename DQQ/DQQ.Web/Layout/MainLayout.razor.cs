@@ -4,8 +4,6 @@ using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Services;
 using DQQ.Services.ActorServices;
-using DQQ.Web.Datas;
-using DQQ.Web.Datas.Entities;
 using DQQ.Web.Enums;
 using DQQ.Web.Services.DQQAuthServices;
 using DQQ.Web.Services.LocalizationServices;
@@ -76,6 +74,7 @@ namespace DQQ.Web.Layout
 		public string? CurrentLang { get; set; }
 		public string? AccountName { get; set; }
 		public bool IsAuth { get; set; }
+		public bool IsOffline => Status?.PlayMode == EnumPlayMode.Offline && !String.IsNullOrEmpty(Status?.OwnerId);
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
@@ -113,6 +112,10 @@ namespace DQQ.Web.Layout
 			var gameStatus = await statusService.GetOrCreateGameStatus();
       ActorId = gameStatus?.Content?.CurrentCharId;
       SelectedCharacter = await characterService.GetCharacter(ActorId);
+			if (SelectedCharacter == null)
+			{
+				ActorId = null;
+			}
 			MenuItems = SelectedCharacter?.GenerateMenuItem(
 				EnumWebPage.Home,
 				EnumWebPage.Skills,
@@ -120,7 +123,7 @@ namespace DQQ.Web.Layout
 				EnumWebPage.Map,
 				EnumWebPage.Inventory,
 				EnumWebPage.Setting
-				);
+				) ?? [];
       StateHasChanged();
     }
 

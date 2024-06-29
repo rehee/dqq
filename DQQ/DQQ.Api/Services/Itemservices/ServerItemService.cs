@@ -14,6 +14,7 @@ using DQQ.Services.ActorServices;
 using Humanizer;
 using DQQ.Profiles.Items.Currencies;
 using static Grpc.Core.Metadata;
+using DQQ.Profiles.Items.Equipments;
 
 namespace DQQ.Api.Services.Itemservices
 {
@@ -100,71 +101,20 @@ namespace DQQ.Api.Services.Itemservices
 					return result;
 				}
 				var item = await context.Query<ItemEntity>(false).Where(b => b.Id == itemId && b.ActorId == actorId).FirstOrDefaultAsync();
-				if (item == null || item.EquipType == null)
+				
+
+				Func<Guid?, EnumEquipSlot?, Task<EquipProfile?>> queryItemProfile = async (id, slot) => await context.Query<ActorEquipmentEntity>(true).Where(b => b.ActorId == id && b.EquipSlot == slot).Select(b => b.Item.EquipProfile).FirstOrDefaultAsync();
+				var unequipResult = await EquiptableHelper.UnequipBasedItem(item,actorId,slot,queryItemProfile,(g,s)=> unEquipItem(false,g,s));
+				if (unequipResult?.Success != true)
 				{
-					result.SetError(System.Net.HttpStatusCode.NotFound);
 					return result;
-				}
-				var avaliableSlots = item.EquipType.GetAvaliableSlots();
-				EnumEquipSlot equipSlot;
-				if (slot == null)
-				{
-					equipSlot = avaliableSlots.FirstOrDefault();
-				}
-				else
-				{
-					if (avaliableSlots?.Contains(slot.Value) != true)
-					{
-						result.SetError(System.Net.HttpStatusCode.NotFound);
-						return result;
-					}
-					equipSlot = slot.Value;
-				}
-
-
-
-				if (item.EquipType == EnumEquipType.TwoHandWeapon)
-				{
-					if (item.EquipProfile?.ItemType == EnumItemType.Bows)
-					{
-						var offHandItem = await context.Query<ActorEquipmentEntity>(true).Where(b => b.ActorId == actorId && b.EquipSlot == EnumEquipSlot.OffHand).FirstOrDefaultAsync();
-						if (offHandItem != null && offHandItem?.Item?.EquipProfile?.ItemType == EnumItemType.Quiver)
-						{
-							await unEquipItem(false, actorId.Value, EnumEquipSlot.MainHand);
-						}
-						else
-						{
-							await unEquipItem(false, actorId.Value, EnumEquipSlot.MainHand, EnumEquipSlot.OffHand);
-						}
-					}
-					else
-					{
-						await unEquipItem(false, actorId.Value, EnumEquipSlot.MainHand, EnumEquipSlot.OffHand);
-
-					}
-
-				}
-				else
-				{
-					if (equipSlot == EnumEquipSlot.OffHand)
-					{
-						var mainHand = await context.Query<ActorEquipmentEntity>(true).Where(b => b.ActorId == actorId && b.EquipSlot == EnumEquipSlot.MainHand).FirstOrDefaultAsync();
-						if (mainHand != null && mainHand.Item?.EquipProfile?.EquipType == EnumEquipType.TwoHandWeapon)
-						{
-							if (!(item.EquipProfile?.ItemType == EnumItemType.Quiver && mainHand.Item?.EquipProfile.ItemType == EnumItemType.Bows))
-							{
-								await unEquipItem(false, actorId.Value, EnumEquipSlot.MainHand);
-							}
-						}
-					}
-					await unEquipItem(false, actorId.Value, equipSlot);
 				}
 				await context.SaveChangesAsync();
 				var newEquip = new ActorEquipmentEntity()
 				{
 					ActorId = actorId,
 					ItemId = itemId,
-					EquipSlot = equipSlot,
+					EquipSlot = unequipResult.Content,
 				};
 				await context.AddAsync(newEquip);
 				if (saveAtEnd)

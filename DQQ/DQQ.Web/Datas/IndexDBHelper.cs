@@ -1,5 +1,4 @@
 ﻿using DQQ.Entities;
-using DQQ.Web.Datas.Entities;
 using ReheeCmf.Helpers;
 using System.Xml.Linq;
 using TG.Blazor.IndexedDB;
@@ -17,6 +16,8 @@ namespace DQQ.Web.Datas
 				
 				dbStore.Stores.AddIndexDBSchema<GameStatus>();
 				dbStore.Stores.AddIndexDBSchema<ClientPlayMode>();
+				dbStore.Stores.AddIndexDBSchema<OfflineCharacter>();
+				
 			});
 			
 			return services;

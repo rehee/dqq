@@ -21,8 +21,7 @@ namespace DQQ.Api.Services.Characters
 	public class CharacterService : ICharacterService
 	{
 		private readonly IContext context;
-		//private readonly IItemService itemService;
-		//private readonly ITemporaryService tService;
+
 
 		public CharacterService(IContext context)
 		{

@@ -1,6 +1,8 @@
 ﻿using DQQ.Enums;
+using DQQ.Services;
 using DQQ.Services.StrategyServices;
 using DQQ.Strategies.SkillStrategies;
+using DQQ.Web.Datas;
 using DQQ.Web.Services.Requests;
 using ReheeCmf.Requests;
 using ReheeCmf.Responses;
@@ -9,8 +11,8 @@ namespace DQQ.Web.Services.StrategyServices
 {
 	public class StrategyService : ClientServiceBase, IStrategyService
   {
-    public StrategyService(RequestClient<DQQGetHttpClient> client) : base(client)
-    {
+    public StrategyService(RequestClient<DQQGetHttpClient> client, IIndexRepostory repostory, IGameStatusService statusService) : base(client, repostory, statusService)
+		{
     }
 
     public async Task<ContentResponse<bool>> SetActorSkillStrategy(Guid? actorId, EnumSkillSlot slot, IEnumerable<SkillStrategy>? strategies)

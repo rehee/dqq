@@ -1,5 +1,7 @@
 ﻿using DQQ.Commons.DTOs;
+using DQQ.Services;
 using DQQ.Services.BDServices;
+using DQQ.Web.Datas;
 using DQQ.Web.Services.Requests;
 using ReheeCmf.Requests;
 using ReheeCmf.Responses;
@@ -8,7 +10,7 @@ namespace DQQ.Web.Services.BDServices
 {
 	public class BDService : ClientServiceBase, IBDService
 	{
-		public BDService(RequestClient<DQQGetHttpClient> client) : base(client)
+		public BDService(RequestClient<DQQGetHttpClient> client, IIndexRepostory repostory, IGameStatusService statusService) : base(client, repostory, statusService)
 		{
 		}
 
