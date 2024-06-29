@@ -37,6 +37,9 @@ namespace DQQ.Consts
 		public const decimal AttributeImpact = 0.001m;
 
 
+		public const int InventoryBackpackLimit = 500;
+		public const int InventoryPickupLimit = 500;
+
 		public const decimal HitConstant = 1.5m;
 		public const decimal DefenceConstant = 1m;
 

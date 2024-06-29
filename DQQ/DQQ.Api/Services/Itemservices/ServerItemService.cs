@@ -10,6 +10,10 @@ using System.Linq;
 using DQQ.Pools;
 using Microsoft.Linq.Translations;
 using DQQ.Profiles.Items;
+using DQQ.Services.ActorServices;
+using Humanizer;
+using DQQ.Profiles.Items.Currencies;
+using static Grpc.Core.Metadata;
 
 namespace DQQ.Api.Services.Itemservices
 {
@@ -17,11 +21,18 @@ namespace DQQ.Api.Services.Itemservices
 	{
 		private readonly IContext context;
 		private readonly ITemporaryService tiService;
+		private readonly ICharacterService characterService;
 
-		public ServerItemService(IContext context, ITemporaryService tiService)
+		public ServerItemService(IContext context, ITemporaryService tiService, ICharacterService characterService)
 		{
 			this.context = context;
 			this.tiService = tiService;
+			this.characterService = characterService;
+		}
+
+		protected IQueryable<ItemEntity> QueryItemEntity(Guid? actorId, bool asNoTracking)
+		{
+			return context.Query<ItemEntity>(asNoTracking).Where(b => b.ActorId == actorId && b.IsEquipped != true).WithTranslations();
 		}
 
 		public async Task<IEnumerable<ItemEntity>?> ActorInventory(Guid? actorId)
@@ -31,7 +42,48 @@ namespace DQQ.Api.Services.Itemservices
 			{
 				return null;
 			}
-			return await context.Query<ItemEntity>(true).Where(b => b.ActorId == actorId && b.IsEquipped != true).WithTranslations().ToArrayAsync();
+			return await QueryItemEntity(actorId,true).ToArrayAsync();
+		}
+
+		public async Task<ContentResponse<bool>> DropBackpackItem(Guid? actorId, params Guid[] itemId)
+		{
+			var result = new ContentResponse<bool>();
+			var actor = await characterService.GetCharacter(actorId);
+			if (itemId.Any() != true ||actor == null)
+			{
+				return result;
+			}
+			
+
+			var itemReadyForDelete = await QueryItemEntity(actorId, false).Where(b=> itemId.Contains(b.Id)).ToArrayAsync();
+			try
+			{
+				foreach (var p in itemReadyForDelete)
+				{
+					context.Delete(p);
+				}
+			}
+			catch (Exception ex) 
+			{
+				var d = 1;
+			}
+			
+			await context.SaveChangesAsync();
+			result.SetSuccess(true);
+			return result;
+		}
+
+		public async Task<ContentResponse<bool>> DropPickupItem(Guid? actorId, params Guid[] itemId)
+		{
+			var result = new ContentResponse<bool>();
+			var actor = await characterService.GetCharacter(actorId);
+			if (actor == null)
+			{
+				return result;
+			}
+			await tiService.PickAndRemoveTemporaryItems(actorId, itemId);
+			result.SetSuccess(true);
+			return result;
 		}
 
 		public async Task<ContentResponse<bool>> EquipItem(Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
@@ -157,11 +209,19 @@ namespace DQQ.Api.Services.Itemservices
 		public async Task<ContentResponse<bool>> PickItem(Guid? actorId, params Guid[] itemId)
 		{
 			var result = new ContentResponse<bool>();
-			if (actorId == null || itemId?.Any() != true)
+			var actor = await characterService.GetCharacter(actorId);
+			if (actor == null || itemId?.Any() != true)
 			{
 				return result;
 			}
-			var foundItem = await context.Query<ItemEntity>(true).Where(b => itemId.Any(i => b.Id == i)).AnyAsync();
+			var limits = actor.GetInventoryBackpackLimit();
+			var currentItem = await QueryItemEntity(actorId, true).Select(b => b.Id).CountAsync();
+			var avaliableItem = limits - currentItem;
+			if (avaliableItem <= 0)
+			{
+				return result;
+			}
+			var foundItem = await context.Query<ItemEntity>(true).Where(b => itemId.Take(avaliableItem).Any(i => b.Id == i)).AnyAsync();
 			if (foundItem)
 			{
 				result.SetValidation(ValidationResultHelper.New("One of Item already picked"));
@@ -169,7 +229,7 @@ namespace DQQ.Api.Services.Itemservices
 
 			}
 			var items = await tiService.PickAndRemoveTemporaryItems(actorId, itemId);
-			if (items?.Any() == null)
+			if (items?.Any() != true)
 			{
 				result.SetError(System.Net.HttpStatusCode.NotFound);
 				return result;
@@ -223,6 +283,53 @@ namespace DQQ.Api.Services.Itemservices
 			}
 			return result;
 		}
+
+		public async Task<ContentResponse<bool>> SellBackpackItem(Guid? actorId, params Guid[] itemId)
+		{
+			var result = new ContentResponse<bool>();
+			if (itemId.Any() == false)
+			{
+				return result;
+			}
+			var actor = await characterService.GetCharacter(actorId);
+			if (actor == null)
+			{
+				return result;
+			}
+			var item = (await QueryItemEntity(actorId, false).Where(b=> itemId.Contains(b.Id)).ToArrayAsync()).Where(b => b.ItemType != EnumItemType.Currency).ToArray();
+			var items = item.GroupBy(b => b.Rarity).Select(b => (AbCurrency.New(b.Key), b.Count()))
+				.Where(b => b.Item1 != null)
+				.Select(b =>
+				{
+					var component = b.Item1!.GenerateComponent(new Random(), 1, b.Item2);
+					return component.ToEntity();
+				})
+				.ToArray();
+			if (items?.Any()!=true)
+			{
+				return result;
+			}
+			foreach(var entity in items)
+			{
+				var existingItem = await QueryItemEntity(actorId,false).Where(b => b.ItemNumber == entity.ItemNumber).FirstOrDefaultAsync();
+				if(existingItem!= null)
+				{
+					existingItem.Quantity = existingItem.Quantity + entity.Quantity;
+				}
+				else
+				{
+					entity.ActorId = actorId;
+					await context.AddAsync(entity);
+				}
+			}
+			foreach(var deletedItem in item)
+			{
+				context.Delete(deletedItem);
+			}
+			await context.SaveChangesAsync();
+			return result;
+		}
+
 		public async Task<ContentResponse<bool>> UnEquipItem(Guid? actorId, params EnumEquipSlot[] slots)
 		{
 			return await unEquipItem(true, actorId, slots);

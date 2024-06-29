@@ -1,5 +1,7 @@
 ﻿using DQQ.Components.Items;
 using DQQ.Entities;
+using DQQ.Helper;
+using DQQ.Services.ActorServices;
 using ReheeCmf.Helpers;
 using ReheeCmf.Responses;
 using System.Collections.Concurrent;
@@ -9,7 +11,13 @@ namespace DQQ.Api.Services.Itemservices
 {
   public class TemporaryService : ITemporaryService
   {
-    public static ConcurrentDictionary<Guid, HashSet<ItemComponent>> TemporaryItemPool { get; set; } = new ConcurrentDictionary<Guid, HashSet<ItemComponent>>();
+		private readonly ICharacterService characterService;
+
+		public TemporaryService(ICharacterService characterService)
+    {
+			this.characterService = characterService;
+		}
+		public static ConcurrentDictionary<Guid, HashSet<ItemComponent>> TemporaryItemPool { get; set; } = new ConcurrentDictionary<Guid, HashSet<ItemComponent>>();
     public async Task<IEnumerable<ItemEntity>> GetAllTemporaryItems(Guid? actorId)
     {
       await Task.CompletedTask;
@@ -55,23 +63,31 @@ namespace DQQ.Api.Services.Itemservices
     {
       await Task.CompletedTask;
       var result = new ContentResponse<bool>();
-      if (actorId == null)
-      {
+      var actor = await characterService.GetCharacter(actorId);
+      if (actor == null)
+			{
         return result;
-      }
-      HashSet<ItemComponent>? set = null;
-      if (!TemporaryItemPool.TryGetValue(actorId.Value, out set))
+			}
+
+			HashSet<ItemComponent>? set = null;
+      if (!TemporaryItemPool.TryGetValue(actorId!.Value, out set))
       {
         set = new HashSet<ItemComponent>();
-        TemporaryItemPool.AddOrUpdate(actorId.Value, set, (b, c) => set);
+        TemporaryItemPool.AddOrUpdate(actorId!.Value, set, (b, c) => set);
       }
-      if (items?.Any() != true)
+      var limit = actor.GetInventoryPickupLimit();
+			if (items?.Any() != true)
       {
         result.SetSuccess(true);
         return result;
       }
       foreach (var item in items)
       {
+        if(set.Count> limit)
+        {
+					result.SetSuccess(true);
+          return result;
+				}
         set.Add(item);
       }
       result.SetSuccess(true);

@@ -87,6 +87,10 @@ namespace DQQ.Helper
 			{
 				return GetString(ecpt);
 			}
+			if (input is EnumInventotyType eity)
+			{
+				return GetString(eity);
+			}
 			return $"{input}";
 		}
 
@@ -360,6 +364,15 @@ namespace DQQ.Helper
 					return "";
 			}
 		}
-
+		public static string? GetString(this EnumInventotyType input)
+		{
+			switch (input)
+			{
+				case EnumInventotyType.Backpack: return "背包";
+				case EnumInventotyType.Pickup: return "战利品";
+				default:
+					return "";
+			}
+		}
 	}
 }

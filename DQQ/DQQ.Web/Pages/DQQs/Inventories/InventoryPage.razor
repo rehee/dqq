@@ -61,27 +61,28 @@
 	}
 </style>
 <DQQResponsive OnBreakPointChanged="BreakPointChanged" />
+
 <section class="section">
 	<Drawer Width="75%" Placement="Placement.Left" @bind-IsOpen="@IsOpen" IsBackdrop="true">
-		<ItemDetailPage EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="PickupItems" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+		<ItemDetailPage InventoryType="CurrentInventoryType" EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="CombineItemSource" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
 	</Drawer>
 
 	<div class="row g-3 inventory_main">
 		<div class="col-12 col-sm-12 col-md-4 d-none d-md-block inventory_detail sticky-top">
 			@if (!ShowDrawer)
 			{
-				<ItemDetailPage EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="PickupItems" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+				<ItemDetailPage InventoryType="CurrentInventoryType" EquipChange="RefreshInventory" IsMultiSelect="IsMultiSelect" PickupSource="CombineItemSource" SelectedSlot="SelectedSlot" ItemSelected="ItemSelected" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
 			}
 		</div>
 		<div class="col-12 col-sm-12 col-md-8 inventory_items">
 			<EquipmentPage ShowSider="ShowDrawer"  OpenOrClose="OpenOrClose" SelectedSlotClicked="OnSelectedSlotChange" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
 			<div class="inventory_tab">
-				<Tab>
+				<Tab IsOnlyRenderActiveTab="true">
 					<TabItem Text="装备">
-						<BackpackPage IsMultiSelect="IsMultiSelect" IsMultiSelectCallback="IsMultiSelectChange" OpenOrClose="OpenOrClose" Source="Items" OnItemClicked="OnItemClicked" ItemSelected="ItemSelected" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+						<InventoryTab AfterInit="OnTabChange" InventoryType="EnumInventotyType.Backpack" IsMultiSelect="IsMultiSelect" IsMultiSelectCallback="IsMultiSelectChange" OpenOrClose="OpenOrClose" Source="Items" OnItemClicked="OnItemClicked" ItemSelected="ItemSelected" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
 					</TabItem>
 					<TabItem Text="战利品">
-						<PickupPage IsMultiSelect="IsMultiSelect" IsMultiSelectCallback="IsMultiSelectChange" OpenOrClose="OpenOrClose" Source="PickupItems" OnItemClicked="OnItemClicked" ItemSelected="ItemSelected" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
+						<InventoryTab AfterInit="OnTabChange" InventoryType="EnumInventotyType.Pickup" IsMultiSelect="IsMultiSelect" IsMultiSelectCallback="IsMultiSelectChange" OpenOrClose="OpenOrClose" Source="PickupItems" OnItemClicked="OnItemClicked" ItemSelected="ItemSelected" SelectedSlot="SelectedSlot" SelectedCharacter="SelectedCharacter" ParentRefreshEvent="ParentRefreshEvent" />
 					</TabItem>
 				</Tab>
 			</div>

@@ -1,11 +1,7 @@
 using BootstrapBlazor.Components;
-using DQQ.Components.Affixes;
-using DQQ.Components.Items;
 using DQQ.Entities;
 using DQQ.Enums;
 using Microsoft.AspNetCore.Components;
-using ReheeCmf.Commons.Jsons.Options;
-using System.Text.Json;
 
 namespace DQQ.Web.Pages.DQQs.Items
 {

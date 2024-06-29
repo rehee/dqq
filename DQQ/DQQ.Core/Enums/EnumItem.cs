@@ -11,7 +11,8 @@ namespace DQQ.Enums
 		NotSpecified = 0,
 
 		Crystal = 10001,
-
+		GeneralMaterial = 10002,
+		MagicDust = 10003,
 
 		PlateArmor = 100001,
 		LeatherArmor = 100002,

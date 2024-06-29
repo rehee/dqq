@@ -1,32 +1,42 @@
 ﻿@using DQQ.Web.Pages.DQQs.Items.Components
-@inherits BackpackPagePage
+@inherits InventoryCommon
 <Card class="inventory_list_card">
 	<HeaderTemplate>
-		背包
+		@InventoryType.GetEnumString();
 	</HeaderTemplate>
 	<BodyTemplate>
 		<Card>
 			<BodyTemplate>
 				<BootstrapInputGroup>
 					<Toggle Value="IsShowCurrency" ValueChanged="()=>ShowCurrency()" OnText="通货" OffText="通货" Color="Color.Primary" />
+					<Toggle Value="IsMultiSelect" ValueChanged="()=>MultiSelectChange()" OnText="多选" OffText="多选" Color="Color.Success" />
+					@if (IsMultiSelect)
+					{
+						<Button OnClick="SelectAll">全选</Button>
+					}
+				</BootstrapInputGroup>
+				<BootstrapInputGroup>
+					
 					@foreach (var r in RaritySelect)
 					{
 						<BootstrapInputGroupLabel DisplayText="@r.Label" />
 						<Checkbox OnStateChanged="CheckboxStateChange" TValue="bool" @bind-Value="@r.Selected" Color="r.GetColor()" />
 					}
+
+
 				</BootstrapInputGroup>
 				<Pagination PageCount="@PageCount" PageIndex="PageSelected" OnPageLinkClick="PageSelect" />
 			</BodyTemplate>
 		</Card>
-		<Card class="inventory_list_card_body">
+		<Card class="inventory_list_card_body inventory_list_card_body_container">
 			<BodyTemplate>
-				<div class="row g-3 inventory_list_card_body_container">
+				<div class="row g-3">
 					@if (PagedItems?.Any() == true)
 					{
 						foreach (var item in PagedItems)
 						{
 							<div class="col-3 col-sm-3 col-md-2 col-lg-2">
-								<ItemBrief OpenOrClose="OpenOrClose" OnItemClicked="OnItemClicked" ItemSelected="ItemSelected" Item="item" />
+								<ItemBrief IsMultiSelect="IsMultiSelect" OpenOrClose="OpenOrClose" OnItemClicked="OnItemClicked" ItemSelected="ItemSelected" Item="item" />
 							</div>
 						}
 					}
@@ -34,6 +44,5 @@
 				</div>
 			</BodyTemplate>
 		</Card>
-	
 	</BodyTemplate>
 </Card>

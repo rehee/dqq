@@ -158,7 +158,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 						Tick = log.WaveNumber;
 						MessageItems.Add(log.GetConsoleMessage());
 
-						if (log.LogType == Enums.EnumLogType.WaveChange)
+						if (log.LogType == EnumLogType.WaveChange)
 						{
 							//if (timeLineStart == null)
 							//{

@@ -60,5 +60,27 @@ namespace DQQ.Api.Apis
 			var result = await itemService.UnEquipItem(actorId, slot);
 			return result.Success;
 		}
+
+		[HttpDelete("Drop/Pickup/{actorId}")]
+		[CmfAuthorize(AuthOnly = true)]
+		public async Task<bool> DropPickup(Guid? actorId, Guid[] itemId)
+		{
+			var result = await itemService.DropPickupItem(actorId, itemId);
+			return result.Success;
+		}
+		[HttpDelete("Drop/Backpack/{actorId}")]
+		[CmfAuthorize(AuthOnly = true)]
+		public async Task<bool> DropBackpackItem(Guid? actorId, Guid[] itemId)
+		{
+			var result = await itemService.DropBackpackItem(actorId, itemId);
+			return result.Success;
+		}
+		[HttpPost("Sell/Backpack/{actorId}")]
+		[CmfAuthorize(AuthOnly = true)]
+		public async Task<bool> SellBackpackItem(Guid? actorId, Guid[] itemId)
+		{
+			var result = await itemService.SellBackpackItem(actorId, itemId);
+			return result.Success;
+		}
 	}
 }

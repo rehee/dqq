@@ -21,14 +21,13 @@ namespace DQQ.Api.Services.Characters
 	public class CharacterService : ICharacterService
 	{
 		private readonly IContext context;
-		private readonly IItemService itemService;
-		private readonly ITemporaryService tService;
+		//private readonly IItemService itemService;
+		//private readonly ITemporaryService tService;
 
-		public CharacterService(IContext context, IItemService itemService, ITemporaryService tService)
+		public CharacterService(IContext context)
 		{
 			this.context = context;
-			this.itemService = itemService;
-			this.tService = tService;
+			
 		}
 		public async Task<ContentResponse<Guid?>> CreateCharacter(Character? character)
 		{
@@ -46,13 +45,6 @@ namespace DQQ.Api.Services.Characters
 				entity.MaxHP = 50;
 				await context.AddAsync(entity);
 				await context.SaveChangesAsync();
-
-				var sword = (DQQPool.TryGet<ItemProfile, EnumItem?>(EnumItem.CopperSword) as EquipProfile)!.GenerateComponent(random, 1, 1);
-				await tService.AddAndIntoTemporary(entity.Id, sword);
-
-				await itemService.PickItem(entity.Id, sword.DisplayId!.Value);
-				await itemService.EquipItem(entity.Id, sword.DisplayId!.Value, EnumEquipSlot.MainHand);
-
 				result.SetSuccess(entity.Id);
 			}
 			catch (Exception ex)

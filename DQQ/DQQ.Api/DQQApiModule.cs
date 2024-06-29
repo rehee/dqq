@@ -54,7 +54,7 @@ namespace DQQ.Api
 			await base.ConfigureServicesAsync(context);
       DQQPool.InitPool();
       context.Services!.AddHostedService<SeedWorker>();
-      context.Services!.AddHostedService<CleanTempWorker>();
+     
       context.Services!.AddScoped<IMapService, MapService<Map>>();
       context.Services!.AddScoped<ITemporaryService, TemporaryService>();
       context.Services!.AddScoped<IItemService, ServerItemService>();

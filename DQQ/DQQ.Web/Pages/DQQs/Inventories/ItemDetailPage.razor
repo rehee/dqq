@@ -1,4 +1,5 @@
 ﻿@using DQQ.Web.Pages.DQQs.Items
+@using DQQ.Web.Pages.DQQs.Items.Components
 @inherits ItemDetailPagePage
 
 <Card >
@@ -30,14 +31,35 @@
 						<ItemComponent Item="ItemSelected" />
 					</div>
 				}
-				if (ItemSelected?.IsTempItem == true)
+
+				if (IsMultiSelect && PickupSource?.Any() == true)
 				{
-					<Button IsBlock="true" IsAsync="true" Color="Color.Success" OnClick="Pick">拾取</Button>
+					@if (InventoryType == EnumInventotyType.Pickup)
+					{
+						<Button IsBlock="true" IsAsync="true" Color="Color.Success" OnClick="PickAll">全部拾取</Button>
+					}
+					@if (InventoryType == EnumInventotyType.Backpack)
+					{
+						<Button IsBlock="true" IsAsync="true" Color="Color.Warning" OnClick="SellAll">全部变卖</Button>
+					}
+					<Button IsBlock="true" IsAsync="true" Color="Color.Danger" OnClick="DropAll">全部丢弃</Button>
 				}
-				if (IsMultiSelect)
+				else
 				{
-					<Button IsBlock="true" IsAsync="true" Color="Color.Warning" OnClick="PickAll">全部拾取</Button>
+					if (ItemSelected != null && InventoryType == EnumInventotyType.Pickup)
+					{
+						<Button IsBlock="true" IsAsync="true" Color="Color.Success" OnClick="Pick">拾取</Button>
+						
+					}
+					if (ItemSelected != null && InventoryType == EnumInventotyType.Backpack)
+					{
+						<Button IsBlock="true" IsAsync="true" Color="Color.Warning" OnClick="Sell">变卖</Button>
+					}
+					<Button IsBlock="true" IsAsync="true" Color="Color.Danger" OnClick="Drop">丢弃</Button>
 				}
+
+				
+				
 			}
 		</div>
 </BodyTemplate>

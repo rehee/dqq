@@ -9,6 +9,12 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 {
 	public abstract class InventoryCommon : DQQPageBase
 	{
+		[Parameter]
+		public EventCallback<EnumInventotyType> AfterInit { get; set; }
+
+		[Parameter]
+		public EnumInventotyType InventoryType { get; set; }
+
 		public const int ItemPerPage = 50;
 		[Parameter]
 		public EnumEquipSlot? SelectedSlot { get; set; }
@@ -140,7 +146,10 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
-
+			if (AfterInit.HasDelegate)
+			{
+				AfterInit.InvokeAsync(InventoryType);
+			}
 		}
 
 		[Parameter]

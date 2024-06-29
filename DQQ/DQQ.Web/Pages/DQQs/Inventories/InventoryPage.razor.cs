@@ -15,6 +15,14 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 		public ItemEntity? ItemSelected { get; set; }
 		public bool IsMultiSelect { get; set; }
 
+		public EnumInventotyType CurrentInventoryType {  get; set; }
+		public  Task OnTabChange(EnumInventotyType tabItem)
+		{
+			CurrentInventoryType = tabItem;
+			StateHasChanged();
+			return Task.CompletedTask;
+		}
+
 		public Task IsMultiSelectChange(bool isMultiSelect)
 		{
 			IsMultiSelect=isMultiSelect;
@@ -51,6 +59,8 @@ namespace DQQ.Web.Pages.DQQs.Inventories
 		
 		public ItemEntity[]? PickupItems { get; set; }
 
+
+		public ItemEntity[]? CombineItemSource => CurrentInventoryType == EnumInventotyType.Backpack ? Items : PickupItems;
 
 		[Parameter]
 
