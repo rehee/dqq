@@ -14,11 +14,13 @@ namespace DQQ.Web.Pages.Auths
     [NotNull]
     public IDQQAuth? auth { get; set; }
 
-    protected override void OnInitialized()
-    {
-      base.OnInitialized();
-      auth.SetAuth(null);
-      nav.NavigateTo("", true);
-    }
+		protected override async Task OnInitializedAsync()
+		{
+			await base.OnInitializedAsync();
+			await auth.SetAuth(null);
+			nav.NavigateTo("", true);
+		}
+
+		
   }
 }

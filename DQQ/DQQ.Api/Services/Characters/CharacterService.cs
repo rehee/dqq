@@ -80,12 +80,12 @@ namespace DQQ.Api.Services.Characters
 			return entity?.GenerateTypedComponent<Character>(null);
 		}
 
-		public bool SelectedCharacter(Guid? charId)
+		public Task<bool> SelectedCharacter(Guid? charId)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Guid? GetSelectedCharacter()
+		public Task<Guid?> GetSelectedCharacter()
 		{
 			throw new NotImplementedException();
 		}

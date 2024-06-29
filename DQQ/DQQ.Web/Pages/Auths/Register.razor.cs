@@ -1,17 +1,19 @@
-using Blazor.Serialization.Extensions;
 using DQQ.Commons.DTOs;
+using DQQ.Web.Enums;
 using DQQ.Web.Services.DQQAuthServices;
 using Microsoft.AspNetCore.Components;
 using ReheeCmf.Commons.DTOs;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
+using System.Text.Json;
 using static System.Net.WebRequestMethods;
 
 namespace DQQ.Web.Pages.Auths
 {
-  public partial class Register
-  {
-    public string? Email { get; set; }
+  public class RegisterPage: AuthBasePage
+	{
+		public override EnumPlayMode PlayMode => EnumPlayMode.Online;
+		public string? Email { get; set; }
     public string? Password { get; set; }
     public string? ConfirmPassword { get; set; }
     [Inject]
@@ -56,7 +58,7 @@ namespace DQQ.Web.Pages.Auths
       }
       try
       {
-        var token = (await result.Content.ReadAsStringAsync()).FromJson<TokenDTO>();
+        var token = JsonSerializer.Deserialize<TokenDTO>(await result.Content.ReadAsStringAsync());
         auth.SetAuth(token);
         nav.NavigateTo("", true);
       }

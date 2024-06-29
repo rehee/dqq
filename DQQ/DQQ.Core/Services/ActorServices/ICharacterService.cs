@@ -15,8 +15,8 @@ namespace DQQ.Services.ActorServices
 		Task<Character?> GetCharacter(Guid? charId);
 		Task<ContentResponse<Guid?>> DeleteCharacter(Guid? charId);
 
-		bool SelectedCharacter(Guid? charId);
-		Guid? GetSelectedCharacter();
+		Task<bool> SelectedCharacter(Guid? charId);
+		Task<Guid?> GetSelectedCharacter();
 
 		Task<ContentResponse<bool>> GainExperience(Guid? charId, string? exp);
 	}

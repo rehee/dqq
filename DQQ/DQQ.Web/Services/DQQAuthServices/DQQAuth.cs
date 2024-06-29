@@ -1,40 +1,46 @@
-﻿using BootstrapBlazor.Components;
-using Microsoft.JSInterop;
+﻿using DQQ.Services;
 using ReheeCmf.Commons.DTOs;
 
 namespace DQQ.Web.Services.DQQAuthServices
 {
-  public class DQQAuth : IDQQAuth
+	public class DQQAuth : IDQQAuth
   {
-    private readonly ILocalStorageService localStorage;
+    private readonly IGameStatusService gameStatusService;
 
-    public DQQAuth(ILocalStorageService localStorage)
+    public DQQAuth(IGameStatusService gameStatusService)
     {
-      this.localStorage = localStorage;
+      this.gameStatusService = gameStatusService;
     }
-    public TokenDTO? GetAuth()
+    public async Task<TokenDTO?> GetAuth()
     {
-      var token = localStorage.GetItem<TokenDTO>(nameof(TokenDTO));
-      if (token == null)
+      var status = await gameStatusService.GetOrCreateGameStatus();
+      var token = status?.Content?.Token;
+			if (token == null && status?.Success==true)
       {
-        localStorage.RemoveItem("localChar");
+        status!.Content!.CurrentCharId = null;
+        await gameStatusService.UpdateGameStatus(status?.Content);
+			}
+			return token;
+    }
+
+    public async Task<bool> IsAuth()
+    {
+      return (await GetAuth()) != null;
+    }
+
+    public async Task SetAuth(TokenDTO? auth)
+    {
+			var status = await gameStatusService.GetOrCreateGameStatus();
+      if (status.Success != true)
+      {
+        return;
       }
-      return token;
-    }
-
-    public bool IsAuth()
-    {
-      return GetAuth() != null;
-    }
-
-    public void SetAuth(TokenDTO? auth)
-    {
-      if (auth == null)
+			if (auth == null)
       {
         try
         {
-          localStorage.RemoveItem(nameof(TokenDTO));
-          localStorage.RemoveItem("localChar");
+          status!.Content = null;
+					
         }
         catch
         {
@@ -44,10 +50,11 @@ namespace DQQ.Web.Services.DQQAuthServices
       }
       else
       {
-        localStorage.SetItem<TokenDTO?>(nameof(TokenDTO), auth);
-      }
-      
-      return;
+				status!.Content!.Token = auth;
+        status!.Content!.OwnerId = auth?.UserId;
+			}
+      await gameStatusService.UpdateGameStatus(status?.Content);
+			return;
     }
   }
 }

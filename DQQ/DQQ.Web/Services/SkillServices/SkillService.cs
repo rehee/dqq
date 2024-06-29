@@ -1,7 +1,5 @@
-﻿using Blazor.Serialization.Extensions;
-using DQQ.Commons.DTOs;
+﻿using DQQ.Commons.DTOs;
 using DQQ.Pools;
-using DQQ.Profiles.Skills;
 using DQQ.Services.SkillServices;
 using DQQ.Web.Services.Requests;
 using ReheeCmf.Requests;

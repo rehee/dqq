@@ -13,22 +13,28 @@ namespace DQQ.Web.Pages.DQQs.Settings
 		{
 			await base.OnInitializedAsync();
 
-			var combatPlayType = LocalStorageService.GetItem<EnumCombatPlayType?>(WebConsts.CombatStyleTypeKey);
-			if (combatPlayType == null || combatPlayType == EnumCombatPlayType.NotSpecified)
+			var status = await GameStatusService.GetOrCreateGameStatus();
+			if (status?.Success == true)
 			{
-				LocalStorageService.SetItem<EnumCombatPlayType?>(WebConsts.CombatStyleTypeKey, CombatPlayType);
+				if(!(status?.Content?.CombatPlayType == null || status?.Content?.CombatPlayType == EnumCombatPlayType.NotSpecified))
+				{
+					CombatPlayType = status!.Content!.CombatPlayType;
+				}
 			}
-			else
-			{
-				CombatPlayType = combatPlayType.Value;
-			}
+			
+
 
 		}
 
 		public async Task SelectedChanged(SelectedItem item)
 		{
 			await Task.CompletedTask;
-			LocalStorageService.SetItem<EnumCombatPlayType?>(WebConsts.CombatStyleTypeKey, CombatPlayType);
+
+			var status = await GameStatusService.GetOrCreateGameStatus();
+			if (status?.Success == true)
+			{
+				status!.Content!.CombatPlayType = CombatPlayType;
+			}
 			StateHasChanged();
 		}
 

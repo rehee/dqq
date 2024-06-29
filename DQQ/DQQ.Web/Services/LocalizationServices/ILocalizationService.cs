@@ -2,7 +2,7 @@
 {
 	public interface ILocalizationService
 	{
-		string LoadDefaulCulture();
-		void SetDefaulCulture(string culture, bool reLoad = false);
+		Task<string> LoadDefaulCulture();
+		Task SetDefaulCulture(string culture, bool reLoad = false);
 	}
 }

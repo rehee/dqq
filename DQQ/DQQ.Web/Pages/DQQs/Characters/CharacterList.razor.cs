@@ -21,7 +21,7 @@ namespace DQQ.Web.Pages.DQQs.Characters
     public async Task Refresh()
     {
       Characters = await characterService.GetAllCharacters();
-      SelectedCharId = characterService.GetSelectedCharacter();
+      SelectedCharId = await characterService.GetSelectedCharacter();
       StateHasChanged();
     }
     public async Task ShowCreate()

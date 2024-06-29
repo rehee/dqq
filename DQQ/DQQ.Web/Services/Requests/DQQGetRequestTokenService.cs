@@ -1,12 +1,11 @@
-﻿using Blazor.Serialization.Extensions;
-using DQQ.Web.Services.DQQAuthServices;
+﻿using DQQ.Web.Services.DQQAuthServices;
 using ReheeCmf.Commons.DTOs;
 using ReheeCmf.Requests;
 using System.Net.Http.Json;
 
 namespace DQQ.Web.Services.Requests
 {
-  public class DQQGetRequestTokenService : IGetRequestTokenService
+	public class DQQGetRequestTokenService : IGetRequestTokenService
   {
     private readonly IDQQAuth auth;
     private readonly HttpClient http;
@@ -18,7 +17,7 @@ namespace DQQ.Web.Services.Requests
     }
     public async Task<(string? name, string? token)> GetRequestTokenAsync(CancellationToken ct = default)
     {
-      var token = auth.GetAuth();
+      var token = await auth.GetAuth();
       if (token == null)
       {
         return (null, null);
@@ -42,12 +41,12 @@ namespace DQQ.Web.Services.Requests
       {
         return (null, null);
       }
-      auth.SetAuth(newTokenDTO);
+      await auth.SetAuth(newTokenDTO);
       return (null, newTokenDTO.TokenString);
     }
     public async Task<(string? name, string? token)> CheckRequestTokenAsync(CancellationToken ct = default)
     {
-      var token = auth.GetAuth();
+      var token = await auth.GetAuth();
       if (token == null)
       {
         return (null, null);
@@ -59,16 +58,16 @@ namespace DQQ.Web.Services.Requests
 
       if (!newTokenResponse.IsSuccessStatusCode)
       {
-        auth.SetAuth(null);
+        await auth.SetAuth(null);
         return (null, null);
       }
       var newTokenDTO = (await newTokenResponse.Content.ReadAsStringAsync()).FromJson<TokenDTO>();
       if (newTokenDTO == null)
       {
-        auth.SetAuth(null);
+        await auth.SetAuth(null);
         return (null, null);
       }
-      auth.SetAuth(newTokenDTO);
+      await auth.SetAuth(newTokenDTO);
       return (newTokenDTO.UserName, newTokenDTO.TokenString);
     }
   }

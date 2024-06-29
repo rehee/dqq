@@ -1,16 +1,17 @@
-using Blazor.Serialization.Extensions;
+using DQQ.Web.Enums;
 using DQQ.Web.Services.DQQAuthServices;
 using Microsoft.AspNetCore.Components;
 using ReheeCmf.Commons.DTOs;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
-using static System.Net.WebRequestMethods;
+using System.Text.Json;
 
 namespace DQQ.Web.Pages.Auths
 {
-  public partial class Login
-  {
-    public string? Email { get; set; }
+	public class LoginPage: AuthBasePage
+	{
+    public override EnumPlayMode PlayMode => EnumPlayMode.Online;
+		public string? Email { get; set; }
     public string? Password { get; set; }
 
     [Inject]
@@ -23,7 +24,9 @@ namespace DQQ.Web.Pages.Auths
     [Inject]
     [NotNull]
     public NavigationManager? nav { get; set; }
-    public async Task LoginMethod()
+		
+
+		public async Task LoginMethod()
     {
       
       var result = await Http.PostAsJsonAsync<LoginDTO>(
@@ -31,18 +34,18 @@ namespace DQQ.Web.Pages.Auths
         new LoginDTO { Username = Email, Password = Password, KeepLogin = true }, CancellationToken.None);
       if (!result.IsSuccessStatusCode)
       {
-        auth.SetAuth(null);
+        await auth.SetAuth(null);
         return;
       }
       try
       {
-        var token = (await result.Content.ReadAsStringAsync()).FromJson<TokenDTO>();
-        auth.SetAuth(token);
+        var token = JsonSerializer.Deserialize<TokenDTO>(await result.Content.ReadAsStringAsync());
+				await auth.SetAuth(token);
         nav.NavigateTo("", true);
       }
       catch
       {
-        auth.SetAuth(null);
+				await auth.SetAuth(null);
       }
 
       ;

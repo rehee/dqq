@@ -1,7 +1,9 @@
+using DQQ.Web.Enums;
+
 namespace DQQ.Web.Pages.Auths
 {
-	public partial class OfflineMode
+	public class OfflineModePage: AuthBasePage
 	{
-
+		public override EnumPlayMode PlayMode => EnumPlayMode.Offline;
 	}
 }

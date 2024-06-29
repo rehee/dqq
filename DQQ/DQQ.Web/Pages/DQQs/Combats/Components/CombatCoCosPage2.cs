@@ -1,7 +1,7 @@
-﻿using Blazor.Serialization.Extensions;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 namespace DQQ.Web.Pages.DQQs.Combats.Components
 {
@@ -68,7 +68,7 @@ namespace DQQ.Web.Pages.DQQs.Combats.Components
 		public IJSRuntime? jsRunningTime { get; set; }
 		private async Task SendDataToGame()
 		{
-			var json = CombatResult?.ToJson();
+			var json = JsonSerializer.Serialize(CombatResult);
 			await jsRunningTime.InvokeVoidAsync("receiveDataFromBlazor", json ?? "");
 		}
 

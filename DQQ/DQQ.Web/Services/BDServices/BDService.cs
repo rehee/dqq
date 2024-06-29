@@ -1,5 +1,4 @@
-﻿using Blazor.Serialization.Extensions;
-using DQQ.Commons.DTOs;
+﻿using DQQ.Commons.DTOs;
 using DQQ.Services.BDServices;
 using DQQ.Web.Services.Requests;
 using ReheeCmf.Requests;

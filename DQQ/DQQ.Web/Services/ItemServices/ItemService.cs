@@ -1,5 +1,4 @@
-﻿using Blazor.Serialization.Extensions;
-using DQQ.Entities;
+﻿using DQQ.Entities;
 using DQQ.Enums;
 using DQQ.Services.ItemServices;
 using DQQ.Web.Services.Requests;

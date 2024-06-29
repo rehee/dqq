@@ -14,75 +14,94 @@
 @using DQQ.Web.Pages.DQQs.Chapters
 @using DQQ.Web.Pages.DQQs.Skills.Components
 <PageTitle>Home</PageTitle>
-@if (String.IsNullOrEmpty(UserId))
+@if (Layout?.Status != null)
 {
-	<div>
-		<Tab IsBorderCard="true">
-			<TabItem Text="登录">
-				<Login />
-			</TabItem>
-			<TabItem Text="注册">
-				<Register />
-			</TabItem>
-			<TabItem Text="离线模式">
-				<OfflineMode />
-			</TabItem>
-		</Tab>
-	</div>
-}
-else
-{
-	if (ThisActorId == null)
+	if (String.IsNullOrEmpty(Layout?.Status?.OwnerId))
 	{
-		<CharacterList ParentRefreshEvent="RefreshEvent" />
+		<Card>
+			<BodyTemplate>
+				<Button OnClick="()=>{Layout?.SetGamePlay(Enums.EnumPlayMode.Online);}">在线</Button>
+				<Button OnClick="()=>{Layout?.SetGamePlay(Enums.EnumPlayMode.Offline);}">离线</Button>
+			</BodyTemplate>
+		</Card>
+		<Card>
+			<BodyTemplate>
+				@switch (Layout?.Status?.PlayMode)
+				{
+					case Enums.EnumPlayMode.Online:
+					<Tab IsOnlyRenderActiveTab="true">
+						<TabItem Text="登录">
+							<Login />
+						</TabItem>
+						<TabItem Text="注册">
+							<Register />
+						</TabItem>
+
+					</Tab>
+					break;
+					case Enums.EnumPlayMode.Offline:
+					<OfflineMode />
+					break;
+				}
+
+			</BodyTemplate>
+		</Card>
 	}
 	else
 	{
-		if (ThisSelectedCharacter == null)
+		if (ThisActorId == null)
 		{
-			<div class="d-flex justify-content-center">
-				<Spinner></Spinner>
-			</div>
+			<CharacterList ParentRefreshEvent="RefreshEvent" />
 		}
 		else
 		{
-			if (ThisSelectedCharacter.Chapter == EnumChapter.None)
+			if (ThisSelectedCharacter == null)
 			{
-				<ChapterMainPage SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
+				<div class="d-flex justify-content-center">
+					<Spinner></Spinner>
+				</div>
 			}
 			else
 			{
-				switch (WebPage)
+				if (ThisSelectedCharacter.Chapter == EnumChapter.None)
 				{
-					case EnumWebPage.Home:
+					<ChapterMainPage SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
+				}
+				else
+				{
+					switch (WebPage)
+					{
+						case EnumWebPage.Home:
 						<SelectedCharacter CharacterId="ThisActorId" Character="ThisSelectedCharacter" CleanSelectedChar="SelectCharacter" ParentRefreshEvent="RefreshEvent" />
 						<ChapterMainPage SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent"></ChapterMainPage>
 						break;
-					case EnumWebPage.Skills:
+						case EnumWebPage.Skills:
 						<SkillBoxSelect SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" />
 						break;
 
-					case EnumWebPage.Strategy:
+						case EnumWebPage.Strategy:
 						<BuildPage SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" />
 						break;
 
-					case EnumWebPage.Map:
+						case EnumWebPage.Map:
 						<MapPage OnJoinMap="OnJoinMap" SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" SelectedMap="@SelectedMap" OnMapSelected="OnMapSelected" />
 						break;
-					case EnumWebPage.Combat:
+						case EnumWebPage.Combat:
 						<CombatPlayList ActorId="ThisActorId" SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" StartCombatWhenInit="@StartCombat" ContinueCombat="@KeepCombat" MapNumber="@SelectedMap" />
 						break;
-					case EnumWebPage.Inventory:
+						case EnumWebPage.Inventory:
 						<InventoryPage InventoryQueryRequest="QueryInventory" Items="CharacterInventory" ActorId="ThisActorId" SelectedCharacter="ThisSelectedCharacter" ParentRefreshEvent="RefreshEvent" />
 						break;
-					case EnumWebPage.Setting:
+						case EnumWebPage.Setting:
 						<SettingPage />
 						break;
+					}
 				}
 			}
 		}
 	}
 }
+
 
 
 

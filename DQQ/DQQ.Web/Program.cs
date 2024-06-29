@@ -1,5 +1,6 @@
 using DQQ.Consts;
 using DQQ.Pools;
+using DQQ.Services;
 using DQQ.Services.ActorServices;
 using DQQ.Services.BDServices;
 using DQQ.Services.ChapterServices;
@@ -8,6 +9,7 @@ using DQQ.Services.ItemServices;
 using DQQ.Services.SkillServices;
 using DQQ.Services.StrategyServices;
 using DQQ.Web;
+using DQQ.Web.Datas;
 using DQQ.Web.Localizations;
 using DQQ.Web.Resources;
 using DQQ.Web.Services.BDServices;
@@ -15,6 +17,7 @@ using DQQ.Web.Services.ChapterServices;
 using DQQ.Web.Services.Characters;
 using DQQ.Web.Services.CombatServices;
 using DQQ.Web.Services.DQQAuthServices;
+using DQQ.Web.Services.GameStatusServices.Services;
 using DQQ.Web.Services.ItemServices;
 using DQQ.Web.Services.LocalizationServices;
 using DQQ.Web.Services.RenderServices;
@@ -36,10 +39,13 @@ WebConsts.URL = url;
 DQQPool.InitPool(ResourceMapping.Init);
 
 
+builder.Services.AddMyIndexDB();
+builder.Services.AddScoped<IIndexRepostory, IndexRepostory>();
+builder.Services.AddScoped<IGameStatusService, GameStatusService>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(url) });
 builder.Services.AddScoped<ILocalizationService, LocalizationService>();
-builder.Services.AddLocalStorageServices();
+//builder.Services.AddLocalStorageServices();
 builder.Services.AddScoped<IDQQAuth, DQQAuth>();
 builder.Services.AddScoped<IGetHttpClient>(sp => new DQQGetHttpClient(url));
 builder.Services.AddScoped<IGetRequestTokenService, DQQGetRequestTokenService>();

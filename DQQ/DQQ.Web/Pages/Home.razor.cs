@@ -30,10 +30,7 @@ namespace DQQ.Web.Pages
 	{
 		
 		public EnumWebPage? WebPage { get; set; }
-
-   
-
-    public bool StartCombat { get; set; }
+		public bool StartCombat { get; set; }
 		public bool KeepCombat {  get; set; }
 		public async Task OnJoinMap((bool, bool) joinCombat)
 		{
@@ -77,7 +74,7 @@ namespace DQQ.Web.Pages
 			await base.OnInitializedAsync();
 			nav.LocationChanged += HandleLocationChanged;
 			GetQueryStringValues();
-			UserId = auth.GetAuth()?.UserId;
+			UserId = (await auth.GetAuth())?.UserId;
 			
 
 			RefreshEvent = new EventParameter();

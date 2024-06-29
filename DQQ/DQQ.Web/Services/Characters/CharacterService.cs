@@ -1,20 +1,20 @@
-﻿using Blazor.Serialization.Extensions;
-using DQQ.Components.Stages.Actors.Characters;
+﻿using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Services;
 using DQQ.Services.ActorServices;
 using DQQ.Web.Services.Requests;
-using Microsoft.JSInterop;
 using ReheeCmf.Requests;
 using ReheeCmf.Responses;
+using System.Text.Json;
 
 namespace DQQ.Web.Services.Characters
 {
-  public class CharacterService : ClientServiceBase, ICharacterService
+	public class CharacterService : ClientServiceBase, ICharacterService
   {
-    private readonly ILocalStorageService local;
+    private readonly IGameStatusService gameStatusService;
 
-    public CharacterService(RequestClient<DQQGetHttpClient>? client, ILocalStorageService local) : base(client)
+    public CharacterService(RequestClient<DQQGetHttpClient>? client, IGameStatusService gameStatusService) : base(client)
     {
-      this.local = local;
+      this.gameStatusService = gameStatusService;
     }
 
     public async Task<ContentResponse<Guid?>> CreateCharacter(Character? character)
@@ -23,7 +23,8 @@ namespace DQQ.Web.Services.Characters
       {
         return new ContentResponse<Guid?>();
       }
-      var result = await client.Request<Guid?>(HttpMethod.Post, "Character", character.ToJson());
+      
+      var result = await client.Request<Guid?>(HttpMethod.Post, "Character", JsonSerializer.Serialize(character));
       return result;
     }
 
@@ -52,15 +53,21 @@ namespace DQQ.Web.Services.Characters
       return (await client.Request<Character?>(HttpMethod.Get, $"Character/{charId}")).Content;
     }
 
-    public Guid? GetSelectedCharacter()
+    public async Task<Guid?> GetSelectedCharacter()
     {
-      return local.GetItem<Guid?>("localChar");
+      var status = await gameStatusService.GetOrCreateGameStatus();
+      return status?.Content?.CurrentCharId;
     }
 
-    public bool SelectedCharacter(Guid? charId)
+    public async Task<bool> SelectedCharacter(Guid? charId)
     {
-      local.SetItem<Guid?>("localChar", charId);
-      return true;
+			var status = await gameStatusService.GetOrCreateGameStatus();
+      if (status.Success)
+      {
+        status!.Content!.CurrentCharId= charId;
+				await gameStatusService.UpdateGameStatus(status?.Content);
+			}
+			return true;
     }
   }
 }

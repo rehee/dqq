@@ -1,5 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Services;
 using DQQ.Services.ActorServices;
 using DQQ.Web.Enums;
 using DQQ.Web.Services.RenderServices;
@@ -49,7 +50,7 @@ namespace DQQ.Web.Pages
 
 		[Inject]
 		[NotNull]
-		public ILocalStorageService? LocalStorageService { get; set; }
+		public IGameStatusService? GameStatusService { get; set; }
 
 		public virtual async Task CloseDynamicDialog()
 		{

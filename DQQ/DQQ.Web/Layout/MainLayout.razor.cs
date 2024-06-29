@@ -1,18 +1,37 @@
 ﻿using BootstrapBlazor.Components;
 using DQQ.Components.Stages.Actors.Characters;
+using DQQ.Entities;
 using DQQ.Enums;
+using DQQ.Services;
 using DQQ.Services.ActorServices;
+using DQQ.Web.Datas;
+using DQQ.Web.Datas.Entities;
+using DQQ.Web.Enums;
 using DQQ.Web.Services.DQQAuthServices;
 using DQQ.Web.Services.LocalizationServices;
 using DQQ.Web.Services.Requests;
 using Microsoft.AspNetCore.Components;
 using ReheeCmf.Requests;
 using System.Diagnostics.CodeAnalysis;
+using TG.Blazor.IndexedDB;
 
 namespace DQQ.Web.Layout
 {
 	public class MainLayoutPage : LayoutComponentBase
 	{
+		[Inject]
+		[NotNull]
+		public IGameStatusService? statusService { get; set; }
+		public GameStatus? Status { get; set; }
+
+		public async Task SetGamePlay(EnumPlayMode gamePlayType)
+		{
+			Status.PlayMode = gamePlayType;
+			await statusService.UpdateGameStatus(Status);
+			StateHasChanged();
+			await Task.CompletedTask;
+		}
+
 		public bool UseTabSet { get; set; } = false;
 
     public string Theme { get; set; } = "";
@@ -49,7 +68,8 @@ namespace DQQ.Web.Layout
 			{
 				return;
 			}
-			localizationService.SetDefaulCulture(item.Value, true);
+			await localizationService.SetDefaulCulture(item.Value, true);
+
 			StateHasChanged();
 		}
 
@@ -59,9 +79,11 @@ namespace DQQ.Web.Layout
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
-			CurrentLang = localizationService.LoadDefaulCulture();
+			Status = (await statusService.GetOrCreateGameStatus()).Content;
+
+			CurrentLang = await localizationService.LoadDefaulCulture();
 			StateHasChanged();
-			IsAuth = auth.IsAuth();
+			IsAuth = await auth.IsAuth();
 			if (!IsAuth)
 			{
 				return;
@@ -88,7 +110,8 @@ namespace DQQ.Web.Layout
 
     public async Task RefreshPage()
     {
-      ActorId = characterService.GetSelectedCharacter();
+			var gameStatus = await statusService.GetOrCreateGameStatus();
+      ActorId = gameStatus?.Content?.CurrentCharId;
       SelectedCharacter = await characterService.GetCharacter(ActorId);
 			MenuItems = SelectedCharacter?.GenerateMenuItem(
 				EnumWebPage.Home,
