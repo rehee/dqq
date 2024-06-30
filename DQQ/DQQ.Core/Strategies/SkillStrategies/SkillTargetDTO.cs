@@ -9,7 +9,7 @@ namespace DQQ.Strategies.SkillStrategies
 {
 	public class SkillTargetDTO
 	{
-		public EnumTarget SkillTarget {  get; set; }	
+		public EnumTarget? SkillTarget {  get; set; }	
 		public EnumTargetPriority? TargetPriority { get; set; }
 	}
 }

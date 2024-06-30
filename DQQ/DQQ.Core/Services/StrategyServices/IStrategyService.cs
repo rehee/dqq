@@ -14,5 +14,6 @@ namespace DQQ.Services.StrategyServices
   {
     Task<ContentResponse<bool>> SetActorTargetPriority(Guid? actorId, EnumTargetPriority? priority);
     Task<ContentResponse<bool>> SetActorSkillStrategy(Guid? actorId, EnumSkillSlot slot, IEnumerable<SkillStrategyDTO>? strategies);
+
   }
 }

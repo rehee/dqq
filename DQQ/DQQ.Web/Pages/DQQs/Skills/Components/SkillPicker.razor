@@ -25,7 +25,6 @@
 @if (Avaliable)
 {
 	<DQQResponsive OnBreakPointChanged="BreakPointChanged" />
-
 	<div class="row g-3">
 		@if (!IsSmall)
 		{
@@ -39,17 +38,17 @@
 				<SkillCompare SelectedIndex="SelectedIndex" PickedSkill="PickedSkill" CurrentSkill="ClickedSkillProfile" ChangeSkill="()=>SaveChange()" />
 			</Drawer>
 		}
-		
+
 		<div class="col-12 col-sm-12 col-md-6">
 			<div class="row g-3">
 				<div class="col-12">
-			<Card>
-				<HeaderTemplate>
+					<Card>
+						<HeaderTemplate>
 							技能槽
 							<DQQInfo>
 								每个技能栏下会有多个技能槽. 第一个技能槽为主动技能. 当满足条件后会自动释放. 后续技能槽为辅助技能. 无法直接释放. 增强或改变主动技能的效果.
 							</DQQInfo>
-							@if(Slot == EnumSkillSlot.WeaponSlot1)
+							@if (Slot == EnumSkillSlot.WeaponSlot1)
 							{
 								<span>
 									[主手]
@@ -74,7 +73,7 @@
 								</DQQInfo>
 							}
 						</HeaderTemplate>
-				<BodyTemplate>
+						<BodyTemplate>
 							<div class="row g-3">
 
 
@@ -111,15 +110,15 @@
 									}
 								}
 							</div>
-				</BodyTemplate>
-					
-			</Card>
-				
+						</BodyTemplate>
+
+					</Card>
+
 				</div>
 				<div class="col-12">
 					<Card>
 						<HeaderTemplate>
-							技能池 
+							技能池
 							<DQQInfo>
 								所有可用的技能. 选择技能栏位后可用选择一个技能装备.
 							</DQQInfo>
@@ -136,7 +135,7 @@
 					<Card>
 						<BodyTemplate>
 							<div class="row g-3">
-								@foreach(var skill in AvaliableSkills)
+								@foreach (var skill in AvaliableSkills)
 								{
 									<div class="col-6 col-sm-6 col-md-6 col-lg-4">
 										<Card class="@PickedSkillClass(skill)" @onclick="()=> SkillPicked(skill)">
@@ -152,6 +151,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
+
 }

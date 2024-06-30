@@ -1,0 +1,175 @@
+﻿@inherits SkillStrategyDetailPage
+<style>
+	.modal-body .skill_strategy_detail {
+		height:calc(100vh - 300px);
+	}
+</style>
+<div class="skill_strategy_detail">
+	<div class="row g-3">
+		<div class="col-12">
+			<BootstrapInputGroup>
+				<BootstrapInputGroupLabel DisplayText="策略优先级" Width="146" />
+				<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+				<BootstrapInput IsDisabled="Readonly" @bind-Value="StrategyDTO!.Priority" />
+			</BootstrapInputGroup>
+		</div>
+		<div class="col-12">
+			<Toggle IsDisabled="Readonly" @bind-Value="StrategyDTO.UsePreset" OnText="使用预设策略" OffText="使用预设策略" Color="Color.Success" />
+		</div>
+		@if (StrategyDTO.UsePreset)
+		{
+			<div class="col-12">
+				<BootstrapInputGroup>
+					<BootstrapInputGroupLabel DisplayText="预设策略" Width="146" />
+					<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+					<Select IsDisabled="Readonly" TValue="EnumPresetSkillStrategy"
+									@bind-Value="StrategyDTO!.PresetStrategy"
+									Items="SelectedItemHelper.GetSelectedItem<EnumPresetSkillStrategy>()"></Select>
+				</BootstrapInputGroup>
+			</div>
+		}
+		else
+		{
+			<div class="col-12">
+				<BootstrapInputGroup>
+					<BootstrapInputGroupLabel DisplayText="策略类型" Width="146" />
+					<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+					<Select IsDisabled="Readonly" TValue="EnumStrategyCondition"
+									@bind-Value="StrategyDTO!.CastCondition!.ConditionType"
+									Items="SelectedItemHelper.GetSelectedItem<EnumStrategyCondition>()"></Select>
+				</BootstrapInputGroup>
+			</div>
+			@if (
+				StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Wave ||
+				StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Combat
+				)
+			{
+				<div class="col-12 ">
+					<BootstrapInputGroup>
+						<BootstrapInputGroupLabel DisplayText="判断条件" Width="146" />
+						<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+						<Select IsDisabled="Readonly" TValue="EnumStrategyWave?"
+										@bind-Value="StrategyDTO!.CastCondition!.WaveStrategy"
+										Items="SelectedItemHelper.GetSelectedItem<EnumStrategyWave>()"></Select>
+					</BootstrapInputGroup>
+				</div>
+			}
+			@if (
+				StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Players ||
+				StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Enemies
+				)
+			{
+				<div class="col-12">
+					<BootstrapInputGroup>
+						<BootstrapInputGroupLabel DisplayText="判断条件" Width="146" />
+						<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+						<Select IsDisabled="Readonly" TValue="EnumStrategyParty?"
+										@bind-Value="StrategyDTO!.CastCondition!.PartyStrategy"
+										Items="SelectedItemHelper.GetSelectedItem<EnumStrategyParty>()"></Select>
+					</BootstrapInputGroup>
+				</div>
+			}
+			@if (
+				StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Target ||
+				StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Combat ||
+				StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Wave
+				)
+			{
+				<div class="col-12 ">
+					<BootstrapInputGroup>
+						<BootstrapInputGroupLabel DisplayText="目标类型" Width="146" />
+						<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+						<Select IsDisabled="Readonly" TValue="EnumTarget?"
+										@bind-Value="StrategyDTO!.CastCondition!.ConditionTargetType"
+										Items="SelectedItemHelper.GetSelectedItem<EnumTarget>()"></Select>
+					</BootstrapInputGroup>
+				</div>
+			}
+
+			<div class="col-12 ">
+				<BootstrapInputGroup>
+					<BootstrapInputGroupLabel DisplayText="优先级" Width="146" />
+					<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+					<Select IsDisabled="Readonly" TValue="EnumTargetPriority?"
+									@bind-Value="StrategyDTO!.CastCondition!.ConditionTargetPriority"
+									Items="SelectedItemHelper.GetSelectedItem<EnumTargetPriority>()"></Select>
+				</BootstrapInputGroup>
+
+
+			</div>
+			@if (
+				(StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Target) ||
+				(StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Players && StrategyDTO!.CastCondition!.PartyStrategy == EnumStrategyParty.Contain) ||
+				(StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Enemies && StrategyDTO!.CastCondition!.PartyStrategy == EnumStrategyParty.Contain)
+				)
+			{
+				<div class="col-12 ">
+					<BootstrapInputGroup>
+						<BootstrapInputGroupLabel DisplayText="判断属性" Width="146" />
+						<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+						<Select IsDisabled="Readonly" TValue="EnumPropertyCompare?"
+										@bind-Value="StrategyDTO!.CastCondition!.PropertyToCheck"
+										Items="SelectedItemHelper.GetSelectedItem<EnumPropertyCompare>()"></Select>
+					</BootstrapInputGroup>
+				</div>
+			}
+			@if (
+				(StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Target) ||
+				(StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Players) ||
+				(StrategyDTO?.CastCondition?.ConditionType == EnumStrategyCondition.Enemies)
+
+				)
+			{
+				<div class="col-12 ">
+					<BootstrapInputGroup>
+						<BootstrapInputGroupLabel DisplayText="比较" Width="146" />
+						<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+						<Select IsDisabled="Readonly" TValue="EnumCompare?"
+										@bind-Value="StrategyDTO!.CastCondition!.Compare"
+										Items="SelectedItemHelper.GetSelectedItem<EnumCompare>()"></Select>
+					</BootstrapInputGroup>
+				</div>
+			}
+			@if (StrategyDTO?.CastCondition?.ConditionType != EnumStrategyCondition.NotSpecified)
+			{
+				<div class="col-12 ">
+					<BootstrapInputGroup>
+						<BootstrapInputGroupLabel DisplayText="值" Width="146" />
+						<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+						<BootstrapInputNumber IsDisabled="Readonly" @bind-Value="StrategyDTO!.CastCondition!.Value" />
+					</BootstrapInputGroup>
+				</div>
+			}
+
+		}
+
+
+		<div class="col-12">
+			<Toggle IsDisabled="Readonly" @bind-Value="StrategyDTO.OverrideTarger" OnText="目标覆盖" OffText="目标覆盖" Color="Color.Success" />
+		</div>
+		@if (StrategyDTO.OverrideTarger)
+		{
+			<div class="col-12 ">
+				<BootstrapInputGroup>
+					<BootstrapInputGroupLabel DisplayText="目标类型" Width="146" />
+					<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+					<Select IsDisabled="Readonly" TValue="EnumTarget?"
+									@bind-Value="StrategyDTO!.SkillTarget!.SkillTarget"
+									Items="SelectedItemHelper.GetSelectedItem<EnumTarget>()"></Select>
+				</BootstrapInputGroup>
+			</div>
+			<div class="col-12 ">
+				<BootstrapInputGroup>
+					<BootstrapInputGroupLabel DisplayText="目标优先级" Width="146" />
+					<Button Icon="fa-solid fa-print" IsOutline="true"></Button>
+					<Select IsDisabled="Readonly" TValue="EnumTargetPriority?"
+									@bind-Value="StrategyDTO!.SkillTarget!.TargetPriority"
+									Items="SelectedItemHelper.GetSelectedItem<EnumTargetPriority>()"></Select>
+				</BootstrapInputGroup>
+			</div>
+		}
+
+	</div>
+
+
+</div>

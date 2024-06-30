@@ -1,0 +1,12 @@
+﻿@using DQQ.Web.Pages.DQQs.Strategies
+@inherits SkillAndStrategyWrapPage
+<Tab IsBorderCard="true" IsOnlyRenderActiveTab="true">
+	<TabItem Text="技能">
+		<SkillPicker ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="Slot" />
+	</TabItem>
+	<TabItem Text="策略">
+		<SkillStrategy ParentRefreshEvent="ParentRefreshEvent" SelectedCharacter="SelectedCharacter" Slot="Slot" />
+	</TabItem>
+</Tab>
+
+

@@ -91,6 +91,10 @@ namespace DQQ.Helper
 			{
 				return GetString(eity);
 			}
+			if (input is EnumPresetSkillStrategy epss)
+			{
+				return GetString(epss);
+			}
 			return $"{input}";
 		}
 
@@ -373,6 +377,21 @@ namespace DQQ.Helper
 				default:
 					return "";
 			}
+		}
+
+		public static string? GetString(this EnumPresetSkillStrategy input)
+		{
+			switch (input)
+			{
+				case EnumPresetSkillStrategy.AttackTargetOnLowLife: return "攻击低血敌人";
+				case EnumPresetSkillStrategy.HealSelfOnLowLife: return "自己低血时治疗";
+				case EnumPresetSkillStrategy.HealFriendOnLowLife: return "友方低血时治疗";
+				case EnumPresetSkillStrategy.HealFriendOnHalfLife: return "友方半血时治疗";
+				case EnumPresetSkillStrategy.HealFriendOnInjuriedLife: return "友方受伤时治疗";
+				case EnumPresetSkillStrategy.HealFriendOnNotFullLife: return "友方不满血时治疗";
+			}
+			return "未指定";
+
 		}
 	}
 }

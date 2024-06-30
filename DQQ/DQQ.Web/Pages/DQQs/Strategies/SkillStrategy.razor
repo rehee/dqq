@@ -1,0 +1,42 @@
+﻿@using DQQ.Strategies.SkillStrategies
+@inherits SkillStrategyPage
+<div class="row g-3">
+	@if (SelectedDTO != null)
+	{
+		<div class="col-12">
+			<Card>
+				<BodyTemplate>
+					<BootstrapInputGroup>
+						<Button OnClick="()=>CreateOrEditStrategy()">添加策略</Button>
+					</BootstrapInputGroup>
+				</BodyTemplate>
+			</Card>
+		</div>
+	}
+	
+	@if (SelectedDTO != null && SelectedDTO.SkillStrategies?.Any() == true)
+	{
+		
+
+		@foreach (var strategy in SelectedDTO.SkillStrategies)
+		{
+			var dto = SkillStrategyDTO.Copy(strategy);
+			<div class="col-12 col-sm-12 col-md-6">
+				<Card>
+					<HeaderTemplate>
+						<BootstrapInputGroup>
+							<Button IsAsync="true" Color="Color.Warning" OnClick="()=>CreateOrEditStrategy(dto)">修改</Button>
+							<Button IsAsync="true" Color="Color.Danger" OnClick="()=>DeleteStrategy(dto)">删除</Button>
+						</BootstrapInputGroup>
+					</HeaderTemplate>
+					<BodyTemplate>
+						<SkillStrategyDetail Slot="Slot" Readonly="true" StrategyDTO="dto" />
+					</BodyTemplate>
+				</Card>
+			</div>
+		}
+	}
+	
+	
+</div>
+
