@@ -52,7 +52,9 @@ namespace DQQ.Web.Services.SkillServices
 					character?.SelectedCharacter?.WithWeapon2);
 				if (component != null)
 				{
-					var list = character?.SelectedCharacter?.Skills?.Where(b => b.Slot != component.Slot)?.ToList();
+					var list = character?.SelectedCharacter?.Skills?
+						.Where(b => b.Slot != component.Slot)
+						.Where(b=>b.SkillNumber != component.SkillNumber)?.ToList();
 					list?.Add(component);
 					character.SelectedCharacter.Skills = list;
 					character.SelectedCharacter.SkillMap = character.SelectedCharacter.Skills.ToSkillDictionary(character.SelectedCharacter);

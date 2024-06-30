@@ -7,6 +7,7 @@ using DQQ.Profiles.Durations;
 using DQQ.Profiles.Items;
 using DQQ.Profiles.Maps;
 using DQQ.Profiles.Mobs;
+using DQQ.Profiles.PresetStrategies;
 using DQQ.Profiles.Skills;
 using DQQ.Profiles.ZProgress;
 using ReheeCmf.Helpers;
@@ -67,6 +68,10 @@ namespace DQQ.Pools
 						if (instance is MapProfile mpf)
 						{
 							DQQPool.MapPools.TryAdd(mpf.ProfileNumber, mpf);
+						}
+						if (instance is PresetStrategyProfile psp)
+						{
+							DQQPool.PresetStrategyPool.TryAdd(psp.ProfileNumber, psp);
 						}
 					}
 
@@ -131,6 +136,11 @@ namespace DQQ.Pools
 			{
 				MapPools.TryGetValue(mapNumber, out var mapc);
 				return mapc as T;
+			}
+			if (key is EnumPresetSkillStrategy psskey)
+			{
+				PresetStrategyPool.TryGetValue(psskey, out var pssvalue);
+				return pssvalue as T;
 			}
 			return default(T);
 		}

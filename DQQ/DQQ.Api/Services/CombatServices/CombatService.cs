@@ -35,7 +35,7 @@ namespace DQQ.Api.Services.CombatServices
 		public async Task<ContentResponse<CombatResultDTO>> RequestCombat(CombatRequestDTO? dto)
 		{
 			var result = new ContentResponse<CombatResultDTO>();
-			if (dto?.ActorId == null)
+			if (dto==null || dto?.ActorId == null)
 			{
 				result.SetNotFound();
 				return result;
@@ -47,7 +47,7 @@ namespace DQQ.Api.Services.CombatServices
 				return result;
 			}
 			var map = new Map();
-			dto.Creator = player;
+			dto!.Creator = player;
 			await map.Initialize(dto);
 			await map.Play();
 			if (player.DisplayId != null && map.Drops?.Any() == true)

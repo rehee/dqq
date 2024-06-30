@@ -14,53 +14,22 @@ namespace DQQ.Profiles.Mobs.Lists
 	{
 		public override IEnumerable<MobSkill> Skills =>
 			[
-			MobSkill.New(EnumSkillNumber.Renew,
+				MobSkill.New(EnumSkillNumber.Renew,
 				[
-				SkillStrategyDTO.New(
-				SkillCastConditionDTO.New(
-					EnumStrategyCondition.Players,
-					EnumStrategyParty.Contain,
-					null,
-					EnumTarget.Friendly,
-					EnumTargetPriority.AnyTarget,
-					EnumPropertyCompare.HealthPercentage,
-					EnumCompare.LessThan,1 ))
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealFriendOnNotFullLife)
 				]),
-			MobSkill.New(EnumSkillNumber.Healing,
+				MobSkill.New(EnumSkillNumber.Healing,
 				[
-				SkillStrategyDTO.New(
-				SkillCastConditionDTO.New(
-					EnumStrategyCondition.Players,
-					EnumStrategyParty.Contain,
-					null,
-					EnumTarget.Friendly,
-					EnumTargetPriority.AnyTarget,
-					EnumPropertyCompare.HealthPercentage,
-					EnumCompare.LessThan,0.5m ))
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealSelfOnLowLife),
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealFriendOnLowLife,1),
 				]),
-			MobSkill.New(EnumSkillNumber.DarkHeal,
+				MobSkill.New(EnumSkillNumber.DarkHeal,
 				[
-				SkillStrategyDTO.New(
-				SkillCastConditionDTO.New(
-					EnumStrategyCondition.Players,
-					EnumStrategyParty.Contain,
-					null,
-					EnumTarget.Friendly,
-					EnumTargetPriority.AnyTarget,
-					EnumPropertyCompare.HealthPercentage,
-					EnumCompare.LessThan,0.7m ))
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealFriendOnInjuriedLife)
 				]),
-			MobSkill.New(EnumSkillNumber.DarkGreaterHeal,
+				MobSkill.New(EnumSkillNumber.DarkGreaterHeal,
 				[
-				SkillStrategyDTO.New(
-				SkillCastConditionDTO.New(
-					EnumStrategyCondition.Players,
-					EnumStrategyParty.Contain,
-					null,
-					EnumTarget.Friendly,
-					EnumTargetPriority.AnyTarget,
-					EnumPropertyCompare.HealthPercentage,
-					EnumCompare.LessThan,0.8m ))
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealFriendOnHalfLife)
 				])
 			];
 		public override EnumMob ProfileNumber => EnumMob.MagicCrab;

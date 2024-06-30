@@ -9,6 +9,14 @@ namespace DQQ.Strategies.SkillStrategies
 {
 	public class SkillStrategyDTO
 	{
+		public static SkillStrategyDTO Preset(EnumPresetSkillStrategy presetStrategy, int priority = 0)
+		{
+			return new SkillStrategyDTO()
+			{
+				PresetStrategy = presetStrategy,
+				Priority = priority
+			};
+		}
 		public static SkillStrategyDTO New(SkillCastConditionDTO? castCondition, SkillTargetDTO? skillTarget=null, int priority = 0)
 		{
 			return new SkillStrategyDTO

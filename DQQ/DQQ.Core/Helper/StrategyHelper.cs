@@ -25,6 +25,16 @@ namespace DQQ.Helper
 			}
 			foreach (var strategy in strategies.OrderBy(b => b.Priority))
 			{
+				var preset = strategy.PresetStrategy.GetPresetStrategy();
+				if (preset?.Any() == true)
+				{
+					var presetResult = preset.MatchSkillStrategy(parameter, skill);
+					if (presetResult.Matched)
+					{
+						return presetResult;
+					}
+					continue;
+				}
 				StrategeCheckResult? thisMatch = null;
 				var condtionType = strategy?.CastCondition?.ConditionType?? EnumStrategyCondition.NotSpecified;
 				switch (condtionType)

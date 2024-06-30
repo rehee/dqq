@@ -33,15 +33,7 @@ namespace DQQ.Profiles.Mobs.BossMobs
 			MobSkill.New(EnumSkillNumber.NormalAttack),
 			MobSkill.New(EnumSkillNumber.MightySmash,
 				[
-				SkillStrategyDTO.New(
-				SkillCastConditionDTO.New(
-					EnumStrategyCondition.Target,
-					EnumStrategyParty.Contain,
-					null,
-					EnumTarget.Target,
-					EnumTargetPriority.Front,
-					EnumPropertyCompare.HealthPercentage,
-					EnumCompare.LessThan,0.3m ))
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.AttackTargetOnLowLife)
 				])
 		];
 
