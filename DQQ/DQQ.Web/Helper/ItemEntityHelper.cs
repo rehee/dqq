@@ -174,9 +174,8 @@ namespace DQQ.Helper
 					
 				}
 			}
+			character.SelectedCharacter?.ResetCharacterCombatStatus();
 			character.SelectedCharacter?.TotalEquipProperty();
-
-
 		}
 
 	}

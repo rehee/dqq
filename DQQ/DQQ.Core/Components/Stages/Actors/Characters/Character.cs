@@ -102,8 +102,7 @@ namespace DQQ.Components.Stages.Actors.Characters
 		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
 		{
 			base.Initialize(entity, parent);
-			CombatPanel.StaticPanel.MaximunLife = DQQGeneral.CharacterBasicHP + (DQQGeneral.HPPerLevel * (Level - 1));
-			
+			this.ResetCharacterCombatStatus();
 			if (entity is ActorEntity ae)
 			{
 				Chapter = ae.Chapter;
@@ -130,10 +129,9 @@ namespace DQQ.Components.Stages.Actors.Characters
 				}
 				
 			}
-			
 			this.TotalEquipProperty();
 			SkillMap = Skills.ToSkillDictionary(this);
-			this.CurrentHP = CombatPanel.DynamicPanel.MaximunLife.DefaultValue(1);
+			
 		}
 
 

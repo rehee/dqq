@@ -80,18 +80,23 @@ namespace DQQ.Web.Services.ItemServices
 			{
 				throw new NotImplementedException();
 			}
-			var character = await Repostory.GetCurrentOfflineCharacter(actorId);
-			if (character == null)
+
+			var result = new List<ItemEntity>();
+			await Repostory.Update<OfflineCharacter>(actorId, b => Task.Run(async () =>
 			{
-				return Enumerable.Empty<ItemEntity>();
-			}
-			if (character?.Pickup == null)
-			{
-				character.Pickup = new List<ItemEntity>();
-			}
-			var result = character.Pickup.Where(b => itemId.Contains(b.Id)).ToArray(); 
-			character.Pickup = character?.Pickup?.Where(b => itemId.Contains(b.Id) != true).ToList();
-			await Repostory.Update<OfflineCharacter>(actorId,b=> b.Pickup= character.Pickup);
+				await Task.CompletedTask;
+				if (b == null)
+				{
+					return;
+				}
+				if(b.Pickup== null)
+				{
+					b.Pickup = new List<ItemEntity>();
+					return;
+				}
+				result = b.Pickup.Where(b => itemId.Contains(b.Id)).ToList();
+				b.Pickup = b.Pickup.Where(b => !itemId.Contains(b.Id)).ToList();
+			}));
 			return result;
 		}
 	}

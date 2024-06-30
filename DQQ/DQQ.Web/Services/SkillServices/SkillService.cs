@@ -1,5 +1,6 @@
 ﻿using DQQ.Commons.DTOs;
 using DQQ.Components.Skills;
+using DQQ.Entities;
 using DQQ.Helper;
 using DQQ.Pools;
 using DQQ.Services;
@@ -36,33 +37,28 @@ namespace DQQ.Web.Services.SkillServices
 			}
 			var result = new ContentResponse<bool>();
 			var status = await StatusService.GetOrCreateGameStatus();
-
-			var character = await Repostory.GetCurrentOfflineCharacter(dto?.ActorId);
-			if (character == null)
+			return await Repostory.Update<OfflineCharacter>(dto?.ActorId, character => Task.Run(async () =>
 			{
-				return result;
-			}
-
-			var entity = dto?.ToSkillEntity(character?.SelectedCharacter);
-			if (character.SelectedCharacter.Skills == null)
-			{
-				character.SelectedCharacter.Skills = new List<SkillComponent>();
-			}
-			var component = entity?.ToSkillComponent(
-				character?.SelectedCharacter, 
-				character?.SelectedCharacter?.WithTwoHandWeapon,
-				character?.SelectedCharacter?.WithWeapon1,
-				character?.SelectedCharacter?.WithWeapon2);
-			if (component != null) 
-			{
-				var list = character?.SelectedCharacter?.Skills?.Where(b => b.Slot != component.Slot)?.ToList();
-				list?.Add(component);
-				character.SelectedCharacter.Skills = list;
-				character.SelectedCharacter.SkillMap = character.SelectedCharacter.Skills.ToSkillDictionary(character.SelectedCharacter);
-			}
-			await Repostory.Update(dto?.ActorId, character);
-			result.SetSuccess(true);
-			return result;
+				await Task.CompletedTask;
+				var entity = dto?.ToSkillEntity(character?.SelectedCharacter);
+				if (character.SelectedCharacter.Skills == null)
+				{
+					character.SelectedCharacter.Skills = new List<SkillComponent>();
+				}
+				var component = entity?.ToSkillComponent(
+					character?.SelectedCharacter,
+					character?.SelectedCharacter?.WithTwoHandWeapon,
+					character?.SelectedCharacter?.WithWeapon1,
+					character?.SelectedCharacter?.WithWeapon2);
+				if (component != null)
+				{
+					var list = character?.SelectedCharacter?.Skills?.Where(b => b.Slot != component.Slot)?.ToList();
+					list?.Add(component);
+					character.SelectedCharacter.Skills = list;
+					character.SelectedCharacter.SkillMap = character.SelectedCharacter.Skills.ToSkillDictionary(character.SelectedCharacter);
+				}
+			}));
+			
 
 		}
 

@@ -96,5 +96,23 @@ namespace DQQ.Web.Datas
 			await dbManager.UpdateRecord<IndexEntity<T>>(storeRecord);
 			return result;
 		}
+
+		public async Task<ContentResponse<bool>> Update<T>(Guid? id, Func<T?, Task> update) where T : EntityBase<Guid>
+		{
+			var result = new ContentResponse<bool>();
+			var entity = (await Query<T>())?.Where(b => b.Entity?.Id == id)?.FirstOrDefault();
+			if (entity == null)
+			{
+				return result;
+			}
+			await update(entity.Entity);
+			var storeRecord = new StoreRecord<IndexEntity<T>>()
+			{
+				Data = entity,
+				Storename = typeof(T).Name,
+			};
+			await dbManager.UpdateRecord<IndexEntity<T>>(storeRecord);
+			return result;
+		}
 	}
 }

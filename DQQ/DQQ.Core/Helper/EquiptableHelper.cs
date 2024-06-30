@@ -17,8 +17,12 @@ namespace DQQ.Helper
 			if (eChar.CombatPanel != null)
 			{
 				eChar.CombatPanel.StaticPanel.CombatPropertySummary(eChar.Equips.Where(b => b.Value != null).Select(b => new CombatPropertySum { Slot = b.Key, Property = b.Value?.Property }));
-
 			}
+			if(eChar is IActor actor)
+			{
+				actor.CurrentHP = (eChar?.CombatPanel?.DynamicPanel?.MaximunLife).DefaultValue(1);
+			}
+			
 		}
 		public static ContentResponse<bool> Equip(this IEquippableCharacter eChar, EnumEquipSlot slot, IEquptment? equipComponent)
 		{

@@ -23,8 +23,8 @@ namespace DQQ.Web.Pages.DQQs.Strategies
     public override async Task<bool> SaveFunction()
     {
       var result = await strageService.SetActorTargetPriority(ActorId, TargetPriority);
-
-      return result.Success;
+			ParentRefreshEvent.InvokeEvent(this, EventArgs.Empty);
+			return result.Success;
     }
   }
 }

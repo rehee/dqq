@@ -9,6 +9,7 @@ namespace DQQ.Web.Datas
 		Task<IEnumerable<T>> Read<T>() where T : EntityBase<Guid>;
 		Task<ContentResponse<bool>> Update<T>(Guid? id, Action<T> update) where T : EntityBase<Guid>;
 		Task<ContentResponse<bool>> Update<T>(Guid? id, T update) where T : EntityBase<Guid>;
+		Task<ContentResponse<bool>> Update<T>(Guid? id, Func<T?,Task> update) where T : EntityBase<Guid>;
 		Task<ContentResponse<bool>> Delete<T>(T? item) where T : EntityBase<Guid>;
 	}
 }

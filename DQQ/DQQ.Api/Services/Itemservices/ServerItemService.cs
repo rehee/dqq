@@ -247,14 +247,7 @@ namespace DQQ.Api.Services.Itemservices
 				return result;
 			}
 			var item = (await QueryItemEntity(actorId, false).Where(b=> itemId.Contains(b.Id)).ToArrayAsync()).Where(b => b.ItemType != EnumItemType.Currency).ToArray();
-			var items = item.GroupBy(b => b.Rarity).Select(b => (AbCurrency.New(b.Key), b.Count()))
-				.Where(b => b.Item1 != null)
-				.Select(b =>
-				{
-					var component = b.Item1!.GenerateComponent(new Random(), 1, b.Item2);
-					return component.ToEntity();
-				})
-				.ToArray();
+			var items = item.ConvertToSellItems();
 			if (items?.Any()!=true)
 			{
 				return result;

@@ -32,6 +32,7 @@ namespace DQQ.Web.Pages.DQQs.Builds
 			await dialogService.ShowComponent<TargetPriority>(
 				 new Dictionary<string, object?>
 				 {
+					 ["ParentRefreshEvent"] = ParentRefreshEvent,
 					 ["TargetPriority"] = SelectedCharacter?.TargetPriority,
 					 ["ActorId"] = SelectedCharacter?.DisplayId
 				 }, "", true, async save =>

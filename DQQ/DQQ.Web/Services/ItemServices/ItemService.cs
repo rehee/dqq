@@ -1,4 +1,5 @@
 ﻿using DQQ.Api.Services.Itemservices;
+using DQQ.Combats;
 using DQQ.Consts;
 using DQQ.Entities;
 using DQQ.Enums;
@@ -6,6 +7,7 @@ using DQQ.Services;
 using DQQ.Services.ItemServices;
 using DQQ.Web.Datas;
 using DQQ.Web.Services.Requests;
+using ReheeCmf.Helpers;
 using ReheeCmf.Requests;
 using ReheeCmf.Responses;
 
@@ -22,22 +24,64 @@ namespace DQQ.Web.Services.ItemServices
 
 		public async Task<IEnumerable<ItemEntity>?> ActorInventory(Guid? actorId)
 		{
-			return (await client.Request<IEnumerable<ItemEntity>?>(HttpMethod.Get, $"Items/Inventory/{actorId}")).Content;
+			if(await IsOnleService())
+			{
+				return (await client.Request<IEnumerable<ItemEntity>?>(HttpMethod.Get, $"Items/Inventory/{actorId}")).Content;
+			}
+			return (await Repostory.GetCurrentOfflineCharacter(actorId))?.Backpack;
 		}
 
 		public async Task<ContentResponse<bool>> DropBackpackItem(Guid? actorId, params Guid[] itemId)
 		{
-			return await client.Request<bool>(HttpMethod.Delete, $"Items/Drop/Backpack/{actorId}",itemId.ToJson());
+			if (await IsOnleService())
+			{
+				return await client.Request<bool>(HttpMethod.Delete, $"Items/Drop/Backpack/{actorId}", itemId.ToJson());
+			}
+			return await Repostory.Update<OfflineCharacter>(actorId, c => Task.Run(() =>
+			{
+				if (c == null)
+				{
+					return Task.CompletedTask;
+				}
+				if (c.Backpack == null)
+				{
+					c.Backpack = new List<ItemEntity>();
+					return Task.CompletedTask;
+				}
+				c.Backpack = c.Backpack.Where(b => !itemId.Contains(b.Id)).ToList();
+				return Task.CompletedTask;
+			}));
 		}
 
 		public async Task<ContentResponse<bool>> DropPickupItem(Guid? actorId, params Guid[] itemId)
 		{
-			return await client.Request<bool>(HttpMethod.Delete, $"Items/Drop/Pickup/{actorId}", itemId.ToJson());
+			if(await IsOnleService())
+			{
+				return await client.Request<bool>(HttpMethod.Delete, $"Items/Drop/Pickup/{actorId}", itemId.ToJson());
+			}
+			var result = new ContentResponse<bool>();
+			await temporaryService.PickAndRemoveTemporaryItems(actorId, itemId);
+			result.SetSuccess(true);
+			return result;
 		}
 
 		public async Task<ContentResponse<bool>> EquipItem(Guid? actorId, Guid? itemId, EnumEquipSlot? slot)
 		{
-			return await client.Request<bool>(HttpMethod.Post, $"Items/Equip/{actorId}/{itemId}/{slot}");
+			if(await IsOnleService())
+			{
+				return await client.Request<bool>(HttpMethod.Post, $"Items/Equip/{actorId}/{itemId}/{slot}");
+			}
+			return await Repostory.Update<OfflineCharacter>(actorId, c => Task.Run(async () =>
+			{
+				var item = c.Backpack?.FirstOrDefault(b => b.Id == itemId);
+				if (item == null)
+				{
+					return;
+				}
+				c.Backpack?.Remove(item);
+				await c.Equip(item, slot);
+				c.TotalEquipProperty();
+			}));
 		}
 
 		public Task<ContentResponse<bool>> EquipItems(Guid? actorId, params (EnumEquipSlot Slot, Guid? Id)[] items)
@@ -121,12 +165,62 @@ namespace DQQ.Web.Services.ItemServices
 
 		public async Task<ContentResponse<bool>> SellBackpackItem(Guid? actorId, params Guid[] itemId)
 		{
-			return await client.Request<bool>(HttpMethod.Post, $"Items/Sell/Backpack/{actorId}", itemId.ToJson());
+			if(await IsOnleService())
+			{
+				return await client.Request<bool>(HttpMethod.Post, $"Items/Sell/Backpack/{actorId}", itemId.ToJson());
+			}
+			return await Repostory.Update<OfflineCharacter>(actorId, c => Task.Run(async () =>
+			{
+				await Task.CompletedTask;
+				if (c == null)
+				{
+					return;
+				}
+				if(c.Backpack== null)
+				{
+					c.Backpack = new List<ItemEntity>();
+					return;
+				}
+
+				var deletedItems = c.Backpack.Where(b => b.Profile?.IsStack!= true && itemId.Contains(b.Id)).ToArray();
+				c.Backpack = c.Backpack.Where(b => !(b.Profile?.IsStack != true && itemId.Contains(b.Id))).ToList();
+				var sellItems = deletedItems.ConvertToSellItems();
+
+				foreach (var item in sellItems) 
+				{
+					var existingItem = c.Backpack.FirstOrDefault(b => b.ItemNumber == item.ItemNumber);
+					if (existingItem != null) 
+					{
+						existingItem.Quantity = item.Quantity+ existingItem.Quantity;
+					}
+					else
+					{
+						c.Backpack.Add(item);
+					}
+				}
+
+			}));
 		}
 
 		public async Task<ContentResponse<bool>> UnEquipItem(Guid? actorId, params EnumEquipSlot[] slots)
 		{
-			return await client.Request<bool>(HttpMethod.Post, $"Items/UnEquip/{actorId}", slots.ToJson());
+			if(await IsOnleService())
+			{
+				return await client.Request<bool>(HttpMethod.Post, $"Items/UnEquip/{actorId}", slots.ToJson());
+			}
+
+			return await Repostory.Update<OfflineCharacter>(actorId, (c)=> Task.Run(async () =>
+			{
+				await Task.CompletedTask;
+				if (c == null)
+				{
+					return;
+				}
+				await c.UnEquip(slots);
+				c.SelectedCharacter.CombatPanel = new CombatPanel();
+				c.SelectedCharacter.CombatPanel.StaticPanel.MaximunLife = 50;
+				c.TotalEquipProperty();
+			}));
 		}
 	}
 }

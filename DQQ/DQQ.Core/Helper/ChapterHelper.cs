@@ -23,7 +23,6 @@ namespace DQQ.Helper
 			}
 			return nextChapter.Value;
 		}
-
 		public static bool IsUnlocked(this EnumChapter chapter, Character? character)
 		{
 			if (character == null)
@@ -34,7 +33,6 @@ namespace DQQ.Helper
 			var checkChapter = (int)chapter;
 			return currentChapter >= checkChapter;
 		}
-
 		public static bool IsUnlocked<T>(this T source, T? compare) where T : struct, Enum
 		{
 			if (compare == null)
@@ -45,5 +43,6 @@ namespace DQQ.Helper
 			var checkChapter = Convert.ToInt32(source);
 			return currentChapter >= checkChapter;
 		}
+
 	}
 }
