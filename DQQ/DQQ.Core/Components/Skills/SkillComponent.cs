@@ -63,7 +63,7 @@ namespace DQQ.Components.Skills
 			skillComponent.InitSkillProfile(skillProfile, skillSlot);
 			return skillComponent;
 		}
-		public SkillStrategy[]? SkillStrategies { get; set; }
+		public SkillStrategyDTO[]? SkillStrategies { get; set; }
 		public static SkillComponent New(MobSkill skill, EnumSkillSlot skillSlot = EnumSkillSlot.NotSpecified)
 		{
 			var skillComponent = new SkillComponent();
@@ -169,7 +169,7 @@ namespace DQQ.Components.Skills
 					var skillProfile = DQQPool.TryGet<SkillProfile, EnumSkillNumber?>(sp.SkillNumber);
 					InitSkillProfile(skillProfile, sp.Slot);
 					SkillStrategies = String.IsNullOrEmpty(sp.SkillStrategy) ? null :
-					JsonSerializer.Deserialize<SkillStrategy[]?>(sp.SkillStrategy ?? "", JsonOption.DefaultOption);
+					JsonSerializer.Deserialize<SkillStrategyDTO[]?>(sp.SkillStrategy ?? "", JsonOption.DefaultOption);
 					var supportSkillNumers = JsonSerializer.Deserialize<EnumSkillNumber[]?>(sp.SupportSkills ?? "", JsonOption.DefaultOption);
 					int? level = null;
 					Character? character  = null;

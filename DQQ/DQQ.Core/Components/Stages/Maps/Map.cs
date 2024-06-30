@@ -167,7 +167,7 @@ namespace DQQ.Components.Stages.Maps
 						{
 							if (p.TargetPriority != null)
 							{
-								p.SelectTarget(p.TargetPriority.SelectTargetByPriority(currentPack));
+								p.SelectTarget(p.TargetPriority.ConditionTargetByPriority(currentPack));
 							}
 							else
 							{

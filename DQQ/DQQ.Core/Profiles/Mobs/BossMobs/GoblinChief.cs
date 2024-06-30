@@ -30,26 +30,26 @@ namespace DQQ.Profiles.Mobs.BossMobs
 		{
 			MobSkill.New(EnumSkillNumber.NormalAttack),
 			MobSkill.New(EnumSkillNumber.Renew),
-			MobSkill.New(EnumSkillNumber.MightySmash,
-				new Strategies.SkillStrategies.SkillStrategy
-				{
-					Priority=0,
-					Condition = EnumStrategyCondition.Target,
-					CheckTarget = EnumTarget.Target,
-					Property= EnumPropertyCompare.HealthPercentage,
-					Compare= EnumCompare.LessThan,
-					Value = 0.25m,
-				},
-				new Strategies.SkillStrategies.SkillStrategy
-				{
-					Priority=0,
-					Condition = EnumStrategyCondition.Players,
-					PartyStrategy = EnumStrategyParty.AliveNumber,
-					Property= EnumPropertyCompare.HealthPercentage,
-					Compare= EnumCompare.LessOrEqual,
-					Value = 1m,
-				}
-				)
+			//MobSkill.New(EnumSkillNumber.MightySmash,
+			//	new Strategies.SkillStrategies.SkillStrategy
+			//	{
+			//		Priority=0,
+			//		Condition = EnumStrategyCondition.Target,
+			//		CheckTarget = EnumTarget.Target,
+			//		Property= EnumPropertyCompare.HealthPercentage,
+			//		Compare= EnumCompare.LessThan,
+			//		Value = 0.25m,
+			//	},
+			//	new Strategies.SkillStrategies.SkillStrategy
+			//	{
+			//		Priority=0,
+			//		Condition = EnumStrategyCondition.Players,
+			//		PartyStrategy = EnumStrategyParty.AliveNumber,
+			//		Property= EnumPropertyCompare.HealthPercentage,
+			//		Compare= EnumCompare.LessOrEqual,
+			//		Value = 1m,
+			//	}
+			//	)
 		};
 
 		public override List<IActor> GenerateBossFight(IMap map)

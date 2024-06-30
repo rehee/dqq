@@ -29,7 +29,7 @@ namespace DQQ.Commons.DTOs
 		public Guid? ActorId { get; set; }
 		public EnumSkillNumber? SkillNumber { get; set; }
 		public EnumSkillSlot? Slot { get; set; }
-		public SkillStrategy[]? Strategies { get; set; }
+		public SkillStrategyDTO[]? Strategies { get; set; }
 		public EnumSkillNumber[]? SupportSkill { get; set; }
 	}
 }

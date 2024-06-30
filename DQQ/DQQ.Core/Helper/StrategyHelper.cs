@@ -17,7 +17,7 @@ namespace DQQ.Helper
 {
 	public static class StrategyHelper
 	{
-		public static StrategeCheckResult MatchSkillStrategy(this IEnumerable<SkillStrategy>? strategies, ComponentTickParameter? parameter, SkillComponent skill)
+		public static StrategeCheckResult MatchSkillStrategy(this IEnumerable<SkillStrategyDTO>? strategies, ComponentTickParameter? parameter, SkillComponent skill)
 		{
 			if (strategies?.Any() != true)
 			{
@@ -26,25 +26,27 @@ namespace DQQ.Helper
 			foreach (var strategy in strategies.OrderBy(b => b.Priority))
 			{
 				StrategeCheckResult? thisMatch = null;
-				switch (strategy.Condition)
+				var condtionType = strategy?.CastCondition?.ConditionType?? EnumStrategyCondition.NotSpecified;
+				switch (condtionType)
 				{
 					case EnumStrategyCondition.NotSpecified:
 						thisMatch = StrategeCheckResult.New(true, null);
 						break;
 					case EnumStrategyCondition.Target:
-						thisMatch = strategy.MatchSkillStrategyTarget(parameter?.From, parameter?.EnemyTargets, parameter?.FriendlyTargets, parameter?.Map);
-						break;
+						thisMatch = strategy?.CastCondition?.MatchSkillStrategyTarget(parameter?.From, parameter?.EnemyTargets, parameter?.FriendlyTargets, parameter?.Map);
+					break;
 					case EnumStrategyCondition.Players:
 					case EnumStrategyCondition.Enemies:
-						thisMatch = strategy.MatchSkillStrategyParty(parameter?.From, parameter?.EnemyTargets, parameter?.FriendlyTargets, parameter?.Map);
+						thisMatch = strategy?.CastCondition?.MatchSkillStrategyParty(parameter?.From, parameter?.EnemyTargets, parameter?.FriendlyTargets, parameter?.Map);
 						break;
 					case EnumStrategyCondition.Combat:
 					case EnumStrategyCondition.Wave:
-						thisMatch = strategy.MatchSkillStrategyWave(parameter?.From, parameter?.EnemyTargets, parameter?.Map, skill);
+						thisMatch = strategy?.CastCondition?.MatchSkillStrategyWave(parameter?.From, parameter?.EnemyTargets, parameter?.Map, skill);
 						break;
 				}
 				if (thisMatch?.Matched == true)
 				{
+					strategy.SkillTargetOverride(parameter, thisMatch);
 					return thisMatch;
 				}
 			}
@@ -52,20 +54,20 @@ namespace DQQ.Helper
 		}
 
 
-		public static StrategeCheckResult? MatchSkillStrategyTarget(this SkillStrategy strategy, ITarget? caster, IEnumerable<ITarget>? enemies, IEnumerable<ITarget>? friendlies, IMap? map)
+		public static StrategeCheckResult? MatchSkillStrategyTarget(this SkillCastConditionDTO strategy, ITarget? caster, IEnumerable<ITarget>? enemies, IEnumerable<ITarget>? friendlies, IMap? map)
 		{
 			ITarget? skillTarget = null;
 
-			switch (strategy.CheckTarget)
+			switch (strategy.ConditionTargetType)
 			{
 				case EnumTarget.Self:
 					skillTarget = caster;
 					break;
 				case EnumTarget.Target:
-					skillTarget = strategy.SkillTarget.SelectTargetByPriority(enemies);
+					skillTarget = strategy.ConditionTargetPriority.ConditionTargetByPriority(enemies);
 					break;
 				case EnumTarget.Friendly:
-					skillTarget = strategy.SkillTarget.SelectTargetByPriority(friendlies);
+					skillTarget = strategy.ConditionTargetPriority.ConditionTargetByPriority(friendlies);
 					break;
 			}
 			if (strategy.ConditionPassed(skillTarget))
@@ -74,10 +76,10 @@ namespace DQQ.Helper
 			}
 			return null;
 		}
-		public static StrategeCheckResult? MatchSkillStrategyParty(this SkillStrategy strategy, ITarget? caster, IEnumerable<ITarget>? enemies, IEnumerable<ITarget>? friendlies, IMap? map)
+		public static StrategeCheckResult? MatchSkillStrategyParty(this SkillCastConditionDTO strategy, ITarget? caster, IEnumerable<ITarget>? enemies, IEnumerable<ITarget>? friendlies, IMap? map)
 		{
 			IEnumerable<ITarget>? checkingTargets = null;
-			switch (strategy?.Condition)
+			switch (strategy?.ConditionType)
 			{
 				case EnumStrategyCondition.Enemies:
 					checkingTargets = enemies;
@@ -97,7 +99,8 @@ namespace DQQ.Helper
 					var checkResult = strategy.Compare.NumberCompare(aliveNumber, strategy.Value);
 					if (checkResult == true)
 					{
-						return StrategeCheckResult.New(true, strategy.OrderByTarget(aliveTargets!)?.FirstOrDefault());
+					
+						return StrategeCheckResult.New(true,null);
 					}
 					break;
 				case EnumStrategyParty.Contain:
@@ -105,13 +108,13 @@ namespace DQQ.Helper
 					var containChecks = strategy.OrderByTarget(aliveTargets?.Where(b => strategy.ConditionPassed(b)) ?? []);
 					if (containChecks?.Any() == true)
 					{
-						return StrategeCheckResult.New(true, containChecks.FirstOrDefault());
+						return StrategeCheckResult.New(true, containChecks?.FirstOrDefault());
 					}
 					break;
 			}
 			return null;
 		}
-		public static StrategeCheckResult? MatchSkillStrategyWave(this SkillStrategy strategy, ITarget? caster, IEnumerable<ITarget>? targets, IMap? map, SkillComponent skill)
+		public static StrategeCheckResult? MatchSkillStrategyWave(this SkillCastConditionDTO strategy, ITarget? caster, IEnumerable<ITarget>? targets, IMap? map, SkillComponent skill)
 		{
 			if (skill == null)
 			{
@@ -121,11 +124,11 @@ namespace DQQ.Helper
 			switch (strategy.WaveStrategy)
 			{
 				case EnumStrategyWave.OnlyBeginning:
-					if (strategy.Condition == EnumStrategyCondition.Combat)
+					if (strategy.ConditionType == EnumStrategyCondition.Combat)
 					{
 						conditionMatch = skill.TotalCount == 0;
 					}
-					if (strategy.Condition == EnumStrategyCondition.Wave)
+					if (strategy.ConditionType == EnumStrategyCondition.Wave)
 					{
 						conditionMatch = skill.WaveCount == 0;
 					}
@@ -136,11 +139,11 @@ namespace DQQ.Helper
 						return null;
 					}
 					var periodTick = (int)((strategy?.Value ?? 1m) * DQQGeneral.TickPerSecond);
-					if (strategy?.Condition == EnumStrategyCondition.Combat)
+					if (strategy?.ConditionType == EnumStrategyCondition.Combat)
 					{
 						conditionMatch = map.TickCount % periodTick == 0;
 					}
-					if (strategy?.Condition == EnumStrategyCondition.Wave)
+					if (strategy?.ConditionType == EnumStrategyCondition.Wave)
 					{
 						conditionMatch = map.WaveTickCount % periodTick == 0;
 					}
@@ -163,7 +166,7 @@ namespace DQQ.Helper
 			ITarget? skillTarget = null;
 
 			IEnumerable<ITarget>? checkingTarget = null;
-			if (strategy?.CheckTarget == EnumTarget.Self)
+			if (strategy?.ConditionTargetType == EnumTarget.Self)
 			{
 				checkingTarget = map?.Players;
 			}
@@ -173,18 +176,20 @@ namespace DQQ.Helper
 			}
 			if (checkingTarget == null)
 			{
-				return StrategeCheckResult.New(true, null);
+				
+				return StrategeCheckResult.New(true,null);
 			}
 			var aliveTargets = checkingTarget.Where(b => b.Alive);
 			
+			return StrategeCheckResult.New(true, strategy.OrderByTarget(aliveTargets)?.FirstOrDefault());
 		}
-		public static IEnumerable<ITarget>? OrderByTarget(this SkillStrategy? strategy, IEnumerable<ITarget> targets)
+		public static IEnumerable<ITarget>? OrderByTarget(this SkillCastConditionDTO? strategy, IEnumerable<ITarget> targets)
 		{
-			if (strategy == null || targets == null || strategy?.SkillTarget == null)
+			if (strategy == null || targets == null || strategy?.ConditionTargetPriority == null)
 			{
 				return targets;
 			}
-			switch (strategy?.SkillTarget)
+			switch (strategy?.ConditionTargetPriority)
 			{
 				case EnumTargetPriority.Weakest:
 					return targets.OrderBy(b => b.PowerLevel);
@@ -198,19 +203,20 @@ namespace DQQ.Helper
 
 			return targets;
 		}
-		public static bool ConditionPassed(this SkillStrategy? strategy, ITarget? checkTarget)
+
+
+		public static bool ConditionPassed(this SkillCastConditionDTO? strategy, ITarget? checkTarget)
 		{
 			if (strategy == null || checkTarget == null)
 			{
 				return false;
 			}
-			switch (strategy.Property)
+			switch (strategy.PropertyToCheck)
 			{
 				case EnumPropertyCompare.HealthPercentage:
 					return PercentageCompare(strategy.Compare, checkTarget?.PercentageHP, strategy.Value);
 				case EnumPropertyCompare.HealthAmount:
 					return NumberCompare(strategy.Compare, checkTarget?.CurrentHP, strategy.Value);
-
 			}
 			return false;
 		}
@@ -261,7 +267,7 @@ namespace DQQ.Helper
 			}
 			return false;
 		}
-		public static ITarget? SelectTargetByPriority(this EnumTargetPriority? priority, IEnumerable<ITarget>? targets)
+		public static ITarget? ConditionTargetByPriority(this EnumTargetPriority? priority, IEnumerable<ITarget>? targets)
 		{
 
 			if (targets?.Any() != true || priority == null)
@@ -283,6 +289,28 @@ namespace DQQ.Helper
 			}
 
 			return liveTargets.FirstOrDefault();
+		}
+		public static void SkillTargetOverride(this SkillStrategyDTO? dto, ComponentTickParameter? parameter, StrategeCheckResult result)
+		{
+			if (dto?.SkillTarget == null || parameter == null)
+			{
+				return;
+			}
+
+			IEnumerable<ITarget>? targets = null;
+			switch (dto?.SkillTarget?.SkillTarget)
+			{
+				case EnumTarget.Target:
+				targets = parameter.EnemyTargets;
+				break;
+				case EnumTarget.Self:
+				targets = parameter.From != null ? [parameter.From!] : [];
+				break;
+				case EnumTarget.Friendly:
+				targets = parameter.FriendlyTargets;
+				break;
+			}
+			result.MatchedTarget = dto?.SkillTarget?.TargetPriority.ConditionTargetByPriority(targets);
 		}
 	}
 }

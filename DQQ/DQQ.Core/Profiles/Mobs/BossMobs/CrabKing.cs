@@ -4,6 +4,7 @@ using DQQ.Components.Stages.Actors.Mobs;
 using DQQ.Components.Stages.Maps;
 using DQQ.Enums;
 using DQQ.Pools;
+using DQQ.Strategies.SkillStrategies;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,16 +32,17 @@ namespace DQQ.Profiles.Mobs.BossMobs
 		[
 			MobSkill.New(EnumSkillNumber.NormalAttack),
 			MobSkill.New(EnumSkillNumber.MightySmash,
-				new Strategies.SkillStrategies.SkillStrategy
-				{
-					Priority=0,
-					Condition = EnumStrategyCondition.Target,
-					CheckTarget = EnumTarget.Target,
-					SkillTarget = EnumTargetPriority.Strongest,
-					Property= EnumPropertyCompare.HealthPercentage,
-					Compare= EnumCompare.LessThan,
-					Value = 0.3m,
-				})
+				[
+				SkillStrategyDTO.New(
+				SkillCastConditionDTO.New(
+					EnumStrategyCondition.Target,
+					EnumStrategyParty.Contain,
+					null,
+					EnumTarget.Target,
+					EnumTargetPriority.Front,
+					EnumPropertyCompare.HealthPercentage,
+					EnumCompare.LessThan,0.3m ))
+				])
 		];
 
 		public override List<IActor> GenerateBossFight(IMap map)

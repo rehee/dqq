@@ -84,17 +84,21 @@ namespace DQQ.Web.Services.CombatServices
 			{
 				await tempService.AddAndIntoTemporary(player.DisplayId.Value, map.Drops.ToArray());
 			}
-
-			var nextChapter = ChapterHelper.NextChapter(player, map);
-			await Repostory.Update<OfflineCharacter>(dto?.ActorId, c =>
-			{
-				c.SelectedCharacter.Chapter = nextChapter;
-			});
-			
 			if (map?.XP >= 0)
 			{
 				await characterService.GainExperience(dto?.ActorId, $"{map?.XP}");
 			}
+			await Repostory.Update<OfflineCharacter>(dto?.ActorId, c =>
+			{
+				if (c == null || c.SelectedCharacter == null)
+				{
+					return;
+				}
+				var nextChapter = ChapterHelper.NextChapter(c.SelectedCharacter, map);
+				c.SelectedCharacter.Chapter = nextChapter;
+			});
+			
+			
 			return result;
 		}
 	}

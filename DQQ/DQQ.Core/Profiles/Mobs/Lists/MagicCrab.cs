@@ -1,5 +1,6 @@
 ﻿using DQQ.Attributes;
 using DQQ.Enums;
+using DQQ.Strategies.SkillStrategies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,56 +16,52 @@ namespace DQQ.Profiles.Mobs.Lists
 			[
 			MobSkill.New(EnumSkillNumber.Renew,
 				[
-				new Strategies.SkillStrategies.SkillStrategy
-				{
-					Condition = EnumStrategyCondition.Players,
-					PartyStrategy = EnumStrategyParty.Contain,
-					Property = EnumPropertyCompare.HealthPercentage,
-					Value = 1,
-					Compare = EnumCompare.LessThan,
-					CheckTarget = EnumTarget.Friendly,
-					SkillTarget = EnumTargetPriority.Front,
-				}]
-				),
+				SkillStrategyDTO.New(
+				SkillCastConditionDTO.New(
+					EnumStrategyCondition.Players,
+					EnumStrategyParty.Contain,
+					null,
+					EnumTarget.Friendly,
+					EnumTargetPriority.AnyTarget,
+					EnumPropertyCompare.HealthPercentage,
+					EnumCompare.LessThan,1 ))
+				]),
 			MobSkill.New(EnumSkillNumber.Healing,
 				[
-				new Strategies.SkillStrategies.SkillStrategy
-				{
-					Condition = EnumStrategyCondition.Players,
-					PartyStrategy = EnumStrategyParty.Contain,
-					Property = EnumPropertyCompare.HealthPercentage,
-					Value = 0.6m,
-					Compare = EnumCompare.LessThan,
-					CheckTarget = EnumTarget.Friendly,
-					SkillTarget = EnumTargetPriority.Front,
-				}]
-				),
+				SkillStrategyDTO.New(
+				SkillCastConditionDTO.New(
+					EnumStrategyCondition.Players,
+					EnumStrategyParty.Contain,
+					null,
+					EnumTarget.Friendly,
+					EnumTargetPriority.AnyTarget,
+					EnumPropertyCompare.HealthPercentage,
+					EnumCompare.LessThan,0.5m ))
+				]),
 			MobSkill.New(EnumSkillNumber.DarkHeal,
 				[
-				new Strategies.SkillStrategies.SkillStrategy
-				{
-					Condition = EnumStrategyCondition.Players,
-					PartyStrategy = EnumStrategyParty.Contain,
-					Property = EnumPropertyCompare.HealthPercentage,
-					Value = 0.85m,
-					Compare = EnumCompare.LessThan,
-					CheckTarget = EnumTarget.Friendly,
-					SkillTarget = EnumTargetPriority.Back,
-				}]
-				),
+				SkillStrategyDTO.New(
+				SkillCastConditionDTO.New(
+					EnumStrategyCondition.Players,
+					EnumStrategyParty.Contain,
+					null,
+					EnumTarget.Friendly,
+					EnumTargetPriority.AnyTarget,
+					EnumPropertyCompare.HealthPercentage,
+					EnumCompare.LessThan,0.7m ))
+				]),
 			MobSkill.New(EnumSkillNumber.DarkGreaterHeal,
 				[
-				new Strategies.SkillStrategies.SkillStrategy
-				{
-					Condition = EnumStrategyCondition.Players,
-					PartyStrategy = EnumStrategyParty.Contain,
-					Property = EnumPropertyCompare.HealthPercentage,
-					Value = 0.85m,
-					Compare = EnumCompare.LessThan,
-					CheckTarget = EnumTarget.Friendly,
-					SkillTarget = EnumTargetPriority.Front,
-				}]
-				)
+				SkillStrategyDTO.New(
+				SkillCastConditionDTO.New(
+					EnumStrategyCondition.Players,
+					EnumStrategyParty.Contain,
+					null,
+					EnumTarget.Friendly,
+					EnumTargetPriority.AnyTarget,
+					EnumPropertyCompare.HealthPercentage,
+					EnumCompare.LessThan,0.8m ))
+				])
 			];
 		public override EnumMob ProfileNumber => EnumMob.MagicCrab;
 		public override string? Name => "魔螃蟹";

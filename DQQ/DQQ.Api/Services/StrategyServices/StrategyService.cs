@@ -21,7 +21,7 @@ namespace DQQ.Api.Services.StrategyServices
       this.context = context;
     }
 
-    public async Task<ContentResponse<bool>> SetActorSkillStrategy(Guid? actorId, EnumSkillSlot slot, IEnumerable<SkillStrategy>? strategies)
+    public async Task<ContentResponse<bool>> SetActorSkillStrategy(Guid? actorId, EnumSkillSlot slot, IEnumerable<SkillStrategyDTO>? strategies)
     {
       var result = new ContentResponse<bool>();
       var userId = context.User?.UserId;

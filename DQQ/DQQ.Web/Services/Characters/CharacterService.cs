@@ -77,30 +77,26 @@ namespace DQQ.Web.Services.Characters
       {
 				throw new NotImplementedException();
 			}
-      var result = new ContentResponse<bool>();
-
-			var character = await Repostory.GetCurrentOfflineCharacter(charId);
-      if (character == null)
-      {
-        return result;
-      }
-			if (!BigInteger.TryParse(exp, out var xpPoint))
-			{
-				return result;
-			}
-			if (xpPoint <= 0)
-			{
-				return result;
-			}
-			BigInteger currentXp = 0;
-			BigInteger.TryParse(character?.SelectedCharacter?.CurrentXP?? "0", out currentXp);
-			currentXp = xpPoint + currentXp;
-			var levelCheck = XPHelper.CheckExperienceAndLevelUP(ExperienceAndLevel.New(character?.SelectedCharacter?.Level??1, currentXp));
-			await Repostory.Update<OfflineCharacter>(charId, c => {
-			  c.SelectedCharacter.Level = levelCheck.Level;
-				c.SelectedCharacter.CurrentXP = levelCheck.Experience.ToString();
+      return await Repostory.Update<OfflineCharacter>(charId, character => {
+        if (character == null || character?.SelectedCharacter == null)
+        {
+          return;
+				}
+        if (!BigInteger.TryParse(exp, out var xpPoint))
+				{
+					return;
+				}
+				if (xpPoint <= 0)
+				{
+					return;
+				}
+				BigInteger currentXp = 0;
+				BigInteger.TryParse(character?.SelectedCharacter?.CurrentXP ?? "0", out currentXp);
+				currentXp = xpPoint + currentXp;
+				var levelCheck = XPHelper.CheckExperienceAndLevelUP(ExperienceAndLevel.New(character?.SelectedCharacter?.Level ?? 1, currentXp));
+				character.SelectedCharacter.Level = levelCheck.Level;
+				character.SelectedCharacter.CurrentXP = levelCheck.Experience.ToString();
 			});
-			return result;
 		}
 
 		public async Task<IEnumerable<Character>> GetAllCharacters()

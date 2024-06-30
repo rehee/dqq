@@ -25,7 +25,7 @@ namespace DQQ.Api.Apis
 		}
 		[HttpPut("SkillStrategy/{actorId}/{slot?}")]
 		[CmfAuthorize(AuthOnly = true)]
-		public async Task<bool> SetSkillStrategy(Guid? actorId, EnumSkillSlot slot, IEnumerable<SkillStrategy>? strategies)
+		public async Task<bool> SetSkillStrategy(Guid? actorId, EnumSkillSlot slot, IEnumerable<SkillStrategyDTO>? strategies)
 		{
 			var result = await strategryService.SetActorSkillStrategy(actorId, slot, strategies);
 			return result.Success;

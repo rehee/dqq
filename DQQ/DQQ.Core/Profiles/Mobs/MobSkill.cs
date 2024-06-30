@@ -13,7 +13,7 @@ namespace DQQ.Profiles.Mobs
 {
   public class MobSkill
   {
-    public static MobSkill New(EnumSkillNumber skillNumber, params SkillStrategy[]? strategies)
+    public static MobSkill New(EnumSkillNumber skillNumber, params SkillStrategyDTO[]? strategies)
     {
       var skill = new MobSkill();
       skill.SkillNumber = skillNumber;
@@ -28,6 +28,6 @@ namespace DQQ.Profiles.Mobs
     [JsonIgnore]
     public SkillProfile? Profile => DQQPool.TryGet<SkillProfile, EnumSkillNumber>(SkillNumber);
 
-    public SkillStrategy[]? Strategies { get; set; }
+    public SkillStrategyDTO[]? Strategies { get; set; }
   }
 }

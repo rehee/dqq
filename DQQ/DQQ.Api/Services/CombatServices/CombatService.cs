@@ -66,7 +66,6 @@ namespace DQQ.Api.Services.CombatServices
 					await chapterService.ProcessChapter(player.DisplayId, nextChapter);
 				}
 			}
-
 			if (dto?.RandomGuid != null)
 			{
 				result.SetSuccess(new CombatResultDTO { });
@@ -80,7 +79,6 @@ namespace DQQ.Api.Services.CombatServices
 				TotalCombatminutes = map!.PlayMins,
 				Success = map?.MapClear == true
 			};
-
 			result.SetSuccess(resultDto);
 			return result;
 		}

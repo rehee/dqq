@@ -1,16 +1,12 @@
 using BootstrapBlazor.Components;
 using DQQ.Commons.DTOs;
-using DQQ.Components.Stages.Actors;
-using DQQ.Components.Stages.Actors.Characters;
 using DQQ.Consts;
 using DQQ.Enums;
 using DQQ.Services.SkillServices;
 using DQQ.Web.Pages.DQQs.Builds.Components;
-using DQQ.Web.Pages.DQQs.Skills;
 using Microsoft.AspNetCore.Components;
 using ReheeCmf.Helpers;
 using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Metrics;
 
 namespace DQQ.Web.Pages.DQQs.Builds
 {
@@ -63,20 +59,7 @@ namespace DQQ.Web.Pages.DQQs.Builds
 								}
 							).Render()
 						});
-					newOptions.Add(
-					new StepOption()
-					{
-						Text = WebConsts.StrategySkillChooseText,
-
-						Template = BootstrapDynamicComponent.CreateComponent<StrategySelect>
-						(
-							new Dictionary<string, object?>
-							{
-								["Slot"] = Slot,
-								["SelectedCharacter"] = SelectedCharacter,
-							}
-						).Render()
-					});
+				
 					break;
 				case EnumSkillAndStrategy.SkillAndSupport:
 					newOptions.Add(
@@ -140,20 +123,20 @@ namespace DQQ.Web.Pages.DQQs.Builds
 						});
 					break;
 				case EnumSkillAndStrategy.StrategyOnly:
-					newOptions.Add(
-					new StepOption()
-					{
-						Text = WebConsts.StrategySkillChooseText,
+					//newOptions.Add(
+					//new StepOption()
+					//{
+					//	Text = WebConsts.StrategySkillChooseText,
 
-						Template = BootstrapDynamicComponent.CreateComponent<StrategySelect>
-						(
-							new Dictionary<string, object?>
-							{
-								["Slot"] = Slot,
-								["SelectedCharacter"] = SelectedCharacter,
-							}
-						).Render()
-					});
+					//	Template = BootstrapDynamicComponent.CreateComponent<StrategySelect>
+					//	(
+					//		new Dictionary<string, object?>
+					//		{
+					//			["Slot"] = Slot,
+					//			["SelectedCharacter"] = SelectedCharacter,
+					//		}
+					//	).Render()
+					//});
 					break;
 			}
 			
