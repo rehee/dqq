@@ -16,20 +16,20 @@ namespace DQQ.Profiles.Mobs.Lists
 			[
 				MobSkill.New(EnumSkillNumber.Renew,
 				[
-					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealFriendOnNotFullLife)
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.Target_Friend_NotFullLife)
 				]),
 				MobSkill.New(EnumSkillNumber.Healing,
 				[
-					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealSelfOnLowLife),
-					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealFriendOnLowLife,1),
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.Target_Self_LowLife),
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.Target_Friend_LowLife,1),
 				]),
 				MobSkill.New(EnumSkillNumber.DarkHeal,
 				[
-					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealFriendOnInjuriedLife)
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.Target_Friend_InjuriedLife)
 				]),
 				MobSkill.New(EnumSkillNumber.DarkGreaterHeal,
 				[
-					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.HealFriendOnHalfLife)
+					SkillStrategyDTO.Preset(EnumPresetSkillStrategy.Target_Friend_HalfLife)
 				])
 			];
 		public override EnumMob ProfileNumber => EnumMob.MagicCrab;

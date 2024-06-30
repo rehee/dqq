@@ -383,12 +383,12 @@ namespace DQQ.Helper
 		{
 			switch (input)
 			{
-				case EnumPresetSkillStrategy.AttackTargetOnLowLife: return "攻击低血敌人";
-				case EnumPresetSkillStrategy.HealSelfOnLowLife: return "自己低血时治疗";
-				case EnumPresetSkillStrategy.HealFriendOnLowLife: return "友方低血时治疗";
-				case EnumPresetSkillStrategy.HealFriendOnHalfLife: return "友方半血时治疗";
-				case EnumPresetSkillStrategy.HealFriendOnInjuriedLife: return "友方受伤时治疗";
-				case EnumPresetSkillStrategy.HealFriendOnNotFullLife: return "友方不满血时治疗";
+				case EnumPresetSkillStrategy.Target_Enemy_LowLife: return "目标:敌方 条件:低血";
+				case EnumPresetSkillStrategy.Target_Self_LowLife: return "目标:自己 条件:低血";
+				case EnumPresetSkillStrategy.Target_Friend_LowLife: return "目标:友方 条件:低血";
+				case EnumPresetSkillStrategy.Target_Friend_HalfLife: return "目标:友方 条件:半血";
+				case EnumPresetSkillStrategy.Target_Friend_InjuriedLife: return "目标:友方 条件:受伤";
+				case EnumPresetSkillStrategy.Target_Friend_NotFullLife: return "目标:友方 条件:不满血";
 			}
 			return "未指定";
 

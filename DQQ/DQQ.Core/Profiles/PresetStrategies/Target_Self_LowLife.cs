@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.PresetStrategies
 {
 	[Pooled]
-	internal class HealSelfOnLowLife : PresetStrategyProfile
+	internal class Target_Self_LowLife : PresetStrategyProfile
 	{
-		public override EnumPresetSkillStrategy ProfileNumber => EnumPresetSkillStrategy.HealSelfOnLowLife;
+		public override EnumPresetSkillStrategy ProfileNumber => EnumPresetSkillStrategy.Target_Self_LowLife;
 		public override IEnumerable<SkillStrategyDTO> Strategies =>
 			[
 				SkillStrategyDTO.New(

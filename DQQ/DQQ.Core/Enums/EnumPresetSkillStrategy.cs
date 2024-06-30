@@ -9,11 +9,11 @@ namespace DQQ.Enums
 	public enum EnumPresetSkillStrategy
 	{
 		NotSpecified,
-		AttackTargetOnLowLife,
-		HealSelfOnLowLife,
-		HealFriendOnLowLife,
-		HealFriendOnHalfLife,
-		HealFriendOnInjuriedLife,
-		HealFriendOnNotFullLife
+		Target_Enemy_LowLife,
+		Target_Self_LowLife,
+		Target_Friend_LowLife,
+		Target_Friend_HalfLife,
+		Target_Friend_InjuriedLife,
+		Target_Friend_NotFullLife
 	}
 }

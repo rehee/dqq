@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 namespace DQQ.Profiles.PresetStrategies
 {
 	[Pooled]
-	internal class HealFriendOnInjuriedLife : PresetStrategyProfile
+	internal class Target_Friend_HalfLife : PresetStrategyProfile
 	{
-		public override EnumPresetSkillStrategy ProfileNumber => EnumPresetSkillStrategy.HealFriendOnInjuriedLife;
+		public override EnumPresetSkillStrategy ProfileNumber => EnumPresetSkillStrategy.Target_Friend_HalfLife;
 		public override IEnumerable<SkillStrategyDTO> Strategies => 
 			[
 				SkillStrategyDTO.New(
@@ -24,7 +24,7 @@ namespace DQQ.Profiles.PresetStrategies
 						EnumTargetPriority.AnyTarget,
 						EnumPropertyCompare.HealthPercentage,
 						EnumCompare.LessOrEqual,
-						0.75m
+						0.5m
 						))
 			];
 
