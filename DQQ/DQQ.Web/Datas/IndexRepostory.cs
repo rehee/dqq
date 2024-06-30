@@ -62,19 +62,36 @@ namespace DQQ.Web.Datas
 			return result?.Select(b => b.Entity)?.Where(b=>b!=null)?.Select(b=> b!) ?? [];
 		}
 
-		public async Task<ContentResponse<bool>> Update<T>(T? item) where T : EntityBase<Guid>
+		public async Task<ContentResponse<bool>> Update<T>(Guid? id, Action<T> update) where T : EntityBase<Guid>
 		{
 			var result = new ContentResponse<bool>();
-			var entity = (await Query<T>())?.Where(b => b.Entity?.Id == item?.Id)?.FirstOrDefault();
+			var entity = (await Query<T>())?.Where(b => b.Entity?.Id == id)?.FirstOrDefault();
 			if (entity == null)
 			{
 				return result;
 			}
-			entity.Entity = item;
+			update(entity.Entity);
 			var storeRecord = new StoreRecord<IndexEntity<T>>()
 			{
 				Data= entity,
 				Storename =typeof(T).Name,
+			};
+			await dbManager.UpdateRecord<IndexEntity<T>>(storeRecord);
+			return result;
+		}
+		public async Task<ContentResponse<bool>> Update<T>(Guid? id, T update) where T : EntityBase<Guid>
+		{
+			var result = new ContentResponse<bool>();
+			var entity = (await Query<T>())?.Where(b => b.Entity?.Id == id)?.FirstOrDefault();
+			if (entity == null)
+			{
+				return result;
+			}
+			entity.Entity = update;
+			var storeRecord = new StoreRecord<IndexEntity<T>>()
+			{
+				Data = entity,
+				Storename = typeof(T).Name,
 			};
 			await dbManager.UpdateRecord<IndexEntity<T>>(storeRecord);
 			return result;

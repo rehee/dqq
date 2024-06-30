@@ -24,6 +24,7 @@ namespace DQQ.Web.Services.GameStatusServices.Services
 				if (result?.Any() == false)
 				{
 					enrity = new GameStatus();
+					enrity.PlayMode = Enums.EnumPlayMode.Offline;
 					await repostory.Create(enrity);
 				}
 				else
@@ -48,13 +49,11 @@ namespace DQQ.Web.Services.GameStatusServices.Services
 			return response;
 		}
 
-		public async Task<ContentResponse<bool>> UpdateGameStatus(GameStatus? status)
+		public async Task<ContentResponse<bool>> UpdateGameStatus(Action<GameStatus> update)
 		{
 			var result = new ContentResponse<bool>();
-			
-			var existStatus = await GetOrCreateGameStatus();
-			existStatus?.Content?.Set(status);
-			await repostory.Update(existStatus?.Content);
+			var current = await GetOrCreateGameStatus();
+			await repostory.Update(current.Content.Id, update);
 			result.SetSuccess(true);
 			return result;
 		}

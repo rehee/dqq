@@ -20,8 +20,13 @@
 	{
 		<Card>
 			<BodyTemplate>
-				<Button OnClick="()=>{Layout?.SetGamePlay(Enums.EnumPlayMode.Online);}">在线</Button>
-				<Button OnClick="()=>{Layout?.SetGamePlay(Enums.EnumPlayMode.Offline);}">离线</Button>
+				<BootstrapInputGroup>
+					<Button Color="Color.Success" OnClick="()=>{Layout?.SetGamePlay(Enums.EnumPlayMode.Online);}">在线</Button>
+					<Button Color="Color.Warning" OnClick="()=>{Layout?.SetGamePlay(Enums.EnumPlayMode.Offline);}">离线</Button>
+				</BootstrapInputGroup>
+				<p>
+					游戏产生的临时数据将保存在浏览器的 Indexeddb 中.
+				</p>
 			</BodyTemplate>
 		</Card>
 		<Card>

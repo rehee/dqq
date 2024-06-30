@@ -19,11 +19,13 @@ namespace DQQ.Web.Pages.Auths
 		public NavigationManager? nav { get; set; }
 		public async Task OfflineLogin()
 		{
-			var status = await GameStatusService.GetOrCreateGameStatus();
-			status!.Content!.OwnerId = Guid.Empty.ToString();
-			status!.Content!.PlayMode = EnumPlayMode.Offline;
-			status!.Content!.Token = new TokenDTO();
-			await GameStatusService.UpdateGameStatus(status?.Content);
+			
+			await GameStatusService.UpdateGameStatus(b =>
+			{
+				b.OwnerId = Guid.Empty.ToString();
+				b.PlayMode = EnumPlayMode.Offline;
+				b.Token = new TokenDTO();
+			});
 			nav.NavigateTo("", true);
 
 		}

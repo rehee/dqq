@@ -24,8 +24,8 @@ namespace DQQ.Web.Layout
 
 		public async Task SetGamePlay(EnumPlayMode gamePlayType)
 		{
-			Status.PlayMode = gamePlayType;
-			await statusService.UpdateGameStatus(Status);
+			
+			await statusService.UpdateGameStatus(b=> b.PlayMode = gamePlayType);
 			StateHasChanged();
 			await Task.CompletedTask;
 		}

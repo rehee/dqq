@@ -104,26 +104,13 @@ namespace DQQ.Api.Services.SkillServices
 		}
 		public static async Task createSkill(IContext context, PickSkillDTO? dto, Character? actor)
 		{
-			if (dto == null || actor?.DisplayId == null || dto?.Slot == null || dto?.Slot == EnumSkillSlot.NotSpecified)
+			var entity = dto?.ToSkillEntity(actor);
+			if (entity == null)
 			{
 				return;
 			}
-			var array = dto.Strategies?.OrderBy(b => b.Priority).ToArray();
-			var str = JsonSerializer.Serialize(array, JsonOption.DefaultOption);
-			var validSkillNumbers = dto?.SupportSkill?.Select(b => SkillDTO.New(b)).Where(b => b.Profile?.IsPlayerAvaliableSkill(actor) == true)
-				.Select(b => b.SkillNumber).Distinct().Take((dto.Slot).MaxSkillNumber()).ToArray();
-			var supportSkills = JsonSerializer.Serialize(validSkillNumbers, JsonOption.DefaultOption);
-
-			var skillEntity = new SkillEntity()
-			{
-				ActorId = actor?.DisplayId,
-				Slot = dto?.Slot ?? EnumSkillSlot.MainSlot,
-				SkillNumber = dto?.SkillNumber,
-				SkillStrategy = str,
-				SupportSkills = supportSkills,
-
-			};
-			await context.AddAsync(skillEntity);
+			
+			await context.AddAsync(entity);
 		}
 		public static async Task deleteSkill(IContext context, Guid? actorId, bool save, IEnumerable<EnumSkillSlot> slots, IEnumerable<EnumSkillNumber?> skillNumbers)
 		{

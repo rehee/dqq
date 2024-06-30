@@ -16,9 +16,8 @@ namespace DQQ.Web.Services.DQQAuthServices
       var status = await gameStatusService.GetOrCreateGameStatus();
       var token = status?.Content?.Token;
 			if (token == null && status?.Success==true)
-      {
-        status!.Content!.CurrentCharId = null;
-        await gameStatusService.UpdateGameStatus(status?.Content);
+			{
+				await gameStatusService.UpdateGameStatus(b=>b.Set(null));
 			}
 			return token;
     }
@@ -39,9 +38,9 @@ namespace DQQ.Web.Services.DQQAuthServices
       {
         try
         {
-          status!.Content=null;
-					
-        }
+
+					await gameStatusService.UpdateGameStatus(b=>b.Set(null));
+				}
         catch
         {
 
@@ -50,10 +49,14 @@ namespace DQQ.Web.Services.DQQAuthServices
       }
       else
       {
-				status!.Content!.Token = auth;
-        status!.Content!.OwnerId = auth?.UserId;
+				
+				await gameStatusService.UpdateGameStatus(b =>
+        {
+					b.Token = auth;
+					b.OwnerId = auth?.UserId;
+				});
 			}
-      await gameStatusService.UpdateGameStatus(status?.Content);
+      
 			return;
     }
   }

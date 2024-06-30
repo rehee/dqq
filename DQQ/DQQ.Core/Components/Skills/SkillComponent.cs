@@ -390,7 +390,7 @@ namespace DQQ.Components.Skills
 		}
 		public bool AvaliableForUser { get; set; } = true;
 
-		public bool CheckAvaliableForCharacter(Character actor)
+		public bool CheckAvaliableForCharacter(Character? actor)
 		{
 			if (Slot == EnumSkillSlot.NotSpecified || actor == null)
 			{
@@ -405,7 +405,7 @@ namespace DQQ.Components.Skills
 			}
 			return slotAvaliable;
 		}
-		public ContentResponse<bool> CheckAndSetAvaliableForUser(Character actor)
+		public ContentResponse<bool> CheckAndSetAvaliableForUser(Character? actor)
 		{
 			var result = new ContentResponse<bool>();
 			AvaliableForUser = CheckAvaliableForCharacter(actor);

@@ -102,20 +102,8 @@ namespace DQQ.Components.Stages.Actors.Characters
 		public override void Initialize(IDQQEntity entity, DQQComponent? parent)
 		{
 			base.Initialize(entity, parent);
-
-
-
-
-			var skills = Skills?.ToDictionary(b => b.Slot, b => SkillDTO.New(b)) ?? [];
-
-			SkillMap = new Dictionary<EnumSkillSlot, SkillDTO>();
 			CombatPanel.StaticPanel.MaximunLife = DQQGeneral.CharacterBasicHP + (DQQGeneral.HPPerLevel * (Level - 1));
-			foreach (EnumSkillSlot slot in Enum.GetValues(typeof(EnumSkillSlot)))
-			{
-				skills.TryGetValue(slot, out var skill);
-				SkillMap.TryAdd(slot, skill ?? SkillDTO.New(EnumSkillNumber.NotSpecified, slot));
-			}
-
+			
 			if (entity is ActorEntity ae)
 			{
 				Chapter = ae.Chapter;
@@ -142,11 +130,9 @@ namespace DQQ.Components.Stages.Actors.Characters
 				}
 				
 			}
-			foreach (var skil in Skills ?? [])
-			{
-				skil.CheckAndSetAvaliableForUser(this);
-			}
+			
 			this.TotalEquipProperty();
+			SkillMap = Skills.ToSkillDictionary(this);
 			this.CurrentHP = CombatPanel.DynamicPanel.MaximunLife.DefaultValue(1);
 		}
 

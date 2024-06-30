@@ -1,4 +1,5 @@
-﻿using DQQ.Combats;
+﻿using BootstrapBlazor.Components;
+using DQQ.Combats;
 using DQQ.Components.Items;
 using DQQ.Components.Items.Equips;
 using DQQ.Components.Stages.Actors.Characters;
@@ -13,6 +14,7 @@ using ReheeCmf.Helpers;
 using ReheeCmf.Requests;
 using ReheeCmf.Responses;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text.Json;
 
 namespace DQQ.Web.Services.Characters
@@ -69,9 +71,36 @@ namespace DQQ.Web.Services.Characters
       throw new NotImplementedException();
     }
 
-		public Task<ContentResponse<bool>> GainExperience(Guid? charId, string? exp)
+		public async Task<ContentResponse<bool>> GainExperience(Guid? charId, string? exp)
 		{
-			throw new NotImplementedException();
+      if(await IsOnleService())
+      {
+				throw new NotImplementedException();
+			}
+      var result = new ContentResponse<bool>();
+
+			var character = await Repostory.GetCurrentOfflineCharacter(charId);
+      if (character == null)
+      {
+        return result;
+      }
+			if (!BigInteger.TryParse(exp, out var xpPoint))
+			{
+				return result;
+			}
+			if (xpPoint <= 0)
+			{
+				return result;
+			}
+			BigInteger currentXp = 0;
+			BigInteger.TryParse(character?.SelectedCharacter?.CurrentXP?? "0", out currentXp);
+			currentXp = xpPoint + currentXp;
+			var levelCheck = XPHelper.CheckExperienceAndLevelUP(ExperienceAndLevel.New(character?.SelectedCharacter?.Level??1, currentXp));
+			await Repostory.Update<OfflineCharacter>(charId, c => {
+			  c.SelectedCharacter.Level = levelCheck.Level;
+				c.SelectedCharacter.CurrentXP = levelCheck.Experience.ToString();
+			});
+			return result;
 		}
 
 		public async Task<IEnumerable<Character>> GetAllCharacters()
@@ -114,12 +143,7 @@ namespace DQQ.Web.Services.Characters
 
     public async Task<bool> SelectedCharacter(Guid? charId)
     {
-			var status = await StatusService.GetOrCreateGameStatus();
-      if (status.Success)
-      {
-        status!.Content!.CurrentCharId= charId;
-				await StatusService.UpdateGameStatus(status?.Content);
-			}
+			await StatusService.UpdateGameStatus(b => { b.CurrentCharId = charId; });
 			return true;
     }
   }

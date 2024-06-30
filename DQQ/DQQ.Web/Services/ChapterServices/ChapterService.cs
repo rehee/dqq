@@ -31,8 +31,8 @@ namespace DQQ.Web.Services.ChapterServices
 			{
 				var result = new ContentResponse<bool>();
 				var offline = (await Repostory.Read<OfflineCharacter>()).FirstOrDefault(b=>b.Id == actorId);
-				offline.SelectedCharacter.Chapter = chapter ?? EnumChapter.None;
-				await Repostory.Update(offline);
+				
+				await Repostory.Update<OfflineCharacter>(actorId, (a) => { a.SelectedCharacter.Chapter = chapter ?? EnumChapter.None; });
 				result.SetSuccess(true);
 				return result;
 			}

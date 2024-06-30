@@ -1,3 +1,4 @@
+using DQQ.Api.Services.Itemservices;
 using DQQ.Consts;
 using DQQ.Pools;
 using DQQ.Services;
@@ -45,6 +46,8 @@ builder.Services.AddScoped<IGameStatusService, GameStatusService>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(url) });
 builder.Services.AddScoped<ILocalizationService, LocalizationService>();
+builder.Services.AddScoped<ITemporaryService, TemporaryService>();
+
 //builder.Services.AddLocalStorageServices();
 builder.Services.AddScoped<IDQQAuth, DQQAuth>();
 builder.Services.AddScoped<IGetHttpClient>(sp => new DQQGetHttpClient(url));
