@@ -176,7 +176,7 @@ namespace DQQ.Helper
 				return StrategeCheckResult.New(true, null);
 			}
 			var aliveTargets = checkingTarget.Where(b => b.Alive);
-			return StrategeCheckResult.New(true, strategy.OrderByTarget(aliveTargets)?.FirstOrDefault());
+			
 		}
 		public static IEnumerable<ITarget>? OrderByTarget(this SkillStrategy? strategy, IEnumerable<ITarget> targets)
 		{
