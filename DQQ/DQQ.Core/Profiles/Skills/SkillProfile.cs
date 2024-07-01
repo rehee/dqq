@@ -233,5 +233,10 @@ namespace DQQ.Profiles.Skills
 			}
 
 		}
+	
+		public virtual bool AvaliableTarget(ComponentTickParameter? parameter)
+		{
+			return true;
+		}
 	}
 }

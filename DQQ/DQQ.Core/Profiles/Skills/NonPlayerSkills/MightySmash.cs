@@ -16,7 +16,7 @@ namespace DQQ.Profiles.Skills.NonPlayerSkills
 	[Pooled]
 	public class MightySmash : NonPlayerSKill
 	{
-		public override decimal CastTime => 3.5m;
+		public override decimal CastTime => 1.5m;
 
 		public override decimal CoolDown => 15m;
 
@@ -34,5 +34,13 @@ namespace DQQ.Profiles.Skills.NonPlayerSkills
 		public override string? Discription => "巨力重击";
 
 		public override EnumTarget? TargetForce => EnumTarget.Target;
+
+		public override bool AvaliableTarget(ComponentTickParameter? parameter)
+		{
+			if(parameter==null) return false;
+			if(parameter.To==null)return false;
+			if(parameter.To.PercentageHP>30) return false;
+			return true;
+		}
 	}
 }

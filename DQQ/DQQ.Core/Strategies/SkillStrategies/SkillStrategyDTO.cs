@@ -10,14 +10,15 @@ namespace DQQ.Strategies.SkillStrategies
 {
 	public class SkillStrategyDTO
 	{
-		public static SkillStrategyDTO Preset(EnumPresetSkillStrategy presetStrategy, int priority = 0)
+		public static SkillStrategyDTO Preset(EnumPresetSkillStrategy presetStrategy, int priority = 0, SkillTargetDTO? skillTarget = null)
 		{
 			return new SkillStrategyDTO()
 			{
 				PresetStrategy = presetStrategy,
 				Priority = priority,
 				UsePreset = true,
-				OverrideTarger = false
+				OverrideTarger = skillTarget!=null,
+				SkillTarget = skillTarget
 			};
 		}
 

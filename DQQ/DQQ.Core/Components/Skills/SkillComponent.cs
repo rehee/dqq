@@ -337,7 +337,12 @@ namespace DQQ.Components.Skills
 				StartCasting(parameter, matchCondition.MatchedTarget,true);
 			}
 
-
+			if (!SkillProfile.AvaliableTarget(parameter))
+			{
+				StartCasting(parameter,null);
+				CastTickCount = 0;
+				goto FinalSteps;
+			}
 
 			if (CastTickCount < CastWithWeaponSpeedTick(parameter?.From as IActor))
 			{

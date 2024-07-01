@@ -26,7 +26,7 @@ namespace DQQ.Helper
 			foreach (var strategy in strategies.OrderBy(b => b.Priority))
 			{
 				var preset = strategy.PresetStrategy.GetPresetStrategy();
-				if (preset?.Any() == true)
+				if (strategy?.UsePreset == true && preset?.Any() == true)
 				{
 					var presetResult = preset.MatchSkillStrategy(parameter, skill);
 					if (presetResult.Matched)
@@ -56,7 +56,10 @@ namespace DQQ.Helper
 				}
 				if (thisMatch?.Matched == true)
 				{
-					strategy.SkillTargetOverride(parameter, thisMatch);
+					if (strategy?.OverrideTarger == true)
+					{
+						strategy.SkillTargetOverride(parameter, thisMatch);
+					}
 					return thisMatch;
 				}
 			}
