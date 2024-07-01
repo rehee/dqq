@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,7 +26,9 @@
   <ItemGroup>
     <ProjectReference Include="..\DQQ.Core\DQQ.Core.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
   <ItemGroup>
     <Content Update="Resources\Chapters\C_1s\C_1_7s\Chapter_C_1_7_Body.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
