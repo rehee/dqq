@@ -1,18 +1,13 @@
 // Caution! Be sure you understand the caveats before publishing an application with
 // offline support. See https://aka.ms/blazor-offline-considerations
 
-// Import the service-worker-assets.js which contains the assets manifest
 self.importScripts('./service-worker-assets.js');
-
-// Register event listeners for install, activate, and fetch events
 self.addEventListener('install', event => event.waitUntil(onInstall(event)));
 self.addEventListener('activate', event => event.waitUntil(onActivate(event)));
 self.addEventListener('fetch', event => event.respondWith(onFetch(event)));
 
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
-
-// Define patterns to include/exclude assets for caching
 const offlineAssetsInclude = [/\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/];
 const offlineAssetsExclude = [/^service-worker\.js$/];
 
@@ -29,8 +24,6 @@ async function onInstall(event) {
     .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
     .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
     .map(asset => new Request(asset.url, { integrity: asset.hash, cache: 'no-cache' }));
-
-  // Open cache and add all filtered assets
   await caches.open(cacheName).then(cache => cache.addAll(assetsRequests));
 }
 
@@ -44,29 +37,19 @@ async function onActivate(event) {
     .map(key => caches.delete(key)));
 }
 
-// Handle fetch events
 async function onFetch(event) {
+  let cachedResponse = null;
   if (event.request.method === 'GET') {
+    // For all navigation requests, try to serve index.html from cache,
+    // unless that request is for an offline resource.
+    // If you need some URLs to be server-rendered, edit the following check to exclude those URLs
+    const shouldServeIndexHtml = event.request.mode === 'navigate'
+      && !manifestUrlList.some(url => url === event.request.url);
+
+    const request = shouldServeIndexHtml ? 'index.html' : event.request;
     const cache = await caches.open(cacheName);
-    try {
-      // Try to fetch from network first
-      const networkResponse = await fetch(event.request);
-
-      // Check if the request URL is from the same origin
-      if (event.request.url.startsWith(self.origin)) {
-        // Clone and cache the response if it's from the same origin
-        cache.put(event.request, networkResponse.clone());
-      }
-
-      // Return the network response
-      return networkResponse;
-    } catch (error) {
-      // If network fetch fails, try to get from cache
-      const cachedResponse = await cache.match(event.request);
-      return cachedResponse || Promise.reject('no-match');
-    }
+    cachedResponse = await cache.match(request);
   }
 
-  // For non-GET requests, fall back to network
-  return fetch(event.request);
+  return cachedResponse || fetch(event.request);
 }
